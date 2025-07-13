@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function MainScreen() {
+export default function SettingsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>메인</Text>
-      <Text style={styles.subtitle}>메인 페이지입니다</Text>
+      <Text style={styles.title}>설정</Text>
+      <Text style={styles.subtitle}>설정 페이지입니다</Text>
     </View>
   );
 }
