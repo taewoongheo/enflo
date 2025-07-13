@@ -9,7 +9,7 @@
     "ios": "expo run:ios",
     "ios:sim": "expo run:ios -d F4E384D4-0D71-46CA-98C6-2532CB407A61",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "npx eslint ."
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -42,9 +42,12 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
-    "typescript": "~5.8.3",
     "eslint": "^9.25.0",
-    "eslint-config-expo": "~9.2.0"
+    "eslint-config-expo": "~9.2.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
+    "prettier": "^3.6.2",
+    "typescript": "~5.8.3"
   },
   "private": true
 }
