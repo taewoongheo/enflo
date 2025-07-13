@@ -5,8 +5,9 @@
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "ios:sim": "expo run:ios -d F4E384D4-0D71-46CA-98C6-2532CB407A61",
     "web": "expo start --web",
     "lint": "expo lint"
   },
