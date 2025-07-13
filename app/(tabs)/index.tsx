@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function MainScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>메인</Text>
-      <Text style={styles.subtitle}>메인 페이지입니다</Text>
+      <Text style={styles.title}>Main</Text>
+      <Text style={styles.subtitle}>This is the main page</Text>
     </View>
   );
 }

@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function SettingsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>설정</Text>
-      <Text style={styles.subtitle}>설정 페이지입니다</Text>
+      <Text style={styles.title}>Settings</Text>
+      <Text style={styles.subtitle}>This is the settings page</Text>
     </View>
   );
 }

@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function StatisticsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>통계</Text>
-      <Text style={styles.subtitle}>통계 페이지입니다</Text>
+      <Text style={styles.title}>Statistics</Text>
+      <Text style={styles.subtitle}>This is the statistics page</Text>
     </View>
   );
 }

@@ -9,21 +9,21 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="statistics"
         options={{
-          title: '메인',
+          title: 'Statistics',
         }}
       />
       <Tabs.Screen
-        name="statistics"
+        name="index"
         options={{
-          title: '통계',
+          title: 'Main',
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: '설정',
+          title: 'Settings',
         }}
       />
     </Tabs>
