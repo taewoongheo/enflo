@@ -1,50 +1,49 @@
-# Welcome to your Expo app 👋
+# enflo
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**A timer app that visualizes your focus through real-time entropy particles.**
 
-## Get started
+Entropy is a measure of disorder; here it represents scattered focus.
 
-1. Install dependencies
+Mental entropy (i.e. scattered focus) naturally increases—unless we deliberately lower it through deep immersion. And without feedback, it’s hard to know _when_ you’re truly focused. enflo transforms that invisible process into an interactive particle visualization, guiding you from chaos to clarity.
 
-   ```bash
-   npm install
-   ```
+enflo addresses three core challenges:
 
-2. Start the app
+- **Lack of feedback**: Traditional timers measure only time, not _quality_ of focus.
+- **One-size-fits-all intervals**: Pomodoro timers ignore personal rhythms.
+- **Motivation gaps**: Users struggle to maintain momentum without real-time insights.
 
-   ```bash
-   npx expo start
-   ```
+## Solution Overview
 
-In the output, you'll find options to open the app in a
+Enflo bridges that gap by:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Real-Time Entropy Visualization**: Animated particles represent concentration state (0-1).
+- **Personalized Strategies**: Onboarding assessment and rhythm-based recommendations.
+- **Real-Time Interventions**: AI-driven tips when attention dips.
+- **Flexible Timer**: 5–90 min sessions and auto-extension during deep focus.
+- **Analytics Dashboard**: Weekly/monthly focus insights and AI-powered recommendations.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Key Features
 
-## Get a fresh project
+1. **Entropy Visualization**
 
-When you're ready, run:
+   - Dynamic particle system tied to live entropy score.
+   - Interactive touch & drag responses.
 
-```bash
-npm run reset-project
-```
+2. **Personalization**
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+   - Rhythm-based session suggestions based on past performance.
 
-## Learn more
+3. **Interventions**
 
-To learn more about developing your project with Expo, look at the following resources:
+   - Real-time alerts and suggestions to regain focus.
+   - AI-driven proactive strategies.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+4. **Flexible Timer**
 
-## Join the community
+   - Adjustable duration (5–90 min).
+   - Automatic extension
 
-Join our community of developers creating universal apps.
+5. **Performance Analytics**
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+   - Track total and average focus times.
+   - Visual insights and AI-driven improvement tips.
