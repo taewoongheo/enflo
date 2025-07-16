@@ -1,4 +1,4 @@
-import { borderRadius, colors, fontSize, fontWeight, spacing } from '@/styles';
+import { borderRadius, colors, fontSize, fontWeight, spacing } from './styles';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
