@@ -1,3 +1,4 @@
+import { PHYSICS_CONSTANTS } from '@/constants/entropySystem/physics';
 import { Circle, vec } from '@shopify/react-native-skia';
 import React from 'react';
 import {
@@ -17,12 +18,6 @@ interface ParticleProps {
   isTouching: SharedValue<boolean>;
 }
 
-const INFLUENCE_DISTANCE = 100;
-const RESTORE_FORCE = 0.01;
-const FRICTION = 0.97;
-const PUSH_FORCE = 20;
-const SPEED_SCALE = 0.2;
-
 function Particle({
   centerX,
   centerY,
@@ -41,20 +36,20 @@ function Particle({
   // physics simulation loop
   useFrameCallback(() => {
     // restore force
-    const rtX = (centerX - px.value) * RESTORE_FORCE;
-    const rtY = (centerY - py.value) * RESTORE_FORCE;
+    const rtX = (centerX - px.value) * PHYSICS_CONSTANTS.RESTORE_FORCE;
+    const rtY = (centerY - py.value) * PHYSICS_CONSTANTS.RESTORE_FORCE;
 
     // apply force to velocity (acceleration)
     vx.value += rtX;
     vy.value += rtY;
 
     // apply friction (velocity decrease)
-    vx.value *= FRICTION;
-    vy.value *= FRICTION;
+    vx.value *= PHYSICS_CONSTANTS.FRICTION;
+    vy.value *= PHYSICS_CONSTANTS.FRICTION;
 
     // update position (apply velocity)
-    px.value += vx.value * SPEED_SCALE;
-    py.value += vy.value * SPEED_SCALE;
+    px.value += vx.value * PHYSICS_CONSTANTS.SPEED_SCALE;
+    py.value += vy.value * PHYSICS_CONSTANTS.SPEED_SCALE;
 
     // calculate touch influence
     if (isTouching.value) {
@@ -62,17 +57,17 @@ function Particle({
       const dy = touchY.value - py.value;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < INFLUENCE_DISTANCE) {
-        const minDistance = 10;
-        const safeDistance = Math.max(distance, minDistance);
+      if (distance < PHYSICS_CONSTANTS.INFLUENCE_DISTANCE) {
+        const safeDistance = Math.max(distance, PHYSICS_CONSTANTS.MIN_DISTANCE);
 
         // normalized direction vector
         const normalizedDx = dx / safeDistance;
         const normalizedDy = dy / safeDistance;
 
         // calculate force
-        const forceMultiplier = INFLUENCE_DISTANCE / safeDistance;
-        const pushForce = PUSH_FORCE * forceMultiplier;
+        const forceMultiplier =
+          PHYSICS_CONSTANTS.INFLUENCE_DISTANCE / safeDistance;
+        const pushForce = PHYSICS_CONSTANTS.PUSH_FORCE * forceMultiplier;
 
         // apply force in opposite direction of touch
         vx.value -= normalizedDx * pushForce;
@@ -81,7 +76,6 @@ function Particle({
     }
   });
 
-  // rendering position
   const position = useDerivedValue(() => {
     return vec(px.value, py.value);
   });
