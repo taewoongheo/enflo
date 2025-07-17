@@ -5,7 +5,6 @@ import {
 } from '@/constants/entropySystem/dimension';
 import { Canvas } from '@shopify/react-native-skia';
 import React from 'react';
-import { View } from 'react-native';
 import {
   Gesture,
   GestureDetector,
@@ -14,6 +13,7 @@ import {
 } from 'react-native-gesture-handler';
 import { useSharedValue } from 'react-native-reanimated';
 import { PanGestureHandlerEventPayload } from 'react-native-screens';
+import { ThemeLayout } from './_layout';
 
 function MainScreen() {
   const touchX = useSharedValue(0);
@@ -56,7 +56,7 @@ function MainScreen() {
   const combinedGesture = Gesture.Race(tap, pan);
 
   return (
-    <View className="flex-1">
+    <ThemeLayout>
       <GestureDetector gesture={combinedGesture}>
         <Canvas
           style={{
@@ -71,7 +71,7 @@ function MainScreen() {
           />
         </Canvas>
       </GestureDetector>
-    </View>
+    </ThemeLayout>
   );
 }
 

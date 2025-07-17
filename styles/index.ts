@@ -1,4 +1,5 @@
 export { borderRadius } from './borders';
-export { colors } from './colors';
+export { gray } from './colors';
 export { spacing } from './spacing';
+export * from './themes';
 export { fontSize, fontWeight } from './typography';

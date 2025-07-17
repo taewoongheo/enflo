@@ -18,6 +18,6 @@ export const ENTROPY_SYSTEM_CONSTANTS = {
 
 export const RENDER_CONSTANTS = {
   // particle color range
-  MAX_COLOR_VALUE: 170,
-  MIN_COLOR_VALUE: 0,
+  MAX_COLOR_VALUE: 255,
+  MIN_COLOR_VALUE: 140,
 } as const;
