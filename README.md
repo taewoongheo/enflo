@@ -25,25 +25,26 @@ Enflo bridges that gap by:
 ## Key Features
 
 1. **Entropy Visualization**
-
    - Dynamic particle system tied to live entropy score.
    - Interactive touch & drag responses.
 
 2. **Personalization**
-
    - Rhythm-based session suggestions based on past performance.
+   - Collects detailed behavioral signals such as device shaking, app exits, and pause durations.
+   - These signals are reflected in the entropy score to measure actual concentration quality.
+   - Based on this data, enflo provides real-time, personalized strategies to help users stay in deep focus.
 
 3. **Interventions**
-
    - Real-time alerts and suggestions to regain focus.
-   - AI-driven proactive strategies.
+   - AI-driven proactive strategies based on repeating distraction patterns.
+   - Preemptive guidance when approaching known low-focus times.
 
 4. **Flexible Timer**
-
-   - Adjustable duration (5–90 min).
-   - Automatic extension
+   - Automatic extension during periods of sustained focus.
 
 5. **Performance Analytics**
-
    - Track total and average focus times.
-   - Visual insights and AI-driven improvement tips.
+   - Analyze session success rates and identify concentration drop-off points.
+   - Discover your personal "golden hours" for focus through rhythm analysis.
+   - Visualize entropy trends and distraction patterns across sessions.
+   - Receive AI-driven improvement tips tailored to your behavioral data.
