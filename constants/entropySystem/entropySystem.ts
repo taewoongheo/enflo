@@ -1,6 +1,6 @@
 export const ENTROPY_SYSTEM_CONSTANTS = {
   // poisson disk sampling
-  MIN_DISTANCE: 19,
+  MIN_DISTANCE: 30,
   MAX_ATTEMPTS: 30,
 
   // particle creation range
@@ -8,8 +8,8 @@ export const ENTROPY_SYSTEM_CONSTANTS = {
   MIN_THRESHOLD: 20,
 
   // particle radius range
-  MIN_RADIUS: 0.8,
-  MAX_RADIUS: 1.3,
+  MIN_RADIUS: 2,
+  MAX_RADIUS: 2.5,
 
   // edge particle setting
   EDGE_ANGLE_STEP: 3,

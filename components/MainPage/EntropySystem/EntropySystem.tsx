@@ -32,16 +32,33 @@ function EntropySystem({ touchX, touchY, isTouching }: ParticleSystemProps) {
       minThreshold: ENTROPY_SYSTEM_CONSTANTS.MIN_THRESHOLD,
     });
 
-    const edgeParticles = generateEdgeParticles(
-      particleCanvasWidth / 2,
-      particleCanvasHeight / 2,
-      ENTROPY_SYSTEM_CONSTANTS.MAX_THRESHOLD,
-      ENTROPY_SYSTEM_CONSTANTS.EDGE_ANGLE_STEP,
-    );
+    const ringParticles = [
+      generateEdgeParticles(
+        particleCanvasWidth / 2,
+        particleCanvasHeight / 2,
+        100,
+        10,
+        4,
+      ),
+      generateEdgeParticles(
+        particleCanvasWidth / 2,
+        particleCanvasHeight / 2,
+        90,
+        12,
+        10,
+      ),
+      generateEdgeParticles(
+        particleCanvasWidth / 2,
+        particleCanvasHeight / 2,
+        80,
+        14,
+        16,
+      ),
+    ];
 
     const allParticles: Vector[] = [
       ...sampledParticles.filter((p): p is Vector => p !== undefined),
-      ...edgeParticles,
+      ...ringParticles.flat(),
     ];
 
     return allParticles;

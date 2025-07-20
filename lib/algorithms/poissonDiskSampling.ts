@@ -87,7 +87,7 @@ export function poissonDiskSampling(
       }
 
       const remainDistance = maxThreshold - distFromCenter;
-      const currentR = Math.max(1, remainDistance * 0.2);
+      const currentR = Math.max(0.2, remainDistance * 0.3);
 
       let neighborDistOk = true;
       for (let i = -1; i <= 1; i++) {
@@ -143,15 +143,16 @@ export function poissonDiskSampling(
  *
  * @param centerX center X coordinate
  * @param centerY center Y coordinate
- * @param radius radius
+ * @param threshold threshold
  * @param stepAngle angle step (degrees)
  * @returns array of edge particles
  */
 export function generateEdgeParticles(
   centerX: number,
   centerY: number,
-  radius: number,
+  threshold: number,
   stepAngle: number = 3,
+  randomOffset: number = 10,
 ): Vector[] {
   const centerVector = new Vector(centerX, centerY);
   const edgeParticles: Vector[] = [];
@@ -159,12 +160,12 @@ export function generateEdgeParticles(
   for (let i = 0; i < 360; i += stepAngle) {
     const radians = (i * Math.PI) / 180;
     const vector = new Vector(Math.cos(radians), Math.sin(radians));
-    vector.setMagnitude(radius);
+    vector.setMagnitude(threshold);
     vector.addVector(centerVector);
 
     // add random offset
-    const randomOffsetX = Math.random() * 6;
-    const randomOffsetY = Math.random() * 6;
+    const randomOffsetX = Math.random() * randomOffset;
+    const randomOffsetY = Math.random() * randomOffset;
     vector.x += randomOffsetX;
     vector.y += randomOffsetY;
 
