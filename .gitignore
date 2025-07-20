@@ -39,3 +39,4 @@ yarn-error.*
 # dev
 .vscode/
 .cursor/
+rules/
