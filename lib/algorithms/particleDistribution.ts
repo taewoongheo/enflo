@@ -3,11 +3,11 @@ import { Vector } from '@/lib/math/Vector';
 interface PoissonDiskSamplingOptions {
   width: number;
   height: number;
-  minDistance?: number;
-  maxAttempts?: number;
-  centerX?: number;
-  centerY?: number;
-  maxThreshold?: number;
+  minDistance: number;
+  maxAttempts: number;
+  centerX: number;
+  centerY: number;
+  maxThreshold: number;
   minThreshold?: number;
 }
 
@@ -23,11 +23,11 @@ export function poissonDiskSampling(
   const {
     width,
     height,
-    minDistance = 19,
-    maxAttempts = 30,
-    centerX = width / 2,
-    centerY = height / 2,
-    maxThreshold = 100,
+    minDistance,
+    maxAttempts,
+    centerX,
+    centerY,
+    maxThreshold,
     minThreshold = 20,
   } = options;
 
@@ -138,6 +138,14 @@ export function poissonDiskSampling(
   return grid;
 }
 
+interface GenerateEdgeParticlesOptions {
+  centerX: number;
+  centerY: number;
+  threshold: number;
+  stepAngle: number;
+  randomOffset: number;
+}
+
 /**
  * add particles to the edge of the circle
  *
@@ -148,12 +156,10 @@ export function poissonDiskSampling(
  * @returns array of edge particles
  */
 export function generateEdgeParticles(
-  centerX: number,
-  centerY: number,
-  threshold: number,
-  stepAngle: number = 3,
-  randomOffset: number = 10,
+  options: GenerateEdgeParticlesOptions,
 ): Vector[] {
+  const { centerX, centerY, threshold, stepAngle, randomOffset } = options;
+
   const centerVector = new Vector(centerX, centerY);
   const edgeParticles: Vector[] = [];
 

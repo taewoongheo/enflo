@@ -10,11 +10,28 @@ import {
 import {
   generateEdgeParticles,
   poissonDiskSampling,
-} from '@/lib/algorithms/poissonDiskSampling';
+} from '@/lib/algorithms/particleDistribution';
 import { Vector } from '@/lib/math/Vector';
 import React, { useMemo } from 'react';
 import { SharedValue } from 'react-native-reanimated';
 
+const RING_PARTICLE_CONSTANTS = [
+  {
+    threshold: 100,
+    stepAngle: 10,
+    randomOffset: 4,
+  },
+  {
+    threshold: 90,
+    stepAngle: 12,
+    randomOffset: 10,
+  },
+  {
+    threshold: 80,
+    stepAngle: 14,
+    randomOffset: 16,
+  },
+];
 interface ParticleSystemProps {
   touchX: SharedValue<number>;
   touchY: SharedValue<number>;
@@ -26,39 +43,31 @@ function EntropySystem({ touchX, touchY, isTouching }: ParticleSystemProps) {
     const sampledParticles = poissonDiskSampling({
       width: particleCanvasWidth,
       height: particleCanvasHeight,
+      centerX: particleCanvasWidth / 2,
+      centerY: particleCanvasHeight / 2,
       minDistance: ENTROPY_SYSTEM_CONSTANTS.MIN_DISTANCE,
       maxAttempts: ENTROPY_SYSTEM_CONSTANTS.MAX_ATTEMPTS,
       maxThreshold: ENTROPY_SYSTEM_CONSTANTS.MAX_THRESHOLD,
       minThreshold: ENTROPY_SYSTEM_CONSTANTS.MIN_THRESHOLD,
     });
 
-    const ringParticles = [
-      generateEdgeParticles(
-        particleCanvasWidth / 2,
-        particleCanvasHeight / 2,
-        100,
-        10,
-        4,
-      ),
-      generateEdgeParticles(
-        particleCanvasWidth / 2,
-        particleCanvasHeight / 2,
-        90,
-        12,
-        10,
-      ),
-      generateEdgeParticles(
-        particleCanvasWidth / 2,
-        particleCanvasHeight / 2,
-        80,
-        14,
-        16,
-      ),
-    ];
+    const ringParticles: Vector[] = [];
+
+    for (const ringParticleConstant of RING_PARTICLE_CONSTANTS) {
+      ringParticles.push(
+        ...generateEdgeParticles({
+          centerX: particleCanvasWidth / 2,
+          centerY: particleCanvasHeight / 2,
+          threshold: ringParticleConstant.threshold,
+          stepAngle: ringParticleConstant.stepAngle,
+          randomOffset: ringParticleConstant.randomOffset,
+        }),
+      );
+    }
 
     const allParticles: Vector[] = [
       ...sampledParticles.filter((p): p is Vector => p !== undefined),
-      ...ringParticles.flat(),
+      ...ringParticles,
     ];
 
     return allParticles;
