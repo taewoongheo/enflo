@@ -1,14 +1,9 @@
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/constants/entropySystem/entropySystem';
 import { Vector } from '@/lib/math/Vector';
 
 interface PoissonDiskSamplingOptions {
   width: number;
   height: number;
-  minDistance: number;
-  maxAttempts: number;
-  centerX: number;
-  centerY: number;
-  maxThreshold: number;
-  minThreshold?: number;
 }
 
 /**
@@ -20,37 +15,31 @@ interface PoissonDiskSamplingOptions {
 export function poissonDiskSampling(
   options: PoissonDiskSamplingOptions,
 ): (Vector | undefined)[] {
-  const {
-    width,
-    height,
-    minDistance,
-    maxAttempts,
-    centerX,
-    centerY,
-    maxThreshold,
-    minThreshold = 20,
-  } = options;
+  const { width, height } = options;
 
-  const r = minDistance;
-  const k = maxAttempts;
-  const w = r / Math.sqrt(2); // grid cell size
+  const centerX = width / 2;
+  const centerY = height / 2;
+
+  const minDistance = ENTROPY_SYSTEM_CONSTANTS.MIN_DISTANCE;
+  const attempts = ENTROPY_SYSTEM_CONSTANTS.MAX_ATTEMPTS;
+  const cellSize = minDistance / Math.sqrt(2);
   const grid: (Vector | undefined)[] = [];
   const active: Vector[] = [];
 
   const centerVector = new Vector(centerX, centerY);
 
   // initialize grid cell
-  const colCnt = Math.floor(width / w);
-  const rowCnt = Math.floor(height / w);
+  const colCnt = Math.floor(width / cellSize);
+  const rowCnt = Math.floor(height / cellSize);
   for (let i = 0; i < colCnt * rowCnt; i++) {
     grid[i] = undefined;
   }
 
-  // start with random point
-  const x = centerX + minThreshold;
-  const y = centerY + minThreshold;
-  const colIdx = Math.floor(x / w);
-  const rowIdx = Math.floor(y / w);
+  // start point
+  const x = centerX + ENTROPY_SYSTEM_CONSTANTS.MIN_THRESHOLD;
+  const y = centerY + ENTROPY_SYSTEM_CONSTANTS.MIN_THRESHOLD;
+  const colIdx = Math.floor(x / cellSize);
+  const rowIdx = Math.floor(y / cellSize);
   const pos = new Vector(x, y);
   grid[colIdx + rowIdx * colCnt] = pos;
   active.push(pos);
@@ -61,16 +50,16 @@ export function poissonDiskSampling(
     const basePos = active[randIdx];
     let found = false;
 
-    // attempt k times to find a valid sample
-    for (let n = 0; n < k; n++) {
+    // find a valid sample
+    for (let n = 0; n < attempts; n++) {
       // generate random vector
       const sample = Vector.random2D();
-      const randMagnitude = r + Math.random() * r; // r~2r range
+      const randMagnitude = minDistance + Math.random() * minDistance;
       sample.setMagnitude(randMagnitude);
       sample.addVector(basePos);
 
-      const col = Math.floor(sample.x / w);
-      const row = Math.floor(sample.y / w);
+      const col = Math.floor(sample.x / cellSize);
+      const row = Math.floor(sample.y / cellSize);
 
       const distFromCenter = Vector.dist(sample, centerVector);
 
@@ -80,14 +69,15 @@ export function poissonDiskSampling(
         row < 0 ||
         row >= rowCnt ||
         grid[col + row * colCnt] ||
-        distFromCenter > maxThreshold ||
-        distFromCenter < minThreshold
+        distFromCenter > ENTROPY_SYSTEM_CONSTANTS.MAX_THRESHOLD ||
+        distFromCenter < ENTROPY_SYSTEM_CONSTANTS.MIN_THRESHOLD
       ) {
         continue;
       }
 
-      const remainDistance = maxThreshold - distFromCenter;
-      const currentR = Math.max(0.2, remainDistance * 0.3);
+      const remainDistance =
+        ENTROPY_SYSTEM_CONSTANTS.MAX_THRESHOLD - distFromCenter;
+      const currentR = Math.max(0.2, remainDistance * 0.2);
 
       let neighborDistOk = true;
       for (let i = -1; i <= 1; i++) {
@@ -172,6 +162,7 @@ export function generateEdgeParticles(
     // add random offset
     const randomOffsetX = Math.random() * randomOffset;
     const randomOffsetY = Math.random() * randomOffset;
+
     vector.x += randomOffsetX;
     vector.y += randomOffsetY;
 

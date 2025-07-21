@@ -19,17 +19,22 @@ const RING_PARTICLE_CONSTANTS = [
   {
     threshold: 100,
     stepAngle: 10,
-    randomOffset: 4,
+    randomOffset: 3,
   },
   {
     threshold: 90,
     stepAngle: 12,
-    randomOffset: 10,
+    randomOffset: 5,
   },
   {
-    threshold: 80,
+    threshold: 76,
     stepAngle: 14,
-    randomOffset: 16,
+    randomOffset: 7,
+  },
+  {
+    threshold: 60,
+    stepAngle: 16,
+    randomOffset: 10,
   },
 ];
 interface ParticleSystemProps {
@@ -43,12 +48,6 @@ function EntropySystem({ touchX, touchY, isTouching }: ParticleSystemProps) {
     const sampledParticles = poissonDiskSampling({
       width: particleCanvasWidth,
       height: particleCanvasHeight,
-      centerX: particleCanvasWidth / 2,
-      centerY: particleCanvasHeight / 2,
-      minDistance: ENTROPY_SYSTEM_CONSTANTS.MIN_DISTANCE,
-      maxAttempts: ENTROPY_SYSTEM_CONSTANTS.MAX_ATTEMPTS,
-      maxThreshold: ENTROPY_SYSTEM_CONSTANTS.MAX_THRESHOLD,
-      minThreshold: ENTROPY_SYSTEM_CONSTANTS.MIN_THRESHOLD,
     });
 
     const ringParticles: Vector[] = [];
