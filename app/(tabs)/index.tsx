@@ -7,6 +7,7 @@ import {
 import { useTheme } from '@/contexts/ThemeContext';
 import { Canvas } from '@shopify/react-native-skia';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import {
   Gesture,
@@ -19,6 +20,7 @@ import { PanGestureHandlerEventPayload } from 'react-native-screens';
 
 function MainScreen() {
   const { theme } = useTheme();
+  const { t } = useTranslation('main');
 
   const touchX = useSharedValue(0);
   const touchY = useSharedValue(0);
@@ -80,6 +82,9 @@ function MainScreen() {
           />
         </Canvas>
       </GestureDetector>
+      <Typography variant="label" style={{ color: theme.colors.text.primary }}>
+        {t('entropyScoreLabel')}
+      </Typography>
       <Typography
         variant="title1Bold"
         style={{ color: theme.colors.text.primary }}

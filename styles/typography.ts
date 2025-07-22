@@ -1,13 +1,13 @@
 export const typography = {
   title1Bold: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: '700',
-    lineHeight: 40,
+    lineHeight: 44,
   },
   title1Regular: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: '400',
-    lineHeight: 40,
+    lineHeight: 44,
   },
   title2Bold: {
     fontSize: 28,
@@ -21,24 +21,24 @@ export const typography = {
   },
 
   body1Bold: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
-    lineHeight: 24,
+    lineHeight: 26,
   },
   body1Regular: {
+    fontSize: 18,
+    fontWeight: '400',
+    lineHeight: 26,
+  },
+  body2Bold: {
+    fontSize: 16,
+    fontWeight: '600',
+    lineHeight: 24,
+  },
+  body2Regular: {
     fontSize: 16,
     fontWeight: '400',
     lineHeight: 24,
-  },
-  body2Bold: {
-    fontSize: 14,
-    fontWeight: '600',
-    lineHeight: 22,
-  },
-  body2Regular: {
-    fontSize: 14,
-    fontWeight: '400',
-    lineHeight: 22,
   },
 
   label: {
