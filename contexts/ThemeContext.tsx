@@ -1,9 +1,10 @@
-import { darkTheme, Theme, ThemeName, themes } from '@/styles/themes';
+import { Theme, ThemeName, themes } from '@/styles/themes';
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 
 interface ThemeContextType {
-  theme: Theme;
+  themeName: ThemeName;
   setTheme: (themeName: ThemeName) => void;
+  theme: Theme;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -13,13 +14,14 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(darkTheme);
+  const [themeName, setTheme] = useState<ThemeName>('dark');
 
   const value: ThemeContextType = {
-    theme,
+    themeName,
     setTheme: (themeName: ThemeName) => {
-      setTheme(themes[themeName]);
+      setTheme(themeName);
     },
+    theme: themes[themeName] as Theme,
   };
 
   return (

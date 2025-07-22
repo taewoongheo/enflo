@@ -1,5 +1,6 @@
+import { palette } from './palette';
+
 export interface Theme {
-  name: string;
   colors: {
     primary: string;
     secondary: string;
@@ -12,31 +13,29 @@ export interface Theme {
   };
 }
 
-export const lightTheme: Theme = {
-  name: 'light',
+export const lightTheme = {
   colors: {
-    primary: '#1E90FF',
-    secondary: '#FF6347',
-    background: '#FFFFFF',
+    primary: palette.neutral[600],
+    secondary: palette.neutral[500],
+    background: palette.neutral[50],
     text: {
-      primary: '#1A1A1A',
-      secondary: '#6B7280',
+      primary: palette.neutral[900],
+      secondary: palette.neutral[500],
     },
-    border: '#E5E7EB',
+    border: palette.neutral[200],
   },
 };
 
-export const darkTheme: Theme = {
-  name: 'dark',
+export const darkTheme = {
   colors: {
-    primary: '#3B82F6',
-    secondary: '#F59E0B',
-    background: '#111827',
+    primary: palette.neutral[500],
+    secondary: palette.neutral[500],
+    background: palette.neutral[900],
     text: {
-      primary: '#F9FAFB',
-      secondary: '#D1D5DB',
+      primary: palette.neutral[50],
+      secondary: palette.neutral[400],
     },
-    border: '#374151',
+    border: palette.neutral[700],
   },
 };
 

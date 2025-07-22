@@ -3,8 +3,10 @@ import {
   particleCanvasHeight,
   particleCanvasWidth,
 } from '@/constants/entropySystem/dimension';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Canvas } from '@shopify/react-native-skia';
 import React from 'react';
+import { View } from 'react-native';
 import {
   Gesture,
   GestureDetector,
@@ -13,9 +15,10 @@ import {
 } from 'react-native-gesture-handler';
 import { useSharedValue } from 'react-native-reanimated';
 import { PanGestureHandlerEventPayload } from 'react-native-screens';
-import { ThemeLayout } from './_layout';
 
 function MainScreen() {
+  const { theme } = useTheme();
+
   const touchX = useSharedValue(0);
   const touchY = useSharedValue(0);
   const isTouching = useSharedValue(false);
@@ -56,7 +59,7 @@ function MainScreen() {
   const combinedGesture = Gesture.Race(tap, pan);
 
   return (
-    <ThemeLayout>
+    <View style={{ backgroundColor: theme.colors.background }}>
       <GestureDetector gesture={combinedGesture}>
         <Canvas
           style={{
@@ -71,7 +74,7 @@ function MainScreen() {
           />
         </Canvas>
       </GestureDetector>
-    </ThemeLayout>
+    </View>
   );
 }
 
