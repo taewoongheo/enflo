@@ -1,3 +1,4 @@
+import Typography from '@/components/common/Typography';
 import EntropySystem from '@/components/MainPage/EntropySystem/EntropySystem';
 import {
   particleCanvasHeight,
@@ -59,7 +60,12 @@ function MainScreen() {
   const combinedGesture = Gesture.Race(tap, pan);
 
   return (
-    <View style={{ backgroundColor: theme.colors.background }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+      }}
+    >
       <GestureDetector gesture={combinedGesture}>
         <Canvas
           style={{
@@ -74,6 +80,12 @@ function MainScreen() {
           />
         </Canvas>
       </GestureDetector>
+      <Typography
+        variant="title1Bold"
+        style={{ color: theme.colors.text.primary }}
+      >
+        0.23
+      </Typography>
     </View>
   );
 }
