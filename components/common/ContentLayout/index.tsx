@@ -9,6 +9,6 @@ export function ContentLayout({ children }: { children: React.ReactNode }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: baseTokens.spacing[4],
+    paddingHorizontal: baseTokens.spacing[5],
   },
 });

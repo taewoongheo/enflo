@@ -1,7 +1,9 @@
+import { scale } from 'react-native-size-matters';
+
 export const borderRadius = {
-  xs: 2,
-  sm: 4,
-  md: 8,
-  lg: 12,
-  xl: 16,
+  xs: scale(2),
+  sm: scale(4),
+  md: scale(8),
+  lg: scale(12),
+  xl: scale(16),
 } as const;

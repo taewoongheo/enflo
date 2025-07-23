@@ -6,10 +6,12 @@ import {
   particleCanvasWidth,
 } from '@/constants/entropySystem/dimension';
 import { useTheme } from '@/contexts/ThemeContext';
+import { baseTokens } from '@/styles';
+import { AntDesign } from '@expo/vector-icons';
 import { Canvas } from '@shopify/react-native-skia';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
   Gesture,
   GestureDetector,
@@ -81,12 +83,29 @@ function MainScreen() {
         </Canvas>
       </GestureDetector>
       <ContentLayout>
-        <Typography
-          variant="title1Bold"
-          style={{ color: theme.colors.text.primary }}
+        <TouchableOpacity
+          style={styles.entropyScoreContainer}
+          activeOpacity={0.7}
+          onPress={() => {
+            console.log('entropy score clicked');
+          }}
         >
-          0.23
-        </Typography>
+          <Typography
+            variant="title1Bold"
+            style={{ color: theme.colors.text.primary }}
+          >
+            0.23
+          </Typography>
+          <AntDesign
+            name="questioncircle"
+            size={14}
+            color={theme.colors.text.secondary}
+            style={{
+              marginTop: baseTokens.spacing[2],
+              marginLeft: baseTokens.spacing[1],
+            }}
+          />
+        </TouchableOpacity>
         <Typography
           variant="body1Regular"
           style={{ color: theme.colors.text.secondary }}
@@ -101,6 +120,9 @@ function MainScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  entropyScoreContainer: {
+    flexDirection: 'row',
   },
 });
 
