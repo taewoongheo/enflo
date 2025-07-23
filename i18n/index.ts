@@ -7,6 +7,7 @@ import main_ko from '../components/MainPage/locales/ko.json';
 
 i18n.use(initReactI18next).init({
   lng: getLocales()[0].languageCode as 'en' | 'ko',
+  // lng: 'en',
   fallbackLng: 'en',
   ns: ['main'],
   defaultNS: 'main',

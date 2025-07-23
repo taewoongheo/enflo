@@ -16,7 +16,8 @@ function Typography({
   style,
   ...rest
 }: TypographyProps) {
-  const { fontSize, fontWeight, lineHeight } = baseTokens.typography[variant];
+  const { fontSize, fontWeight, lineHeight, fontFamily } =
+    baseTokens.typography[variant];
 
   return (
     <Text
@@ -26,6 +27,7 @@ function Typography({
           fontSize,
           fontWeight,
           lineHeight,
+          fontFamily,
         },
         style,
       ]}

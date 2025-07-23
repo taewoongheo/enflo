@@ -1,4 +1,4 @@
-import { ScreenLayout } from '@/components/common/ScreenLayout';
+import { ContentLayout } from '@/components/common/ContentLayout';
 import Typography from '@/components/common/Typography';
 import EntropySystem from '@/components/MainPage/EntropySystem/EntropySystem';
 import {
@@ -9,7 +9,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { Canvas } from '@shopify/react-native-skia';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   Gesture,
   GestureDetector,
@@ -63,37 +63,45 @@ function MainScreen() {
   const combinedGesture = Gesture.Race(tap, pan);
 
   return (
-    <ScreenLayout>
-      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-        <GestureDetector gesture={combinedGesture}>
-          <Canvas
-            style={{
-              width: particleCanvasWidth,
-              height: particleCanvasHeight,
-            }}
-          >
-            <EntropySystem
-              touchX={touchX}
-              touchY={touchY}
-              isTouching={isTouching}
-            />
-          </Canvas>
-        </GestureDetector>
-        <Typography
-          variant="label"
-          style={{ color: theme.colors.text.primary }}
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <GestureDetector gesture={combinedGesture}>
+        <Canvas
+          style={{
+            width: particleCanvasWidth,
+            height: particleCanvasHeight,
+          }}
         >
-          {t('entropyScoreLabel')}
-        </Typography>
+          <EntropySystem
+            touchX={touchX}
+            touchY={touchY}
+            isTouching={isTouching}
+          />
+        </Canvas>
+      </GestureDetector>
+      <ContentLayout>
         <Typography
           variant="title1Bold"
           style={{ color: theme.colors.text.primary }}
         >
           0.23
         </Typography>
-      </View>
-    </ScreenLayout>
+        <Typography
+          variant="body1Regular"
+          style={{ color: theme.colors.text.secondary }}
+        >
+          {t('entropySuggestion')}
+        </Typography>
+      </ContentLayout>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default MainScreen;

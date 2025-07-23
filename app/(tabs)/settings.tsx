@@ -1,12 +1,12 @@
-import { ScreenLayout } from '@/components/common/ScreenLayout';
+import { ContentLayout } from '@/components/common/ContentLayout';
 import { StyleSheet, Text } from 'react-native';
 
 export default function SettingsScreen() {
   return (
-    <ScreenLayout>
+    <ContentLayout>
       <Text style={styles.title}>Settings</Text>
       <Text style={styles.subtitle}>This is the settings page</Text>
-    </ScreenLayout>
+    </ContentLayout>
   );
 }
 
