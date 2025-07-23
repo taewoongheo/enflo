@@ -16,6 +16,7 @@ import {
   Gesture,
   GestureDetector,
   GestureUpdateEvent,
+  ScrollView,
   TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { useSharedValue } from 'react-native-reanimated';
@@ -65,55 +66,60 @@ function MainScreen() {
   const combinedGesture = Gesture.Race(tap, pan);
 
   return (
-    <View
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      showsVerticalScrollIndicator={false}
     >
-      <GestureDetector gesture={combinedGesture}>
-        <Canvas
-          style={{
-            width: particleCanvasWidth,
-            height: particleCanvasHeight,
-          }}
-        >
-          <EntropySystem
-            touchX={touchX}
-            touchY={touchY}
-            isTouching={isTouching}
-          />
-        </Canvas>
-      </GestureDetector>
-      <ContentLayout>
-        <TouchableOpacity
-          style={styles.entropyScoreContainer}
-          activeOpacity={0.7}
-          onPress={() => {
-            console.log('entropy score clicked');
-          }}
-        >
-          <Typography
-            variant="title1Bold"
-            style={{ color: theme.colors.text.primary }}
-          >
-            0.23
-          </Typography>
-          <AntDesign
-            name="questioncircle"
-            size={14}
-            color={theme.colors.text.secondary}
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
+        <GestureDetector gesture={combinedGesture}>
+          <Canvas
             style={{
-              marginTop: baseTokens.spacing[2],
-              marginLeft: baseTokens.spacing[1],
+              width: particleCanvasWidth,
+              height: particleCanvasHeight,
             }}
-          />
-        </TouchableOpacity>
-        <Typography
-          variant="body1Regular"
-          style={{ color: theme.colors.text.secondary }}
-        >
-          {t('entropySuggestion')}
-        </Typography>
-      </ContentLayout>
-    </View>
+          >
+            <EntropySystem
+              touchX={touchX}
+              touchY={touchY}
+              isTouching={isTouching}
+            />
+          </Canvas>
+        </GestureDetector>
+        <ContentLayout>
+          <TouchableOpacity
+            style={styles.entropyScoreContainer}
+            activeOpacity={0.7}
+            onPress={() => {
+              console.log('entropy score clicked');
+            }}
+          >
+            <Typography
+              variant="title1Bold"
+              style={{ color: theme.colors.text.primary }}
+            >
+              0.23
+            </Typography>
+            <AntDesign
+              name="questioncircle"
+              size={14}
+              color={theme.colors.text.secondary}
+              style={{
+                marginTop: baseTokens.spacing[2],
+                marginLeft: baseTokens.spacing[1],
+              }}
+            />
+          </TouchableOpacity>
+          <Typography
+            variant="body1Regular"
+            style={{ color: theme.colors.text.secondary }}
+          >
+            {t('entropySuggestion')}
+          </Typography>
+        </ContentLayout>
+      </View>
+    </ScrollView>
   );
 }
 
