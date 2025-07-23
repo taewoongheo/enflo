@@ -4,6 +4,7 @@ import React from 'react';
 
 export default function TabLayout() {
   const { theme } = useTheme();
+
   return (
     <Tabs
       screenOptions={{
