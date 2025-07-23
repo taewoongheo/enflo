@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ScreenLayout } from '@/components/common/ScreenLayout';
+import { StyleSheet, Text } from 'react-native';
 
 export default function StatisticsScreen() {
   return (
-    <View style={styles.container}>
+    <ScreenLayout>
       <Text style={styles.title}>Statistics</Text>
       <Text style={styles.subtitle}>This is the statistics page</Text>
-    </View>
+    </ScreenLayout>
   );
 }
 

@@ -1,3 +1,4 @@
+import { ScreenLayout } from '@/components/common/ScreenLayout';
 import Typography from '@/components/common/Typography';
 import EntropySystem from '@/components/MainPage/EntropySystem/EntropySystem';
 import {
@@ -62,36 +63,36 @@ function MainScreen() {
   const combinedGesture = Gesture.Race(tap, pan);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: theme.colors.background,
-      }}
-    >
-      <GestureDetector gesture={combinedGesture}>
-        <Canvas
-          style={{
-            width: particleCanvasWidth,
-            height: particleCanvasHeight,
-          }}
+    <ScreenLayout>
+      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <GestureDetector gesture={combinedGesture}>
+          <Canvas
+            style={{
+              width: particleCanvasWidth,
+              height: particleCanvasHeight,
+            }}
+          >
+            <EntropySystem
+              touchX={touchX}
+              touchY={touchY}
+              isTouching={isTouching}
+            />
+          </Canvas>
+        </GestureDetector>
+        <Typography
+          variant="label"
+          style={{ color: theme.colors.text.primary }}
         >
-          <EntropySystem
-            touchX={touchX}
-            touchY={touchY}
-            isTouching={isTouching}
-          />
-        </Canvas>
-      </GestureDetector>
-      <Typography variant="label" style={{ color: theme.colors.text.primary }}>
-        {t('entropyScoreLabel')}
-      </Typography>
-      <Typography
-        variant="title1Bold"
-        style={{ color: theme.colors.text.primary }}
-      >
-        0.23
-      </Typography>
-    </View>
+          {t('entropyScoreLabel')}
+        </Typography>
+        <Typography
+          variant="title1Bold"
+          style={{ color: theme.colors.text.primary }}
+        >
+          0.23
+        </Typography>
+      </View>
+    </ScreenLayout>
   );
 }
 
