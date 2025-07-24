@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
+  FlatList,
   Gesture,
   GestureDetector,
   GestureUpdateEvent,
@@ -23,6 +24,18 @@ import {
 } from 'react-native-gesture-handler';
 import { useSharedValue } from 'react-native-reanimated';
 import { PanGestureHandlerEventPayload } from 'react-native-screens';
+import { scale } from 'react-native-size-matters';
+
+export function formatMsToTime(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+}
 
 function MainScreen() {
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -30,8 +43,6 @@ function MainScreen() {
   useEffect(() => {
     setSessions(sessionMockData);
   }, []);
-
-  console.log(sessions);
 
   const { theme } = useTheme();
   const { t } = useTranslation('main');
@@ -127,6 +138,52 @@ function MainScreen() {
           >
             {t('entropySuggestion')}
           </Typography>
+          <FlatList
+            data={sessions}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              gap: baseTokens.spacing[2],
+              marginVertical: baseTokens.spacing[4],
+            }}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  width: scale(200),
+                  height: scale(120),
+                  backgroundColor: theme.colors.text.secondary,
+                  padding: baseTokens.spacing[3],
+                  borderRadius: baseTokens.borderRadius.sm,
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Typography
+                  variant="body1Regular"
+                  style={{ color: theme.colors.background }}
+                >
+                  {item.sessionName}
+                </Typography>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Typography
+                    variant="title1Bold"
+                    style={{ color: theme.colors.background }}
+                  >
+                    {formatMsToTime(item.totalNetFocusMs)}
+                  </Typography>
+                  <AntDesign
+                    name="caretright"
+                    size={scale(24)}
+                    color={theme.colors.background}
+                  />
+                </View>
+              </View>
+            )}
+          />
         </ContentLayout>
       </View>
     </ScrollView>
