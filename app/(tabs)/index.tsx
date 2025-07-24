@@ -6,10 +6,12 @@ import {
   particleCanvasWidth,
 } from '@/constants/entropySystem/dimension';
 import { useTheme } from '@/contexts/ThemeContext';
+import { sessionMockData } from '@/data/sessionMockData';
+import Session from '@/models/Session';
 import { baseTokens } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import { Canvas } from '@shopify/react-native-skia';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import {
@@ -23,6 +25,14 @@ import { useSharedValue } from 'react-native-reanimated';
 import { PanGestureHandlerEventPayload } from 'react-native-screens';
 
 function MainScreen() {
+  const [sessions, setSessions] = useState<Session[]>([]);
+
+  useEffect(() => {
+    setSessions(sessionMockData);
+  }, []);
+
+  console.log(sessions);
+
   const { theme } = useTheme();
   const { t } = useTranslation('main');
 
