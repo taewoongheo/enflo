@@ -43,7 +43,7 @@ class Session {
   get totalNetFocusMs(): number {
     return Object.values(this.timerSessionsByTimeRange)
       .flat()
-      .reduce((sum, session) => sum + session.netFocusMs, 0);
+      .reduce((sum, timerSession) => sum + timerSession.netFocusMs, 0);
   }
 }
 

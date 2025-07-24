@@ -1,5 +1,5 @@
 export type ShakeEvent = {
-  startsTs: number;
+  startTs: number;
 };
 
 export type BackgroundEvent = {

@@ -2,7 +2,7 @@ import {
   BackgroundEvent,
   PauseEvent,
   ShakeEvent,
-} from '@/types/interruptEventTypes';
+} from '@/types/interruptEvent';
 import uuid from 'react-native-uuid';
 
 // unit: ms
@@ -15,7 +15,7 @@ class TimerSession {
   shakeEvents: ShakeEvent[];
   backgroundEvents: BackgroundEvent[];
   pauseEvents: PauseEvent[];
-  sessionSequence: number; // The sequence number of this session in the day
+  sessionIndexInDay: number; // The sequence number of this session in the day
   entropyScore: number | null;
 
   static SUCCESS_MARGIN_MS = 600000; // 10 minutes
@@ -29,7 +29,7 @@ class TimerSession {
     this.shakeEvents = [];
     this.backgroundEvents = [];
     this.pauseEvents = [];
-    this.sessionSequence = 0; // TODO: add session sequence from session or generate new one
+    this.sessionIndexInDay = 0;
     this.entropyScore = null;
   }
 
