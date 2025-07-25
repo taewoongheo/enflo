@@ -83,7 +83,7 @@ function generateMockTimerSession(
 const mockSessions: Session[] = [];
 
 // Session 1: Work
-const workSession = new Session({ sessionName: 'Work' });
+const workSession = new Session({ sessionName: 'work' });
 workSession.timerSessionsByTimeRange = {
   '00-03': [],
   '03-06': [],
@@ -120,7 +120,7 @@ workSession.timerSessionsByTimeRange = {
 mockSessions.push(workSession);
 
 // Session 2: Reading
-const readingSession = new Session({ sessionName: 'Reading' });
+const readingSession = new Session({ sessionName: 'reading' });
 readingSession.timerSessionsByTimeRange = {
   '00-03': [],
   '03-06': [],
@@ -151,7 +151,7 @@ readingSession.timerSessionsByTimeRange = {
 mockSessions.push(readingSession);
 
 // Session 3: Meditation
-const meditationSession = new Session({ sessionName: 'Meditation' });
+const meditationSession = new Session({ sessionName: 'meditation' });
 meditationSession.timerSessionsByTimeRange = {
   '00-03': [],
   '03-06': [],

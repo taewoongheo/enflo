@@ -1,29 +1,15 @@
 import { ContentLayout } from '@/components/common/ContentLayout';
 import Typography from '@/components/common/Typography';
-import EntropySystem from '@/components/MainPage/EntropySystem/EntropySystem';
-import {
-  particleCanvasHeight,
-  particleCanvasWidth,
-} from '@/constants/entropySystem/dimension';
+import EntropyCanvas from '@/components/MainPage/EntropyCanvas';
 import { useTheme } from '@/contexts/ThemeContext';
 import { sessionMockData } from '@/data/sessionMockData';
 import Session from '@/models/Session';
 import { baseTokens } from '@/styles';
-import { AntDesign } from '@expo/vector-icons';
-import { Canvas } from '@shopify/react-native-skia';
+import { AntDesign, Fontisto } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import {
-  FlatList,
-  Gesture,
-  GestureDetector,
-  GestureUpdateEvent,
-  ScrollView,
-  TapGestureHandlerEventPayload,
-} from 'react-native-gesture-handler';
-import { useSharedValue } from 'react-native-reanimated';
-import { PanGestureHandlerEventPayload } from 'react-native-screens';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
 
 export function formatMsToTime(ms: number): string {
@@ -47,45 +33,6 @@ function MainScreen() {
   const { theme } = useTheme();
   const { t } = useTranslation('main');
 
-  const touchX = useSharedValue(0);
-  const touchY = useSharedValue(0);
-  const isTouching = useSharedValue(false);
-
-  const handleTouch = (
-    e:
-      | GestureUpdateEvent<PanGestureHandlerEventPayload>
-      | GestureUpdateEvent<TapGestureHandlerEventPayload>,
-  ) => {
-    'worklet';
-
-    touchX.value = e.x;
-    touchY.value = e.y;
-    isTouching.value = true;
-  };
-
-  const tap = Gesture.Tap()
-    .onStart((e) => handleTouch(e))
-    .onEnd(() => {
-      'worklet';
-
-      isTouching.value = false;
-    });
-
-  const pan = Gesture.Pan()
-    .onBegin((e) => {
-      handleTouch(e);
-    })
-    .onUpdate((e) => {
-      handleTouch(e);
-    })
-    .onEnd(() => {
-      'worklet';
-
-      isTouching.value = false;
-    });
-
-  const combinedGesture = Gesture.Race(tap, pan);
-
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -94,20 +41,7 @@ function MainScreen() {
       <View
         style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
-        <GestureDetector gesture={combinedGesture}>
-          <Canvas
-            style={{
-              width: particleCanvasWidth,
-              height: particleCanvasHeight,
-            }}
-          >
-            <EntropySystem
-              touchX={touchX}
-              touchY={touchY}
-              isTouching={isTouching}
-            />
-          </Canvas>
-        </GestureDetector>
+        <EntropyCanvas />
         <ContentLayout>
           <TouchableOpacity
             style={styles.entropyScoreContainer}
@@ -167,6 +101,8 @@ function MainScreen() {
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    gap: baseTokens.spacing[2],
                   }}
                 >
                   <Typography
@@ -175,9 +111,9 @@ function MainScreen() {
                   >
                     {formatMsToTime(item.totalNetFocusMs)}
                   </Typography>
-                  <AntDesign
-                    name="caretright"
-                    size={scale(24)}
+                  <Fontisto
+                    name="play"
+                    size={scale(22)}
                     color={theme.colors.background}
                   />
                 </View>

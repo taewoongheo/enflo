@@ -1,4 +1,4 @@
-import Particle from '@/components/MainPage/EntropySystem/Particle';
+import Particle from '@/components/MainPage/EntropyCanvas/Particle';
 import {
   particleCanvasHeight,
   particleCanvasWidth,
