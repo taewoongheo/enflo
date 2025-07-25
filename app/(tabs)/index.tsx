@@ -14,12 +14,12 @@ function MainScreen() {
   const { theme } = useTheme();
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      showsVerticalScrollIndicator={false}
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <View
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
       >
         <EntropyCanvas />
         <ContentLayout>
@@ -27,8 +27,8 @@ function MainScreen() {
           <EntropySuggestion />
           <SessionList />
         </ContentLayout>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 

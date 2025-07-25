@@ -11,7 +11,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 
 const IOS_GRADIENT_OFFSET = 0.15;
-const ANDROID_GRADIENT_OFFSET = 0.1;
+const ANDROID_GRADIENT_OFFSET = 0.09;
 
 function SessionCard({ item }: { item: Session }) {
   const { theme } = useTheme();
