@@ -9,7 +9,7 @@ const EntropyScore = () => {
   const { theme } = useTheme();
   return (
     <TouchableOpacity
-      style={styles.entropyScoreContainer}
+      style={[styles.entropyScoreContainer]}
       activeOpacity={0.7}
       onPress={() => {
         console.log('entropy score clicked');
@@ -25,10 +25,7 @@ const EntropyScore = () => {
         name="questioncircle"
         size={14}
         color={theme.colors.text.secondary}
-        style={{
-          marginTop: baseTokens.spacing[2],
-          marginLeft: baseTokens.spacing[1],
-        }}
+        style={styles.iconSpacing}
       />
     </TouchableOpacity>
   );
@@ -37,6 +34,10 @@ const EntropyScore = () => {
 const styles = StyleSheet.create({
   entropyScoreContainer: {
     flexDirection: 'row',
+  },
+  iconSpacing: {
+    marginTop: baseTokens.spacing[2],
+    marginLeft: baseTokens.spacing[1],
   },
 });
 

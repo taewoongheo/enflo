@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 const EntropySuggestion = () => {
   const { theme } = useTheme();
   const { t } = useTranslation('main');
+
   return (
     <Typography
       variant="body1Regular"
