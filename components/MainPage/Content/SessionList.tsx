@@ -17,8 +17,8 @@ const SessionList = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
 
-  const themeBackground = theme.colors.sessionCard.background;
-  const themeEdgeGradient = theme.colors.sessionCard.edgeGradient;
+  const themeBackground = theme.colors.components.sessionCard.background;
+  const themeEdgeGradient = theme.colors.components.sessionCard.edgeGradient;
   const gradientOffset = Platform.OS === 'ios' ? 0.15 : 0.1;
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const SessionList = () => {
           style={[
             styles.sessionCard,
             {
-              borderColor: theme.colors.sessionCard.border,
+              borderColor: theme.colors.components.sessionCard.border,
             },
           ]}
         >
@@ -94,28 +94,30 @@ const SessionList = () => {
           />
           <Typography
             variant="body1Regular"
-            style={{ color: theme.colors.sessionCard.text.name }}
+            style={{ color: theme.colors.components.sessionCard.text.name }}
           >
             {item.sessionName}
           </Typography>
           <View>
             <Typography
               variant="label"
-              style={{ color: theme.colors.sessionCard.text.label }}
+              style={{ color: theme.colors.components.sessionCard.text.label }}
             >
               {t('totalDuration')}
             </Typography>
             <View style={styles.sessionCardRow}>
               <Typography
                 variant="title1Bold"
-                style={{ color: theme.colors.sessionCard.text.timer }}
+                style={{
+                  color: theme.colors.components.sessionCard.text.timer,
+                }}
               >
                 {formatMsToTime(item.totalNetFocusMs)}
               </Typography>
               <Fontisto
                 name="play"
                 size={scale(22)}
-                color={theme.colors.sessionCard.text.timer}
+                color={theme.colors.components.sessionCard.text.timer}
               />
             </View>
           </View>
