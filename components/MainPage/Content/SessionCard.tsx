@@ -8,7 +8,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
+import { Pressable } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
 
 const IOS_GRADIENT_OFFSET = 0.15;
@@ -27,7 +28,7 @@ function SessionCard({ item }: { item: Session }) {
     Platform.OS === 'ios' ? IOS_GRADIENT_OFFSET : ANDROID_GRADIENT_OFFSET;
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={() => router.push('/timer')}
       style={[
         styles.sessionCard,
@@ -93,7 +94,7 @@ function SessionCard({ item }: { item: Session }) {
           />
         </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 

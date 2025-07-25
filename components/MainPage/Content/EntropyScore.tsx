@@ -3,14 +3,14 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Pressable } from 'react-native-gesture-handler';
 
 const EntropyScore = () => {
   const { theme } = useTheme();
   return (
-    <TouchableOpacity
+    <Pressable
       style={[styles.entropyScoreContainer]}
-      activeOpacity={0.7}
       onPress={() => {
         console.log('entropy score clicked');
       }}
@@ -27,7 +27,7 @@ const EntropyScore = () => {
         color={theme.colors.text.secondary}
         style={styles.iconSpacing}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
