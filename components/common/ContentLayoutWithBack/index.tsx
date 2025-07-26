@@ -4,6 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Pressable } from 'react-native-gesture-handler';
+import { scale } from 'react-native-size-matters';
 import { ContentLayout } from '../ContentLayout';
 
 function ContentLayoutWithBack({ children }: { children: React.ReactNode }) {
@@ -21,7 +22,7 @@ function ContentLayoutWithBack({ children }: { children: React.ReactNode }) {
       >
         <Entypo
           name="chevron-thin-left"
-          size={24}
+          size={baseTokens.iconSize.lg - scale(2)}
           color={theme.colors.text.primary}
         />
       </Pressable>

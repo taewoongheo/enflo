@@ -23,7 +23,7 @@ const EntropyScore = () => {
       </Typography>
       <AntDesign
         name="questioncircle"
-        size={14}
+        size={baseTokens.iconSize.xs}
         color={theme.colors.text.secondary}
         style={styles.iconSpacing}
       />

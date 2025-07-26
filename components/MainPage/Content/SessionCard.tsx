@@ -98,7 +98,7 @@ function SessionCard({ item }: { item: Session }) {
           </Typography>
           <Fontisto
             name="play"
-            size={scale(22)}
+            size={baseTokens.iconSize.lg - scale(2)}
             color={sessionCardStyle.text.timer}
           />
         </View>
