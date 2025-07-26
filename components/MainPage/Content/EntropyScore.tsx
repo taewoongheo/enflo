@@ -34,6 +34,7 @@ const EntropyScore = () => {
 const styles = StyleSheet.create({
   entropyScoreContainer: {
     flexDirection: 'row',
+    alignSelf: 'flex-start',
   },
   iconSpacing: {
     marginTop: baseTokens.spacing[2],

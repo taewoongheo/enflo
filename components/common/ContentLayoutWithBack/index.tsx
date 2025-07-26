@@ -14,7 +14,10 @@ function ContentLayoutWithBack({ children }: { children: React.ReactNode }) {
     <ContentLayout>
       <Pressable
         onPress={() => router.back()}
-        style={{ backgroundColor: 'red', marginBottom: baseTokens.spacing[5] }}
+        style={{
+          marginBottom: baseTokens.spacing[5],
+          alignSelf: 'flex-start',
+        }}
       >
         <Entypo
           name="chevron-thin-left"
