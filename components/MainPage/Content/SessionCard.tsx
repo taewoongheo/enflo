@@ -15,6 +15,9 @@ import { scale } from 'react-native-size-matters';
 const IOS_GRADIENT_OFFSET = 0.15;
 const ANDROID_GRADIENT_OFFSET = 0.09;
 
+const gradientOffset =
+  Platform.OS === 'ios' ? IOS_GRADIENT_OFFSET : ANDROID_GRADIENT_OFFSET;
+
 function SessionCard({ item }: { item: Session }) {
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -24,12 +27,18 @@ function SessionCard({ item }: { item: Session }) {
   const themeBackground = sessionCardStyle.background;
   const themeEdgeGradient = sessionCardStyle.edgeGradient;
 
-  const gradientOffset =
-    Platform.OS === 'ios' ? IOS_GRADIENT_OFFSET : ANDROID_GRADIENT_OFFSET;
+  const handlePress = () => {
+    router.push({
+      pathname: '/timer',
+      params: {
+        sessionId: item.sessionId,
+      },
+    });
+  };
 
   return (
     <Pressable
-      onPress={() => router.push('/timer')}
+      onPress={handlePress}
       style={[
         styles.sessionCard,
         {
@@ -122,5 +131,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    borderRadius: baseTokens.borderRadius.md,
   },
 });
