@@ -1,18 +1,17 @@
+import Typography from '@/components/common/Typography';
 import { baseTokens, Theme } from '@/styles';
 import { useState } from 'react';
-import {
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Text,
-  View,
-} from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
 
+const CELL_CONTAINER_HEIGHT = scale(190);
 const CELL_WIDTH = scale(5);
 const CELL_GAP = scale(4);
 const CELL_HEIGHT = scale(160);
 const ELEM_WIDTH = CELL_WIDTH * 5 + CELL_GAP * 4;
+
+const TRIANGLE_WIDTH = scale(25);
 
 const timer = Array.from({ length: 18 }, (_, index) => (index + 1) * 5);
 
@@ -36,13 +35,44 @@ function TimerTunerSlider({
       <View
         style={{
           width: '100%',
-          height: scale(170),
+          height: CELL_CONTAINER_HEIGHT,
           marginTop: baseTokens.spacing[3],
           marginBottom: baseTokens.spacing[0],
-          justifyContent: 'center',
           alignItems: 'center',
         }}
       >
+        <View
+          style={{
+            position: 'absolute',
+            top: scale(2),
+            left: scrollHalfWidth - TRIANGLE_WIDTH / 2,
+            width: TRIANGLE_WIDTH,
+            height: TRIANGLE_WIDTH / 2,
+            backgroundColor: theme.colors.background,
+            borderRadius: scale(2),
+            zIndex: 9,
+            pointerEvents: 'none',
+          }}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            top: scale(2),
+            left: scrollHalfWidth - TRIANGLE_WIDTH / 2,
+            width: 0,
+            height: 0,
+            borderLeftWidth: TRIANGLE_WIDTH / 2,
+            borderRightWidth: TRIANGLE_WIDTH / 2,
+            borderBottomWidth: TRIANGLE_WIDTH - scale(9),
+            borderLeftColor: 'transparent',
+            borderRightColor: 'transparent',
+            borderBottomColor: 'yellow',
+            borderRadius: scale(2),
+            zIndex: 10,
+            pointerEvents: 'none',
+            transform: [{ rotate: '180deg' }],
+          }}
+        />
         <View
           style={{
             position: 'absolute',
@@ -50,7 +80,7 @@ function TimerTunerSlider({
             left: scrollHalfWidth - CELL_WIDTH / 2 - scale(0.5),
             pointerEvents: 'none',
             width: CELL_WIDTH + scale(1),
-            height: scale(157),
+            height: CELL_HEIGHT,
             backgroundColor: 'yellow',
             zIndex: 10,
             borderRadius: baseTokens.borderRadius.xs,
@@ -86,12 +116,20 @@ function TimerTunerSlider({
             <View
               style={{
                 width: ELEM_WIDTH,
+                height: CELL_CONTAINER_HEIGHT,
                 flexDirection: 'column',
-                justifyContent: 'center',
+                justifyContent: 'space-between',
                 alignItems: 'center',
               }}
             >
-              <Text style={{ color: theme.colors.text.primary }}>{item}</Text>
+              <Typography
+                variant="label"
+                style={{
+                  color: theme.colors.text.primary,
+                }}
+              >
+                {item}
+              </Typography>
               <View
                 style={{
                   width: ELEM_WIDTH,
