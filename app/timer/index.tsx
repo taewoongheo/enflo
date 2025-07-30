@@ -5,26 +5,25 @@ import { sessionMockData } from '@/data/sessionMockData';
 import Session from '@/models/Session';
 import { baseTokens } from '@/styles';
 import { Fontisto } from '@expo/vector-icons';
-import { Canvas, RoundedRect } from '@shopify/react-native-skia';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LayoutChangeEvent, Pressable, Text, View } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { useSharedValue } from 'react-native-reanimated';
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Text,
+  View,
+} from 'react-native';
+import { FlatList, Pressable } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
 
-const CELL_WIDTH = scale(2);
-const CELL_GAP = scale(5);
+const CELL_WIDTH = scale(5);
+const CELL_GAP = scale(4);
+const CELL_HEIGHT = scale(160);
+const ELEM_WIDTH = CELL_WIDTH * 5 + CELL_GAP * 4;
 
-interface Cell {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  isSelected: boolean;
-}
+const timer = Array.from({ length: 18 }, (_, index) => (index + 1) * 5);
 
 export default function Timer() {
   const { theme } = useTheme();
@@ -35,9 +34,15 @@ export default function Timer() {
 
   const [isRunning, setIsRunning] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
-  const [timerSettingCells, setTimerSettingCells] = useState<Cell[]>([]);
 
-  const slideX = useSharedValue(0);
+  const [scrollHalfWidth, setScrollHalfWidth] = useState(0);
+  const [time, setTime] = useState(0);
+
+  const onMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const x = e.nativeEvent.contentOffset.x;
+    const idx = Math.round(x / (ELEM_WIDTH + CELL_GAP));
+    setTime(timer[idx]);
+  };
 
   useEffect(() => {
     const found = sessionMockData.find((el) => el.sessionId === sessionId);
@@ -47,51 +52,6 @@ export default function Timer() {
       setSession(found);
     }
   }, [router, sessionId]);
-
-  const handleCanvasLayout = (e: LayoutChangeEvent) => {
-    const { width } = e.nativeEvent.layout;
-    const centerX = width / 2 - CELL_WIDTH / 2;
-    const halfCount = Math.floor(width / 2 / (CELL_WIDTH + CELL_GAP));
-
-    const cells: Cell[] = [];
-
-    for (let i = halfCount; i >= 1; i--) {
-      cells.push({
-        x: centerX - (CELL_WIDTH + CELL_GAP) * i,
-        y: 0,
-        width: CELL_WIDTH,
-        height: 180,
-        isSelected: false,
-      });
-    }
-
-    cells.push({
-      x: centerX,
-      y: 0,
-      width: CELL_WIDTH,
-      height: 180,
-      isSelected: true,
-    });
-
-    for (let i = 1; i <= halfCount; i++) {
-      cells.push({
-        x: centerX + (CELL_WIDTH + CELL_GAP) * i,
-        y: 0,
-        width: CELL_WIDTH,
-        height: 180,
-        isSelected: false,
-      });
-    }
-
-    setTimerSettingCells(cells);
-  };
-
-  const PanGestureHandler = Gesture.Pan().onChange((event) => {
-    const x = event.absoluteX;
-
-    slideX.value = x;
-    console.log(slideX.value);
-  });
 
   return (
     <View
@@ -119,20 +79,35 @@ export default function Timer() {
           style={{
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             gap: baseTokens.spacing[2],
             marginTop: baseTokens.spacing[6],
           }}
         >
-          <Text
+          <View
             style={{
-              fontSize: scale(70),
-              color: theme.colors.text.primary,
-              fontFamily: 'Pretendard-Semibold',
+              flexDirection: 'row',
+              alignItems: 'baseline',
             }}
           >
-            90:00
-          </Text>
+            <Text
+              style={{
+                fontSize: scale(70),
+                color: theme.colors.text.primary,
+                fontFamily: 'Pretendard-Semibold',
+              }}
+            >
+              {time}
+            </Text>
+            <Typography
+              variant="body1Regular"
+              style={{
+                color: theme.colors.text.secondary,
+              }}
+            >
+              {t('minutes')}
+            </Typography>
+          </View>
           <Typography
             variant="body1Regular"
             style={{
@@ -143,32 +118,108 @@ export default function Timer() {
             {t('suggestions')}
           </Typography>
 
-          <GestureDetector gesture={PanGestureHandler}>
-            <Canvas
+          <View
+            style={{
+              width: '100%',
+              height: scale(170),
+              marginTop: baseTokens.spacing[3],
+              marginBottom: baseTokens.spacing[0],
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <View
               style={{
-                width: '100%',
-                height: 180,
-                marginVertical: baseTokens.spacing[2],
+                position: 'absolute',
+                bottom: 0,
+                left: scrollHalfWidth - CELL_WIDTH / 2 - scale(0.5),
+                pointerEvents: 'none',
+                width: CELL_WIDTH + scale(1),
+                height: scale(157),
+                backgroundColor: 'yellow',
+                zIndex: 10,
+                borderRadius: baseTokens.borderRadius.xs,
               }}
-              onLayout={handleCanvasLayout}
-            >
-              {timerSettingCells.map((cell, index) => (
-                <RoundedRect
-                  key={index}
-                  x={cell.x}
-                  y={cell.y}
-                  width={cell.width}
-                  height={cell.height}
-                  color={
-                    cell.isSelected
-                      ? theme.colors.text.primary
-                      : theme.colors.text.secondary
-                  }
-                  r={baseTokens.borderRadius.md}
-                />
-              ))}
-            </Canvas>
-          </GestureDetector>
+            />
+            <FlatList
+              data={timer}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              onLayout={(e) => {
+                setScrollHalfWidth(e.nativeEvent.layout.width / 2);
+              }}
+              bounces={false}
+              onMomentumScrollEnd={onMomentumScrollEnd}
+              scrollEventThrottle={16}
+              snapToAlignment="center"
+              snapToOffsets={timer.map(
+                (_, index) => index * (ELEM_WIDTH + CELL_GAP),
+              )}
+              decelerationRate="fast"
+              getItemLayout={(_, index) => ({
+                length: ELEM_WIDTH + CELL_GAP,
+                offset: (ELEM_WIDTH + CELL_GAP) * index,
+                index,
+              })}
+              keyExtractor={(item) => item.toString()}
+              ItemSeparatorComponent={() => (
+                <View style={{ width: CELL_GAP }} />
+              )}
+              contentContainerStyle={{
+                paddingHorizontal: scrollHalfWidth - ELEM_WIDTH / 2,
+                alignItems: 'center',
+              }}
+              renderItem={({ item }) => (
+                <View
+                  style={{
+                    width: ELEM_WIDTH,
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text style={{ color: theme.colors.text.primary }}>
+                    {item}
+                  </Text>
+                  <View
+                    style={{
+                      width: ELEM_WIDTH,
+                      height: CELL_HEIGHT,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      gap: CELL_GAP,
+                    }}
+                  >
+                    {Array.from({ length: 5 }, (_, index) => (
+                      <View
+                        key={new Date().getTime() + index}
+                        style={[
+                          {
+                            width: CELL_WIDTH,
+                            height: CELL_HEIGHT,
+                            borderRadius: baseTokens.borderRadius.sm,
+                            backgroundColor:
+                              index === 2
+                                ? theme.colors.primary
+                                : theme.colors.secondary,
+                            opacity:
+                              index === 2
+                                ? 1
+                                : item === 5 && index < 2
+                                  ? 0
+                                  : item === 90 && index > 2
+                                    ? 0
+                                    : 0.6,
+                          },
+                        ]}
+                      />
+                    ))}
+                  </View>
+                </View>
+              )}
+            />
+          </View>
 
           {/* TODO: gradient style */}
           <View
