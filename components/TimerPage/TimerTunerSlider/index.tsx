@@ -1,5 +1,6 @@
 import Typography from '@/components/common/Typography';
 import { baseTokens, Theme } from '@/styles';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -84,6 +85,32 @@ function TimerTunerSlider({
             backgroundColor: 'yellow',
             zIndex: 10,
             borderRadius: baseTokens.borderRadius.xs,
+          }}
+        />
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0.6, y: 0 }}
+          colors={[theme.colors.background, 'rgba(17, 24, 39, 0.3)']}
+          style={{
+            width: scale(20),
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            zIndex: 10,
+          }}
+        />
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0.6, y: 0 }}
+          colors={['rgba(17, 24, 39, 0.3)', theme.colors.background]}
+          style={{
+            width: scale(20),
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            zIndex: 10,
           }}
         />
         <FlatList
