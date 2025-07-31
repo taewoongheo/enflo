@@ -20,6 +20,10 @@ export interface Theme {
           label: string;
         };
       };
+      timerTunerSlider: {
+        edgeGradient: string;
+        picker: string;
+      };
     };
     border: string;
   };
@@ -69,6 +73,10 @@ export const darkTheme = {
           timer: palette.neutral[100],
           label: palette.neutral[400],
         },
+      },
+      timerTunerSlider: {
+        edgeGradient: 'rgba(17, 24, 39, 0.3)',
+        picker: 'rgb(225, 255, 90)',
       },
     },
     border: palette.neutral[700],

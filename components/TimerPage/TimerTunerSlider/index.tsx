@@ -2,7 +2,12 @@ import Typography from '@/components/common/Typography';
 import { baseTokens, Theme } from '@/styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
-import { NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
 
@@ -14,7 +19,9 @@ const ELEM_WIDTH = CELL_WIDTH * 5 + CELL_GAP * 4;
 
 const TRIANGLE_WIDTH = scale(25);
 
-const timer = Array.from({ length: 18 }, (_, index) => (index + 1) * 5);
+const TIMER_RANGE = Array.from({ length: 18 }, (_, index) => (index + 1) * 5);
+
+const CENTER_CELL_INDEX = 2;
 
 function TimerTunerSlider({
   theme,
@@ -28,93 +35,60 @@ function TimerTunerSlider({
   const onMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const x = e.nativeEvent.contentOffset.x;
     const idx = Math.round(x / (ELEM_WIDTH + CELL_GAP));
-    setTime(timer[idx]);
+    setTime(TIMER_RANGE[idx]);
   };
 
   return (
     <>
-      <View
-        style={{
-          width: '100%',
-          height: CELL_CONTAINER_HEIGHT,
-          marginTop: baseTokens.spacing[3],
-          marginBottom: baseTokens.spacing[0],
-          alignItems: 'center',
-        }}
-      >
+      <View style={styles.container}>
         <View
-          style={{
-            position: 'absolute',
-            top: scale(2),
-            left: scrollHalfWidth - TRIANGLE_WIDTH / 2,
-            width: TRIANGLE_WIDTH,
-            height: TRIANGLE_WIDTH / 2,
-            backgroundColor: theme.colors.background,
-            borderRadius: scale(2),
-            zIndex: 9,
-            pointerEvents: 'none',
-          }}
+          style={[
+            styles.triangleBackground,
+            {
+              left: scrollHalfWidth - TRIANGLE_WIDTH / 2,
+              backgroundColor: theme.colors.background,
+            },
+          ]}
         />
         <View
-          style={{
-            position: 'absolute',
-            top: scale(2),
-            left: scrollHalfWidth - TRIANGLE_WIDTH / 2,
-            width: 0,
-            height: 0,
-            borderLeftWidth: TRIANGLE_WIDTH / 2,
-            borderRightWidth: TRIANGLE_WIDTH / 2,
-            borderBottomWidth: TRIANGLE_WIDTH - scale(9),
-            borderLeftColor: 'transparent',
-            borderRightColor: 'transparent',
-            borderBottomColor: 'yellow',
-            borderRadius: scale(2),
-            zIndex: 10,
-            pointerEvents: 'none',
-            transform: [{ rotate: '180deg' }],
-          }}
+          style={[
+            styles.triangle,
+            {
+              left: scrollHalfWidth - TRIANGLE_WIDTH / 2,
+              borderBottomColor:
+                theme.colors.components.timerTunerSlider.picker,
+            },
+          ]}
         />
         <View
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: scrollHalfWidth - CELL_WIDTH / 2 - scale(0.5),
-            pointerEvents: 'none',
-            width: CELL_WIDTH + scale(1),
-            height: CELL_HEIGHT,
-            backgroundColor: 'yellow',
-            zIndex: 10,
-            borderRadius: baseTokens.borderRadius.xs,
-          }}
+          style={[
+            styles.highlightBar,
+            {
+              left: scrollHalfWidth - CELL_WIDTH / 2 - scale(0.5),
+              backgroundColor: theme.colors.components.timerTunerSlider.picker,
+            },
+          ]}
         />
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 0.6, y: 0 }}
-          colors={[theme.colors.background, 'rgba(17, 24, 39, 0.3)']}
-          style={{
-            width: scale(20),
-            height: '100%',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            zIndex: 10,
-          }}
+          colors={[
+            theme.colors.background,
+            theme.colors.components.timerTunerSlider.edgeGradient,
+          ]}
+          style={styles.leftGradient}
         />
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 0.6, y: 0 }}
-          colors={['rgba(17, 24, 39, 0.3)', theme.colors.background]}
-          style={{
-            width: scale(20),
-            height: '100%',
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            zIndex: 10,
-          }}
+          colors={[
+            theme.colors.components.timerTunerSlider.edgeGradient,
+            theme.colors.background,
+          ]}
+          style={styles.rightGradient}
         />
         <FlatList
-          data={timer}
+          data={TIMER_RANGE}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           onLayout={(e) => {
@@ -124,7 +98,7 @@ function TimerTunerSlider({
           onMomentumScrollEnd={onMomentumScrollEnd}
           scrollEventThrottle={16}
           snapToAlignment="center"
-          snapToOffsets={timer.map(
+          snapToOffsets={TIMER_RANGE.map(
             (_, index) => index * (ELEM_WIDTH + CELL_GAP),
           )}
           decelerationRate="fast"
@@ -134,21 +108,13 @@ function TimerTunerSlider({
             index,
           })}
           keyExtractor={(item) => item.toString()}
-          ItemSeparatorComponent={() => <View style={{ width: CELL_GAP }} />}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
           contentContainerStyle={{
             paddingHorizontal: scrollHalfWidth - ELEM_WIDTH / 2,
             alignItems: 'center',
           }}
           renderItem={({ item }) => (
-            <View
-              style={{
-                width: ELEM_WIDTH,
-                height: CELL_CONTAINER_HEIGHT,
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
+            <View style={styles.itemContainer}>
               <Typography
                 variant="label"
                 style={{
@@ -157,34 +123,25 @@ function TimerTunerSlider({
               >
                 {item}
               </Typography>
-              <View
-                style={{
-                  width: ELEM_WIDTH,
-                  height: CELL_HEIGHT,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  gap: CELL_GAP,
-                }}
-              >
+              <View style={styles.cellsContainer}>
                 {Array.from({ length: 5 }, (_, index) => (
                   <View
                     key={new Date().getTime() + index}
                     style={[
+                      styles.cell,
                       {
-                        width: CELL_WIDTH,
-                        height: CELL_HEIGHT,
-                        borderRadius: baseTokens.borderRadius.sm,
                         backgroundColor:
-                          index === 2
+                          index === CENTER_CELL_INDEX
                             ? theme.colors.primary
                             : theme.colors.secondary,
                         opacity:
-                          index === 2
+                          index === CENTER_CELL_INDEX
                             ? 1
-                            : item === 5 && index < 2
+                            : item === TIMER_RANGE[0] &&
+                                index < CENTER_CELL_INDEX
                               ? 0
-                              : item === 90 && index > 2
+                              : item === TIMER_RANGE[TIMER_RANGE.length - 1] &&
+                                  index > CENTER_CELL_INDEX
                                 ? 0
                                 : 0.6,
                       },
@@ -201,3 +158,85 @@ function TimerTunerSlider({
 }
 
 export default TimerTunerSlider;
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: CELL_CONTAINER_HEIGHT,
+    marginTop: baseTokens.spacing[3],
+    marginBottom: baseTokens.spacing[0],
+    alignItems: 'center',
+  },
+  triangleBackground: {
+    position: 'absolute',
+    top: scale(2),
+    width: TRIANGLE_WIDTH,
+    height: TRIANGLE_WIDTH / 2,
+    borderRadius: scale(2),
+    zIndex: 9,
+    pointerEvents: 'none',
+  },
+  triangle: {
+    position: 'absolute',
+    top: scale(2),
+    width: 0,
+    height: 0,
+    borderLeftWidth: TRIANGLE_WIDTH / 2,
+    borderRightWidth: TRIANGLE_WIDTH / 2,
+    borderBottomWidth: TRIANGLE_WIDTH - scale(9),
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderRadius: scale(2),
+    zIndex: 10,
+    pointerEvents: 'none',
+    transform: [{ rotate: '180deg' }],
+  },
+  highlightBar: {
+    position: 'absolute',
+    bottom: 0,
+    pointerEvents: 'none',
+    width: CELL_WIDTH + scale(1),
+    height: CELL_HEIGHT,
+    zIndex: 10,
+    borderRadius: baseTokens.borderRadius.xs,
+  },
+  leftGradient: {
+    width: scale(20),
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 10,
+  },
+  rightGradient: {
+    width: scale(20),
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 10,
+  },
+  itemContainer: {
+    width: ELEM_WIDTH,
+    height: CELL_CONTAINER_HEIGHT,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  cellsContainer: {
+    width: ELEM_WIDTH,
+    height: CELL_HEIGHT,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: CELL_GAP,
+  },
+  cell: {
+    width: CELL_WIDTH,
+    height: CELL_HEIGHT,
+    borderRadius: baseTokens.borderRadius.sm,
+  },
+  separator: {
+    width: CELL_GAP,
+  },
+});
