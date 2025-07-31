@@ -1,3 +1,4 @@
+import { TimerTheme } from '@/components/TimerPage/types/theme';
 import { palette } from './palette';
 
 export interface Theme {
@@ -10,28 +11,7 @@ export interface Theme {
       secondary: string;
     };
     pages: {
-      timer: {
-        slider: {
-          background: string;
-          edgeGradient: string;
-          picker: string;
-          button: {
-            icon: string;
-            background: string;
-          };
-          cell: {
-            primary: string;
-            secondary: string;
-          };
-          text: {
-            primary: string;
-            secondary: string;
-          };
-        };
-        info: {
-          background: string;
-        };
-      };
+      timer: TimerTheme;
     };
     components: {
       sessionCard: {

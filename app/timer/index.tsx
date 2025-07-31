@@ -47,34 +47,26 @@ export default function Timer() {
           flex: 1,
         }}
       >
-        <TimerContent theme={theme}>
+        <TimerContainer theme={theme}>
           <ContentLayoutWithBack
             color={theme.colors.pages.timer.slider.text.primary}
           >
             <TimerHeader theme={theme} session={session} t={t} />
 
-            <View
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                gap: baseTokens.spacing[2],
-                marginTop: baseTokens.spacing[6],
-              }}
-            >
+            <TimerContent>
               <TimerSuggestion theme={theme} time={time} t={t} />
               <TimerTunerSlider theme={theme} setTime={setTime} />
               <TimerPlayButton theme={theme} />
-            </View>
+            </TimerContent>
           </ContentLayoutWithBack>
-        </TimerContent>
+        </TimerContainer>
         <View style={{ flex: 1 }}></View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function TimerContent({
+function TimerContainer({
   children,
   theme,
 }: {
@@ -88,6 +80,22 @@ function TimerContent({
         paddingBottom: scale(10),
         backgroundColor: theme.colors.pages.timer.slider.background,
         borderRadius: baseTokens.borderRadius.xl,
+      }}
+    >
+      {children}
+    </View>
+  );
+}
+
+function TimerContent({ children }: { children: React.ReactNode }) {
+  return (
+    <View
+      style={{
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: baseTokens.spacing[2],
+        marginTop: baseTokens.spacing[6],
       }}
     >
       {children}
