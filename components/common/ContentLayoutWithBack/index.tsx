@@ -1,4 +1,3 @@
-import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import { Entypo } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -8,9 +7,14 @@ import { Pressable } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
 import { ContentLayout } from '../ContentLayout';
 
-function ContentLayoutWithBack({ children }: { children: React.ReactNode }) {
+function ContentLayoutWithBack({
+  children,
+  color,
+}: {
+  children: React.ReactNode;
+  color: string;
+}) {
   const router = useRouter();
-  const { theme } = useTheme();
 
   return (
     <ContentLayout>
@@ -25,7 +29,7 @@ function ContentLayoutWithBack({ children }: { children: React.ReactNode }) {
         <Entypo
           name="chevron-thin-left"
           size={baseTokens.iconSize.lg - scale(2)}
-          color={theme.colors.text.primary}
+          color={color}
         />
       </Pressable>
       {children}

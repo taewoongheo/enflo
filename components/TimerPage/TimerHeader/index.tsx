@@ -16,13 +16,13 @@ function TimerHeader({
     <>
       <Typography
         variant="title2Bold"
-        style={{ color: theme.colors.text.primary }}
+        style={{ color: theme.colors.pages.timer.slider.text.primary }}
       >
         {session?.sessionName}
       </Typography>
       <Typography
         variant="title2Bold"
-        style={{ color: theme.colors.text.secondary }}
+        style={{ color: theme.colors.pages.timer.slider.text.secondary }}
       >
         {t('timer')}
       </Typography>

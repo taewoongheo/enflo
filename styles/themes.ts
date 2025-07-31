@@ -9,6 +9,30 @@ export interface Theme {
       primary: string;
       secondary: string;
     };
+    pages: {
+      timer: {
+        slider: {
+          background: string;
+          edgeGradient: string;
+          picker: string;
+          button: {
+            icon: string;
+            background: string;
+          };
+          cell: {
+            primary: string;
+            secondary: string;
+          };
+          text: {
+            primary: string;
+            secondary: string;
+          };
+        };
+        info: {
+          background: string;
+        };
+      };
+    };
     components: {
       sessionCard: {
         background: string;
@@ -19,10 +43,6 @@ export interface Theme {
           timer: string;
           label: string;
         };
-      };
-      timerTunerSlider: {
-        edgeGradient: string;
-        picker: string;
       };
     };
     border: string;
@@ -63,6 +83,30 @@ export const darkTheme = {
       primary: palette.neutral[50],
       secondary: palette.neutral[400],
     },
+    pages: {
+      timer: {
+        slider: {
+          background: palette.neutral[750],
+          edgeGradient: 'rgba(39, 48, 63, 0.5)',
+          picker: palette.neutral[300],
+          button: {
+            icon: palette.neutral[50],
+            background: palette.neutral[400],
+          },
+          cell: {
+            primary: palette.neutral[400],
+            secondary: palette.neutral[500],
+          },
+          text: {
+            primary: palette.neutral[50],
+            secondary: palette.neutral[400],
+          },
+        },
+        info: {
+          background: palette.neutral[800],
+        },
+      },
+    },
     components: {
       sessionCard: {
         background: 'rgba(130, 134, 138, 0.5)',
@@ -73,10 +117,6 @@ export const darkTheme = {
           timer: palette.neutral[100],
           label: palette.neutral[400],
         },
-      },
-      timerTunerSlider: {
-        edgeGradient: 'rgba(17, 24, 39, 0.3)',
-        picker: 'rgb(225, 255, 90)',
       },
     },
     border: palette.neutral[700],

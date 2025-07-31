@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { Pressable } from 'react-native-gesture-handler';
 
-/* TODO: gradient style */
 function TimerPlayButton({ theme }: { theme: Theme }) {
   const [isRunning, setIsRunning] = useState(false);
 
@@ -15,7 +14,7 @@ function TimerPlayButton({ theme }: { theme: Theme }) {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: theme.colors.text.secondary,
+        backgroundColor: theme.colors.pages.timer.slider.button.background,
         borderRadius: baseTokens.borderRadius.sm,
         padding: baseTokens.spacing[2],
         paddingVertical: baseTokens.spacing[3],
@@ -25,7 +24,7 @@ function TimerPlayButton({ theme }: { theme: Theme }) {
         <Fontisto
           name={isRunning ? 'pause' : 'play'}
           size={baseTokens.iconSize.lg}
-          color={theme.colors.text.primary}
+          color={theme.colors.pages.timer.slider.button.icon}
         />
       </Pressable>
     </View>

@@ -46,7 +46,7 @@ function TimerTunerSlider({
             styles.triangleBackground,
             {
               left: scrollHalfWidth - TRIANGLE_WIDTH / 2,
-              backgroundColor: theme.colors.background,
+              backgroundColor: theme.colors.pages.timer.slider.background,
             },
           ]}
         />
@@ -55,8 +55,7 @@ function TimerTunerSlider({
             styles.triangle,
             {
               left: scrollHalfWidth - TRIANGLE_WIDTH / 2,
-              borderBottomColor:
-                theme.colors.components.timerTunerSlider.picker,
+              borderBottomColor: theme.colors.pages.timer.slider.picker,
             },
           ]}
         />
@@ -65,7 +64,7 @@ function TimerTunerSlider({
             styles.highlightBar,
             {
               left: scrollHalfWidth - CELL_WIDTH / 2 - scale(0.5),
-              backgroundColor: theme.colors.components.timerTunerSlider.picker,
+              backgroundColor: theme.colors.pages.timer.slider.picker,
             },
           ]}
         />
@@ -73,8 +72,8 @@ function TimerTunerSlider({
           start={{ x: 0, y: 0 }}
           end={{ x: 0.6, y: 0 }}
           colors={[
-            theme.colors.background,
-            theme.colors.components.timerTunerSlider.edgeGradient,
+            theme.colors.pages.timer.slider.background,
+            theme.colors.pages.timer.slider.edgeGradient,
           ]}
           style={styles.leftGradient}
         />
@@ -82,8 +81,8 @@ function TimerTunerSlider({
           start={{ x: 0, y: 0 }}
           end={{ x: 0.6, y: 0 }}
           colors={[
-            theme.colors.components.timerTunerSlider.edgeGradient,
-            theme.colors.background,
+            theme.colors.pages.timer.slider.edgeGradient,
+            theme.colors.pages.timer.slider.background,
           ]}
           style={styles.rightGradient}
         />
@@ -118,7 +117,7 @@ function TimerTunerSlider({
               <Typography
                 variant="label"
                 style={{
-                  color: theme.colors.text.primary,
+                  color: theme.colors.pages.timer.slider.text.primary,
                 }}
               >
                 {item}
@@ -132,8 +131,8 @@ function TimerTunerSlider({
                       {
                         backgroundColor:
                           index === CENTER_CELL_INDEX
-                            ? theme.colors.primary
-                            : theme.colors.secondary,
+                            ? theme.colors.pages.timer.slider.cell.primary
+                            : theme.colors.pages.timer.slider.cell.secondary,
                         opacity:
                           index === CENTER_CELL_INDEX
                             ? 1

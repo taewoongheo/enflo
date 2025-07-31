@@ -24,7 +24,7 @@ function TimerSuggestion({
         <Text
           style={{
             fontSize: scale(70),
-            color: theme.colors.text.primary,
+            color: theme.colors.pages.timer.slider.text.primary,
             fontFamily: 'Pretendard-Semibold',
           }}
         >
@@ -33,7 +33,7 @@ function TimerSuggestion({
         <Typography
           variant="body1Regular"
           style={{
-            color: theme.colors.text.secondary,
+            color: theme.colors.pages.timer.slider.text.secondary,
           }}
         >
           {t('minutes')}
@@ -42,7 +42,7 @@ function TimerSuggestion({
       <Typography
         variant="body1Regular"
         style={{
-          color: theme.colors.text.secondary,
+          color: theme.colors.pages.timer.slider.text.secondary,
           textAlign: 'center',
         }}
       >
