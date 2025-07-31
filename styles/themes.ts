@@ -1,3 +1,4 @@
+import { MainTheme } from '@/components/MainPage/types/theme';
 import { TimerTheme } from '@/components/TimerPage/types/theme';
 import { palette } from './palette';
 
@@ -11,19 +12,8 @@ export interface Theme {
       secondary: string;
     };
     pages: {
+      main: MainTheme;
       timer: TimerTheme;
-    };
-    components: {
-      sessionCard: {
-        background: string;
-        edgeGradient: string;
-        border: string;
-        text: {
-          name: string;
-          timer: string;
-          label: string;
-        };
-      };
     };
     border: string;
   };
@@ -64,6 +54,18 @@ export const darkTheme = {
       secondary: palette.neutral[400],
     },
     pages: {
+      main: {
+        sessionCard: {
+          background: 'rgba(130, 134, 138, 0.5)',
+          border: 'rgb(120, 125, 130)',
+          edgeGradient: 'rgba(30, 32, 34, 0)',
+          text: {
+            name: palette.neutral[200],
+            timer: palette.neutral[100],
+            label: palette.neutral[400],
+          },
+        },
+      },
       timer: {
         slider: {
           background: palette.neutral[750],
@@ -84,18 +86,6 @@ export const darkTheme = {
         },
         info: {
           background: palette.neutral[800],
-        },
-      },
-    },
-    components: {
-      sessionCard: {
-        background: 'rgba(130, 134, 138, 0.5)',
-        border: 'rgb(120, 125, 130)',
-        edgeGradient: 'rgba(30, 32, 34, 0)',
-        text: {
-          name: palette.neutral[200],
-          timer: palette.neutral[100],
-          label: palette.neutral[400],
         },
       },
     },

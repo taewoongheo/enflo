@@ -23,7 +23,7 @@ function SessionCard({ item }: { item: Session }) {
   const { t } = useTranslation();
   const router = useRouter();
 
-  const sessionCardStyle = theme.colors.components.sessionCard;
+  const sessionCardStyle = theme.colors.pages.main.sessionCard;
   const themeBackground = sessionCardStyle.background;
   const themeEdgeGradient = sessionCardStyle.edgeGradient;
 

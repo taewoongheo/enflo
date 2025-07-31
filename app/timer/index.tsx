@@ -11,7 +11,7 @@ import { baseTokens, Theme } from '@/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
@@ -34,6 +34,14 @@ export default function Timer() {
       setSession(found);
     }
   }, [router, sessionId]);
+
+  if (!session) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView
