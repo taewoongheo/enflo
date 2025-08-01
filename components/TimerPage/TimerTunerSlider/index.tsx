@@ -1,6 +1,5 @@
 import Typography from '@/components/common/Typography';
 import { baseTokens, Theme } from '@/styles';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import {
   NativeScrollEvent,
@@ -35,7 +34,8 @@ function TimerTunerSlider({
   const onMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const x = e.nativeEvent.contentOffset.x;
     const idx = Math.round(x / (ELEM_WIDTH + CELL_GAP));
-    setTime(TIMER_RANGE[idx]);
+    setTime(TIMER_RANGE[idx] * 60 * 1000);
+    console.log('setTime: ', TIMER_RANGE[idx] * 60 * 1000);
   };
 
   return (
@@ -68,7 +68,7 @@ function TimerTunerSlider({
             },
           ]}
         />
-        <LinearGradient
+        {/* <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 0.6, y: 0 }}
           colors={[
@@ -85,7 +85,7 @@ function TimerTunerSlider({
             theme.colors.pages.timer.slider.background,
           ]}
           style={styles.rightGradient}
-        />
+        /> */}
         <FlatList
           data={TIMER_RANGE}
           horizontal={true}

@@ -21,10 +21,10 @@ export default function Timer() {
   const router = useRouter();
   const { sessionId } = useLocalSearchParams();
   const { t } = useTranslation('timer');
-
   const [session, setSession] = useState<Session | null>(null);
 
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(5 * 60 * 1000);
+  const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     const found = sessionMockData.find((el) => el.sessionId === sessionId);
@@ -62,9 +62,18 @@ export default function Timer() {
             <TimerHeader theme={theme} session={session} t={t} />
 
             <TimerContent>
-              <TimerSuggestion theme={theme} time={time} t={t} />
+              <TimerSuggestion
+                theme={theme}
+                time={time}
+                t={t}
+                isRunning={isRunning}
+              />
               <TimerTunerSlider theme={theme} setTime={setTime} />
-              <TimerPlayButton theme={theme} />
+              <TimerPlayButton
+                theme={theme}
+                isRunning={isRunning}
+                setIsRunning={setIsRunning}
+              />
             </TimerContent>
           </ContentLayoutWithBack>
         </TimerContainer>
