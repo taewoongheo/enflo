@@ -23,8 +23,8 @@ export default function Timer() {
   const router = useRouter();
   const { sessionId } = useLocalSearchParams();
   const { t } = useTranslation('timer');
-  const [session, setSession] = useState<Session | null>(null);
 
+  const [session, setSession] = useState<Session | null>(null);
   const [time, setTime] = useState(5 * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
 
