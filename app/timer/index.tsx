@@ -68,7 +68,11 @@ export default function Timer() {
                 t={t}
                 isRunning={isRunning}
               />
-              <TimerTunerSlider theme={theme} setTime={setTime} />
+              <TimerTunerSlider
+                theme={theme}
+                isRunning={isRunning}
+                setTime={setTime}
+              />
               <TimerPlayButton
                 theme={theme}
                 isRunning={isRunning}

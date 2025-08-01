@@ -24,9 +24,11 @@ const CENTER_CELL_INDEX = 2;
 
 function TimerTunerSlider({
   theme,
+  isRunning,
   setTime,
 }: {
   theme: Theme;
+  isRunning: boolean;
   setTime: (time: number) => void;
 }) {
   const [scrollHalfWidth, setScrollHalfWidth] = useState(0);
@@ -35,12 +37,11 @@ function TimerTunerSlider({
     const x = e.nativeEvent.contentOffset.x;
     const idx = Math.round(x / (ELEM_WIDTH + CELL_GAP));
     setTime(TIMER_RANGE[idx] * 60 * 1000);
-    console.log('setTime: ', TIMER_RANGE[idx] * 60 * 1000);
   };
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={[styles.container, { opacity: isRunning ? 0.5 : 1 }]}>
         <View
           style={[
             styles.triangleBackground,
@@ -93,6 +94,7 @@ function TimerTunerSlider({
           onLayout={(e) => {
             setScrollHalfWidth(e.nativeEvent.layout.width / 2);
           }}
+          scrollEnabled={!isRunning}
           bounces={false}
           onMomentumScrollEnd={onMomentumScrollEnd}
           scrollEventThrottle={16}
