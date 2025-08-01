@@ -1,9 +1,11 @@
 import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
-import ScrollColorBackground from '@/components/TimerPage/ScrollColorBackground';
-import TimerHeader from '@/components/TimerPage/TimerHeader';
-import TimerPlayButton from '@/components/TimerPage/TimerPlayButton';
-import TimerSuggestion from '@/components/TimerPage/TimerSuggestion';
-import TimerTunerSlider from '@/components/TimerPage/TimerTunerSlider';
+import {
+  ScrollColorBackground,
+  TimerHeader,
+  TimerPlayButton,
+  TimerSuggestion,
+  TimerTunerSlider,
+} from '@/components/TimerPage';
 import { useTheme } from '@/contexts/ThemeContext';
 import { sessionMockData } from '@/data/sessionMockData';
 import Session from '@/models/Session';

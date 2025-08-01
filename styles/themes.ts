@@ -1,5 +1,5 @@
-import { MainTheme } from '@/components/MainPage/types/theme';
-import { TimerTheme } from '@/components/TimerPage/types/theme';
+import { MainTheme } from '@/components/MainPage';
+import { TimerTheme } from '@/components/TimerPage';
 import { palette } from './palette';
 
 export interface Theme {
