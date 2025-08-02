@@ -1,6 +1,5 @@
 import { baseTokens, Theme } from '@/styles';
 import { Fontisto } from '@expo/vector-icons';
-import { View } from 'react-native';
 import { Pressable } from 'react-native-gesture-handler';
 
 function TimerPlayButton({
@@ -13,7 +12,7 @@ function TimerPlayButton({
   setIsRunning: (isRunning: boolean) => void;
 }) {
   return (
-    <View
+    <Pressable
       style={{
         width: '100%',
         flexDirection: 'row',
@@ -24,15 +23,14 @@ function TimerPlayButton({
         padding: baseTokens.spacing[2],
         paddingVertical: baseTokens.spacing[3],
       }}
+      onPress={() => setIsRunning(!isRunning)}
     >
-      <Pressable onPress={() => setIsRunning(!isRunning)}>
-        <Fontisto
-          name={isRunning ? 'pause' : 'play'}
-          size={baseTokens.iconSize.lg}
-          color={theme.colors.pages.timer.slider.button.icon}
-        />
-      </Pressable>
-    </View>
+      <Fontisto
+        name={isRunning ? 'pause' : 'play'}
+        size={baseTokens.iconSize.lg}
+        color={theme.colors.pages.timer.slider.button.icon}
+      />
+    </Pressable>
   );
 }
 

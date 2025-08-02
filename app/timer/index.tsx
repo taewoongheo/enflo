@@ -6,43 +6,46 @@ import {
   TimerSuggestion,
   TimerTunerSlider,
 } from '@/components/TimerPage';
+import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
-import { sessionMockData } from '@/data/sessionMockData';
-import Session from '@/models/Session';
 import { baseTokens, Theme } from '@/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { AppState, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
 
 export default function Timer() {
   const { theme } = useTheme();
-  const router = useRouter();
   const { sessionId } = useLocalSearchParams();
+  const router = useRouter();
   const { t } = useTranslation('timer');
 
-  const [session, setSession] = useState<Session | null>(null);
   const [time, setTime] = useState(5 * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
 
-  useEffect(() => {
-    const found = sessionMockData.find((el) => el.sessionId === sessionId);
-    if (!found) {
-      router.back();
-    } else {
-      setSession(found);
-    }
-  }, [router, sessionId]);
+  const { session, isLoading } = useSession(sessionId as string);
 
-  if (!session) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>loading...</Text>
-      </View>
+  useEffect(() => {
+    const appStateSubscription = AppState.addEventListener(
+      'change',
+      (nextAppState) => {
+        if (isRunning) {
+          console.log('appState changed: ', nextAppState);
+        }
+      },
     );
+
+    return () => {
+      appStateSubscription.remove();
+    };
+  }, []);
+
+  if (!isLoading && !session) {
+    router.back();
+    return null;
   }
 
   return (
@@ -61,7 +64,7 @@ export default function Timer() {
           <ContentLayoutWithBack
             color={theme.colors.pages.timer.slider.text.primary}
           >
-            <TimerHeader theme={theme} session={session} t={t} />
+            <TimerHeader theme={theme} session={session!} t={t} />
 
             <TimerContent>
               <TimerSuggestion
