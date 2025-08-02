@@ -10,7 +10,7 @@ import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens, Theme } from '@/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppState, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -28,20 +28,50 @@ export default function Timer() {
 
   const { session, isLoading } = useSession(sessionId as string);
 
+  const backgroundInterruptStartTime = useRef<number | null>(null);
+  const backgroundInterruptEndTime = useRef<number | null>(null);
+
   useEffect(() => {
     const appStateSubscription = AppState.addEventListener(
       'change',
       (nextAppState) => {
-        if (isRunning) {
-          console.log('appState changed: ', nextAppState);
-        }
+        console.log('nextAppState: ', nextAppState);
+
+        // if (isRunning) {
+        //   if (
+        //     nextAppState === 'background' &&
+        //     !backgroundInterruptStartTime.current
+        //   ) {
+        //     backgroundInterruptStartTime.current = Date.now();
+        //   }
+
+        //   if (
+        //     nextAppState === 'active' &&
+        //     !backgroundInterruptEndTime.current
+        //   ) {
+        //     backgroundInterruptEndTime.current = Date.now();
+        //   }
+
+        //   if (
+        //     backgroundInterruptStartTime.current &&
+        //     backgroundInterruptEndTime.current
+        //   ) {
+        //     const backgroundInterruptDuration =
+        //       backgroundInterruptEndTime.current -
+        //       backgroundInterruptStartTime.current;
+        //     console.log(
+        //       'backgroundInterruptDuration: ',
+        //       backgroundInterruptDuration,
+        //     );
+        //   }
+        // }
       },
     );
 
     return () => {
       appStateSubscription.remove();
     };
-  }, []);
+  }, [isRunning]);
 
   if (!isLoading && !session) {
     router.back();

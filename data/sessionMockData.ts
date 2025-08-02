@@ -9,7 +9,8 @@ function generateMockTimerSession(
   focusMinutes: number,
   interrupts: {
     shakes: number;
-    backgrounds: number;
+    screenUnlocks: number;
+    scrollInteractions: number;
     pauses: number;
   },
 ): TimerSession {
@@ -39,7 +40,6 @@ function generateMockTimerSession(
   timerSession.startTs = startTs;
   timerSession.endTs = endTs;
   timerSession.targetDurationMs = targetDurationMs;
-  timerSession.sessionIndexInDay = sessionIndexInDay;
 
   for (let i = 0; i < interrupts.shakes; i++) {
     timerSession.shakeEvents.push({
@@ -47,23 +47,19 @@ function generateMockTimerSession(
     } as any);
   }
 
-  let remainingBackgroundMs =
-    interrupts.backgrounds > 0 ? totalInterruptMs * 0.6 : 0;
-  for (let i = 0; i < interrupts.backgrounds; i++) {
-    const durationMs =
-      i === interrupts.backgrounds - 1
-        ? remainingBackgroundMs
-        : remainingBackgroundMs * Math.random();
-    const eventStartTs = startTs + Math.random() * targetDurationMs;
-    timerSession.backgroundEvents.push({
-      startTs: eventStartTs,
-      endTs: eventStartTs + durationMs,
-      durationMs,
-    });
-    remainingBackgroundMs -= durationMs;
+  for (let i = 0; i < interrupts.screenUnlocks; i++) {
+    timerSession.screenUnlockCount.push({
+      startTs: startTs + Math.random() * targetDurationMs,
+    } as any);
   }
 
-  let remainingPauseMs = interrupts.pauses > 0 ? totalInterruptMs * 0.4 : 0;
+  for (let i = 0; i < interrupts.scrollInteractions; i++) {
+    timerSession.scrollInteractionCount.push({
+      startTs: startTs + Math.random() * targetDurationMs,
+    } as any);
+  }
+
+  let remainingPauseMs = interrupts.pauses > 0 ? totalInterruptMs : 0;
   for (let i = 0; i < interrupts.pauses; i++) {
     const durationMs =
       i === interrupts.pauses - 1
@@ -106,7 +102,8 @@ workSession.timerSessionsByTimeRange = {
       55,
       {
         shakes: 1,
-        backgrounds: 2,
+        screenUnlocks: 1,
+        scrollInteractions: 1,
         pauses: 1,
       },
     ),
@@ -119,7 +116,8 @@ workSession.timerSessionsByTimeRange = {
       40,
       {
         shakes: 0,
-        backgrounds: 1,
+        screenUnlocks: 1,
+        scrollInteractions: 0,
         pauses: 2,
       },
     ),
@@ -134,7 +132,8 @@ workSession.timerSessionsByTimeRange = {
       80,
       {
         shakes: 2,
-        backgrounds: 3,
+        screenUnlocks: 2,
+        scrollInteractions: 1,
         pauses: 1,
       },
     ),
@@ -149,7 +148,8 @@ workSession.timerSessionsByTimeRange = {
       50,
       {
         shakes: 1,
-        backgrounds: 4,
+        screenUnlocks: 2,
+        scrollInteractions: 2,
         pauses: 3,
       },
     ),
@@ -182,7 +182,8 @@ readingSession.timerSessionsByTimeRange = {
       28,
       {
         shakes: 0,
-        backgrounds: 1,
+        screenUnlocks: 1,
+        scrollInteractions: 0,
         pauses: 0,
       },
     ),
@@ -197,7 +198,8 @@ readingSession.timerSessionsByTimeRange = {
       45,
       {
         shakes: 0,
-        backgrounds: 0,
+        screenUnlocks: 0,
+        scrollInteractions: 0,
         pauses: 0,
       },
     ),
@@ -210,7 +212,8 @@ readingSession.timerSessionsByTimeRange = {
       58,
       {
         shakes: 1,
-        backgrounds: 1,
+        screenUnlocks: 1,
+        scrollInteractions: 0,
         pauses: 1,
       },
     ),
@@ -237,7 +240,8 @@ meditationSession.timerSessionsByTimeRange = {
       15,
       {
         shakes: 0,
-        backgrounds: 0,
+        screenUnlocks: 0,
+        scrollInteractions: 0,
         pauses: 0,
       },
     ),
@@ -250,7 +254,8 @@ meditationSession.timerSessionsByTimeRange = {
       20,
       {
         shakes: 0,
-        backgrounds: 0,
+        screenUnlocks: 0,
+        scrollInteractions: 0,
         pauses: 0,
       },
     ),

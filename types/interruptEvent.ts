@@ -1,11 +1,5 @@
-export type ShakeEvent = {
+export type DisturbanceCountEvent = {
   startTs: number;
-};
-
-export type BackgroundEvent = {
-  startTs: number;
-  endTs: number;
-  durationMs: number;
 };
 
 export type PauseEvent = {

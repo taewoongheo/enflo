@@ -37,10 +37,13 @@ function TimerSuggestion({
       return;
     }
 
+    // TODO: pause time 에 대해 다르게 계산해야됨
     endTimeRef.current = Date.now() + timeLeft;
     prevSecRef.current = Math.floor(timeLeft / 1000);
 
     const tick = () => {
+      console.log('tick');
+
       const diff = endTimeRef.current! - Date.now();
       const nextSec = Math.floor(diff / 1000);
 
@@ -66,7 +69,6 @@ function TimerSuggestion({
         intervalRef.current = null;
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning]);
 
   return (
