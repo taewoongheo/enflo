@@ -9,6 +9,7 @@ import {
 import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens, Theme } from '@/styles';
+import { DisturbanceCountEvent } from '@/types/interruptEvent';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -28,43 +29,26 @@ export default function Timer() {
 
   const { session, isLoading } = useSession(sessionId as string);
 
-  const backgroundInterruptStartTime = useRef<number | null>(null);
-  const backgroundInterruptEndTime = useRef<number | null>(null);
+  // timer session disturbance data
+  const screenUnlockCount = useRef<DisturbanceCountEvent[]>([]);
+  // const shakeEvents = useRef<DisturbanceCountEvent[]>([]);
+  // const scrollInteractionCount = useRef<DisturbanceCountEvent[]>([]);
+  // const pauseEvents = useRef<PauseEvent[]>([]);
 
+  // app state change event handler
   useEffect(() => {
     const appStateSubscription = AppState.addEventListener(
       'change',
       (nextAppState) => {
-        console.log('nextAppState: ', nextAppState);
+        if (!isRunning) {
+          return;
+        }
 
-        // if (isRunning) {
-        //   if (
-        //     nextAppState === 'background' &&
-        //     !backgroundInterruptStartTime.current
-        //   ) {
-        //     backgroundInterruptStartTime.current = Date.now();
-        //   }
-
-        //   if (
-        //     nextAppState === 'active' &&
-        //     !backgroundInterruptEndTime.current
-        //   ) {
-        //     backgroundInterruptEndTime.current = Date.now();
-        //   }
-
-        //   if (
-        //     backgroundInterruptStartTime.current &&
-        //     backgroundInterruptEndTime.current
-        //   ) {
-        //     const backgroundInterruptDuration =
-        //       backgroundInterruptEndTime.current -
-        //       backgroundInterruptStartTime.current;
-        //     console.log(
-        //       'backgroundInterruptDuration: ',
-        //       backgroundInterruptDuration,
-        //     );
-        //   }
-        // }
+        if (nextAppState === 'active') {
+          screenUnlockCount.current.push({
+            timestamp: Date.now(),
+          });
+        }
       },
     );
 
@@ -72,6 +56,11 @@ export default function Timer() {
       appStateSubscription.remove();
     };
   }, [isRunning]);
+
+  const handlePauseTimer = () => {
+    setIsRunning(!isRunning);
+    console.log('screenUnlockCount: ', screenUnlockCount.current);
+  };
 
   if (!isLoading && !session) {
     router.back();
@@ -102,6 +91,7 @@ export default function Timer() {
                 time={time}
                 t={t}
                 isRunning={isRunning}
+                setIsRunning={setIsRunning}
               />
               <TimerTunerSlider
                 theme={theme}
@@ -111,7 +101,7 @@ export default function Timer() {
               <TimerPlayButton
                 theme={theme}
                 isRunning={isRunning}
-                setIsRunning={setIsRunning}
+                handlePauseTimer={handlePauseTimer}
               />
             </TimerContent>
           </ContentLayoutWithBack>

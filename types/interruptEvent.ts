@@ -1,5 +1,5 @@
 export type DisturbanceCountEvent = {
-  startTs: number;
+  timestamp: number;
 };
 
 export type PauseEvent = {

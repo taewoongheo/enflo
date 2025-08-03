@@ -10,11 +10,13 @@ function TimerSuggestion({
   theme,
   time,
   isRunning,
+  setIsRunning,
   t,
 }: {
   theme: Theme;
   time: number;
   isRunning: boolean;
+  setIsRunning: (isRunning: boolean) => void;
   t: TFunction;
 }) {
   const [leftTime, setLeftTime] = useState(time);
@@ -49,6 +51,7 @@ function TimerSuggestion({
         clearInterval(intervalRef.current!);
         intervalRef.current = null;
         setLeftTime(0);
+        setIsRunning(false);
         return;
       }
 
