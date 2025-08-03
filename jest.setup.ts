@@ -1,6 +1,25 @@
-import { jest } from '@jest/globals';
+import { beforeAll, jest } from '@jest/globals';
 import React from 'react';
 import 'react-native-gesture-handler/jestSetup';
+
+beforeAll(() => {
+  jest.spyOn(console, 'warn').mockImplementation(() => {});
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+// Mock the useSession hook
+jest.mock('@/components/TimerPage/hooks/useSession', () => ({
+  __esModule: true,
+  default: jest.fn((sessionId: string) => ({
+    session: {
+      sessionId: sessionId || 'test-session-id',
+      title: 'Test Session',
+      duration: 300000, // 5 minutes
+      createdAt: new Date().toISOString(),
+    },
+    isLoading: false,
+  })),
+}));
 
 // Mock expo-router
 jest.mock('expo-router', () => ({
@@ -9,8 +28,9 @@ jest.mock('expo-router', () => ({
     replace: jest.fn(),
     back: jest.fn(),
     canGoBack: jest.fn(() => true),
+    isReady: true,
   }),
-  useLocalSearchParams: () => ({}),
+  useLocalSearchParams: () => ({ sessionId: 'test-session-id' }),
   useSegments: () => [],
   useRootNavigationState: () => ({ key: 'test' }),
   useNavigation: () => ({

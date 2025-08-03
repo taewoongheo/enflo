@@ -18,7 +18,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
 
-export default function Timer() {
+export default function Timer({
+  screenUnlockCountTestRef,
+}: {
+  screenUnlockCountTestRef?: React.RefObject<DisturbanceCountEvent[] | null>;
+}) {
   const { theme } = useTheme();
   const { sessionId } = useLocalSearchParams();
   const router = useRouter();
@@ -44,7 +48,16 @@ export default function Timer() {
           return;
         }
 
-        if (nextAppState === 'active') {
+        if (nextAppState === 'background') {
+          // test code
+          if (screenUnlockCountTestRef?.current) {
+            screenUnlockCountTestRef.current.push({
+              timestamp: Date.now(),
+            });
+            return;
+          }
+
+          // production code
           screenUnlockCount.current.push({
             timestamp: Date.now(),
           });
