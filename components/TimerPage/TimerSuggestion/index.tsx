@@ -17,7 +17,7 @@ function TimerSuggestion({
   isRunning: boolean;
   t: TFunction;
 }) {
-  const [timeLeft, setTimeLeft] = useState(time);
+  const [leftTime, setLeftTime] = useState(time);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const endTimeRef = useRef<number | null>(null);
@@ -29,7 +29,7 @@ function TimerSuggestion({
       intervalRef.current = null;
     }
 
-    setTimeLeft(time);
+    setLeftTime(time);
   }, [time]);
 
   useEffect(() => {
@@ -37,26 +37,24 @@ function TimerSuggestion({
       return;
     }
 
-    // TODO: pause time 에 대해 다르게 계산해야됨
-    endTimeRef.current = Date.now() + timeLeft;
-    prevSecRef.current = Math.floor(timeLeft / 1000);
+    endTimeRef.current = Date.now() + leftTime;
+    prevSecRef.current = Math.floor(leftTime / 1000);
 
     const tick = () => {
-      console.log('tick');
-
       const diff = endTimeRef.current! - Date.now();
       const nextSec = Math.floor(diff / 1000);
 
-      if (nextSec <= 0) {
+      const safeEndMs = Math.max(0, endTimeRef.current! - Date.now());
+      if (safeEndMs === 0) {
         clearInterval(intervalRef.current!);
         intervalRef.current = null;
-        setTimeLeft(0);
+        setLeftTime(0);
         return;
       }
 
       if (nextSec !== prevSecRef.current) {
         prevSecRef.current = nextSec;
-        setTimeLeft(nextSec * 1000);
+        setLeftTime(nextSec * 1000);
       }
     };
 
@@ -86,7 +84,7 @@ function TimerSuggestion({
             fontFamily: 'Pretendard-Semibold',
           }}
         >
-          {formatMsToMMSS(timeLeft)}
+          {formatMsToMMSS(leftTime)}
         </Text>
         {/* <Typography
           variant="body1Regular"
