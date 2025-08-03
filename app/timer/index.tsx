@@ -44,7 +44,7 @@ export default function Timer() {
           return;
         }
 
-        if (nextAppState === 'active') {
+        if (nextAppState === 'background') {
           screenUnlockCount.current.push({
             timestamp: Date.now(),
           });
