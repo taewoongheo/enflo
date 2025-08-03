@@ -81,6 +81,7 @@ function TimerSuggestion({
         }}
       >
         <Text
+          testID="timer"
           style={{
             fontSize: scale(70),
             color: theme.colors.pages.timer.slider.text.primary,

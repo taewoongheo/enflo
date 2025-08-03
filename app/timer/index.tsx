@@ -59,7 +59,7 @@ export default function Timer() {
 
   const handlePauseTimer = () => {
     setIsRunning(!isRunning);
-    console.log('screenUnlockCount: ', screenUnlockCount.current);
+    // console.log('screenUnlockCount: ', screenUnlockCount.current);
   };
 
   if (!isLoading && !session) {

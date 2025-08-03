@@ -13,6 +13,7 @@ function TimerPlayButton({
 }) {
   return (
     <Pressable
+      testID="timer-play-pause-button"
       style={{
         width: '100%',
         flexDirection: 'row',
