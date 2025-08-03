@@ -8,7 +8,11 @@
     "ios": "expo run:ios",
     "ios:sim": "expo run:ios -d F4E384D4-0D71-46CA-98C6-2532CB407A61",
     "web": "expo start --web",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "test": "jest --watchAll"
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
