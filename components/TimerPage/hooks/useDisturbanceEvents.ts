@@ -4,11 +4,11 @@ import { AppState } from 'react-native';
 
 function useDisturbanceEvents(isRunning: boolean) {
   const screenUnlockCount = useRef<DisturbanceCountEvent[]>([]);
-  // const shakeEvents = useRef<DisturbanceCountEvent[]>([]);
   // const scrollInteractionCount = useRef<DisturbanceCountEvent[]>([]);
   // const pauseEvents = useRef<PauseEvent[]>([]);
 
   useEffect(() => {
+    // screen unlock count
     const appStateSubscription = AppState.addEventListener(
       'change',
       (nextAppState) => {
