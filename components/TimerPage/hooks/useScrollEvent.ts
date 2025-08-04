@@ -1,7 +1,7 @@
 import { ScrollInteractionEvent } from '@/types/interruptEvent';
 import { useCallback, useEffect, useRef } from 'react';
 
-const SCROLL_DEBOUNCE_TIME = 5000;
+const SCROLL_DEBOUNCE_TIME = 3000;
 
 function useScrollEvent(isRunning: boolean) {
   const scrollInteractionCount = useRef<ScrollInteractionEvent[]>([]);
