@@ -2,7 +2,7 @@ import { AppStateEvent } from '@/types/interruptEvent';
 import { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 
-function useBackgroundEvents(isRunning: boolean) {
+function useBackgroundEvent(isRunning: boolean) {
   const screenBackgroundCount = useRef<AppStateEvent[]>([]);
 
   useEffect(() => {
@@ -33,4 +33,4 @@ function useBackgroundEvents(isRunning: boolean) {
   };
 }
 
-export default useBackgroundEvents;
+export default useBackgroundEvent;

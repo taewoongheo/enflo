@@ -6,13 +6,13 @@ import {
   TimerSuggestion,
   TimerTunerSlider,
 } from '@/components/TimerPage';
-import useBackgroundEvents from '@/components/TimerPage/hooks/useBackgroundEvents';
+import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent';
+import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
 import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens, Theme } from '@/styles';
-import { ScrollInteractionEvent } from '@/types/interruptEvent';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -31,19 +31,8 @@ export default function Timer() {
   const { session, isLoading } = useSession(sessionId as string);
 
   // timer session disturbance data
-  const { screenBackgroundCount } = useBackgroundEvents(isRunning);
-  const scrollInteractionCount = useRef<ScrollInteractionEvent[]>([]);
-  const scrollDebounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
-
-  useEffect(() => {
-    return () => {
-      if (scrollDebounceTimeoutRef.current) {
-        clearTimeout(scrollDebounceTimeoutRef.current);
-      }
-    };
-  }, []);
+  const { screenBackgroundCount } = useBackgroundEvent(isRunning);
+  const { scrollInteractionCount, handleScroll } = useScrollEvent(isRunning);
 
   const handlePauseTimer = () => {
     setIsRunning(!isRunning);
@@ -67,21 +56,7 @@ export default function Timer() {
         style={{
           flex: 1,
         }}
-        onScroll={() => {
-          if (!isRunning) {
-            return;
-          }
-
-          if (scrollDebounceTimeoutRef.current) {
-            clearTimeout(scrollDebounceTimeoutRef.current);
-          }
-
-          scrollDebounceTimeoutRef.current = setTimeout(() => {
-            scrollInteractionCount.current.push({
-              timestamp: Date.now(),
-            });
-          }, 1000);
-        }}
+        onScroll={handleScroll}
       >
         <TimerContainer theme={theme}>
           <ContentLayoutWithBack
