@@ -41,12 +41,6 @@ function generateMockTimerSession(
   timerSession.endTs = endTs;
   timerSession.targetDurationMs = targetDurationMs;
 
-  for (let i = 0; i < interrupts.shakes; i++) {
-    timerSession.shakeEvents.push({
-      startTs: startTs + Math.random() * targetDurationMs,
-    } as any);
-  }
-
   for (let i = 0; i < interrupts.screenUnlocks; i++) {
     timerSession.screenUnlockCount.push({
       startTs: startTs + Math.random() * targetDurationMs,

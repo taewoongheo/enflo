@@ -2,10 +2,8 @@ import { AppStateEvent } from '@/types/interruptEvent';
 import { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 
-function useDisturbanceEvents(isRunning: boolean) {
-  const screenUnlockCount = useRef<AppStateEvent[]>([]);
-  // const scrollInteractionCount = useRef<DisturbanceCountEvent[]>([]);
-  // const pauseEvents = useRef<PauseEvent[]>([]);
+function useBackgroundEvents(isRunning: boolean) {
+  const screenBackgroundCount = useRef<AppStateEvent[]>([]);
 
   useEffect(() => {
     // screen unlock count
@@ -17,7 +15,7 @@ function useDisturbanceEvents(isRunning: boolean) {
         }
 
         if (nextAppState === 'background' || nextAppState === 'active') {
-          screenUnlockCount.current.push({
+          screenBackgroundCount.current.push({
             timestamp: Date.now(),
             appState: nextAppState,
           });
@@ -31,8 +29,8 @@ function useDisturbanceEvents(isRunning: boolean) {
   }, [isRunning]);
 
   return {
-    screenUnlockCount,
+    screenBackgroundCount,
   };
 }
 
-export default useDisturbanceEvents;
+export default useBackgroundEvents;

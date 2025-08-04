@@ -6,12 +6,13 @@ import {
   TimerSuggestion,
   TimerTunerSlider,
 } from '@/components/TimerPage';
-import useDisturbanceEvents from '@/components/TimerPage/hooks/useDisturbanceEvents';
+import useBackgroundEvents from '@/components/TimerPage/hooks/useBackgroundEvents';
 import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens, Theme } from '@/styles';
+import { ScrollInteractionEvent } from '@/types/interruptEvent';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -30,11 +31,24 @@ export default function Timer() {
   const { session, isLoading } = useSession(sessionId as string);
 
   // timer session disturbance data
-  const { screenUnlockCount } = useDisturbanceEvents(isRunning);
+  const { screenBackgroundCount } = useBackgroundEvents(isRunning);
+  const scrollInteractionCount = useRef<ScrollInteractionEvent[]>([]);
+  const scrollDebounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+
+  useEffect(() => {
+    return () => {
+      if (scrollDebounceTimeoutRef.current) {
+        clearTimeout(scrollDebounceTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handlePauseTimer = () => {
     setIsRunning(!isRunning);
-    console.log('screenUnlockCount: ', screenUnlockCount.current);
+    console.log('screenBackgroundCount: ', screenBackgroundCount.current);
+    console.log('scrollInteractionCount: ', scrollInteractionCount.current);
   };
 
   if (!isLoading && !session) {
@@ -54,7 +68,19 @@ export default function Timer() {
           flex: 1,
         }}
         onScroll={() => {
-          console.log('scroll');
+          if (!isRunning) {
+            return;
+          }
+
+          if (scrollDebounceTimeoutRef.current) {
+            clearTimeout(scrollDebounceTimeoutRef.current);
+          }
+
+          scrollDebounceTimeoutRef.current = setTimeout(() => {
+            scrollInteractionCount.current.push({
+              timestamp: Date.now(),
+            });
+          }, 1000);
         }}
       >
         <TimerContainer theme={theme}>
