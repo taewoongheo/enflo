@@ -6,14 +6,14 @@ import {
   TimerSuggestion,
   TimerTunerSlider,
 } from '@/components/TimerPage';
+import useDisturbanceEvents from '@/components/TimerPage/hooks/useDisturbanceEvents';
 import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens, Theme } from '@/styles';
-import { DisturbanceCountEvent } from '@/types/interruptEvent';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppState, View } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
@@ -30,32 +30,7 @@ export default function Timer() {
   const { session, isLoading } = useSession(sessionId as string);
 
   // timer session disturbance data
-  const screenUnlockCount = useRef<DisturbanceCountEvent[]>([]);
-  // const shakeEvents = useRef<DisturbanceCountEvent[]>([]);
-  // const scrollInteractionCount = useRef<DisturbanceCountEvent[]>([]);
-  // const pauseEvents = useRef<PauseEvent[]>([]);
-
-  // app state change event handler
-  useEffect(() => {
-    const appStateSubscription = AppState.addEventListener(
-      'change',
-      (nextAppState) => {
-        if (!isRunning) {
-          return;
-        }
-
-        if (nextAppState === 'background') {
-          screenUnlockCount.current.push({
-            timestamp: Date.now(),
-          });
-        }
-      },
-    );
-
-    return () => {
-      appStateSubscription.remove();
-    };
-  }, [isRunning]);
+  const { screenUnlockCount } = useDisturbanceEvents(isRunning);
 
   const handlePauseTimer = () => {
     setIsRunning(!isRunning);
