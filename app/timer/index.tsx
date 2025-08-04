@@ -53,6 +53,9 @@ export default function Timer() {
         style={{
           flex: 1,
         }}
+        onScroll={() => {
+          console.log('scroll');
+        }}
       >
         <TimerContainer theme={theme}>
           <ContentLayoutWithBack

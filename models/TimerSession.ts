@@ -1,4 +1,8 @@
-import { DisturbanceCountEvent, PauseEvent } from '@/types/interruptEvent';
+import {
+  AppStateEvent,
+  PauseEvent,
+  ScrollInteractionEvent,
+} from '@/types/interruptEvent';
 import uuid from 'react-native-uuid';
 
 class TimerSession {
@@ -7,9 +11,8 @@ class TimerSession {
   startTs: number; // Date.now()
   endTs: number | null; // Date.now()
   targetDurationMs: number | null; // ms
-  shakeEvents: DisturbanceCountEvent[]; // Date.now()
-  screenUnlockCount: DisturbanceCountEvent[]; // Date.now()
-  scrollInteractionCount: DisturbanceCountEvent[]; // Date.now()
+  screenUnlockCount: AppStateEvent[]; // Date.now()
+  scrollInteractionCount: ScrollInteractionEvent[]; // Date.now()
   pauseEvents: PauseEvent[]; // Date.now(), duration = ms
   entropyScore: number | null; // 5 ~ 20
 
@@ -21,7 +24,6 @@ class TimerSession {
     this.startTs = new Date().getTime();
     this.endTs = null;
     this.targetDurationMs = null;
-    this.shakeEvents = [];
     this.screenUnlockCount = [];
     this.scrollInteractionCount = [];
     this.pauseEvents = [];
