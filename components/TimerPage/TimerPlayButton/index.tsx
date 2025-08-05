@@ -23,9 +23,7 @@ function TimerPlayButton({
         padding: baseTokens.spacing[2],
         paddingVertical: baseTokens.spacing[3],
       }}
-      onPress={() => {
-        handlePauseTimer();
-      }}
+      onPress={handlePauseTimer}
     >
       <Fontisto
         name={isRunning ? 'pause' : 'play'}

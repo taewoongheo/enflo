@@ -12,9 +12,10 @@ import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import { baseTokens, Theme } from '@/styles';
+import { PauseEvent } from '@/types/interruptEvent';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { TFunction } from 'i18next';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -61,10 +62,53 @@ function TimerContent({
   const { screenBackgroundCount } = useBackgroundEvent(isRunning);
   const { scrollInteractionCount, handleScroll } = useScrollEvent(isRunning);
 
+  const pauseEvent = useRef<PauseEvent[]>([]);
+  const pauseStartTime = useRef<number | null>(null);
+
+  const timerStartedOnce = useRef<boolean>(false);
+
+  useEffect(() => {
+    timerStartedOnce.current = false;
+    pauseEvent.current = [];
+    pauseStartTime.current = null;
+
+    screenBackgroundCount.current = [];
+    scrollInteractionCount.current = [];
+
+    console.log('changedTime - timerStartedOnce: ', timerStartedOnce.current);
+    console.log('changedTime - pauseEvent: ', pauseEvent.current);
+    console.log('changedTime - pauseStartTime: ', pauseStartTime.current);
+  }, [time]);
+
+  // puase event
+  useEffect(() => {
+    if (!timerStartedOnce.current) {
+      return;
+    }
+
+    if (isRunning) {
+      if (!pauseStartTime.current) {
+        return;
+      }
+
+      const now = Date.now();
+      pauseEvent.current.push({
+        startTs: pauseStartTime.current,
+        endTs: now,
+        durationMs: now - pauseStartTime.current,
+      });
+
+      pauseStartTime.current = null;
+
+      return;
+    }
+
+    pauseStartTime.current = Date.now();
+  }, [isRunning]);
+
   const handlePauseTimer = () => {
+    timerStartedOnce.current = true;
     setIsRunning(!isRunning);
-    console.log('screenBackgroundCount: ', screenBackgroundCount.current);
-    console.log('scrollInteractionCount: ', scrollInteractionCount.current);
   };
 
   return (
