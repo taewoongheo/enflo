@@ -1,5 +1,5 @@
 import { AppStateEvent } from '@/types/interruptEvent';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 
 function useBackgroundEvent(isRunning: boolean) {
@@ -28,8 +28,13 @@ function useBackgroundEvent(isRunning: boolean) {
     };
   }, [isRunning]);
 
+  const resetBackgroundEvent = useCallback(() => {
+    screenBackgroundCount.current = [];
+  }, []);
+
   return {
     screenBackgroundCount,
+    resetBackgroundEvent,
   };
 }
 

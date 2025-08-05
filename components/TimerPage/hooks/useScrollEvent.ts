@@ -42,9 +42,14 @@ function useScrollEvent(isRunning: boolean) {
     }, SCROLL_DEBOUNCE_TIME);
   }, [isRunning]);
 
+  const resetScrollEvent = useCallback(() => {
+    scrollInteractionCount.current = [];
+  }, []);
+
   return {
     scrollInteractionCount,
     handleScroll,
+    resetScrollEvent,
   };
 }
 

@@ -59,17 +59,17 @@ function TimerContent({
   const [isRunning, setIsRunning] = useState(false);
 
   // timer session disturbance data
-  const { screenBackgroundCount } = useBackgroundEvent(isRunning);
-  const { scrollInteractionCount, handleScroll } = useScrollEvent(isRunning);
-  const { pauseEvent, pauseStartTime, timerStartedOnce } =
+  const { screenBackgroundCount, resetBackgroundEvent } =
+    useBackgroundEvent(isRunning);
+  const { scrollInteractionCount, handleScroll, resetScrollEvent } =
+    useScrollEvent(isRunning);
+  const { pauseEvent, pauseStartTime, timerStartedOnce, resetPauseEvent } =
     usePauseEvent(isRunning);
 
   useEffect(() => {
-    timerStartedOnce.current = false;
-    pauseEvent.current = [];
-    pauseStartTime.current = null;
-    screenBackgroundCount.current = [];
-    scrollInteractionCount.current = [];
+    resetBackgroundEvent();
+    resetScrollEvent();
+    resetPauseEvent();
   }, [time]);
 
   const handlePauseTimer = () => {

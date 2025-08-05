@@ -1,5 +1,5 @@
 import { PauseEvent } from '@/types/interruptEvent';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export default function usePauseEvent(isRunning: boolean) {
   const pauseEvent = useRef<PauseEvent[]>([]);
@@ -33,5 +33,11 @@ export default function usePauseEvent(isRunning: boolean) {
     pauseStartTime.current = Date.now();
   }, [isRunning]);
 
-  return { pauseEvent, pauseStartTime, timerStartedOnce };
+  const resetPauseEvent = useCallback(() => {
+    timerStartedOnce.current = false;
+    pauseEvent.current = [];
+    pauseStartTime.current = null;
+  }, []);
+
+  return { pauseEvent, pauseStartTime, timerStartedOnce, resetPauseEvent };
 }
