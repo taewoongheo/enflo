@@ -12,12 +12,13 @@ import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
 import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
+import TimerSession from '@/models/TimerSession';
 import { baseTokens, Theme } from '@/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { TFunction } from 'i18next';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
@@ -30,7 +31,15 @@ export default function Timer() {
 
   const { session, isLoading } = useSession(sessionId as string);
 
-  if (!isLoading && !session) {
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1 }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (!session) {
     router.back();
     return null;
   }
@@ -41,7 +50,7 @@ export default function Timer() {
       style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
     >
       <ScrollColorBackground theme={theme} />
-      <TimerContent theme={theme} session={session!} t={t} />
+      <TimerContent theme={theme} session={session} t={t} />
     </SafeAreaView>
   );
 }
@@ -58,22 +67,52 @@ function TimerContent({
   const [time, setTime] = useState(5 * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
 
+  const timerSession = useRef<TimerSession | null>(null);
+
   // timer session disturbance data
   const { screenBackgroundCount, resetBackgroundEvent } =
     useBackgroundEvent(isRunning);
   const { scrollInteractionCount, handleScroll, resetScrollEvent } =
     useScrollEvent(isRunning);
-  const { pauseEvent, pauseStartTime, timerStartedOnce, resetPauseEvent } =
-    usePauseEvent(isRunning);
+  const { pauseEvent, resetPauseEvent } = usePauseEvent(
+    isRunning,
+    timerSession.current?.startTs ?? null,
+  );
 
   useEffect(() => {
+    handleTimerEnd();
+
     resetBackgroundEvent();
     resetScrollEvent();
     resetPauseEvent();
   }, [time]);
 
-  const handlePauseTimer = () => {
-    timerStartedOnce.current = true;
+  const handleTimerEnd = () => {
+    if (timerSession.current) {
+      timerSession.current.timerEnd({
+        screenBackgroundCount: screenBackgroundCount.current,
+        scrollInteractionCount: scrollInteractionCount.current,
+        pauseEvents: pauseEvent.current,
+      });
+    }
+
+    timerSession.current = new TimerSession({
+      sessionId: session.sessionId,
+      targetDurationMs: time,
+      // TODO: sessionSequenceInDay
+    });
+  };
+
+  const handleStartPauseToggle = () => {
+    if (!timerSession.current) {
+      console.error('no timer session');
+      return;
+    }
+
+    if (!timerSession.current.startTs) {
+      timerSession.current.startTs = Date.now();
+    }
+
     setIsRunning(!isRunning);
   };
 
@@ -104,6 +143,7 @@ function TimerContent({
               t={t}
               isRunning={isRunning}
               setIsRunning={setIsRunning}
+              handleTimerEnd={handleTimerEnd}
             />
             <TimerTunerSlider
               theme={theme}
@@ -113,7 +153,7 @@ function TimerContent({
             <TimerPlayButton
               theme={theme}
               isRunning={isRunning}
-              handlePauseTimer={handlePauseTimer}
+              handleStartPauseToggle={handleStartPauseToggle}
             />
           </View>
         </ContentLayoutWithBack>

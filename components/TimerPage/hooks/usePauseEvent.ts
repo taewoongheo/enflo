@@ -1,15 +1,16 @@
 import { PauseEvent } from '@/types/interruptEvent';
 import { useCallback, useEffect, useRef } from 'react';
 
-export default function usePauseEvent(isRunning: boolean) {
+export default function usePauseEvent(
+  isRunning: boolean,
+  timerStartTimestamp: number | null,
+) {
   const pauseEvent = useRef<PauseEvent[]>([]);
   const pauseStartTime = useRef<number | null>(null);
 
-  const timerStartedOnce = useRef<boolean>(false);
-
   // puase event
   useEffect(() => {
-    if (!timerStartedOnce.current) {
+    if (!timerStartTimestamp) {
       return;
     }
 
@@ -34,10 +35,9 @@ export default function usePauseEvent(isRunning: boolean) {
   }, [isRunning]);
 
   const resetPauseEvent = useCallback(() => {
-    timerStartedOnce.current = false;
     pauseEvent.current = [];
     pauseStartTime.current = null;
   }, []);
 
-  return { pauseEvent, pauseStartTime, timerStartedOnce, resetPauseEvent };
+  return { pauseEvent, timerStartTimestamp, resetPauseEvent };
 }
