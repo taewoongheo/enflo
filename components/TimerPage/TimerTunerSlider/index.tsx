@@ -114,6 +114,7 @@ function TimerTunerSlider({
             paddingHorizontal: scrollHalfWidth - ELEM_WIDTH / 2,
             alignItems: 'center',
           }}
+          testID="timer-tuner-slider"
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
               <Typography

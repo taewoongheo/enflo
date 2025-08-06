@@ -10,8 +10,8 @@ const DISTURBANCE_TIME_PENALTY_PER_MINUTE = -0.4;
 const SEQUENCE_SCORE_WEIGHT = 0.2;
 // const OVERSHOOT_SCORE_WEIGHT = 0.2;
 const SUCCESS_BONUS = 0.2;
-const MIN_ENTROPY_SCORE = 5;
-const MAX_ENTROPY_SCORE = 20;
+// const MIN_ENTROPY_SCORE = 5;
+// const MAX_ENTROPY_SCORE = 20;
 const MAX_SEQUENCE_BONUS = 5;
 // const MAX_OVERSHOOT_BONUS = 5;
 
@@ -24,20 +24,20 @@ export function calculateEntropyScore(session: TimerSession): number | null {
   //   const overshootMs = session.overshootMs;
   const isSuccess = session.isSuccess;
 
-  console.log('========================================');
-  console.log('netFocusMs: ', netFocusMs);
-  console.log('screenUnlockEvents: ', screenUnlockEvents);
-  console.log('scrollEvents: ', scrollEvents);
-  console.log('totalDisturbanceMs: ', totalDisturbanceMs);
-  console.log('sessionSequenceInDay: ', sessionSequenceInDay);
-  console.log('isSuccess: ', isSuccess);
-  console.log('pauseEvents: ', session.pauseEvents);
-  console.log('targetDurationMs: ', session.targetDurationMs);
-  console.log('startTs: ', session.startTs);
-  console.log('endTs: ', session.endTs);
-  console.log('========================================');
+  // console.log('========================================');
+  // console.log('netFocusMs: ', netFocusMs);
+  // console.log('screenUnlockEvents: ', screenUnlockEvents);
+  // console.log('scrollEvents: ', scrollEvents);
+  // console.log('totalDisturbanceMs: ', totalDisturbanceMs);
+  // console.log('sessionSequenceInDay: ', sessionSequenceInDay);
+  // console.log('isSuccess: ', isSuccess);
+  // console.log('pauseEvents: ', session.pauseEvents);
+  // console.log('targetDurationMs: ', session.targetDurationMs);
+  // console.log('startTs: ', session.startTs);
+  // console.log('endTs: ', session.endTs);
+  // console.log('========================================');
 
-  if (netFocusMs <= 1 * 60 * 1000) {
+  if (netFocusMs <= 5 * 60 * 1000) {
     return null;
   }
 
