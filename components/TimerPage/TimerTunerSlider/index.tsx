@@ -127,7 +127,7 @@ function TimerTunerSlider({
               <View style={styles.cellsContainer}>
                 {Array.from({ length: 5 }, (_, index) => (
                   <View
-                    key={new Date().getTime() + index}
+                    key={`${item}-${index}`}
                     style={[
                       styles.cell,
                       {

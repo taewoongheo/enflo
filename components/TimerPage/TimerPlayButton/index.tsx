@@ -5,11 +5,11 @@ import { Pressable } from 'react-native-gesture-handler';
 function TimerPlayButton({
   theme,
   isRunning,
-  handlePauseTimer,
+  handleStartPauseToggle,
 }: {
   theme: Theme;
   isRunning: boolean;
-  handlePauseTimer: () => void;
+  handleStartPauseToggle: () => void;
 }) {
   return (
     <Pressable
@@ -24,9 +24,7 @@ function TimerPlayButton({
         padding: baseTokens.spacing[2],
         paddingVertical: baseTokens.spacing[3],
       }}
-      onPress={() => {
-        handlePauseTimer();
-      }}
+      onPress={handleStartPauseToggle}
     >
       <Fontisto
         name={isRunning ? 'pause' : 'play'}

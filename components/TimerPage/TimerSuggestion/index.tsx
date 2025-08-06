@@ -12,12 +12,14 @@ function TimerSuggestion({
   isRunning,
   setIsRunning,
   t,
+  handleTimerEnd,
 }: {
   theme: Theme;
   time: number;
   isRunning: boolean;
   setIsRunning: (isRunning: boolean) => void;
   t: TFunction;
+  handleTimerEnd: () => void;
 }) {
   const [leftTime, setLeftTime] = useState(time);
 
@@ -48,6 +50,9 @@ function TimerSuggestion({
 
       const safeEndMs = Math.max(0, endTimeRef.current! - Date.now());
       if (safeEndMs === 0) {
+        handleTimerEnd();
+        // TODO: add overshoot time logic
+
         clearInterval(intervalRef.current!);
         intervalRef.current = null;
         setLeftTime(0);

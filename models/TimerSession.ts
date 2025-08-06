@@ -1,50 +1,63 @@
-import { DisturbanceCountEvent, PauseEvent } from '@/types/interruptEvent';
+import { calculateEntropyScore } from '@/components/TimerPage/utils/calculateEntropyScore';
+import {
+  AppStateEvent,
+  PauseEvent,
+  ScrollInteractionEvent,
+} from '@/types/interruptEvent';
 import uuid from 'react-native-uuid';
 
 class TimerSession {
+  sessionId: string;
   timerSessionId: string;
-  session: string;
-  startTs: number; // Date.now()
+  startTs: number | null; // Date.now()
   endTs: number | null; // Date.now()
-  targetDurationMs: number | null; // ms
-  shakeEvents: DisturbanceCountEvent[]; // Date.now()
-  screenUnlockCount: DisturbanceCountEvent[]; // Date.now()
-  scrollInteractionCount: DisturbanceCountEvent[]; // Date.now()
+  targetDurationMs: number; // ms
+  screenUnlockCount: AppStateEvent[]; // Date.now()
+  scrollInteractionCount: ScrollInteractionEvent[]; // Date.now()
   pauseEvents: PauseEvent[]; // Date.now(), duration = ms
   entropyScore: number | null; // 5 ~ 20
 
   static SUCCESS_MARGIN_MS = 600000; // 10 minutes
 
-  constructor(params: { session: string }) {
+  constructor(params: { sessionId: string; targetDurationMs: number }) {
+    this.sessionId = params.sessionId;
     this.timerSessionId = uuid.v4();
-    this.session = params.session;
-    this.startTs = new Date().getTime();
+    this.startTs = null;
     this.endTs = null;
-    this.targetDurationMs = null;
-    this.shakeEvents = [];
+    this.targetDurationMs = params.targetDurationMs;
     this.screenUnlockCount = [];
     this.scrollInteractionCount = [];
     this.pauseEvents = [];
     this.entropyScore = null;
   }
 
-  calculateEntropyScore(): number {
-    // logic...
-    return 0;
+  timerEnd({
+    screenBackgroundCount,
+    scrollInteractionCount,
+    pauseEvents,
+  }: {
+    screenBackgroundCount: AppStateEvent[];
+    scrollInteractionCount: ScrollInteractionEvent[];
+    pauseEvents: PauseEvent[];
+  }) {
+    this.endTs = Date.now();
+    this.screenUnlockCount = screenBackgroundCount;
+    this.scrollInteractionCount = scrollInteractionCount;
+    this.pauseEvents = pauseEvents;
+    this.entropyScore = calculateEntropyScore(this);
+    console.log('========================================');
+    console.log('entropyScore: ', this.entropyScore);
+    console.log('========================================');
   }
 
   get isSuccess(): boolean {
-    if (this.targetDurationMs === null) {
-      return false;
-    }
-
     return (
       this.netFocusMs >= this.targetDurationMs - TimerSession.SUCCESS_MARGIN_MS
     );
   }
 
   get netFocusMs(): number {
-    if (this.endTs === null) {
+    if (this.endTs === null || this.startTs === null) {
       return 0;
     }
 
@@ -64,13 +77,13 @@ class TimerSession {
     return this.pauseEvents.length;
   }
 
-  get overshootMs(): number {
-    if (this.targetDurationMs === null) {
-      return 0;
-    }
+  // get overshootMs(): number {
+  //   if (this.targetDurationMs === null) {
+  //     return 0;
+  //   }
 
-    return this.netFocusMs - this.targetDurationMs;
-  }
+  //   return this.netFocusMs - this.targetDurationMs;
+  // }
 
   get sessionSequenceInDay(): number {
     // logic...
