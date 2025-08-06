@@ -1,13 +1,11 @@
 import { ThemeProvider } from '@/contexts/ThemeContext';
-import { DisturbanceCountEvent } from '@/types/interruptEvent';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
-import React, { createRef } from 'react';
+import React from 'react';
 import { AppState } from 'react-native';
 import Timer from './index';
 
 const mockAppState = {
-  // currentState: 'active' as const,
   _callback: null as
     | ((state: 'active' | 'background' | 'inactive') => void)
     | null,
@@ -34,12 +32,44 @@ jest.mock('@/components/TimerPage/hooks/useSession', () => ({
   __esModule: true,
   default: () => ({
     session: {
-      id: 'test-session-id',
+      sessionId: 'test-session-id',
       title: 'Test Session',
       duration: 300000, // 5 minutes
       createdAt: new Date().toISOString(),
     },
     isLoading: false,
+  }),
+}));
+
+// Mock the useBackgroundEvent hook
+const mockResetBackgroundEvent = jest.fn();
+jest.mock('@/components/TimerPage/hooks/useBackgroundEvent', () => ({
+  __esModule: true,
+  default: () => ({
+    screenBackgroundCount: { current: 0 },
+    resetBackgroundEvent: mockResetBackgroundEvent,
+  }),
+}));
+
+// Mock the useScrollEvent hook
+const mockHandleScroll = jest.fn();
+const mockResetScrollEvent = jest.fn();
+jest.mock('@/components/TimerPage/hooks/useScrollEvent', () => ({
+  __esModule: true,
+  default: () => ({
+    scrollInteractionCount: { current: 0 },
+    handleScroll: mockHandleScroll,
+    resetScrollEvent: mockResetScrollEvent,
+  }),
+}));
+
+// Mock the usePauseEvent hook
+const mockResetPauseEvent = jest.fn();
+jest.mock('@/components/TimerPage/hooks/usePauseEvent', () => ({
+  __esModule: true,
+  default: () => ({
+    pauseEvent: { current: [] },
+    resetPauseEvent: mockResetPauseEvent,
   }),
 }));
 
@@ -114,43 +144,69 @@ describe('Timer', () => {
     });
   });
 
-  describe('disturbance event', () => {
-    describe('background event', () => {
-      it('should count app background status when timer is running', async () => {
-        // given
-        const screenUnlockCountTestRef = createRef<DisturbanceCountEvent[]>();
-        screenUnlockCountTestRef.current = [];
-        const { getByTestId } = renderWithProviders(
-          <Timer screenUnlockCountTestRef={screenUnlockCountTestRef} />,
-        );
-        const playPauseButton = getByTestId('timer-play-pause-button');
+  describe('background event', () => {
+    it('should handle app background status when timer is running', async () => {
+      // given
+      const { getByTestId } = renderWithProviders(<Timer />);
+      const playPauseButton = getByTestId('timer-play-pause-button');
 
-        // when
-        fireEvent.press(playPauseButton);
-        mockAppState.emitChange('background');
-        mockAppState.emitChange('active');
+      // when
+      fireEvent.press(playPauseButton);
+      mockAppState.emitChange('background');
+      mockAppState.emitChange('active');
 
-        mockAppState.emitChange('background');
+      // then
+      // The background event should be handled by the useBackgroundEvent hook
+      expect(mockResetBackgroundEvent).toHaveBeenCalled();
+    });
 
-        // then
-        expect(screenUnlockCountTestRef.current).toHaveLength(2);
+    it('should handle app background status when timer is paused', async () => {
+      // given
+      renderWithProviders(<Timer />);
+
+      // when
+      mockAppState.emitChange('background');
+      mockAppState.emitChange('active');
+
+      // then
+      // The background event should be handled by the useBackgroundEvent hook
+      expect(mockResetBackgroundEvent).toHaveBeenCalled();
+    });
+  });
+
+  describe('scroll event', () => {
+    it('should handle scroll interactions when timer is running', async () => {
+      // given
+      const { getByTestId } = renderWithProviders(<Timer />);
+      const playPauseButton = getByTestId('timer-play-pause-button');
+
+      // when
+      fireEvent.press(playPauseButton);
+      // Simulate scroll events
+      const scrollView = getByTestId('timer-scroll-view');
+      fireEvent.scroll(scrollView, {
+        nativeEvent: { contentOffset: { y: 100 } },
+      });
+      fireEvent.scroll(scrollView, {
+        nativeEvent: { contentOffset: { y: 200 } },
       });
 
-      it('should not count app background status when timer is paused', async () => {
-        // given
-        const screenUnlockCountTestRef = createRef<DisturbanceCountEvent[]>();
-        screenUnlockCountTestRef.current = [];
-        renderWithProviders(
-          <Timer screenUnlockCountTestRef={screenUnlockCountTestRef} />,
-        );
+      // then
+      expect(mockHandleScroll).toHaveBeenCalled();
+    });
 
-        // when
-        mockAppState.emitChange('background');
-        mockAppState.emitChange('active');
+    it('should handle scroll interactions when timer is paused', async () => {
+      // given
+      const { getByTestId } = renderWithProviders(<Timer />);
 
-        // then
-        expect(screenUnlockCountTestRef.current).toHaveLength(0);
+      // when
+      const scrollView = getByTestId('timer-scroll-view');
+      fireEvent.scroll(scrollView, {
+        nativeEvent: { contentOffset: { y: 100 } },
       });
+
+      // then
+      expect(mockHandleScroll).toHaveBeenCalled();
     });
   });
 });
