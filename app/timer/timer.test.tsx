@@ -252,78 +252,28 @@ describe('Timer EntropyScore', () => {
 });
 
 // 타이머가 변경될 떄마다 방해 이벤트가 초기화되는지
-// 타이머가 변경될 떄마다 타이머 세션이 생성되는지
-// 타이머가 변경될 때마다 이전에 있던 방해 이벤트들이 초기화되는지
-//  puase, app state, scroll 각각 테스트
-// entropy score 결과값 시뮬레이션
-//  여러 값들에 대해 상황별로 값 시뮬레이션(타이머 설정 시간 및 여러 방해 이벤트 설정)
-//  만약 순수 몰입 시간이 5분 이내면 null 반환
-
 describe('Timer Disturbance Reset', () => {
   it('resets disturbance event refs whenever timer time changes', async () => {
-    // Create mock refs with initial values
-    const mockScreenBackgroundCount = { current: [1, 2, 3] };
-    const mockScrollInteractionCount = { current: [4, 5, 6] };
-    const mockPauseEvent = { current: [7, 8, 9] };
-
-    // Reset functions that actually clear the refs
-    const resetBackgroundEvent = jest.fn(() => {
-      mockScreenBackgroundCount.current = [];
-    });
-    const resetScrollEvent = jest.fn(() => {
-      mockScrollInteractionCount.current = [];
-    });
-    const resetPauseEvent = jest.fn(() => {
-      mockPauseEvent.current = [];
-    });
-
-    // Override the hooks to use our mock refs and resetters
-    jest.doMock('@/components/TimerPage/hooks/useBackgroundEvent', () => ({
-      __esModule: true,
-      default: () => ({
-        screenBackgroundCount: mockScreenBackgroundCount,
-        resetBackgroundEvent,
-      }),
-    }));
-    jest.doMock('@/components/TimerPage/hooks/useScrollEvent', () => ({
-      __esModule: true,
-      default: () => ({
-        scrollInteractionCount: mockScrollInteractionCount,
-        handleScroll: jest.fn(),
-        resetScrollEvent,
-      }),
-    }));
-    jest.doMock('@/components/TimerPage/hooks/usePauseEvent', () => ({
-      __esModule: true,
-      default: () => ({
-        pauseEvent: mockPauseEvent,
-        resetPauseEvent,
-      }),
-    }));
-
-    // Re-require Timer after mocks
-    const TimerWithMocks = require('./index').default;
-    const { getByTestId } = renderWithProviders(<TimerWithMocks />);
+    const { getByTestId } = renderWithProviders(<Timer />);
     const slider = getByTestId('timer-tuner-slider');
 
-    // Before time change, refs have values
-    expect(mockScreenBackgroundCount.current.length).toBe(3);
-    expect(mockScrollInteractionCount.current.length).toBe(3);
-    expect(mockPauseEvent.current.length).toBe(3);
-
-    // Simulate timer time change
+    // given
+    // timer time changes
     act(() => {
       slider.props.onMomentumScrollEnd({
-        nativeEvent: { contentOffset: { x: 5 * (scale(5) + scale(4)) } },
+        nativeEvent: { contentOffset: { x: 5 * (scale(5) + scale(4)) } }, // simulate scroll to index 1 (10 minutes)
       });
     });
 
-    // After time change, refs should be reset (emptied)
-    expect(resetBackgroundEvent).toHaveBeenCalled();
-    expect(resetScrollEvent).toHaveBeenCalled();
-    expect(resetPauseEvent).toHaveBeenCalled();
-    expect(mockScreenBackgroundCount.current.length).toBe(0);
-    expect(mockScrollInteractionCount.current.length).toBe(0);
-    expect(mockPauseEvent.current.length).toBe(0);
+    // then
+    await waitFor(() => {
+      expect(mockResetBackgroundEvent).toHaveBeenCalled();
+      expect(mockResetScrollEvent).toHaveBeenCalled();
+      expect(mockResetPauseEvent).toHaveBeenCalled();
+    });
   });
 });
+
+// entropy score 결과값 시뮬레이션
+//  여러 값들에 대해 상황별로 값 시뮬레이션(타이머 설정 시간 및 여러 방해 이벤트 설정)
+//  만약 순수 몰입 시간이 5분 이내면 null 반환
