@@ -86,68 +86,9 @@ workSession.timerSessionsByTimeRange = {
   '00-03': [],
   '03-06': [],
   '06-09': [],
-  '09-12': [
-    generateMockTimerSession(
-      isKorean
-        ? '집중 업무 및 프로젝트 개발'
-        : 'Focused tasks and project development',
-      0,
-      60,
-      55,
-      {
-        shakes: 1,
-        screenUnlocks: 1,
-        scrollInteractions: 1,
-        pauses: 1,
-      },
-    ),
-    generateMockTimerSession(
-      isKorean
-        ? '집중 업무 및 프로젝트 개발'
-        : 'Focused tasks and project development',
-      1,
-      45,
-      40,
-      {
-        shakes: 0,
-        screenUnlocks: 1,
-        scrollInteractions: 0,
-        pauses: 2,
-      },
-    ),
-  ],
-  '12-15': [
-    generateMockTimerSession(
-      isKorean
-        ? '집중 업무 및 프로젝트 개발'
-        : 'Focused tasks and project development',
-      2,
-      90,
-      80,
-      {
-        shakes: 2,
-        screenUnlocks: 2,
-        scrollInteractions: 1,
-        pauses: 1,
-      },
-    ),
-  ],
-  '15-18': [
-    generateMockTimerSession(
-      isKorean
-        ? '집중 업무 및 프로젝트 개발'
-        : 'Focused tasks and project development',
-      3,
-      60,
-      50,
-      {
-        shakes: 1,
-        screenUnlocks: 2,
-        scrollInteractions: 2,
-        pauses: 3,
-      },
-    ),
-  ],
+  '09-12': [],
+  '12-15': [],
+  '15-18': [],
   '18-21': [],
   '21-24': [],
 };

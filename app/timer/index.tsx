@@ -70,6 +70,8 @@ function TimerContent({
 
   const timerSession = useRef<TimerSession | null>(null);
 
+  console.log(session);
+
   const { updateEntropyScore } = useEntropyStore();
 
   // timer session disturbance data
