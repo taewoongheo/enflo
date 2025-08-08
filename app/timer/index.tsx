@@ -99,7 +99,7 @@ function TimerContent({
       });
 
       if (entropyScore) {
-        updateEntropyScore(entropyScore);
+        updateEntropyScore(entropyScore!);
         session.addTimerSession(timerSession.current);
       }
     }

@@ -1,5 +1,6 @@
 import * as entropyModule from '@/components/TimerPage/utils/calculateEntropyScore';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import * as entropyStoreModule from '@/store/entropyStore';
 import { afterEach, describe, expect, it, jest, test } from '@jest/globals';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
@@ -38,6 +39,7 @@ jest.mock('@/components/TimerPage/hooks/useSession', () => ({
       title: 'Test Session',
       duration: 300000, // 5 minutes
       createdAt: new Date().toISOString(),
+      addTimerSession: jest.fn(), // addTimerSession 메서드 추가
     },
     isLoading: false,
   }),
@@ -48,7 +50,7 @@ const mockResetBackgroundEvent = jest.fn();
 jest.mock('@/components/TimerPage/hooks/useBackgroundEvent', () => ({
   __esModule: true,
   default: () => ({
-    screenBackgroundCount: { current: 0 },
+    screenBackgroundCount: { current: 1 }, // 실제 값으로 설정
     resetBackgroundEvent: mockResetBackgroundEvent,
   }),
 }));
@@ -59,7 +61,7 @@ const mockResetScrollEvent = jest.fn();
 jest.mock('@/components/TimerPage/hooks/useScrollEvent', () => ({
   __esModule: true,
   default: () => ({
-    scrollInteractionCount: { current: 0 },
+    scrollInteractionCount: { current: 2 }, // 실제 값으로 설정
     handleScroll: mockHandleScroll,
     resetScrollEvent: mockResetScrollEvent,
   }),
@@ -70,10 +72,21 @@ const mockResetPauseEvent = jest.fn();
 jest.mock('@/components/TimerPage/hooks/usePauseEvent', () => ({
   __esModule: true,
   default: () => ({
-    pauseEvent: { current: [] },
+    pauseEvent: { current: [{ startTs: 1000, endTs: 2000, durationMs: 1000 }] }, // 실제 값으로 설정
     resetPauseEvent: mockResetPauseEvent,
   }),
 }));
+
+// Mock the entropyStore
+const mockUpdateEntropyScore = jest.fn();
+jest.mock('@/store/entropyStore', () => ({
+  useEntropyStore: () => ({
+    updateEntropyScore: mockUpdateEntropyScore,
+  }),
+}));
+
+// Mock calculateEntropyScore to always return a valid value
+jest.spyOn(entropyModule, 'calculateEntropyScore').mockImplementation(() => 10);
 
 jest.useFakeTimers();
 
@@ -274,6 +287,80 @@ describe('Timer Disturbance Reset', () => {
   });
 });
 
-// entropy score 결과값 시뮬레이션
-//  여러 값들에 대해 상황별로 값 시뮬레이션(타이머 설정 시간 및 여러 방해 이벤트 설정)
-//  만약 순수 몰입 시간이 5분 이내면 null 반환
+// 전역 엔트로피 점수가 제대로 반영되는지 체크
+describe('Timer Global Entropy Score', () => {
+  it('updates global entropy score when timer ends', async () => {
+    const spy = jest.spyOn(entropyStoreModule, 'useEntropyStore');
+    const { getByTestId } = renderWithProviders(<Timer />);
+    const playPauseButton = getByTestId('timer-play-pause-button');
+    const timer = getByTestId('timer');
+
+    // Start the timer
+    fireEvent.press(playPauseButton);
+
+    // Advance timers until 00:00 (5 minutes = 300,000 ms)
+    act(() => {
+      jest.advanceTimersByTime(300000);
+    });
+
+    // Wait for timer to reach 00:00 and for updateEntropyScore to be called
+    await waitFor(() => {
+      expect(timer).toHaveTextContent('00:00');
+      expect(mockUpdateEntropyScore).toHaveBeenCalled();
+    });
+
+    spy.mockRestore();
+  });
+
+  it('updates global entropy score when timer time changes', async () => {
+    const spy = jest.spyOn(entropyStoreModule, 'useEntropyStore');
+    const { getByTestId } = renderWithProviders(<Timer />);
+    const slider = getByTestId('timer-tuner-slider');
+    const playPauseButton = getByTestId('timer-play-pause-button');
+
+    // First scenario: Set timer to 10 minutes, start, run for 5 minutes, stop
+    act(() => {
+      slider.props.onMomentumScrollEnd({
+        nativeEvent: { contentOffset: { x: 5 * (scale(5) + scale(4)) } }, // simulate scroll to index 1 (10 minutes)
+      });
+    });
+
+    fireEvent.press(playPauseButton); // Start first timer
+
+    act(() => {
+      jest.advanceTimersByTime(300000); // Run for 5 minutes
+    });
+
+    fireEvent.press(playPauseButton); // Stop first timer
+
+    // Second scenario: Change timer to 15 minutes, start, run for 5 minutes, stop
+    act(() => {
+      slider.props.onMomentumScrollEnd({
+        nativeEvent: { contentOffset: { x: 10 * (scale(5) + scale(4)) } }, // simulate scroll to index 2 (15 minutes)
+      });
+    });
+
+    fireEvent.press(playPauseButton); // Start second timer
+
+    act(() => {
+      jest.advanceTimersByTime(300000); // Run for 5 minutes
+    });
+
+    fireEvent.press(playPauseButton); // Stop second timer
+
+    // Wait for effect to trigger and updateEntropyScore to be called
+    await waitFor(() => {
+      console.log(
+        'updateEntropyScore call count:',
+        mockUpdateEntropyScore.mock.calls.length,
+      );
+      expect(mockUpdateEntropyScore).toHaveBeenCalledTimes(2);
+    });
+
+    spy.mockRestore();
+  });
+});
+
+// 세션에 타이머세션이 추가되는지 체크
+//  타이머가 끝날 때(=00:00), 세션에 타이머 세션이 추가되는지 체크
+//  타이머가 변경될 때마다 세션에 타이머 세션이 추가되는지 체크
