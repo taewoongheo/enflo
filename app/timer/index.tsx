@@ -13,6 +13,7 @@ import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
+import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens, Theme } from '@/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { TFunction } from 'i18next';
@@ -69,6 +70,8 @@ function TimerContent({
 
   const timerSession = useRef<TimerSession | null>(null);
 
+  const { updateEntropyScore } = useEntropyStore();
+
   // timer session disturbance data
   const { screenBackgroundCount, resetBackgroundEvent } =
     useBackgroundEvent(isRunning);
@@ -89,11 +92,16 @@ function TimerContent({
 
   const handleTimerEnd = () => {
     if (timerSession.current) {
-      timerSession.current.timerEnd({
+      const entropyScore = timerSession.current.calculateEntropy({
         screenBackgroundCount: screenBackgroundCount.current,
         scrollInteractionCount: scrollInteractionCount.current,
         pauseEvents: pauseEvent.current,
       });
+
+      if (entropyScore) {
+        updateEntropyScore(entropyScore);
+        session.addTimerSession(timerSession.current);
+      }
     }
 
     timerSession.current = new TimerSession({

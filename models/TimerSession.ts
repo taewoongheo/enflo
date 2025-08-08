@@ -31,7 +31,7 @@ class TimerSession {
     this.entropyScore = null;
   }
 
-  timerEnd({
+  calculateEntropy({
     screenBackgroundCount,
     scrollInteractionCount,
     pauseEvents,
@@ -45,9 +45,8 @@ class TimerSession {
     this.scrollInteractionCount = scrollInteractionCount;
     this.pauseEvents = pauseEvents;
     this.entropyScore = calculateEntropyScore(this);
-    console.log('========================================');
-    console.log('entropyScore: ', this.entropyScore);
-    console.log('========================================');
+
+    return this.entropyScore;
   }
 
   get isSuccess(): boolean {

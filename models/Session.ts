@@ -36,7 +36,7 @@ class Session {
   }
 
   addTimerSession(timerSession: TimerSession) {
-    const timeRange = getTimeRange(timerSession.startTs);
+    const timeRange = getTimeRange(timerSession.startTs!);
     this.timerSessionsByTimeRange[timeRange].push(timerSession);
   }
 
