@@ -1,3 +1,4 @@
+import { ContentLayout } from '@/components/common/ContentLayout';
 import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
 import {
   ScrollColorBackground,
@@ -10,6 +11,7 @@ import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent'
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
 import useSession from '@/components/TimerPage/hooks/useSession';
+import TimerInfo from '@/components/TimerPage/TimerInfo';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
@@ -69,8 +71,6 @@ function TimerContent({
   const [isRunning, setIsRunning] = useState(false);
 
   const timerSession = useRef<TimerSession | null>(null);
-
-  console.log(session);
 
   const { updateEntropyScore } = useEntropyStore();
 
@@ -141,6 +141,7 @@ function TimerContent({
           },
         ]}
       >
+        {/* Timer Slider */}
         <ContentLayoutWithBack
           color={theme.colors.pages.timer.slider.text.primary}
         >
@@ -150,7 +151,7 @@ function TimerContent({
             <TimerSuggestion
               theme={theme}
               time={time}
-              t={t}
+              _t={t}
               isRunning={isRunning}
               setIsRunning={setIsRunning}
               handleTimerEnd={handleTimerEnd}
@@ -168,8 +169,12 @@ function TimerContent({
           </View>
         </ContentLayoutWithBack>
       </View>
-      {/* TODO: session info content here */}
-      {/* <View style={{ flex: 1, backgroundColor: 'red' }}></View> */}
+      {/* Timer Info */}
+      <ContentLayout>
+        <View style={{ marginVertical: baseTokens.spacing[5] }}>
+          <TimerInfo t={t} theme={theme} />
+        </View>
+      </ContentLayout>
     </ScrollView>
   );
 }
