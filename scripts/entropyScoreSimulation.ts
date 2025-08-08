@@ -78,7 +78,7 @@ const scenarios = [
     },
   },
   {
-    name: '15min target, incomplete, disturbance events (5 events, 8min)',
+    name: '15min target, complete, disturbance events (5 events, 8min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
       targetDurationMs: 15 * 60 * 1000,
@@ -102,7 +102,7 @@ const scenarios = [
       ] as PauseEvent[],
       totalDisturbanceMs: 8 * 60 * 1000,
       startTs: Date.now() - 15 * 60 * 1000,
-      endTs: Date.now() - 8 * 60 * 1000,
+      endTs: Date.now(),
     },
   },
   {

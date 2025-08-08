@@ -70,7 +70,7 @@ export const darkTheme = {
         slider: {
           background: palette.neutral[750],
           edgeGradient: 'rgba(39, 48, 63, 0.5)',
-          picker: palette.neutral[300],
+          picker: 'rgb(208, 255, 68)',
           button: {
             icon: palette.neutral[50],
             background: palette.neutral[400],
