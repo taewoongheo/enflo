@@ -4,14 +4,14 @@ import { clamp } from '@/utils/math';
 
 const SESSION_START_BONUS = 0.2;
 const SESSION_END_BONUS = 0.2;
-const FOCUS_BONUS_PER_MINUTE = 2;
-const DISTURBANCE_EVENT_PENALTY = -0.8;
-const DISTURBANCE_TIME_PENALTY_PER_MINUTE = -0.4;
+const FOCUS_BONUS_PER_MINUTE = 0.4;
+const DISTURBANCE_EVENT_PENALTY = -0.2;
+const DISTURBANCE_TIME_PENALTY_PER_MINUTE = -0.2;
 const SEQUENCE_SCORE_WEIGHT = 0.2;
 // const OVERSHOOT_SCORE_WEIGHT = 0.2;
 const SUCCESS_BONUS = 0.2;
 // const MIN_ENTROPY_SCORE = 5;
-// const MAX_ENTROPY_SCORE = 20;
+// const MAX_ENTROPY_SCORE = 30;
 const MAX_SEQUENCE_BONUS = 5;
 // const MAX_OVERSHOOT_BONUS = 5;
 
@@ -24,7 +24,7 @@ export function calculateEntropyScore(session: TimerSession): number | null {
   //   const overshootMs = session.overshootMs;
   const isSuccess = session.isSuccess;
 
-  if (netFocusMs <= 5 * 60 * 1000) {
+  if (netFocusMs <= 5 * 60 * 1000 - 100) {
     return null;
   }
 
