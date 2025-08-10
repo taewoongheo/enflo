@@ -1,7 +1,11 @@
+import {
+  LEVEL_LABELS,
+  TREND_LABELS,
+} from '@/components/TimerPage/constant/suggestion';
 import { TimeRange } from '@/models/Session';
 
-export type Trend = '상승세' | '하락세' | '유지';
-export type Level = '위험' | '불안정' | '안정' | '좋음';
+export type Trend = (typeof TREND_LABELS)[keyof typeof TREND_LABELS];
+export type Level = (typeof LEVEL_LABELS)[keyof typeof LEVEL_LABELS];
 
 export interface Suggestion {
   score: number; // 0..100

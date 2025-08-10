@@ -1,0 +1,44 @@
+export const SUGGESTION_WEIGHTS = {
+  HISTORY: 0.375,
+  SUCCESS: 0.25,
+  RECENT: 0.375,
+} as const;
+
+export const SUGGESTION_THRESHOLDS = {
+  MIN_SESSIONS: 3,
+  SUCCESS_RATE_ALPHA: 1,
+  IQR_MULTIPLIER: 1.5,
+  EMA_ALPHA: 0.6,
+  MIN_ENTROPY: 5,
+  MAX_ENTROPY: 20,
+  MIN_THRESHOLD: 0.2,
+  THRESHOLD_MULTIPLIER: 0.25,
+  OUTLIER_RATE_THRESHOLD: 0.4,
+  INTERRUPTION_THRESHOLD: 0.2,
+} as const;
+
+export const SUGGESTION_SCORE_RANGES = {
+  DANGER: 30,
+  UNSTABLE: 50,
+  STABLE: 70,
+  EXCELLENT: 85,
+} as const;
+
+export const TREND_LABELS = {
+  RISING: 'RISING',
+  DECLINING: 'DECLINING',
+  STABLE: 'STABLE',
+} as const;
+
+export const LEVEL_LABELS = {
+  DANGER: 'DANGER',
+  UNSTABLE: 'UNSTABLE',
+  STABLE: 'STABLE',
+  GOOD: 'GOOD',
+} as const;
+
+export const INTERRUPTION_NAMES = {
+  PAUSES: '타이머 일시정지',
+  UNLOCKS: '앱 이탈',
+  SCROLLS: '타이머 중 다른 활동',
+} as const;

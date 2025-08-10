@@ -1,22 +1,29 @@
+import {
+  LEVEL_LABELS,
+  SUGGESTION_SCORE_RANGES,
+  SUGGESTION_THRESHOLDS,
+  SUGGESTION_WEIGHTS,
+  TREND_LABELS,
+} from '@/components/TimerPage/constant/suggestion';
 import Session, { getTimeRange } from '@/models/Session';
 import { clamp, iqrMean, mean, stddev } from '@/utils/math';
 import { Level, Suggestion, Trend } from '../types/Suggestion';
-
-const W_HISTORY = 0.375;
-const W_SUCCESS = 0.25;
-const W_RECENT = 0.375;
 
 export function generateSuggestion(sessions: Session): Suggestion | null {
   const rangeKey = getTimeRange(Date.now());
   const bucket = (sessions.timerSessionsByTimeRange[rangeKey] ||= []);
 
   const sessionCount = bucket.length;
-  if (sessionCount < 3) return null;
+  if (sessionCount < SUGGESTION_THRESHOLDS.MIN_SESSIONS) return null;
 
   const recentBucket = bucket.slice(-3);
 
   const successCount = bucket.filter((s) => s.isSuccess).length;
-  const successRate = smoothedSuccessRate(successCount, sessionCount, 1); // [0..1]
+  const successRate = smoothedSuccessRate(
+    successCount,
+    sessionCount,
+    SUGGESTION_THRESHOLDS.SUCCESS_RATE_ALPHA,
+  );
 
   const allEntropy = bucket
     .map((s) => s.entropyScore)
@@ -35,20 +42,22 @@ export function generateSuggestion(sessions: Session): Suggestion | null {
   const successScore = successRate * 100;
 
   const rawScore =
-    W_HISTORY * eAllScore + W_SUCCESS * successScore + W_RECENT * eRecentScore;
+    SUGGESTION_WEIGHTS.HISTORY * eAllScore +
+    SUGGESTION_WEIGHTS.SUCCESS * successScore +
+    SUGGESTION_WEIGHTS.RECENT * eRecentScore;
   const score = clamp(rawScore, 0, 100);
 
   const { trend, thUsed, sd } = trendFrom(recentEntropy);
 
   let label: Level;
-  if (score < 30) {
-    label = '위험';
-  } else if (score < 50) {
-    label = '불안정';
-  } else if (score < 70) {
-    label = '안정';
+  if (score < SUGGESTION_SCORE_RANGES.DANGER) {
+    label = LEVEL_LABELS.DANGER;
+  } else if (score < SUGGESTION_SCORE_RANGES.UNSTABLE) {
+    label = LEVEL_LABELS.UNSTABLE;
+  } else if (score < SUGGESTION_SCORE_RANGES.STABLE) {
+    label = LEVEL_LABELS.STABLE;
   } else {
-    label = '좋음';
+    label = LEVEL_LABELS.GOOD;
   }
 
   const denom = recentBucket.length || 1;
@@ -141,15 +150,15 @@ function trendFrom(values: number[]): {
 } {
   const ys = values.filter((v): v is number => v != null && Number.isFinite(v));
   if (ys.length < 2) {
-    return { trend: '유지', thUsed: 0.2, sd: null };
+    return { trend: TREND_LABELS.STABLE, thUsed: 0.2, sd: null };
   }
 
   const m = slope(ys) ?? 0;
   const { th, sd } = dynamicThreshold(ys, 0.2);
 
-  if (m > th) return { trend: '상승세', thUsed: th, sd };
-  if (m < -th) return { trend: '하락세', thUsed: th, sd };
-  return { trend: '유지', thUsed: th, sd };
+  if (m > th) return { trend: TREND_LABELS.RISING, thUsed: th, sd };
+  if (m < -th) return { trend: TREND_LABELS.DECLINING, thUsed: th, sd };
+  return { trend: TREND_LABELS.STABLE, thUsed: th, sd };
 }
 
 function dynamicThreshold(recentValues: number[], minTH = 0.2) {

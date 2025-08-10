@@ -1,3 +1,4 @@
+import { LEVEL_LABELS, TREND_LABELS } from '../constant/suggestion';
 import { Level, Suggestion, Trend } from '../types/Suggestion';
 
 const TIME_RANGES = {
@@ -36,9 +37,15 @@ export function toUserMessage(s: Suggestion, weekdayKo: string) {
   );
 
   let but = false;
-  if ((label === '위험' || label === '불안정') && trend === '상승세') {
+  if (
+    (label === LEVEL_LABELS.DANGER || label === LEVEL_LABELS.UNSTABLE) &&
+    trend === TREND_LABELS.RISING
+  ) {
     but = true;
-  } else if ((label === '안정' || label === '좋음') && trend === '하락세') {
+  } else if (
+    (label === LEVEL_LABELS.STABLE || label === LEVEL_LABELS.GOOD) &&
+    trend === TREND_LABELS.DECLINING
+  ) {
     but = true;
   }
 
@@ -50,7 +57,7 @@ export function toUserMessage(s: Suggestion, weekdayKo: string) {
 }
 
 function getStatusMessage(label: Level): string {
-  if (label === '위험') {
+  if (label === LEVEL_LABELS.DANGER) {
     const messages = [
       '집중 실패 위험이 높아요.',
       '집중력이 많이 부족해요.',
@@ -58,7 +65,7 @@ function getStatusMessage(label: Level): string {
       '집중이 잘 안 되고 있어요.',
     ];
     return messages[Math.floor(Math.random() * messages.length)];
-  } else if (label === '불안정') {
+  } else if (label === LEVEL_LABELS.UNSTABLE) {
     const messages = [
       '집중 유지가 불안정해요.',
       '집중력이 일정하지 않아요.',
@@ -66,7 +73,7 @@ function getStatusMessage(label: Level): string {
       '집중력에 기복이 있어요.',
     ];
     return messages[Math.floor(Math.random() * messages.length)];
-  } else if (label === '안정') {
+  } else if (label === LEVEL_LABELS.STABLE) {
     const messages = [
       '집중 유지가 안정적이에요.',
       '집중 상태가 괜찮아요.',
@@ -109,7 +116,7 @@ function getActionMessage(
     const minorIssues = getSignificantInterruptions(interruptionStats, 0.2); // 더 관대한 기준
 
     if (minorIssues.length === 0) {
-      if (trend === '상승세') {
+      if (trend === TREND_LABELS.RISING) {
         const risingMessages = [
           '점점 더 좋아지고 있어요! 이대로 계속하세요.',
           '멋진 상승세네요! 계속 발전해 나가세요.',
@@ -146,7 +153,7 @@ function getActionMessage(
   if (score >= 30) {
     const issues = getSignificantInterruptions(interruptionStats, 0.2);
 
-    if (trend === '상승세') {
+    if (trend === TREND_LABELS.RISING) {
       if (issues.length === 0) {
         const risingMessages = [
           '점점 나아지고 있어요! 이 방향으로 계속 개선해보세요.',
