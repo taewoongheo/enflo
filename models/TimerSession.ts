@@ -3,7 +3,7 @@ import {
   AppStateEvent,
   PauseEvent,
   ScrollInteractionEvent,
-} from '@/types/interruptEvent';
+} from '@/types/InterruptEvent';
 import uuid from 'react-native-uuid';
 
 class TimerSession {

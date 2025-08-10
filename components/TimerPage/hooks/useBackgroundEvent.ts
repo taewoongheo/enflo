@@ -1,4 +1,4 @@
-import { AppStateEvent } from '@/types/interruptEvent';
+import { AppStateEvent } from '@/types/InterruptEvent';
 import { useCallback, useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 

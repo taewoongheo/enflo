@@ -1,14 +1,12 @@
-import {
-  generateSuggestion,
-  toUserMessage,
-} from '@/components/TimerPage/utils/generateSuggestion';
+import { generateSuggestion } from '@/components/TimerPage/utils/generateSuggestion';
+import { toUserMessage } from '@/components/TimerPage/utils/toUserMessage';
 import Session, { getTimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 import {
   AppStateEvent,
   PauseEvent,
   ScrollInteractionEvent,
-} from '@/types/interruptEvent';
+} from '@/types/InterruptEvent';
 
 function createMockTimerSession(params: {
   sessionId: string;
@@ -71,7 +69,7 @@ function createScrollEvent(
 }
 
 function runSimulation() {
-  console.log('=== generateSuggestion 시뮬레이션 시작 ===\n');
+  console.log('=== generateSuggestion 시뮬레이션 시작 ===');
 
   const timeRange = getTimeRange(Date.now());
 
@@ -154,7 +152,6 @@ function runSimulation() {
     );
     console.log(`메시지: ${toUserMessage(failSuggestion, '월요일')}`);
   }
-  console.log('\n');
 
   console.log('시나리오 2: 방해가 많은 집중 패턴');
   const problematicSession = new Session({
@@ -227,7 +224,6 @@ function runSimulation() {
     console.log(`추세: ${problematicSuggestion.trend}`);
     console.log(`메시지: ${toUserMessage(problematicSuggestion, '화요일')}`);
   }
-  console.log('\n');
 
   console.log('시나리오 3: 매우 성공적인 집중 패턴');
   const successSession = new Session({ sessionName: '성공적인 집중 세션' });
@@ -274,7 +270,6 @@ function runSimulation() {
     console.log(`추세: ${successSuggestion.trend}`);
     console.log(`메시지: ${toUserMessage(successSuggestion, '수요일')}`);
   }
-  console.log('\n');
 
   console.log('시나리오 4: 중간 길이 완벽한 집중 패턴 (20~30분, 방해 없음)');
   const perfectMediumSession = new Session({
@@ -351,7 +346,6 @@ function runSimulation() {
     console.log(`추세: ${perfectMediumSuggestion.trend}`);
     console.log(`메시지: ${toUserMessage(perfectMediumSuggestion, '목요일')}`);
   }
-  console.log('\n');
 
   console.log('시나리오 5: 개선되고 있는 패턴 (상승세)');
   const improvingSession = new Session({
@@ -423,7 +417,6 @@ function runSimulation() {
     console.log(`추세: ${improvingSuggestion.trend}`);
     console.log(`메시지: ${toUserMessage(improvingSuggestion, '금요일')}`);
   }
-  console.log('\n');
 
   console.log('시나리오 6: 데이터 부족 케이스');
   const insufficientSession = new Session({ sessionName: '데이터 부족 세션' });
@@ -450,7 +443,6 @@ function runSimulation() {
   } else {
     console.log('예상대로 null 반환됨 (세션 수 부족)');
   }
-  console.log('\n');
 
   console.log('시나리오 7: 장시간 집중 패턴 (60~90분)');
   const longSession = new Session({ sessionName: '장시간 집중 세션' });
@@ -524,7 +516,6 @@ function runSimulation() {
     console.log(`추세: ${longSuggestion.trend}`);
     console.log(`메시지: ${toUserMessage(longSuggestion, '토요일')}`);
   }
-  console.log('\n');
 
   console.log('시나리오 8: 장시간이지만 방해가 많은 패턴');
   const disturbedLongSession = new Session({
@@ -601,7 +592,6 @@ function runSimulation() {
     console.log(`추세: ${disturbedLongSuggestion.trend}`);
     console.log(`메시지: ${toUserMessage(disturbedLongSuggestion, '일요일')}`);
   }
-  console.log('\n');
 
   console.log('시나리오 9: 높은 점수 + 하락세 (최근 컨디션 악화)');
   const highScoreDeclineSession = new Session({
@@ -684,7 +674,6 @@ function runSimulation() {
       `메시지: ${toUserMessage(highScoreDeclineSuggestion, '월요일')}`,
     );
   }
-  console.log('\n');
 
   console.log('시나리오 10: 낮은 점수 + 상승세 (회복 중)');
   const lowScoreRisingSession = new Session({ sessionName: '회복 중인 세션' });
@@ -759,7 +748,6 @@ function runSimulation() {
     console.log(`추세: ${lowScoreRisingSuggestion.trend}`);
     console.log(`메시지: ${toUserMessage(lowScoreRisingSuggestion, '화요일')}`);
   }
-  console.log('\n');
 
   console.log('시나리오 11: 중간 점수 + 유지 (일관된 평범한 패턴)');
   const mediumStableSession = new Session({ sessionName: '일관된 중간 세션' });
@@ -836,7 +824,6 @@ function runSimulation() {
     console.log(`추세: ${mediumStableSuggestion.trend}`);
     console.log(`메시지: ${toUserMessage(mediumStableSuggestion, '수요일')}`);
   }
-  console.log('\n');
 
   console.log('시나리오 12: 극단적 변동성 (지그재그 패턴)');
   const volatileSession = new Session({ sessionName: '변동성 심한 세션' });
