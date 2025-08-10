@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "lint": "npx eslint .",
     "test": "jest --watchAll",
-    "simulate:entropy": "tsx scripts/entropyScoreSimulation.ts"
+    "simulate:entropy": "tsx scripts/entropyScoreSimulation.ts",
+    "simulate:suggestion": "tsx scripts/suggestionSimulation.ts"
   },
   "jest": {
     "preset": "jest-expo"

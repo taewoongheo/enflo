@@ -10,8 +10,8 @@ const DISTURBANCE_TIME_PENALTY_PER_MINUTE = -0.2;
 const SEQUENCE_SCORE_WEIGHT = 0.2;
 // const OVERSHOOT_SCORE_WEIGHT = 0.2;
 const SUCCESS_BONUS = 0.2;
-// const MIN_ENTROPY_SCORE = 5;
-// const MAX_ENTROPY_SCORE = 30;
+const MIN_ENTROPY_SCORE = 5;
+const MAX_ENTROPY_SCORE = 30;
 const MAX_SEQUENCE_BONUS = 5;
 // const MAX_OVERSHOOT_BONUS = 5;
 
@@ -71,6 +71,5 @@ export function calculateEntropyScore(session: TimerSession): number | null {
     // overshootScore +
     successScore;
 
-  //   return clamp(rawScore, MIN_ENTROPY_SCORE, MAX_ENTROPY_SCORE);
-  return rawScore;
+  return clamp(rawScore, MIN_ENTROPY_SCORE, MAX_ENTROPY_SCORE);
 }
