@@ -172,7 +172,7 @@ function TimerContent({
       {/* Timer Info */}
       <ContentLayout>
         <View style={{ marginVertical: baseTokens.spacing[5] }}>
-          <TimerInfo t={t} theme={theme} />
+          <TimerInfo session={session} t={t} theme={theme} />
         </View>
       </ContentLayout>
     </ScrollView>

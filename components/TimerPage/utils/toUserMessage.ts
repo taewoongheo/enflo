@@ -12,7 +12,11 @@ const TIME_RANGES = {
   '21-24': '늦은 저녁',
 } as const;
 
-export function toUserMessage(s: Suggestion, weekdayKo: string) {
+export function toUserMessage(s: Suggestion | null, weekdayKo: string) {
+  if (!s) {
+    return '아직은 당신만의 집중 패턴을 알아가는 중이에요. 조금만 더 기록을 쌓으면 맞춤형 집중 패턴 분석을 제공해드립니다.';
+  }
+
   const { timeRange } = s.rationale;
   const { score, label, trend, interruptionStats } = s;
 
