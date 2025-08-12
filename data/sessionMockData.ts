@@ -35,7 +35,10 @@ function generateMockTimerSession(
       : 3 * 60 * 1000;
   const endTs = startTs + targetDurationMs + totalInterruptMs;
 
-  const timerSession = new TimerSession({ session: sessionName });
+  const timerSession = new TimerSession({
+    sessionId: sessionName,
+    targetDurationMs,
+  });
 
   timerSession.startTs = startTs;
   timerSession.endTs = endTs;
