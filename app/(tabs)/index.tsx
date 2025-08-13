@@ -6,9 +6,6 @@ import {
   SessionList,
 } from '@/components/MainPage';
 import { useTheme } from '@/contexts/ThemeContext';
-import { drizzle } from 'drizzle-orm/expo-sqlite';
-import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
-import { useSQLiteContext } from 'expo-sqlite';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -16,10 +13,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 function MainScreen() {
   const { theme } = useTheme();
 
-  const db = useSQLiteContext();
-  const drizzleDb = drizzle(db);
-  useDrizzleStudio(db);
-
+  // memory warning event
   // useEffect(() => {
   //   const memoryWarningSubscription = AppState.addEventListener(
   //     'memoryWarning',

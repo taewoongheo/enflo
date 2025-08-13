@@ -3,6 +3,7 @@ import migrations from '@/drizzle/migrations';
 import '@/i18n';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
+import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStudio';
 import { Stack } from 'expo-router';
 import { openDatabaseSync, SQLiteProvider } from 'expo-sqlite';
 import { StatusBar } from 'expo-status-bar';
@@ -16,7 +17,8 @@ const DATABASE_NAME = 'enflo';
 export default function RootLayout() {
   const expoDb = openDatabaseSync(DATABASE_NAME);
   const db = drizzle(expoDb);
-  const { success, error } = useMigrations(db, migrations);
+  useMigrations(db, migrations);
+  useDrizzleStudio(expoDb);
 
   return (
     <Suspense fallback={<ActivityIndicator size="large" />}>
