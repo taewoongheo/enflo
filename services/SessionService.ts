@@ -1,10 +1,10 @@
 import { sessions } from '@/db/schema';
 import Session from '@/models/Session';
+import { useSessionCache } from '@/store/sessionCache';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 
 export default class SessionService {
   private db: ReturnType<typeof drizzle>;
-  private sessionCache = new Map<string, Session>();
 
   constructor(db: ReturnType<typeof drizzle>) {
     this.db = db;
@@ -13,18 +13,17 @@ export default class SessionService {
   async getSessions(): Promise<Session[]> {
     const sessionRows = await this.db.select().from(sessions);
 
-    this.sessionCache.clear();
-
-    sessionRows.forEach((session) =>
-      this.sessionCache.set(
-        session.sessionId,
+    const newSessions = sessionRows.map(
+      (session) =>
         new Session({
           sessionId: session.sessionId,
           sessionName: session.sessionName,
         }),
-      ),
     );
-    return Array.from(this.sessionCache.values());
+
+    useSessionCache.getState().setSessions(newSessions);
+
+    return useSessionCache.getState().getSessions();
   }
 
   // 단일 Session 조회
@@ -41,9 +40,7 @@ export default class SessionService {
       sessionName: session.sessionName,
     });
 
-    this.sessionCache.set(session.sessionId, session);
-
-    return session;
+    return useSessionCache.getState().createSession(session);
   }
 
   // Session 삭제
