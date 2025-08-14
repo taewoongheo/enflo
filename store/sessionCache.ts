@@ -8,8 +8,9 @@ enableMapSet();
 type SessionCache = {
   sessionCache: Map<string, Session>;
   setSessions: (sessions: Session[]) => void;
-  getSessions: () => Session[];
+  getSessions: () => Map<string, Session>;
   createSession: (session: Session) => Session;
+  upsertSession: (session: Session) => Session;
   updateSession: (session: Session) => Session;
   deleteSession: (sessionId: string) => void;
 };
@@ -26,11 +27,18 @@ export const useSessionCache = create(
       }),
 
     getSessions: () => {
-      const { sessionCache } = get();
-      return Array.from(sessionCache.values());
+      return new Map(get().sessionCache);
     },
 
     createSession: (session) => {
+      set((draft) => {
+        draft.sessionCache.set(session.sessionId, session);
+      });
+
+      return session;
+    },
+
+    upsertSession: (session) => {
       set((draft) => {
         draft.sessionCache.set(session.sessionId, session);
       });

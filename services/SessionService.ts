@@ -1,6 +1,7 @@
 import { sessions } from '@/db/schema';
 import Session from '@/models/Session';
 import { useSessionCache } from '@/store/sessionCache';
+import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 
 export default class SessionService {
@@ -23,10 +24,35 @@ export default class SessionService {
 
     useSessionCache.getState().setSessions(newSessions);
 
-    return useSessionCache.getState().getSessions();
+    return Array.from(useSessionCache.getState().getSessions().values());
   }
 
-  // 단일 Session 조회
+  async getSessionById(sessionId: string): Promise<Session> {
+    const cache = useSessionCache.getState().getSessions();
+    const cached = cache.get(sessionId);
+
+    if (cached) return cached;
+
+    const rows = await this.db
+      .select()
+      .from(sessions)
+      .where(eq(sessions.sessionId, sessionId))
+      .limit(1);
+
+    if (rows.length === 0) {
+      throw new Error('Session not found');
+    }
+
+    const row = rows[0];
+    const session = new Session({
+      sessionId: sessionId,
+      sessionName: row.sessionName,
+    });
+
+    useSessionCache.getState().upsertSession(session);
+
+    return session;
+  }
 
   // Session 에 속한 TimerSession 조회
 
