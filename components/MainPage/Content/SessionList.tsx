@@ -1,5 +1,8 @@
+import { mockSessionData } from '@/data/sessionMockData';
+import { sessions as sessionsTable } from '@/db/schema';
 import { INSERT_MOCK_DATA } from '@/environment.config';
 import Session from '@/models/Session';
+import SessionService from '@/services/SessionService';
 import { baseTokens } from '@/styles';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -15,9 +18,20 @@ const SessionList = () => {
   const drizzleDb = drizzle(db);
 
   useEffect(() => {
-    // setSessions(sessionMockData);
+    const sessionService = new SessionService(drizzleDb);
+
+    const insertMockSessions = async () => {
+      await drizzleDb.delete(sessionsTable);
+
+      mockSessionData.forEach((sessionName) =>
+        sessionService.createSession(sessionName),
+      );
+      const sessions = await sessionService.getSessions();
+      setSessions(sessions);
+    };
+
     if (INSERT_MOCK_DATA) {
-      // mock 데이터를 db 에 저장
+      insertMockSessions();
     }
   }, []);
 
