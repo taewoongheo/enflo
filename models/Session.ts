@@ -27,10 +27,11 @@ class Session {
   timerSessionsByTimeRange: Record<TimeRange, TimerSession[]>;
 
   constructor(params: {
+    sessionId?: string;
     sessionName: string;
     timerSessionsByTimeRange?: Partial<Record<TimeRange, TimerSession[]>>;
   }) {
-    this.sessionId = uuid.v4();
+    this.sessionId = params.sessionId ?? uuid.v4();
     this.sessionName = params.sessionName;
     this.timerSessionsByTimeRange = {} as Record<TimeRange, TimerSession[]>;
   }
