@@ -1,22 +1,18 @@
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { DATABASE_NAME, db, expoDb } from '@/db/db';
 import migrations from '@/drizzle/migrations';
 import '@/i18n';
-import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStudio';
 import { Stack } from 'expo-router';
-import { openDatabaseSync, SQLiteProvider } from 'expo-sqlite';
+import { SQLiteProvider } from 'expo-sqlite';
 import { StatusBar } from 'expo-status-bar';
 import { Suspense } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const DATABASE_NAME = 'enflo';
-
 export default function RootLayout() {
-  const expoDb = openDatabaseSync(DATABASE_NAME);
-  const db = drizzle(expoDb);
   useMigrations(db, migrations);
   useDrizzleStudio(expoDb);
 

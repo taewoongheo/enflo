@@ -9,6 +9,7 @@ type SessionCache = {
   sessionCache: Map<string, Session>;
   setSessions: (sessions: Session[]) => void;
   getSessions: () => Map<string, Session>;
+  clear: () => void;
   createSession: (session: Session) => Session;
   upsertSession: (session: Session) => Session;
   updateSession: (session: Session) => Session;
@@ -28,6 +29,12 @@ export const useSessionCache = create(
 
     getSessions: () => {
       return new Map(get().sessionCache);
+    },
+
+    clear: () => {
+      set((draft) => {
+        draft.sessionCache = new Map();
+      });
     },
 
     createSession: (session) => {

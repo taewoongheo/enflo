@@ -1,10 +1,11 @@
+import { db } from '@/db/db';
 import { sessions } from '@/db/schema';
 import Session from '@/models/Session';
 import { useSessionCache } from '@/store/sessionCache';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 
-export default class SessionService {
+class SessionService {
   private db: ReturnType<typeof drizzle>;
 
   constructor(db: ReturnType<typeof drizzle>) {
@@ -25,6 +26,11 @@ export default class SessionService {
     useSessionCache.getState().setSessions(newSessions);
 
     return Array.from(useSessionCache.getState().getSessions().values());
+  }
+
+  async clear() {
+    useSessionCache.getState().clear();
+    await this.db.delete(sessions);
   }
 
   async getSessionById(sessionId: string): Promise<Session> {
@@ -75,3 +81,5 @@ export default class SessionService {
 
   // Session 에 TimerSession 추가
 }
+
+export const sessionService = new SessionService(db);

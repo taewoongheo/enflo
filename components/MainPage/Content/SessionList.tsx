@@ -1,11 +1,8 @@
 import { mockSessionData } from '@/data/sessionMockData';
-import { sessions as sessionsTable } from '@/db/schema';
 import { INSERT_MOCK_DATA } from '@/environment.config';
 import Session from '@/models/Session';
-import SessionService from '@/services/SessionService';
+import { sessionService } from '@/services/SessionService';
 import { baseTokens } from '@/styles';
-import { drizzle } from 'drizzle-orm/expo-sqlite';
-import { useSQLiteContext } from 'expo-sqlite';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -14,14 +11,9 @@ import SessionCard from './SessionCard';
 const SessionList = () => {
   const [sessions, setSessions] = useState<Session[]>([]);
 
-  const db = useSQLiteContext();
-  const drizzleDb = drizzle(db);
-
   useEffect(() => {
-    const sessionService = new SessionService(drizzleDb);
-
     const insertMockSessions = async () => {
-      await drizzleDb.delete(sessionsTable);
+      await sessionService.clear();
 
       mockSessionData.forEach((sessionName) =>
         sessionService.createSession(sessionName),
