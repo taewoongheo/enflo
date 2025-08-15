@@ -35,7 +35,9 @@ class Session {
     this.sessionName = params.sessionName;
     this.timerSessionsByTimeRange =
       params.timerSessionsByTimeRange ??
-      ({} as Record<TimeRange, TimerSession[]>);
+      (Object.fromEntries(
+        TIME_RANGES.map((k) => [k, []]) as [TimeRange, TimerSession[]][],
+      ) as Record<TimeRange, TimerSession[]>);
   }
 
   addTimerSession(timerSession: TimerSession, timeRange: TimeRange) {
