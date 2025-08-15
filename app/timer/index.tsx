@@ -10,7 +10,6 @@ import {
 import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent';
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
-import useSession from '@/components/TimerPage/hooks/useSession';
 import TimerTrends from '@/components/TimerPage/TimerInfo';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
@@ -18,12 +17,13 @@ import TimerSession from '@/models/TimerSession';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
 import { useEntropyStore } from '@/store/entropyStore';
+import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { TFunction } from 'i18next';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
@@ -34,15 +34,7 @@ export default function Timer() {
   const { sessionId } = useLocalSearchParams();
   const { t } = useTranslation('timer');
 
-  const { session, isLoading } = useSession(sessionId as string);
-
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1 }}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  const session = useSessionCache((s) => s.sessionCache[sessionId as string]);
 
   if (!session) {
     router.back();

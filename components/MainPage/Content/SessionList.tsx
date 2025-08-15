@@ -1,16 +1,16 @@
 import { createAllMockSessions } from '@/data/sessionMockData';
 import { INSERT_MOCK_DATA } from '@/environment.config';
-import Session from '@/models/Session';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
+import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens } from '@/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import SessionCard from './SessionCard';
 
 const SessionList = () => {
-  const [sessions, setSessions] = useState<Session[]>([]);
+  const sessions = useSessionCache((s) => Object.values(s.sessionCache));
 
   useEffect(() => {
     const insertMockSessions = async () => {
@@ -19,9 +19,9 @@ const SessionList = () => {
         await timerService.clear();
 
         const sessions = await createAllMockSessions();
-        setSessions([...sessions]);
+        useSessionCache.getState().setSessions(sessions);
       } catch (error) {
-        console.error(error);
+        throw error;
       }
     };
 
