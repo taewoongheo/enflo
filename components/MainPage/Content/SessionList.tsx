@@ -1,4 +1,4 @@
-import { createEnfloProjectSessions } from '@/data/sessionMockData';
+import { createAllMockSessions } from '@/data/sessionMockData';
 import { INSERT_MOCK_DATA } from '@/environment.config';
 import Session from '@/models/Session';
 import { sessionService } from '@/services/SessionService';
@@ -18,8 +18,8 @@ const SessionList = () => {
         await sessionService.clear();
         await timerService.clear();
 
-        const sessions = await createEnfloProjectSessions();
-        setSessions([sessions]);
+        const sessions = await createAllMockSessions();
+        setSessions([...sessions]);
       } catch (error) {
         console.error(error);
       }
