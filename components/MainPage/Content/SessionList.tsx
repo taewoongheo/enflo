@@ -33,6 +33,7 @@ const SessionList = () => {
   return (
     <FlatList
       data={sessions}
+      keyExtractor={(item) => item.sessionId}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.flatListContent}
