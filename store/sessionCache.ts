@@ -3,6 +3,11 @@ import TimerSession from '@/models/TimerSession';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
+// TODO:
+// GPT 개선사항 반영
+// 앱 초기화 시, db 로부터 캐시 초기화하는 코드 추가
+//  SessionList 에서 mock data 설정도, 하이드레이션 코드로 옮길 수 있을 듯
+
 type SessionCache = {
   sessionCache: Record<string, Session>;
   clear: () => void;
