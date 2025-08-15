@@ -36,8 +36,15 @@ export default function Timer() {
 
   const session = useSessionCache((s) => s.sessionCache[sessionId as string]);
 
-  if (!session) {
+  useEffect(() => {
+    if (session) {
+      return;
+    }
+
     router.back();
+  }, [session]);
+
+  if (!session) {
     return null;
   }
 
