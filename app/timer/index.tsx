@@ -94,7 +94,9 @@ function TimerContent({
 
   const handleTimerEnd = () => {
     if (timerSession.current) {
+      timerSession.current.endTs = Date.now();
       const entropyScore = timerSession.current.calculateEntropy({
+        endTs: Date.now(),
         screenBackgroundCount: screenBackgroundCount.current,
         scrollInteractionCount: scrollInteractionCount.current,
         pauseEvents: pauseEvent.current,

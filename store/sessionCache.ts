@@ -1,45 +1,45 @@
 import Session from '@/models/Session';
-import { enableMapSet } from 'immer';
+import TimerSession from '@/models/TimerSession';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-enableMapSet();
-
 type SessionCache = {
-  sessionCache: Map<string, Session>;
-  setSessions: (sessions: Session[]) => void;
-  getSessions: () => Map<string, Session>;
+  sessionCache: Record<string, Session>;
   clear: () => void;
+  setSessions: (sessions: Session[]) => void;
+  getSessions: () => Record<string, Session>;
   createSession: (session: Session) => Session;
   upsertSession: (session: Session) => Session;
   updateSession: (session: Session) => Session;
   deleteSession: (sessionId: string) => void;
+  addTimerSession: (sessionId: string, timerSession: TimerSession) => void;
 };
 
 export const useSessionCache = create(
   immer<SessionCache>((set, get) => ({
-    sessionCache: new Map(),
-
-    setSessions: (sessions) =>
-      set((draft) => {
-        draft.sessionCache = new Map(
-          sessions.map((session) => [session.sessionId, session]),
-        );
-      }),
-
-    getSessions: () => {
-      return new Map(get().sessionCache);
-    },
+    sessionCache: {},
 
     clear: () => {
       set((draft) => {
-        draft.sessionCache = new Map();
+        draft.sessionCache = {};
       });
+    },
+
+    setSessions: (sessions) =>
+      set((draft) => {
+        draft.sessionCache = {};
+        sessions.forEach((session) => {
+          draft.sessionCache[session.sessionId] = session;
+        });
+      }),
+
+    getSessions: () => {
+      return { ...get().sessionCache };
     },
 
     createSession: (session) => {
       set((draft) => {
-        draft.sessionCache.set(session.sessionId, session);
+        draft.sessionCache[session.sessionId] = session;
       });
 
       return session;
@@ -47,7 +47,7 @@ export const useSessionCache = create(
 
     upsertSession: (session) => {
       set((draft) => {
-        draft.sessionCache.set(session.sessionId, session);
+        draft.sessionCache[session.sessionId] = session;
       });
 
       return session;
@@ -55,7 +55,7 @@ export const useSessionCache = create(
 
     updateSession: (session) => {
       set((draft) => {
-        draft.sessionCache.set(session.sessionId, session);
+        draft.sessionCache[session.sessionId] = session;
       });
 
       return session;
@@ -63,7 +63,16 @@ export const useSessionCache = create(
 
     deleteSession: (sessionId) => {
       set((draft) => {
-        draft.sessionCache.delete(sessionId);
+        delete draft.sessionCache[sessionId];
+      });
+    },
+
+    addTimerSession: (sessionId, timerSession) => {
+      set((draft) => {
+        const session = draft.sessionCache[sessionId];
+        if (session) {
+          session.addTimerSession(timerSession);
+        }
       });
     },
   })),

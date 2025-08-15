@@ -1,7 +1,8 @@
-import { mockSessionData } from '@/data/sessionMockData';
+import { createEnfloProjectSessions } from '@/data/sessionMockData';
 import { INSERT_MOCK_DATA } from '@/environment.config';
 import Session from '@/models/Session';
 import { sessionService } from '@/services/SessionService';
+import { timerService } from '@/services/TimerService';
 import { baseTokens } from '@/styles';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
@@ -13,13 +14,15 @@ const SessionList = () => {
 
   useEffect(() => {
     const insertMockSessions = async () => {
-      await sessionService.clear();
+      try {
+        await sessionService.clear();
+        await timerService.clear();
 
-      mockSessionData.forEach((sessionName) =>
-        sessionService.createSession(sessionName),
-      );
-      const sessions = await sessionService.getSessions();
-      setSessions(sessions);
+        const sessions = await createEnfloProjectSessions();
+        setSessions([sessions]);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     if (INSERT_MOCK_DATA) {

@@ -1,6 +1,13 @@
 import { db } from '@/db/db';
-import { sessions } from '@/db/schema';
+import {
+  appStateEvents,
+  pauseEvents,
+  scrollInteractionEvents,
+  sessions,
+  timerSessions,
+} from '@/db/schema';
 import Session from '@/models/Session';
+import TimerSession from '@/models/TimerSession';
 import { useSessionCache } from '@/store/sessionCache';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
@@ -10,6 +17,11 @@ class SessionService {
 
   constructor(db: ReturnType<typeof drizzle>) {
     this.db = db;
+  }
+
+  async clear() {
+    useSessionCache.getState().clear();
+    await this.db.delete(sessions);
   }
 
   async getSessions(): Promise<Session[]> {
@@ -25,17 +37,12 @@ class SessionService {
 
     useSessionCache.getState().setSessions(newSessions);
 
-    return Array.from(useSessionCache.getState().getSessions().values());
+    return Object.values(useSessionCache.getState().getSessions());
   }
 
-  async clear() {
-    useSessionCache.getState().clear();
-    await this.db.delete(sessions);
-  }
-
-  async getSessionById(sessionId: string): Promise<Session> {
+  async getSessionById({ sessionId }: { sessionId: string }): Promise<Session> {
     const cache = useSessionCache.getState().getSessions();
-    const cached = cache.get(sessionId);
+    const cached = cache[sessionId];
 
     if (cached) return cached;
 
@@ -64,8 +71,14 @@ class SessionService {
 
   // 현재 Session 의 '오늘' TimerSession 조회
 
-  async createSession(sessionName: string): Promise<Session> {
-    const session = new Session({ sessionName });
+  async createSession({
+    sessionName,
+  }: {
+    sessionName: string;
+  }): Promise<Session> {
+    const session = new Session({
+      sessionName,
+    });
 
     await this.db.insert(sessions).values({
       sessionId: session.sessionId,
@@ -79,7 +92,47 @@ class SessionService {
 
   // Session 업데이트(startTs, endTs, targetDurationMs, entropyScore)
 
-  // Session 에 TimerSession 추가
+  async addTimerSession(
+    sessionId: string,
+    timerSession: TimerSession,
+  ): Promise<TimerSession> {
+    useSessionCache.getState().addTimerSession(sessionId, timerSession);
+
+    await this.db.insert(timerSessions).values({
+      timerSessionId: timerSession.timerSessionId,
+      sessionId: sessionId,
+      startTs: timerSession.startTs,
+      endTs: timerSession.endTs,
+      targetDurationMs: timerSession.targetDurationMs,
+      entropyScore: timerSession.entropyScore,
+    });
+
+    for (const pauseEvent of timerSession.pauseEvents) {
+      await this.db.insert(pauseEvents).values({
+        timerSessionId: timerSession.timerSessionId,
+        startTs: pauseEvent.startTs,
+        endTs: pauseEvent.endTs,
+        durationMs: pauseEvent.durationMs,
+      });
+    }
+
+    for (const appStateEvent of timerSession.screenUnlockCount) {
+      await this.db.insert(appStateEvents).values({
+        timerSessionId: timerSession.timerSessionId,
+        timestamp: appStateEvent.timestamp,
+        appState: appStateEvent.appState,
+      });
+    }
+
+    for (const scrollEvent of timerSession.scrollInteractionCount) {
+      await this.db.insert(scrollInteractionEvents).values({
+        timerSessionId: timerSession.timerSessionId,
+        timestamp: scrollEvent.timestamp,
+      });
+    }
+
+    return timerSession;
+  }
 }
 
 export const sessionService = new SessionService(db);

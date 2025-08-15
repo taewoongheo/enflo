@@ -32,15 +32,17 @@ class TimerSession {
   }
 
   calculateEntropy({
+    endTs,
     screenBackgroundCount,
     scrollInteractionCount,
     pauseEvents,
   }: {
+    endTs: number;
     screenBackgroundCount: AppStateEvent[];
     scrollInteractionCount: ScrollInteractionEvent[];
     pauseEvents: PauseEvent[];
   }) {
-    this.endTs = Date.now();
+    this.endTs = endTs;
     this.screenUnlockCount = screenBackgroundCount;
     this.scrollInteractionCount = scrollInteractionCount;
     this.pauseEvents = pauseEvents;

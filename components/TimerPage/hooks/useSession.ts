@@ -11,7 +11,9 @@ const useSession = (
   useEffect(() => {
     const findSessionById = async () => {
       try {
-        const foundSession = await sessionService.getSessionById(sessionId);
+        const foundSession = await sessionService.getSessionById({
+          sessionId,
+        });
         setSession(foundSession!);
       } catch (error) {
         console.error(error);

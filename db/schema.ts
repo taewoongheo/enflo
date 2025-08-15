@@ -18,9 +18,10 @@ export const timerSessions = sqliteTable(
     timerSessionId: text('timer_session_id').primaryKey().notNull(),
     sessionId: text('session_id')
       .notNull()
-      .references(() => sessions.sessionId, { onDelete: 'cascade' }),
-    startTs: integer('start_ts', { mode: 'timestamp_ms' }),
-    endTs: integer('end_ts', { mode: 'timestamp_ms' }),
+      .references(() => sessions.sessionId, { onDelete: 'cascade' })
+      .notNull(),
+    startTs: integer('start_ts'),
+    endTs: integer('end_ts'),
     targetDurationMs: integer('target_duration_ms').notNull(),
     entropyScore: integer('entropy_score'),
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
@@ -43,8 +44,8 @@ export const pauseEvents = sqliteTable(
     timerSessionId: text('timer_session_id')
       .notNull()
       .references(() => timerSessions.timerSessionId, { onDelete: 'cascade' }),
-    startTs: integer('start_ts', { mode: 'timestamp_ms' }).notNull(),
-    endTs: integer('end_ts', { mode: 'timestamp_ms' }).notNull(),
+    startTs: integer('start_ts').notNull(),
+    endTs: integer('end_ts').notNull(),
     durationMs: integer('duration_ms').notNull(),
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
       .notNull()
@@ -62,7 +63,7 @@ export const appStateEvents = sqliteTable(
     timerSessionId: text('timer_session_id')
       .notNull()
       .references(() => timerSessions.timerSessionId, { onDelete: 'cascade' }),
-    timestamp: integer('timestamp', { mode: 'timestamp_ms' }).notNull(),
+    timestamp: integer('timestamp').notNull(),
     appState: text('app_state', { enum: ['active', 'background'] }).notNull(),
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
       .notNull()
@@ -80,7 +81,7 @@ export const scrollInteractionEvents = sqliteTable(
     timerSessionId: text('timer_session_id')
       .notNull()
       .references(() => timerSessions.timerSessionId, { onDelete: 'cascade' }),
-    timestamp: integer('timestamp', { mode: 'timestamp_ms' }).notNull(),
+    timestamp: integer('timestamp').notNull(),
     createdAt: integer('created_at', { mode: 'timestamp_ms' })
       .notNull()
       .default(sql`(strftime('%s', 'now') * 1000)`),

@@ -38,6 +38,9 @@ class Session {
 
   addTimerSession(timerSession: TimerSession) {
     const timeRange = getTimeRange(timerSession.startTs!);
+    if (!this.timerSessionsByTimeRange[timeRange]) {
+      this.timerSessionsByTimeRange[timeRange] = [];
+    }
     this.timerSessionsByTimeRange[timeRange].push(timerSession);
   }
 
