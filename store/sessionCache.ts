@@ -1,4 +1,4 @@
-import Session from '@/models/Session';
+import Session, { TimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
@@ -7,16 +7,19 @@ type SessionCache = {
   sessionCache: Record<string, Session>;
   clear: () => void;
   setSessions: (sessions: Session[]) => void;
-  getSessions: () => Record<string, Session>;
   createSession: (session: Session) => Session;
   upsertSession: (session: Session) => Session;
   updateSession: (session: Session) => Session;
   deleteSession: (sessionId: string) => void;
-  addTimerSession: (sessionId: string, timerSession: TimerSession) => void;
+  addTimerSession: (
+    sessionId: string,
+    timerSession: TimerSession,
+    timeRange: TimeRange,
+  ) => void;
 };
 
 export const useSessionCache = create(
-  immer<SessionCache>((set, get) => ({
+  immer<SessionCache>((set) => ({
     sessionCache: {},
 
     clear: () => {
@@ -32,10 +35,6 @@ export const useSessionCache = create(
           draft.sessionCache[session.sessionId] = session;
         });
       }),
-
-    getSessions: () => {
-      return { ...get().sessionCache };
-    },
 
     createSession: (session) => {
       set((draft) => {
@@ -67,11 +66,24 @@ export const useSessionCache = create(
       });
     },
 
-    addTimerSession: (sessionId, timerSession) => {
+    addTimerSession: (sessionId, timerSession, timeRange) => {
       set((draft) => {
-        const session = draft.sessionCache[sessionId];
-        if (session) {
-          session.addTimerSession(timerSession);
+        const prev = draft.sessionCache[sessionId];
+
+        if (prev) {
+          const newTimerSessionsByTimeRange = {
+            ...prev.timerSessionsByTimeRange,
+            [timeRange]: [
+              ...(prev.timerSessionsByTimeRange[timeRange] ?? []),
+              timerSession,
+            ],
+          } as Record<TimeRange, TimerSession[]>;
+
+          draft.sessionCache[sessionId] = new Session({
+            sessionId: prev.sessionId,
+            sessionName: prev.sessionName,
+            timerSessionsByTimeRange: newTimerSessionsByTimeRange,
+          });
         }
       });
     },

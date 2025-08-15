@@ -11,10 +11,12 @@ import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent'
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
 import useSession from '@/components/TimerPage/hooks/useSession';
-import TimerInfo from '@/components/TimerPage/TimerInfo';
+import TimerTrends from '@/components/TimerPage/TimerInfo';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
+import { sessionService } from '@/services/SessionService';
+import { timerService } from '@/services/TimerService';
 import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens, Theme } from '@/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -92,10 +94,10 @@ function TimerContent({
     resetPauseEvent();
   }, [time]);
 
-  const handleTimerEnd = () => {
+  const handleTimerEnd = async () => {
     if (timerSession.current) {
-      timerSession.current.endTs = Date.now();
-      const entropyScore = timerSession.current.calculateEntropy({
+      const entropyScore = await timerService.calculateEntropy({
+        timerSession: timerSession.current,
         endTs: Date.now(),
         screenBackgroundCount: screenBackgroundCount.current,
         scrollInteractionCount: scrollInteractionCount.current,
@@ -104,25 +106,29 @@ function TimerContent({
 
       if (entropyScore) {
         updateEntropyScore(entropyScore);
-        session.addTimerSession(timerSession.current);
+        await sessionService.addTimerSession({
+          sessionId: session.sessionId,
+          timerSession: timerSession.current,
+        });
       }
     }
 
-    timerSession.current = new TimerSession({
+    timerSession.current = await timerService.createTimerSession({
       sessionId: session.sessionId,
       targetDurationMs: time,
-      // TODO: sessionSequenceInDay
     });
   };
 
   const handleStartPauseToggle = () => {
     if (!timerSession.current) {
-      console.error('no timer session');
-      return;
+      throw new Error('no timer session');
     }
 
     if (!timerSession.current.startTs) {
-      timerSession.current.startTs = Date.now();
+      timerService.updateStartTs({
+        timerSession: timerSession.current,
+        startTs: Date.now(),
+      });
     }
 
     setIsRunning(!isRunning);
@@ -174,7 +180,7 @@ function TimerContent({
       {/* Timer Info */}
       <ContentLayout>
         <View style={{ marginVertical: baseTokens.spacing[5] }}>
-          <TimerInfo session={session} t={t} theme={theme} />
+          <TimerTrends session={session} t={t} theme={theme} />
         </View>
       </ContentLayout>
     </ScrollView>

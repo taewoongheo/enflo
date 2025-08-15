@@ -6,10 +6,9 @@ import {
   sessions,
   timerSessions,
 } from '@/db/schema';
-import Session from '@/models/Session';
+import Session, { getTimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 import { useSessionCache } from '@/store/sessionCache';
-import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 
 class SessionService {
@@ -23,53 +22,6 @@ class SessionService {
     useSessionCache.getState().clear();
     await this.db.delete(sessions);
   }
-
-  async getSessions(): Promise<Session[]> {
-    const sessionRows = await this.db.select().from(sessions);
-
-    const newSessions = sessionRows.map(
-      (session) =>
-        new Session({
-          sessionId: session.sessionId,
-          sessionName: session.sessionName,
-        }),
-    );
-
-    useSessionCache.getState().setSessions(newSessions);
-
-    return Object.values(useSessionCache.getState().getSessions());
-  }
-
-  async getSessionById({ sessionId }: { sessionId: string }): Promise<Session> {
-    const cache = useSessionCache.getState().getSessions();
-    const cached = cache[sessionId];
-
-    if (cached) return cached;
-
-    const rows = await this.db
-      .select()
-      .from(sessions)
-      .where(eq(sessions.sessionId, sessionId))
-      .limit(1);
-
-    if (rows.length === 0) {
-      throw new Error('Session not found');
-    }
-
-    const row = rows[0];
-    const session = new Session({
-      sessionId: sessionId,
-      sessionName: row.sessionName,
-    });
-
-    useSessionCache.getState().upsertSession(session);
-
-    return session;
-  }
-
-  // Session 에 속한 TimerSession 조회
-
-  // 현재 Session 의 '오늘' TimerSession 조회
 
   async createSession({
     sessionName,
@@ -88,15 +40,17 @@ class SessionService {
     return useSessionCache.getState().createSession(session);
   }
 
-  // Session 삭제
-
-  // Session 업데이트(startTs, endTs, targetDurationMs, entropyScore)
-
-  async addTimerSession(
-    sessionId: string,
-    timerSession: TimerSession,
-  ): Promise<TimerSession> {
-    useSessionCache.getState().addTimerSession(sessionId, timerSession);
+  async addTimerSession({
+    sessionId,
+    timerSession,
+  }: {
+    sessionId: string;
+    timerSession: TimerSession;
+  }): Promise<TimerSession> {
+    const timeRange = getTimeRange(timerSession.startTs!);
+    useSessionCache
+      .getState()
+      .addTimerSession(sessionId, timerSession, timeRange);
 
     await this.db.insert(timerSessions).values({
       timerSessionId: timerSession.timerSessionId,

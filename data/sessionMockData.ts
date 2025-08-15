@@ -17,10 +17,10 @@ const createMockTimerSession = async (
   scrollEvents: ScrollInteractionEvent[] = [],
   screenUnlockEvents: AppStateEvent[] = [],
 ): Promise<TimerSession> => {
-  const timerSession = await timerService.createTimerSession(
+  const timerSession = await timerService.createTimerSession({
     sessionId,
     targetDurationMs,
-  );
+  });
 
   timerSession.startTs = startTs;
   timerSession.calculateEntropy({
@@ -115,9 +115,18 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
     [],
   );
 
-  await sessionService.addTimerSession(sessionId, timerSession1);
-  await sessionService.addTimerSession(sessionId, timerSession2);
-  await sessionService.addTimerSession(sessionId, timerSession3);
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession1,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession2,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession3,
+  });
 
   return session;
 };
@@ -171,8 +180,14 @@ export const createReadingSessions = async (): Promise<Session> => {
     ],
   );
 
-  await sessionService.addTimerSession(sessionId, timerSession1);
-  await sessionService.addTimerSession(sessionId, timerSession2);
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession1,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession2,
+  });
 
   return session;
 };
@@ -238,9 +253,18 @@ export const createFocusSessions = async (): Promise<Session> => {
     ],
   );
 
-  await sessionService.addTimerSession(sessionId, timerSession1);
-  await sessionService.addTimerSession(sessionId, timerSession2);
-  await sessionService.addTimerSession(sessionId, timerSession3);
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession1,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession2,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession3,
+  });
 
   return session;
 };

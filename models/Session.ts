@@ -29,19 +29,20 @@ class Session {
   constructor(params: {
     sessionId?: string;
     sessionName: string;
-    timerSessionsByTimeRange?: Partial<Record<TimeRange, TimerSession[]>>;
+    timerSessionsByTimeRange?: Record<TimeRange, TimerSession[]>;
   }) {
     this.sessionId = params.sessionId ?? uuid.v4();
     this.sessionName = params.sessionName;
-    this.timerSessionsByTimeRange = {} as Record<TimeRange, TimerSession[]>;
+    this.timerSessionsByTimeRange =
+      params.timerSessionsByTimeRange ??
+      ({} as Record<TimeRange, TimerSession[]>);
   }
 
-  addTimerSession(timerSession: TimerSession) {
-    const timeRange = getTimeRange(timerSession.startTs!);
-    if (!this.timerSessionsByTimeRange[timeRange]) {
-      this.timerSessionsByTimeRange[timeRange] = [];
-    }
-    this.timerSessionsByTimeRange[timeRange].push(timerSession);
+  addTimerSession(timerSession: TimerSession, timeRange: TimeRange) {
+    this.timerSessionsByTimeRange[timeRange] = [
+      ...(this.timerSessionsByTimeRange[timeRange] ?? []),
+      timerSession,
+    ];
   }
 
   get totalNetFocusMs(): number {

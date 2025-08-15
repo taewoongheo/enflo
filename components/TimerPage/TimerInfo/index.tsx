@@ -10,7 +10,7 @@ import { View } from 'react-native';
 import { generateSuggestion } from '../utils/generateSuggestion';
 import { toUserMessage } from '../utils/toUserMessage';
 
-function TimerInfo({
+function TimerTrends({
   session,
   t,
   theme,
@@ -82,4 +82,4 @@ const InfoLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default TimerInfo;
+export default TimerTrends;

@@ -6,6 +6,11 @@ import {
   timerSessions,
 } from '@/db/schema';
 import TimerSession from '@/models/TimerSession';
+import {
+  AppStateEvent,
+  PauseEvent,
+  ScrollInteractionEvent,
+} from '@/types/InterruptEvent';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 
 class TimerService {
@@ -22,10 +27,13 @@ class TimerService {
     await this.db.delete(appStateEvents);
   }
 
-  async createTimerSession(
-    sessionId: string,
-    targetDurationMs: number,
-  ): Promise<TimerSession> {
+  async createTimerSession({
+    sessionId,
+    targetDurationMs,
+  }: {
+    sessionId: string;
+    targetDurationMs: number;
+  }): Promise<TimerSession> {
     const timerSession = new TimerSession({
       sessionId,
       targetDurationMs,
@@ -33,6 +41,38 @@ class TimerService {
     });
 
     return timerSession;
+  }
+
+  async updateStartTs({
+    timerSession,
+    startTs,
+  }: {
+    timerSession: TimerSession;
+    startTs: number;
+  }) {
+    timerSession.startTs = startTs;
+    return timerSession;
+  }
+
+  async calculateEntropy({
+    timerSession,
+    endTs,
+    screenBackgroundCount,
+    scrollInteractionCount,
+    pauseEvents,
+  }: {
+    timerSession: TimerSession;
+    endTs: number;
+    screenBackgroundCount: AppStateEvent[];
+    scrollInteractionCount: ScrollInteractionEvent[];
+    pauseEvents: PauseEvent[];
+  }) {
+    return timerSession.calculateEntropy({
+      endTs,
+      screenBackgroundCount,
+      scrollInteractionCount,
+      pauseEvents,
+    });
   }
 }
 
