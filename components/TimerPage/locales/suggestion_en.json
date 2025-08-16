@@ -1,142 +1,144 @@
 {
+  "noDataMessage": "We’re still learning your focus patterns. Keep recording your sessions, and we’ll provide personalized analysis soon.",
   "levels": {
-    "danger": "DANGER",
-    "unstable": "UNSTABLE",
-    "stable": "STABLE",
-    "good": "GOOD"
+    "danger": "At Risk",
+    "unstable": "Unstable",
+    "stable": "Stable",
+    "good": "Strong"
   },
   "trends": {
-    "rising": "RISING",
-    "declining": "DECLINING",
-    "stable": "STABLE"
+    "rising": "Improving",
+    "declining": "Declining",
+    "stable": "Steady"
   },
   "interruptions": {
-    "pauses": "Timer pauses",
-    "unlocks": "App switches",
-    "scrolls": "Other activities during timer"
+    "pauses": "timer pauses",
+    "unlocks": "app switches",
+    "scrolls": "other activities during the timer"
   },
   "timeRanges": {
-    "00-03": "Late night",
-    "03-06": "Early morning",
-    "06-09": "Morning",
-    "09-12": "Mid-morning",
-    "12-15": "Afternoon",
-    "15-18": "Late afternoon",
-    "18-21": "Evening",
-    "21-24": "Late evening"
+    "00-06": "early morning",
+    "06-12": "morning",
+    "12-18": "afternoon",
+    "18-24": "evening"
   },
   "statusMessages": {
     "danger": [
-      "High risk of focus failure.",
-      "Focus ability is quite lacking.",
-      "It's hard to concentrate right now.",
-      "Concentration is not working well."
+      "focus stability is at high risk.",
+      "concentration levels are very low.",
+      "maintaining focus is difficult right now.",
+      "your concentration is dropping sharply."
     ],
     "unstable": [
-      "Focus maintenance is unstable.",
-      "Focus ability is inconsistent.",
-      "Focus state is fluctuating.",
-      "There are ups and downs in concentration."
+      "focus is inconsistent.",
+      "concentration is fluctuating.",
+      "focus stability is uneven.",
+      "your concentration shows irregular patterns."
     ],
     "stable": [
-      "Focus maintenance is stable.",
-      "Focus state is pretty good.",
-      "Concentration is quite good.",
-      "You're maintaining focus well."
+      "focus remains steady.",
+      "concentration is consistently maintained.",
+      "focus stability is good.",
+      "you’re sustaining a solid level of concentration."
     ],
     "good": [
-      "Focus state is excellent.",
-      "Your concentration is outstanding.",
-      "You're focusing perfectly.",
-      "Your focus condition is at its peak."
+      "focus is excellent.",
+      "concentration levels are very strong.",
+      "you’re highly focused.",
+      "your focus condition is near peak."
     ]
   },
   "headerVariations": [
-    "Recently on {{weekday}} {{timeRange}}, ",
-    "On {{weekday}} {{timeRange}}, ",
-    "Analysis of {{weekday}} {{timeRange}} focus shows that ",
-    "Your focus during {{weekday}} {{timeRange}} is ",
-    "Looking at recent {{weekday}} {{timeRange}} focus patterns, ",
-    "Examining {{weekday}} {{timeRange}} focus, "
+    "During {{weekday}} {{timeRange}}, ",
+    "For {{weekday}} {{timeRange}}, ",
+    "In the {{weekday}} {{timeRange}} period, ",
+    "Looking at {{weekday}} {{timeRange}} patterns, ",
+    "Recently, during {{weekday}} {{timeRange}}, ",
+    "Results for {{weekday}} {{timeRange}} indicate "
   ],
   "actionMessages": {
     "excellent": [
-      "Perfect! Keep maintaining your current focus pattern.",
-      "Excellent! Continue this flow.",
-      "Outstanding focus state! Keep it up.",
-      "Really amazing! Keep maintaining this state.",
-      "Perfect concentration! Keep going like this.",
-      "Incredible! Maintain this focus pattern.",
-      "Peak condition! Continue this momentum.",
-      "Perfect immersion! Maintain your current pattern."
+      "maintain your current focus level.",
+      "keep this strong pattern going.",
+      "reinforce this optimal state.",
+      "sustain this stability.",
+      "aim to keep performance at this level.",
+      "keep the momentum steady.",
+      "continue performing at a high standard.",
+      "maintain this optimal focus control."
     ],
     "risingStable": [
-      "Getting better and better! Keep it up.",
-      "Great upward trend! Keep developing.",
-      "Improving in a good direction! Continue like this.",
-      "Moving in an improved direction! Keep it up."
+      "maintain this improving trajectory.",
+      "keep reinforcing the upward trend.",
+      "continue progressing in this direction.",
+      "sustain the steady improvement."
     ],
     "stableHigh": [
-      "Maintaining stable focus well.",
-      "Consistently maintaining good concentration.",
-      "Focus state is being maintained stably.",
-      "Showing consistent concentration."
+      "keep your stability consistently high.",
+      "continue maintaining a strong level of concentration.",
+      "sustain this steady, reliable focus.",
+      "keep up the sustained stability."
     ],
     "minorImprovement": [
-      "Overall good. However, reducing {{issue}} a bit would make it even more perfect.",
-      "Almost perfect! Just improve {{issue}} a little and it'll be perfect.",
-      "Really good! Just reduce {{issue}} a bit and it'll be more perfect.",
-      "Excellent state! Just improve {{issue}} and it'll be perfect."
+      "reduce {{issue}} slightly to refine your results.",
+      "a small adjustment to {{issue}} will bring you closer to optimal.",
+      "lowering {{issue}} a bit will improve overall quality.",
+      "addressing {{issue}} will further strengthen your results."
     ],
     "risingMedium": [
-      "Getting better! Keep improving in this direction.",
-      "Developing in a good direction! Keep it up.",
-      "Showing improvement! Continue like this.",
-      "Great progress! Keep improving steadily."
+      "maintain the pace of improvement.",
+      "keep reinforcing the progress you’re making.",
+      "continue with consistent efforts.",
+      "build on this positive momentum."
     ],
     "risingWithTip": [
-      "Getting better! Try to reduce '{{issue}}' more. (avg {{count}} times)",
-      "Good direction! Try to improve '{{issue}}' more. (avg {{count}} times)",
-      "Making progress! Try to reduce '{{issue}}' a bit more. (avg {{count}} times)",
-      "Improving! Pay more attention to '{{issue}}'. (avg {{count}} times)"
+      "reduce '{{issue}}' to accelerate progress (avg {{count}} times).",
+      "lower '{{issue}}' further to support the trend (avg {{count}} times).",
+      "cut down on '{{issue}}' slightly (avg {{count}} times).",
+      "pay closer attention to '{{issue}}' (avg {{count}} times)."
     ],
     "risingMultiTip": [
-      "Getting better! Try to reduce '{{issue}}'({{count}} times) more.",
-      "Moving in a good direction! Try to improve '{{issue}}'({{count}} times).",
-      "Making progress! Focus on '{{issue}}'({{count}} times)."
+      "reduce '{{issue}}' (avg {{count}} times) to strengthen stability.",
+      "work on minimizing '{{issue}}' (avg {{count}} times).",
+      "focus on lowering '{{issue}}' (avg {{count}} times) for better control."
     ],
     "noIssue": [
-      "No major distractions, but try to extend focus time a bit more.",
-      "Few distractions. Try challenging longer focus sessions.",
-      "Not much interruption. Time to increase focus duration.",
-      "No major issues. Try aiming for longer focus sessions."
+      "extend your focus sessions gradually.",
+      "challenge yourself with longer durations.",
+      "aim to lengthen focus time now.",
+      "target extended concentration periods."
     ],
     "singleIssue": [
-      "Mainly distracted by '{{issue}}'. (avg {{count}} times)",
-      "'{{issue}}' is disrupting your focus. (avg {{count}} times)",
-      "Focus is being disturbed by '{{issue}}'. (avg {{count}} times)",
-      "The biggest distraction is '{{issue}}'. (avg {{count}} times)"
+      "primary disruption: '{{issue}}' (avg {{count}} times)—work on reducing this.",
+      "'{{issue}}' is impacting your sessions (avg {{count}} times)—address this factor.",
+      "concentration loss is mostly linked to '{{issue}}' (avg {{count}} times).",
+      "main distraction detected: '{{issue}}' (avg {{count}} times)—prioritize improvement here."
     ],
     "multiIssue": [
-      "Try to reduce '{{issue1}}'(avg {{count1}} times) and '{{issue2}}'(avg {{count2}} times).",
-      "Try to improve '{{issue1}}'(avg {{count1}} times) and '{{issue2}}'(avg {{count2}} times).",
-      "Pay attention to '{{issue1}}'(avg {{count1}} times) and '{{issue2}}'(avg {{count2}} times)."
+      "address '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) to improve stability.",
+      "reduce disruptions from '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}).",
+      "lower both '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) for better focus."
     ],
     "lowScoreNoIssue": [
-      "Focus time is insufficient. Start by gradually increasing the time.",
-      "Short focus sessions are repeating. Try to focus longer gradually.",
-      "Need to increase focus duration. Improve step by step.",
-      "Longer focus is needed. Slowly increase the time."
+      "increase session length step by step.",
+      "extend duration progressively to build stamina.",
+      "add a few more minutes to each session.",
+      "gradually lengthen your focus periods."
     ],
     "lowScoreWithIssue": [
-      "Main distraction is '{{issue}}'. (avg {{count}} times) Focus on reducing this.",
-      "'{{issue}}' is the biggest problem. (avg {{count}} times) Start improving this part.",
-      "What most disrupts focus is '{{issue}}'. (avg {{count}} times) Try to reduce this first.",
-      "Focus is difficult because of '{{issue}}'. (avg {{count}} times) Solve this problem first."
+      "start by reducing '{{issue}}' (avg {{count}} times).",
+      "prioritize fixing '{{issue}}' (avg {{count}} times).",
+      "your main challenge is '{{issue}}' (avg {{count}} times)—tackle this first.",
+      "lower the impact of '{{issue}}' (avg {{count}} times) to improve results."
     ]
   },
   "conjunctions": {
-    "but": " However, ",
+    "but": [
+      " To improve, ",
+      " To strengthen your focus, ",
+      " To make progress, ",
+      " To stabilize, "
+    ],
     "normal": " "
   }
 }

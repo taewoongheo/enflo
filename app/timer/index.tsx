@@ -5,12 +5,12 @@ import {
   TimerHeader,
   TimerPlayButton,
   TimerSuggestion,
+  TimerTrends,
   TimerTunerSlider,
 } from '@/components/TimerPage';
 import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent';
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
-import TimerTrends from '@/components/TimerPage/TimerInfo';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
@@ -73,7 +73,7 @@ function TimerContent({
 
   const timerSession = useRef<TimerSession | null>(null);
 
-  const { updateEntropyScore } = useEntropyStore();
+  const updateEntropyScore = useEntropyStore((s) => s.updateEntropyScore);
 
   // timer session disturbance data
   const { screenBackgroundCount, resetBackgroundEvent } =

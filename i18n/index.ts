@@ -6,16 +6,18 @@ import main_en from '../components/MainPage/locales/en.json';
 import main_ko from '../components/MainPage/locales/ko.json';
 import timer_en from '../components/TimerPage/locales/en.json';
 import timer_ko from '../components/TimerPage/locales/ko.json';
+import suggestion_en from '../components/TimerPage/locales/suggestion_en.json';
+import suggestion_ko from '../components/TimerPage/locales/suggestion_ko.json';
 
 i18n.use(initReactI18next).init({
   lng: getLocales()[0].languageCode as 'en' | 'ko',
   // lng: 'en',
   fallbackLng: 'en',
-  ns: ['main', 'timer'],
+  ns: ['main', 'timer', 'suggestion'],
   defaultNS: 'main',
   resources: {
-    en: { main: main_en, timer: timer_en },
-    ko: { main: main_ko, timer: timer_ko },
+    en: { main: main_en, timer: timer_en, suggestion: suggestion_en },
+    ko: { main: main_ko, timer: timer_ko, suggestion: suggestion_ko },
   },
   interpolation: {
     escapeValue: false,

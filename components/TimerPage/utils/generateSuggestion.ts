@@ -14,7 +14,10 @@ export function generateSuggestion(sessions: Session): Suggestion | null {
   const bucket = (sessions.timerSessionsByTimeRange[rangeKey] ||= []);
 
   const sessionCount = bucket.length;
-  if (sessionCount < SUGGESTION_THRESHOLDS.MIN_SESSIONS) return null;
+
+  if (sessionCount < SUGGESTION_THRESHOLDS.MIN_SESSIONS) {
+    return null;
+  }
 
   const recentBucket = bucket.slice(-3);
 

@@ -3,9 +3,10 @@ import i18n from '@/i18n';
 import Session from '@/models/Session';
 import { baseTokens } from '@/styles/baseTokens';
 import { Theme } from '@/styles/themes';
-import { getToday } from '@/utils/time';
+import { formatMsToTime, getToday } from '@/utils/time';
 import { TFunction } from 'i18next';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { generateSuggestion } from '../utils/generateSuggestion';
 import { toUserMessage } from '../utils/toUserMessage';
@@ -19,6 +20,20 @@ function TimerTrends({
   t: TFunction;
   theme: Theme;
 }) {
+  const { t: tTimer } = useTranslation('suggestion');
+
+  const [userMessage, setUserMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    setUserMessage(
+      toUserMessage(
+        generateSuggestion(session),
+        getToday(i18n.language),
+        tTimer,
+      ),
+    );
+  }, [session.totalNetFocusMs]);
+
   return (
     <>
       <InfoLayout>
@@ -40,7 +55,7 @@ function TimerTrends({
           variant="body1Regular"
           style={{ color: theme.colors.pages.timer.slider.text.primary }}
         >
-          30:23:10
+          {formatMsToTime(session.totalNetFocusMs)}
         </Typography>
       </InfoLayout>
       <InfoLayout>
@@ -54,7 +69,7 @@ function TimerTrends({
           variant="body1Regular"
           style={{ color: theme.colors.pages.timer.slider.text.primary }}
         >
-          {toUserMessage(generateSuggestion(session), getToday(i18n.language))}
+          {userMessage}
         </Typography>
       </InfoLayout>
       <InfoLayout>

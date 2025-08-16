@@ -10,7 +10,7 @@ import { Pressable } from 'react-native-gesture-handler';
 
 const EntropyScore = () => {
   const { theme } = useTheme();
-  const { entropyScore } = useEntropyStore();
+  const entropyScore = useEntropyStore((s) => s.entropyScore);
 
   console.log('entropy score: ', entropyScore);
 
