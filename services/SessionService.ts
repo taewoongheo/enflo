@@ -9,6 +9,7 @@ import {
 import Session, { getTimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 import { useSessionCache } from '@/store/sessionCache';
+import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 
 class SessionService {
@@ -20,12 +21,72 @@ class SessionService {
 
   async hydrateSessions(): Promise<void> {
     const rows = await this.db.select().from(sessions);
-    const allSessions = rows.map(
-      (el) =>
-        new Session({
-          sessionId: el.sessionId,
-          sessionName: el.sessionName,
-        }),
+    const allSessions = await Promise.all(
+      rows.map(async (sessionRow) => {
+        const timerSessionRows = await this.db
+          .select()
+          .from(timerSessions)
+          .where(eq(timerSessions.sessionId, sessionRow.sessionId));
+
+        const session = new Session({
+          sessionId: sessionRow.sessionId,
+          sessionName: sessionRow.sessionName,
+        });
+
+        for (const timerRow of timerSessionRows) {
+          const timerSession = new TimerSession({
+            sessionId: sessionRow.sessionId,
+            targetDurationMs: timerRow.targetDurationMs,
+          });
+
+          timerSession.timerSessionId = timerRow.timerSessionId;
+          timerSession.startTs = timerRow.startTs;
+          timerSession.endTs = timerRow.endTs;
+          timerSession.entropyScore = timerRow.entropyScore;
+
+          const pauseEventRows = await this.db
+            .select()
+            .from(pauseEvents)
+            .where(eq(pauseEvents.timerSessionId, timerRow.timerSessionId));
+
+          timerSession.pauseEvents = pauseEventRows.map((row) => ({
+            startTs: row.startTs,
+            endTs: row.endTs,
+            durationMs: row.durationMs,
+          }));
+
+          const appStateEventRows = await this.db
+            .select()
+            .from(appStateEvents)
+            .where(eq(appStateEvents.timerSessionId, timerRow.timerSessionId));
+
+          timerSession.screenUnlockCount = appStateEventRows.map((row) => ({
+            timestamp: row.timestamp,
+            appState: row.appState as 'active' | 'background',
+          }));
+
+          const scrollEventRows = await this.db
+            .select()
+            .from(scrollInteractionEvents)
+            .where(
+              eq(
+                scrollInteractionEvents.timerSessionId,
+                timerRow.timerSessionId,
+              ),
+            );
+
+          timerSession.scrollInteractionCount = scrollEventRows.map((row) => ({
+            timestamp: row.timestamp,
+          }));
+
+          if (timerSession.startTs) {
+            const timeRange = getTimeRange(timerSession.startTs);
+            session.addTimerSession(timerSession, timeRange);
+          }
+        }
+
+        return session;
+      }),
     );
 
     useSessionCache.getState().setSessions(allSessions);

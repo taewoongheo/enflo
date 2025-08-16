@@ -269,10 +269,8 @@ export const createFocusSessions = async (): Promise<Session> => {
   return session;
 };
 
-export const createAllMockSessions = async (): Promise<Session[]> => {
-  const enfloSession = await createEnfloProjectSessions();
-  const readingSession = await createReadingSessions();
-  const focusSession = await createFocusSessions();
-
-  return [enfloSession, readingSession, focusSession];
+export const createAllMockSessions = async (): Promise<void> => {
+  await createEnfloProjectSessions();
+  await createReadingSessions();
+  await createFocusSessions();
 };

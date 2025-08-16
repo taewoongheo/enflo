@@ -6,7 +6,6 @@ import { INSERT_MOCK_DATA } from '@/environment.config';
 import '@/i18n';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
-import { useSessionCache } from '@/store/sessionCache';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStudio';
 import { Stack } from 'expo-router';
@@ -21,23 +20,21 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
   useDrizzleStudio(expoDb);
 
   useEffect(() => {
-    const insertMockSessions = async () => {
+    const initializeSessions = async () => {
       try {
-        await sessionService.clear();
-        await timerService.clear();
+        if (INSERT_MOCK_DATA) {
+          await sessionService.clear();
+          await timerService.clear();
+          await createAllMockSessions();
+        }
 
-        const sessions = await createAllMockSessions();
-        useSessionCache.getState().setSessions(sessions);
+        await sessionService.hydrateSessions();
       } catch (error) {
         throw error;
       }
     };
 
-    if (INSERT_MOCK_DATA) {
-      insertMockSessions();
-    }
-
-    sessionService.hydrateSessions();
+    initializeSessions();
   }, []);
 
   return <>{children}</>;
