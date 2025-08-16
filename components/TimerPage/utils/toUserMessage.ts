@@ -114,9 +114,7 @@ function getActionMessage(
         return messages[Math.floor(Math.random() * messages.length)];
       }
     } else {
-      const issueName = t(
-        `interruptions.${getInterruptionKey(minorIssues[0].name)}`,
-      );
+      const issueName = t(`interruptions.${minorIssues[0].name}`);
       const messages = t('actionMessages.minorImprovement', {
         returnObjects: true,
       }) as string[];
@@ -136,9 +134,7 @@ function getActionMessage(
         }) as string[];
         return messages[Math.floor(Math.random() * messages.length)];
       } else if (issues.length === 1) {
-        const issueName = t(
-          `interruptions.${getInterruptionKey(issues[0].name)}`,
-        );
+        const issueName = t(`interruptions.${issues[0].name}`);
         const messages = t('actionMessages.risingWithTip', {
           returnObjects: true,
         }) as string[];
@@ -148,9 +144,7 @@ function getActionMessage(
           .replace('{{issue}}', issueName)
           .replace('{{count}}', issues[0].count.toFixed(1));
       } else {
-        const issueName = t(
-          `interruptions.${getInterruptionKey(issues[0].name)}`,
-        );
+        const issueName = t(`interruptions.${issues[0].name}`);
         const messages = t('actionMessages.risingMultiTip', {
           returnObjects: true,
         }) as string[];
@@ -168,9 +162,7 @@ function getActionMessage(
       }) as string[];
       return messages[Math.floor(Math.random() * messages.length)];
     } else if (issues.length === 1) {
-      const issueName = t(
-        `interruptions.${getInterruptionKey(issues[0].name)}`,
-      );
+      const issueName = t(`interruptions.${issues[0].name}`);
       const messages = t('actionMessages.singleIssue', {
         returnObjects: true,
       }) as string[];
@@ -180,12 +172,8 @@ function getActionMessage(
         .replace('{{issue}}', issueName)
         .replace('{{count}}', issues[0].count.toFixed(1));
     } else {
-      const issue1Name = t(
-        `interruptions.${getInterruptionKey(issues[0].name)}`,
-      );
-      const issue2Name = t(
-        `interruptions.${getInterruptionKey(issues[1].name)}`,
-      );
+      const issue1Name = t(`interruptions.${issues[0].name}`);
+      const issue2Name = t(`interruptions.${issues[1].name}`);
       const messages = t('actionMessages.multiIssue', {
         returnObjects: true,
       }) as string[];
@@ -207,7 +195,7 @@ function getActionMessage(
     return messages[Math.floor(Math.random() * messages.length)];
   } else {
     const topIssue = issues[0];
-    const issueName = t(`interruptions.${getInterruptionKey(topIssue.name)}`);
+    const issueName = t(`interruptions.${topIssue.name}`);
     const messages = t('actionMessages.lowScoreWithIssue', {
       returnObjects: true,
     }) as string[];
@@ -225,25 +213,4 @@ function getSignificantInterruptions(
   return Object.values(interruptionStats)
     .filter((stat) => stat.count >= threshold)
     .sort((a, b) => b.count - a.count);
-}
-
-function getInterruptionKey(interruptionName: string): string {
-  // Map interruption names to i18n keys
-  if (
-    interruptionName.includes('pause') ||
-    interruptionName.includes('일시정지')
-  ) {
-    return 'pauses';
-  } else if (
-    interruptionName.includes('unlock') ||
-    interruptionName.includes('이탈')
-  ) {
-    return 'unlocks';
-  } else if (
-    interruptionName.includes('scroll') ||
-    interruptionName.includes('활동')
-  ) {
-    return 'scrolls';
-  }
-  return 'pauses'; // default fallback
 }

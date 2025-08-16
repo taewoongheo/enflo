@@ -78,9 +78,9 @@ export function generateSuggestion(sessions: Session): Suggestion | null {
   );
 
   const interruptionStats = {
-    pauses: { count: totalPauses / denom, name: '타이머 일시정지' },
-    unlocks: { count: totalUnlocks / denom, name: '앱 이탈' },
-    scrolls: { count: totalScrolls / denom, name: '타이머 중 다른 활동' },
+    pauses: { count: totalPauses / denom, name: 'pauses' },
+    unlocks: { count: totalUnlocks / denom, name: 'unlocks' },
+    scrolls: { count: totalScrolls / denom, name: 'scrolls' },
   };
 
   const outlierRate =

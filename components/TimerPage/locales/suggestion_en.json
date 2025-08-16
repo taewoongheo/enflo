@@ -12,9 +12,9 @@
     "stable": "Steady"
   },
   "interruptions": {
-    "pauses": "timer pauses",
-    "unlocks": "app switches",
-    "scrolls": "other activities during the timer"
+    "pauses": "pausing the timer",
+    "unlocks": "leaving the app during the timer",
+    "scrolls": "doing other activities during the timer"
   },
   "timeRanges": {
     "00-06": "early morning",
@@ -82,7 +82,7 @@
     "minorImprovement": [
       "reduce {{issue}} slightly to refine your results.",
       "a small adjustment to {{issue}} will bring you closer to optimal.",
-      "lowering {{issue}} a bit will improve overall quality.",
+      "reducing {{issue}} a bit will improve overall quality.",
       "addressing {{issue}} will further strengthen your results."
     ],
     "risingMedium": [
@@ -98,9 +98,9 @@
       "pay closer attention to '{{issue}}' (avg {{count}} times)."
     ],
     "risingMultiTip": [
-      "reduce '{{issue}}' (avg {{count}} times) to strengthen stability.",
+      "reduce '{{issue}}' (avg {{count}} times)",
       "work on minimizing '{{issue}}' (avg {{count}} times).",
-      "focus on lowering '{{issue}}' (avg {{count}} times) for better control."
+      "focus on reducing '{{issue}}' (avg {{count}} times) for better control."
     ],
     "noIssue": [
       "extend your focus sessions gradually.",

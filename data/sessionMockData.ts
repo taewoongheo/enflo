@@ -44,36 +44,36 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   const timerSession1 = await createMockTimerSession(
     sessionId,
     1800000, // 30 minutes
-    new Date(Date.now() - 86400000 * 2).setHours(12, 30, 0, 0), // 2 days ago at 12:30 PM
-    new Date(Date.now() - 86400000 * 2).setHours(12, 30, 0, 0) + 1600000, // 26.7 minutes later
+    new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0), // 2 days ago at 9:30 PM (18-24)
+    new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 1600000, // 26.7 minutes later
     [
       {
         startTs:
-          new Date(Date.now() - 86400000 * 2).setHours(12, 30, 0, 0) + 600000,
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 600000,
         endTs:
-          new Date(Date.now() - 86400000 * 2).setHours(12, 30, 0, 0) + 660000,
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 660000,
         durationMs: 60000,
       },
     ],
     [
       {
         timestamp:
-          new Date(Date.now() - 86400000 * 2).setHours(12, 30, 0, 0) + 300000,
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 300000,
       },
       {
         timestamp:
-          new Date(Date.now() - 86400000 * 2).setHours(12, 30, 0, 0) + 900000,
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 900000,
       },
     ],
     [
       {
         timestamp:
-          new Date(Date.now() - 86400000 * 2).setHours(12, 30, 0, 0) + 1200000,
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 1200000,
         appState: 'background',
       },
       {
         timestamp:
-          new Date(Date.now() - 86400000 * 2).setHours(12, 30, 0, 0) + 1400000,
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 1400000,
         appState: 'active',
       },
     ],
@@ -81,45 +81,45 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   const timerSession2 = await createMockTimerSession(
     sessionId,
     3600000, // 1 hour
-    new Date(Date.now() - 86400000).setHours(13, 15, 0, 0), // 1 day ago at 1:15 PM
-    new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 3200000, // 53.3 minutes later
+    new Date(Date.now() - 86400000).setHours(22, 15, 0, 0), // 1 day ago at 10:15 PM (18-24)
+    new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 3200000, // 53.3 minutes later
     [
       {
         startTs:
-          new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 1200000,
-        endTs: new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 1800000,
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 1200000,
+        endTs: new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 1800000,
         durationMs: 600000,
       },
       {
         startTs:
-          new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 2400000,
-        endTs: new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 2460000,
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 2400000,
+        endTs: new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 2460000,
         durationMs: 60000,
       },
     ],
     [
       {
         timestamp:
-          new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 600000,
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 600000,
       },
       {
         timestamp:
-          new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 1500000,
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 1500000,
       },
       {
         timestamp:
-          new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 2700000,
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 2700000,
       },
     ],
     [
       {
         timestamp:
-          new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 1800000,
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 1800000,
         appState: 'background',
       },
       {
         timestamp:
-          new Date(Date.now() - 86400000).setHours(13, 15, 0, 0) + 2100000,
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 2100000,
         appState: 'active',
       },
     ],
@@ -127,8 +127,8 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   const timerSession3 = await createMockTimerSession(
     sessionId,
     2700000, // 45 minutes
-    new Date(Date.now() - 43200000).setHours(14, 0, 0, 0), // 12 hours ago at 2:00 PM
-    new Date(Date.now() - 43200000).setHours(14, 0, 0, 0) + 2400000, // 40 minutes later
+    new Date(Date.now() - 43200000).setHours(23, 0, 0, 0), // 12 hours ago at 11:00 PM (18-24)
+    new Date(Date.now() - 43200000).setHours(23, 0, 0, 0) + 2400000, // 40 minutes later
     [
       {
         startTs: Date.now() - 43200000 + 900000,
@@ -147,8 +147,8 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   const timerSession4 = await createMockTimerSession(
     sessionId,
     1200000, // 20 minutes
-    new Date(Date.now() - 36000000).setHours(12, 45, 0, 0), // 10 hours ago at 12:45 PM
-    new Date(Date.now() - 36000000).setHours(12, 45, 0, 0) + 1100000, // 18.3 minutes later
+    new Date(Date.now() - 36000000).setHours(20, 45, 0, 0), // 10 hours ago at 8:45 PM (18-24)
+    new Date(Date.now() - 36000000).setHours(20, 45, 0, 0) + 1100000, // 18.3 minutes later
     [
       {
         startTs: Date.now() - 36000000 + 400000,
@@ -175,8 +175,8 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   const timerSession5 = await createMockTimerSession(
     sessionId,
     3000000, // 50 minutes
-    new Date(Date.now() - 18000000).setHours(13, 0, 0, 0), // 5 hours ago at 1:00 PM
-    new Date(Date.now() - 18000000).setHours(13, 0, 0, 0) + 2800000, // 46.7 minutes later
+    new Date(Date.now() - 18000000).setHours(21, 0, 0, 0), // 5 hours ago at 9:00 PM (18-24)
+    new Date(Date.now() - 18000000).setHours(21, 0, 0, 0) + 2800000, // 46.7 minutes later
     [
       {
         startTs: Date.now() - 18000000 + 1000000,
@@ -209,8 +209,8 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   const timerSession6 = await createMockTimerSession(
     sessionId,
     1500000, // 25 minutes
-    new Date(Date.now() - 9000000).setHours(14, 30, 0, 0), // 2.5 hours ago at 2:30 PM
-    new Date(Date.now() - 9000000).setHours(14, 30, 0, 0) + 1400000, // 23.3 minutes later
+    new Date(Date.now() - 9000000).setHours(22, 30, 0, 0), // 2.5 hours ago at 10:30 PM (18-24)
+    new Date(Date.now() - 9000000).setHours(22, 30, 0, 0) + 1400000, // 23.3 minutes later
     [
       {
         startTs: Date.now() - 9000000 + 600000,
