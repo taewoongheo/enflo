@@ -1,6 +1,17 @@
 import { LEVEL_LABELS, TREND_LABELS } from '../constant/suggestion';
 import { Level, Suggestion, Trend } from '../types/Suggestion';
 
+export const TEMPLATE_VARS = {
+  WEEKDAY: '{{weekday}}',
+  TIME_RANGE: '{{timeRange}}',
+  ISSUE: '{{issue}}',
+  COUNT: '{{count}}',
+  ISSUE_1: '{{issue1}}',
+  ISSUE_2: '{{issue2}}',
+  COUNT_1: '{{count1}}',
+  COUNT_2: '{{count2}}',
+} as const;
+
 export function toUserMessage(
   s: Suggestion | null,
   weekday: string,
@@ -21,8 +32,8 @@ export function toUserMessage(
   const randomHeader =
     headerVariations[Math.floor(Math.random() * headerVariations.length)];
   const header = randomHeader
-    .replace('{{weekday}}', weekday)
-    .replace('{{timeRange}}', timeRangeLabel);
+    .replace(TEMPLATE_VARS.WEEKDAY, weekday)
+    .replace(TEMPLATE_VARS.TIME_RANGE, timeRangeLabel);
 
   const statusMessage = getStatusMessage(label, t);
 
@@ -120,7 +131,7 @@ function getActionMessage(
       }) as string[];
       const randomMessage =
         messages[Math.floor(Math.random() * messages.length)];
-      return randomMessage.replace('{{issue}}', issueName);
+      return randomMessage.replace(TEMPLATE_VARS.ISSUE, issueName);
     }
   }
 
@@ -141,8 +152,8 @@ function getActionMessage(
         const randomMessage =
           messages[Math.floor(Math.random() * messages.length)];
         return randomMessage
-          .replace('{{issue}}', issueName)
-          .replace('{{count}}', issues[0].count.toFixed(1));
+          .replace(TEMPLATE_VARS.ISSUE, issueName)
+          .replace(TEMPLATE_VARS.COUNT, issues[0].count.toFixed(1));
       } else {
         const issueName = t(`interruptions.${issues[0].name}`);
         const messages = t('actionMessages.risingMultiTip', {
@@ -151,8 +162,8 @@ function getActionMessage(
         const randomMessage =
           messages[Math.floor(Math.random() * messages.length)];
         return randomMessage
-          .replace('{{issue}}', issueName)
-          .replace('{{count}}', issues[0].count.toFixed(1));
+          .replace(TEMPLATE_VARS.ISSUE, issueName)
+          .replace(TEMPLATE_VARS.COUNT, issues[0].count.toFixed(1));
       }
     }
 
@@ -169,8 +180,8 @@ function getActionMessage(
       const randomMessage =
         messages[Math.floor(Math.random() * messages.length)];
       return randomMessage
-        .replace('{{issue}}', issueName)
-        .replace('{{count}}', issues[0].count.toFixed(1));
+        .replace(TEMPLATE_VARS.ISSUE, issueName)
+        .replace(TEMPLATE_VARS.COUNT, issues[0].count.toFixed(1));
     } else {
       const issue1Name = t(`interruptions.${issues[0].name}`);
       const issue2Name = t(`interruptions.${issues[1].name}`);
@@ -180,10 +191,10 @@ function getActionMessage(
       const randomMessage =
         messages[Math.floor(Math.random() * messages.length)];
       return randomMessage
-        .replace('{{issue1}}', issue1Name)
-        .replace('{{count1}}', issues[0].count.toFixed(1))
-        .replace('{{issue2}}', issue2Name)
-        .replace('{{count2}}', issues[1].count.toFixed(1));
+        .replace(TEMPLATE_VARS.ISSUE_1, issue1Name)
+        .replace(TEMPLATE_VARS.COUNT_1, issues[0].count.toFixed(1))
+        .replace(TEMPLATE_VARS.ISSUE_2, issue2Name)
+        .replace(TEMPLATE_VARS.COUNT_2, issues[1].count.toFixed(1));
     }
   }
 
@@ -201,8 +212,8 @@ function getActionMessage(
     }) as string[];
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
     return randomMessage
-      .replace('{{issue}}', issueName)
-      .replace('{{count}}', topIssue.count.toFixed(1));
+      .replace(TEMPLATE_VARS.ISSUE, issueName)
+      .replace(TEMPLATE_VARS.COUNT, topIssue.count.toFixed(1));
   }
 }
 
