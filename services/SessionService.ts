@@ -64,40 +64,41 @@ class SessionService {
     sessionId: string;
     timerSession: TimerSession;
   }): Promise<TimerSession> {
-    // TODO: combine into one transaction
     try {
-      await this.db.insert(timerSessions).values({
-        timerSessionId: timerSession.timerSessionId,
-        sessionId: sessionId,
-        startTs: timerSession.startTs,
-        endTs: timerSession.endTs,
-        targetDurationMs: timerSession.targetDurationMs,
-        entropyScore: timerSession.entropyScore,
+      await this.db.transaction(async (tx) => {
+        await tx.insert(timerSessions).values({
+          timerSessionId: timerSession.timerSessionId,
+          sessionId: sessionId,
+          startTs: timerSession.startTs,
+          endTs: timerSession.endTs,
+          targetDurationMs: timerSession.targetDurationMs,
+          entropyScore: timerSession.entropyScore,
+        });
+
+        for (const pauseEvent of timerSession.pauseEvents) {
+          await tx.insert(pauseEvents).values({
+            timerSessionId: timerSession.timerSessionId,
+            startTs: pauseEvent.startTs,
+            endTs: pauseEvent.endTs,
+            durationMs: pauseEvent.durationMs,
+          });
+        }
+
+        for (const appStateEvent of timerSession.screenUnlockCount) {
+          await tx.insert(appStateEvents).values({
+            timerSessionId: timerSession.timerSessionId,
+            timestamp: appStateEvent.timestamp,
+            appState: appStateEvent.appState,
+          });
+        }
+
+        for (const scrollEvent of timerSession.scrollInteractionCount) {
+          await tx.insert(scrollInteractionEvents).values({
+            timerSessionId: timerSession.timerSessionId,
+            timestamp: scrollEvent.timestamp,
+          });
+        }
       });
-
-      for (const pauseEvent of timerSession.pauseEvents) {
-        await this.db.insert(pauseEvents).values({
-          timerSessionId: timerSession.timerSessionId,
-          startTs: pauseEvent.startTs,
-          endTs: pauseEvent.endTs,
-          durationMs: pauseEvent.durationMs,
-        });
-      }
-
-      for (const appStateEvent of timerSession.screenUnlockCount) {
-        await this.db.insert(appStateEvents).values({
-          timerSessionId: timerSession.timerSessionId,
-          timestamp: appStateEvent.timestamp,
-          appState: appStateEvent.appState,
-        });
-      }
-
-      for (const scrollEvent of timerSession.scrollInteractionCount) {
-        await this.db.insert(scrollInteractionEvents).values({
-          timerSessionId: timerSession.timerSessionId,
-          timestamp: scrollEvent.timestamp,
-        });
-      }
     } catch (error) {
       throw new Error('Failed to add timer session', { cause: error });
     }
