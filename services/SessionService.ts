@@ -18,6 +18,19 @@ class SessionService {
     this.db = db;
   }
 
+  async hydrateSessions(): Promise<void> {
+    const rows = await this.db.select().from(sessions);
+    const allSessions = rows.map(
+      (el) =>
+        new Session({
+          sessionId: el.sessionId,
+          sessionName: el.sessionName,
+        }),
+    );
+
+    useSessionCache.getState().setSessions(allSessions);
+  }
+
   async clear() {
     useSessionCache.getState().clear();
     await this.db.delete(sessions);
@@ -51,6 +64,7 @@ class SessionService {
     sessionId: string;
     timerSession: TimerSession;
   }): Promise<TimerSession> {
+    // TODO: combine into one transaction
     try {
       await this.db.insert(timerSessions).values({
         timerSessionId: timerSession.timerSessionId,
