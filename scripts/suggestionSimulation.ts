@@ -25,6 +25,7 @@ function createMockTimerSession(params: {
   session.startTs = now - params.actualDurationMs;
 
   session.calculateEntropy({
+    endTs: now,
     screenBackgroundCount: params.screenUnlockEvents || [],
     scrollInteractionCount: params.scrollEvents || [],
     pauseEvents: params.pauseEvents || [],
@@ -150,7 +151,7 @@ function runSimulation() {
     console.log(
       `  - 스크롤 방해: ${failSuggestion.interruptionStats.scrolls.count.toFixed(1)}회/세션`,
     );
-    console.log(`메시지: ${toUserMessage(failSuggestion, '월요일')}`);
+    console.log(`메시지: ${toUserMessage(failSuggestion, '월요일', () => {})}`);
   }
 
   console.log('시나리오 2: 방해가 많은 집중 패턴');
@@ -222,7 +223,9 @@ function runSimulation() {
     console.log(`점수: ${problematicSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${problematicSuggestion.label}`);
     console.log(`추세: ${problematicSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(problematicSuggestion, '화요일')}`);
+    console.log(
+      `메시지: ${toUserMessage(problematicSuggestion, '화요일', () => {})}`,
+    );
   }
 
   console.log('시나리오 3: 매우 성공적인 집중 패턴');
@@ -268,7 +271,9 @@ function runSimulation() {
     console.log(`점수: ${successSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${successSuggestion.label}`);
     console.log(`추세: ${successSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(successSuggestion, '수요일')}`);
+    console.log(
+      `메시지: ${toUserMessage(successSuggestion, '수요일', () => {})}`,
+    );
   }
 
   console.log('시나리오 4: 중간 길이 완벽한 집중 패턴 (20~30분, 방해 없음)');
@@ -344,7 +349,9 @@ function runSimulation() {
     console.log(`점수: ${perfectMediumSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${perfectMediumSuggestion.label}`);
     console.log(`추세: ${perfectMediumSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(perfectMediumSuggestion, '목요일')}`);
+    console.log(
+      `메시지: ${toUserMessage(perfectMediumSuggestion, '목요일', () => {})}`,
+    );
   }
 
   console.log('시나리오 5: 개선되고 있는 패턴 (상승세)');
@@ -415,7 +422,9 @@ function runSimulation() {
     console.log(`점수: ${improvingSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${improvingSuggestion.label}`);
     console.log(`추세: ${improvingSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(improvingSuggestion, '금요일')}`);
+    console.log(
+      `메시지: ${toUserMessage(improvingSuggestion, '금요일', () => {})}`,
+    );
   }
 
   console.log('시나리오 6: 데이터 부족 케이스');
@@ -514,7 +523,7 @@ function runSimulation() {
     console.log(`점수: ${longSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${longSuggestion.label}`);
     console.log(`추세: ${longSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(longSuggestion, '토요일')}`);
+    console.log(`메시지: ${toUserMessage(longSuggestion, '토요일', () => {})}`);
   }
 
   console.log('시나리오 8: 장시간이지만 방해가 많은 패턴');
@@ -590,7 +599,9 @@ function runSimulation() {
     console.log(`점수: ${disturbedLongSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${disturbedLongSuggestion.label}`);
     console.log(`추세: ${disturbedLongSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(disturbedLongSuggestion, '일요일')}`);
+    console.log(
+      `메시지: ${toUserMessage(disturbedLongSuggestion, '일요일', () => {})}`,
+    );
   }
 
   console.log('시나리오 9: 높은 점수 + 하락세 (최근 컨디션 악화)');
@@ -671,7 +682,7 @@ function runSimulation() {
     console.log(`레이블: ${highScoreDeclineSuggestion.label}`);
     console.log(`추세: ${highScoreDeclineSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(highScoreDeclineSuggestion, '월요일')}`,
+      `메시지: ${toUserMessage(highScoreDeclineSuggestion, '월요일', () => {})}`,
     );
   }
 
@@ -746,7 +757,9 @@ function runSimulation() {
     console.log(`점수: ${lowScoreRisingSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${lowScoreRisingSuggestion.label}`);
     console.log(`추세: ${lowScoreRisingSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(lowScoreRisingSuggestion, '화요일')}`);
+    console.log(
+      `메시지: ${toUserMessage(lowScoreRisingSuggestion, '화요일', () => {})}`,
+    );
   }
 
   console.log('시나리오 11: 중간 점수 + 유지 (일관된 평범한 패턴)');
@@ -822,7 +835,9 @@ function runSimulation() {
     console.log(`점수: ${mediumStableSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${mediumStableSuggestion.label}`);
     console.log(`추세: ${mediumStableSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(mediumStableSuggestion, '수요일')}`);
+    console.log(
+      `메시지: ${toUserMessage(mediumStableSuggestion, '수요일', () => {})}`,
+    );
   }
 
   console.log('시나리오 12: 극단적 변동성 (지그재그 패턴)');
@@ -894,7 +909,9 @@ function runSimulation() {
     console.log(`점수: ${volatileSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${volatileSuggestion.label}`);
     console.log(`추세: ${volatileSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(volatileSuggestion, '목요일')}`);
+    console.log(
+      `메시지: ${toUserMessage(volatileSuggestion, '목요일', () => {})}`,
+    );
   }
 }
 

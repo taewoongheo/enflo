@@ -15,6 +15,7 @@ import { ActivityIndicator } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+// TODO: caculate global entropy score - when user is not in timer
 const AppInit = ({ children }: { children: React.ReactNode }) => {
   useMigrations(db, migrations);
   useDrizzleStudio(expoDb);
