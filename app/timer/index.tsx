@@ -179,7 +179,12 @@ function TimerContent({
       </View>
       {/* Timer Info */}
       <ContentLayout>
-        <View style={{ marginVertical: baseTokens.spacing[5] }}>
+        <View
+          style={{
+            marginVertical: baseTokens.spacing[5],
+            marginBottom: baseTokens.spacing[7],
+          }}
+        >
           <TimerTrends session={session} t={t} theme={theme} />
         </View>
       </ContentLayout>
