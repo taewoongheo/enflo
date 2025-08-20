@@ -1,8 +1,5 @@
 import { generateTimeStatus } from '@/components/TimerPage/utils/generateTimeStatus';
-import {
-  mapDropToY,
-  mapFocusToY,
-} from '@/components/TimerPage/utils/mapDropToY';
+import { mapFocusToY } from '@/components/TimerPage/utils/mapDropToY';
 import Session, { getTimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 import {
@@ -130,12 +127,10 @@ function runTimeStatusSimulation() {
   });
 
   const shortTimeStatus = generateTimeStatus(shortSession, 5);
-  const shortDropY = mapDropToY(shortTimeStatus);
   const shortFocusY = mapFocusToY(shortTimeStatus);
 
   console.log('짧은 세션 Time Status (5분 버킷):');
   console.log('원본 데이터:', shortTimeStatus);
-  console.log('방해도 Y값 (0~100, 높을수록 방해):', shortDropY);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', shortFocusY);
 
   // 시나리오 2: 중간 길이 세션들 (25-40분)
@@ -194,12 +189,10 @@ function runTimeStatusSimulation() {
   });
 
   const mediumTimeStatus = generateTimeStatus(mediumSession, 5);
-  const mediumDropY = mapDropToY(mediumTimeStatus);
   const mediumFocusY = mapFocusToY(mediumTimeStatus);
 
   console.log('중간 길이 세션 Time Status (5분 버킷):');
   console.log('원본 데이터:', mediumTimeStatus);
-  console.log('방해도 Y값 (0~100, 높을수록 방해):', mediumDropY);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', mediumFocusY);
 
   // 시나리오 3: 장시간 세션들 (60-90분)
@@ -257,12 +250,10 @@ function runTimeStatusSimulation() {
   });
 
   const longTimeStatus = generateTimeStatus(longSession, 5);
-  const longDropY = mapDropToY(longTimeStatus);
   const longFocusY = mapFocusToY(longTimeStatus);
 
   console.log('장시간 세션 Time Status (5분 버킷):');
   console.log('원본 데이터:', longTimeStatus);
-  console.log('방해도 Y값 (0~100, 높을수록 방해):', longDropY);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', longFocusY);
 
   // 시나리오 4: 초기 집중력 약화 패턴 (처음 10분에 방해 집중)
@@ -314,12 +305,10 @@ function runTimeStatusSimulation() {
     earlyDisturbanceSession,
     5,
   );
-  const earlyDropY = mapDropToY(earlyDisturbanceTimeStatus);
   const earlyFocusY = mapFocusToY(earlyDisturbanceTimeStatus);
 
   console.log('초기 방해 패턴 Time Status (5분 버킷):');
   console.log('원본 데이터:', earlyDisturbanceTimeStatus);
-  console.log('방해도 Y값 (0~100, 높을수록 방해):', earlyDropY);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', earlyFocusY);
 
   // 시나리오 5: 후반 피로도 증가 패턴 (20분 이후 방해 증가)
@@ -370,12 +359,10 @@ function runTimeStatusSimulation() {
   }
 
   const lateFatigueTimeStatus = generateTimeStatus(lateFatigueSession, 5);
-  const lateDropY = mapDropToY(lateFatigueTimeStatus);
   const lateFocusY = mapFocusToY(lateFatigueTimeStatus);
 
   console.log('후반 피로 패턴 Time Status (5분 버킷):');
   console.log('원본 데이터:', lateFatigueTimeStatus);
-  console.log('방해도 Y값 (0~100, 높을수록 방해):', lateDropY);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', lateFocusY);
 
   // 시나리오 6: 완벽한 집중 패턴 (방해 거의 없음)
@@ -415,12 +402,10 @@ function runTimeStatusSimulation() {
   }
 
   const perfectTimeStatus = generateTimeStatus(perfectSession, 5);
-  const perfectDropY = mapDropToY(perfectTimeStatus);
   const perfectFocusY = mapFocusToY(perfectTimeStatus);
 
   console.log('완벽한 집중 패턴 Time Status (5분 버킷):');
   console.log('원본 데이터:', perfectTimeStatus);
-  console.log('방해도 Y값 (0~100, 높을수록 방해):', perfectDropY);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', perfectFocusY);
 
   console.log('\n=== 시뮬레이션 완료 ===');

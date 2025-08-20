@@ -1,14 +1,14 @@
 import Session, { TimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 
-type TimeStatusPoint = { time: number; dropValue: number };
+export type TimeStatusPoint = { time: number; dropValue: number };
 
 export function generateTimeStatus(
   session: Session,
   bucketMinutes: number,
 ): TimeStatusPoint[] {
   const maxXAxisMinutes = 90;
-  const msPerMin = 60_000;
+  const msPerMin = 60000;
   const bucketMs = bucketMinutes * msPerMin;
 
   // collect timer sessions

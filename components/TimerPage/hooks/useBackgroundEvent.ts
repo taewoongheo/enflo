@@ -14,6 +14,7 @@ function useBackgroundEvent(isRunning: boolean) {
           return;
         }
 
+        // TODO: only count active cases; 'background' is triggered when the app auto-locks
         if (nextAppState === 'background' || nextAppState === 'active') {
           screenBackgroundCount.current.push({
             timestamp: Date.now(),
