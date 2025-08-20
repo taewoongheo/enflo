@@ -11,7 +11,7 @@ function ScrollColorBackground({ theme }: { theme: Theme }) {
           top: 0,
           left: 0,
           right: 0,
-          height: windowHeight * 0.4,
+          height: windowHeight * 0.2,
           backgroundColor: theme.colors.pages.timer.slider.background,
         }}
       />
@@ -19,7 +19,7 @@ function ScrollColorBackground({ theme }: { theme: Theme }) {
       <View
         style={{
           position: 'absolute',
-          top: windowHeight * 0.4,
+          top: windowHeight * 0.2,
           left: 0,
           right: 0,
           bottom: 0,

@@ -138,6 +138,7 @@ function TimerContent({
       showsVerticalScrollIndicator={false}
       style={styles.scrollView}
       onScroll={handleScroll}
+      bounces={false}
     >
       <View
         style={[
@@ -202,6 +203,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     gap: baseTokens.spacing[2],
-    marginTop: baseTokens.spacing[6],
+    marginTop: baseTokens.spacing[4],
   },
 });
