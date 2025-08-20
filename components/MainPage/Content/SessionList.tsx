@@ -1,21 +1,18 @@
-import { sessionMockData } from '@/data/sessionMockData';
-import Session from '@/models/Session';
+import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens } from '@/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import SessionCard from './SessionCard';
 
 const SessionList = () => {
-  const [sessions, setSessions] = useState<Session[]>([]);
-
-  useEffect(() => {
-    setSessions(sessionMockData);
-  }, []);
+  const sessionsRef = useSessionCache((s) => s.sessionCache);
+  const sessions = useMemo(() => Object.values(sessionsRef), [sessionsRef]);
 
   return (
     <FlatList
       data={sessions}
+      keyExtractor={(item) => item.sessionId}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.flatListContent}

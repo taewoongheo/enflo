@@ -1,4 +1,4 @@
-import { AppStateEvent } from '@/types/interruptEvent';
+import { AppStateEvent } from '@/types/InterruptEvent';
 import { useCallback, useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 
@@ -14,6 +14,7 @@ function useBackgroundEvent(isRunning: boolean) {
           return;
         }
 
+        // TODO: only count active cases; 'background' is triggered when the app auto-locks
         if (nextAppState === 'background' || nextAppState === 'active') {
           screenBackgroundCount.current.push({
             timestamp: Date.now(),

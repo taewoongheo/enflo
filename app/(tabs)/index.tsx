@@ -13,6 +13,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 function MainScreen() {
   const { theme } = useTheme();
 
+  // memory warning event
   // useEffect(() => {
   //   const memoryWarningSubscription = AppState.addEventListener(
   //     'memoryWarning',

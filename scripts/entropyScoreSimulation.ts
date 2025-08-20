@@ -4,7 +4,7 @@ import {
   AppStateEvent,
   PauseEvent,
   ScrollInteractionEvent,
-} from '../types/interruptEvent';
+} from '../types/InterruptEvent';
 
 const scenarios = [
   {

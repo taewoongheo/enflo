@@ -1,4 +1,4 @@
-import { PauseEvent } from '@/types/interruptEvent';
+import { PauseEvent } from '@/types/InterruptEvent';
 import { useCallback, useEffect, useRef } from 'react';
 
 export default function usePauseEvent(

@@ -1,6 +1,8 @@
 import Typography from '@/components/common/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens } from '@/styles';
+import { normalizeScoreToEntropy } from '@/utils/score';
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet } from 'react-native';
@@ -8,6 +10,10 @@ import { Pressable } from 'react-native-gesture-handler';
 
 const EntropyScore = () => {
   const { theme } = useTheme();
+  const entropyScore = useEntropyStore((s) => s.entropyScore);
+
+  console.log('entropy score: ', entropyScore);
+
   return (
     <Pressable
       style={[styles.entropyScoreContainer]}
@@ -19,7 +25,7 @@ const EntropyScore = () => {
         variant="title1Bold"
         style={{ color: theme.colors.text.primary }}
       >
-        0.23
+        {normalizeScoreToEntropy(entropyScore)}
       </Typography>
       <AntDesign
         name="questioncircle"

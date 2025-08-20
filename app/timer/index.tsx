@@ -1,25 +1,29 @@
+import { ContentLayout } from '@/components/common/ContentLayout';
 import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
 import {
   ScrollColorBackground,
   TimerHeader,
   TimerPlayButton,
   TimerSuggestion,
+  TimerTrends,
   TimerTunerSlider,
 } from '@/components/TimerPage';
 import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent';
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
-import useSession from '@/components/TimerPage/hooks/useSession';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
+import { sessionService } from '@/services/SessionService';
+import { timerService } from '@/services/TimerService';
 import { useEntropyStore } from '@/store/entropyStore';
+import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { TFunction } from 'i18next';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
@@ -30,18 +34,17 @@ export default function Timer() {
   const { sessionId } = useLocalSearchParams();
   const { t } = useTranslation('timer');
 
-  const { session, isLoading } = useSession(sessionId as string);
+  const session = useSessionCache((s) => s.sessionCache[sessionId as string]);
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1 }}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  useEffect(() => {
+    if (session) {
+      return;
+    }
+
+    router.back();
+  }, [session]);
 
   if (!session) {
-    router.back();
     return null;
   }
 
@@ -70,7 +73,7 @@ function TimerContent({
 
   const timerSession = useRef<TimerSession | null>(null);
 
-  const { updateEntropyScore } = useEntropyStore();
+  const updateEntropyScore = useEntropyStore((s) => s.updateEntropyScore);
 
   // timer session disturbance data
   const { screenBackgroundCount, resetBackgroundEvent } =
@@ -90,35 +93,41 @@ function TimerContent({
     resetPauseEvent();
   }, [time]);
 
-  const handleTimerEnd = () => {
+  const handleTimerEnd = async () => {
     if (timerSession.current) {
-      const entropyScore = timerSession.current.calculateEntropy({
+      const entropyScore = await timerService.calculateEntropy({
+        timerSession: timerSession.current,
+        endTs: Date.now(),
         screenBackgroundCount: screenBackgroundCount.current,
         scrollInteractionCount: scrollInteractionCount.current,
         pauseEvents: pauseEvent.current,
       });
 
       if (entropyScore) {
-        updateEntropyScore(entropyScore!);
-        session.addTimerSession(timerSession.current);
+        updateEntropyScore(entropyScore);
+        await sessionService.addTimerSession({
+          sessionId: session.sessionId,
+          timerSession: timerSession.current,
+        });
       }
     }
 
-    timerSession.current = new TimerSession({
+    timerSession.current = await timerService.createTimerSession({
       sessionId: session.sessionId,
       targetDurationMs: time,
-      // TODO: sessionSequenceInDay
     });
   };
 
   const handleStartPauseToggle = () => {
     if (!timerSession.current) {
-      console.error('no timer session');
-      return;
+      throw new Error('no timer session');
     }
 
     if (!timerSession.current.startTs) {
-      timerSession.current.startTs = Date.now();
+      timerService.updateStartTs({
+        timerSession: timerSession.current,
+        startTs: Date.now(),
+      });
     }
 
     setIsRunning(!isRunning);
@@ -129,6 +138,7 @@ function TimerContent({
       showsVerticalScrollIndicator={false}
       style={styles.scrollView}
       onScroll={handleScroll}
+      bounces={false}
     >
       <View
         style={[
@@ -139,6 +149,7 @@ function TimerContent({
           },
         ]}
       >
+        {/* Timer Slider */}
         <ContentLayoutWithBack
           color={theme.colors.pages.timer.slider.text.primary}
         >
@@ -148,7 +159,7 @@ function TimerContent({
             <TimerSuggestion
               theme={theme}
               time={time}
-              t={t}
+              _t={t}
               isRunning={isRunning}
               setIsRunning={setIsRunning}
               handleTimerEnd={handleTimerEnd}
@@ -166,8 +177,17 @@ function TimerContent({
           </View>
         </ContentLayoutWithBack>
       </View>
-      {/* TODO: session info content here */}
-      {/* <View style={{ flex: 1, backgroundColor: 'red' }}></View> */}
+      {/* Timer Info */}
+      <ContentLayout>
+        <View
+          style={{
+            marginVertical: baseTokens.spacing[5],
+            marginBottom: baseTokens.spacing[7],
+          }}
+        >
+          <TimerTrends session={session} t={t} theme={theme} />
+        </View>
+      </ContentLayout>
     </ScrollView>
   );
 }
@@ -188,6 +208,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     gap: baseTokens.spacing[2],
-    marginTop: baseTokens.spacing[6],
+    marginTop: baseTokens.spacing[4],
   },
 });

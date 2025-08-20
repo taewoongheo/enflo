@@ -25,6 +25,18 @@ export const typography = {
     fontWeight: '400',
     lineHeight: 36,
   },
+  title3Bold: {
+    fontFamily: 'Pretendard-Bold',
+    fontSize: scale(20),
+    fontWeight: '700',
+    lineHeight: 30,
+  },
+  title3Regular: {
+    fontFamily: 'Pretendard-Regular',
+    fontSize: scale(20),
+    fontWeight: '400',
+    lineHeight: 30,
+  },
 
   body1Bold: {
     fontFamily: 'Pretendard-SemiBold',

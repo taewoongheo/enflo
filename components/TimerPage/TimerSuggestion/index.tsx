@@ -1,4 +1,3 @@
-import Typography from '@/components/common/Typography';
 import { Theme } from '@/styles';
 import { formatMsToMMSS } from '@/utils/time';
 import { TFunction } from 'i18next';
@@ -11,14 +10,14 @@ function TimerSuggestion({
   time,
   isRunning,
   setIsRunning,
-  t,
+  _t,
   handleTimerEnd,
 }: {
   theme: Theme;
   time: number;
   isRunning: boolean;
   setIsRunning: (isRunning: boolean) => void;
-  t: TFunction;
+  _t: TFunction;
   handleTimerEnd: () => void;
 }) {
   const [leftTime, setLeftTime] = useState(time);
@@ -104,7 +103,7 @@ function TimerSuggestion({
           {t('minutes')}
         </Typography> */}
       </View>
-      <Typography
+      {/* <Typography
         variant="body1Regular"
         style={{
           color: theme.colors.pages.timer.slider.text.secondary,
@@ -112,7 +111,7 @@ function TimerSuggestion({
         }}
       >
         {t('suggestions')}
-      </Typography>
+      </Typography> */}
     </>
   );
 }

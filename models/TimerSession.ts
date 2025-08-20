@@ -3,7 +3,7 @@ import {
   AppStateEvent,
   PauseEvent,
   ScrollInteractionEvent,
-} from '@/types/interruptEvent';
+} from '@/types/InterruptEvent';
 import uuid from 'react-native-uuid';
 
 class TimerSession {
@@ -32,15 +32,17 @@ class TimerSession {
   }
 
   calculateEntropy({
+    endTs,
     screenBackgroundCount,
     scrollInteractionCount,
     pauseEvents,
   }: {
+    endTs: number;
     screenBackgroundCount: AppStateEvent[];
     scrollInteractionCount: ScrollInteractionEvent[];
     pauseEvents: PauseEvent[];
   }) {
-    this.endTs = Date.now();
+    this.endTs = endTs;
     this.screenUnlockCount = screenBackgroundCount;
     this.scrollInteractionCount = scrollInteractionCount;
     this.pauseEvents = pauseEvents;

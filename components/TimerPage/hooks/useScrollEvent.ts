@@ -1,4 +1,4 @@
-import { ScrollInteractionEvent } from '@/types/interruptEvent';
+import { ScrollInteractionEvent } from '@/types/InterruptEvent';
 import { useCallback, useEffect, useRef } from 'react';
 
 const SCROLL_DEBOUNCE_TIME = 3000;

@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1755007176480,
+      "tag": "0000_zippy_mentallo",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1755007646674,
+      "tag": "0001_new_eddie_brock",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1755009017460,
+      "tag": "0002_red_sister_grimm",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "noDataMessage": "We’re still learning your focus patterns. Keep recording your sessions, and we’ll provide personalized analysis soon.",
+  "levels": {
+    "danger": "At Risk",
+    "unstable": "Unstable",
+    "stable": "Stable",
+    "good": "Strong"
+  },
+  "trends": {
+    "rising": "Improving",
+    "declining": "Declining",
+    "stable": "Steady"
+  },
+  "interruptions": {
+    "pauses": "pausing the timer",
+    "unlocks": "leaving the app during the timer",
+    "scrolls": "doing other activities during the timer"
+  },
+  "timeRanges": {
+    "00-06": "early morning",
+    "06-12": "morning",
+    "12-18": "afternoon",
+    "18-24": "evening"
+  },
+  "statusMessages": {
+    "danger": [
+      "focus stability is at high risk.",
+      "concentration levels are very low.",
+      "maintaining focus is difficult right now.",
+      "your concentration is dropping sharply."
+    ],
+    "unstable": [
+      "focus is inconsistent.",
+      "concentration is fluctuating.",
+      "focus stability is uneven.",
+      "your concentration shows irregular patterns."
+    ],
+    "stable": [
+      "focus remains steady.",
+      "concentration is consistently maintained.",
+      "focus stability is good.",
+      "you’re sustaining a solid level of concentration."
+    ],
+    "good": [
+      "focus is excellent.",
+      "concentration levels are very strong.",
+      "you’re highly focused.",
+      "your focus condition is near peak."
+    ]
+  },
+  "headerVariations": [
+    "During {{weekday}} {{timeRange}}, ",
+    "For {{weekday}} {{timeRange}}, ",
+    "In the {{weekday}} {{timeRange}} period, ",
+    "Looking at {{weekday}} {{timeRange}} patterns, ",
+    "Recently, during {{weekday}} {{timeRange}}, ",
+    "Results for {{weekday}} {{timeRange}} indicate "
+  ],
+  "actionMessages": {
+    "excellent": [
+      "maintain your current focus level.",
+      "keep this strong pattern going.",
+      "reinforce this optimal state.",
+      "sustain this stability.",
+      "aim to keep performance at this level.",
+      "keep the momentum steady.",
+      "continue performing at a high standard.",
+      "maintain this optimal focus control."
+    ],
+    "risingStable": [
+      "maintain this improving trajectory.",
+      "keep reinforcing the upward trend.",
+      "continue progressing in this direction.",
+      "sustain the steady improvement."
+    ],
+    "stableHigh": [
+      "keep your stability consistently high.",
+      "continue maintaining a strong level of concentration.",
+      "sustain this steady, reliable focus.",
+      "keep up the sustained stability."
+    ],
+    "minorImprovement": [
+      "reduce {{issue}} slightly to refine your results.",
+      "a small adjustment to {{issue}} will bring you closer to optimal.",
+      "reducing {{issue}} a bit will improve overall quality.",
+      "addressing {{issue}} will further strengthen your results."
+    ],
+    "risingMedium": [
+      "maintain the pace of improvement.",
+      "keep reinforcing the progress you’re making.",
+      "continue with consistent efforts.",
+      "build on this positive momentum."
+    ],
+    "risingWithTip": [
+      "reduce '{{issue}}' to accelerate progress (avg {{count}} times).",
+      "lower '{{issue}}' further to support the trend (avg {{count}} times).",
+      "cut down on '{{issue}}' slightly (avg {{count}} times).",
+      "pay closer attention to '{{issue}}' (avg {{count}} times)."
+    ],
+    "risingMultiTip": [
+      "reduce '{{issue}}' (avg {{count}} times)",
+      "work on minimizing '{{issue}}' (avg {{count}} times).",
+      "focus on reducing '{{issue}}' (avg {{count}} times) for better control."
+    ],
+    "noIssue": [
+      "extend your focus sessions gradually.",
+      "challenge yourself with longer durations.",
+      "aim to lengthen focus time now.",
+      "target extended concentration periods."
+    ],
+    "singleIssue": [
+      "primary disruption: '{{issue}}' (avg {{count}} times)—work on reducing this.",
+      "'{{issue}}' is impacting your sessions (avg {{count}} times)—address this factor.",
+      "concentration loss is mostly linked to '{{issue}}' (avg {{count}} times).",
+      "main distraction detected: '{{issue}}' (avg {{count}} times)—prioritize improvement here."
+    ],
+    "multiIssue": [
+      "address '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) to improve stability.",
+      "reduce disruptions from '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}).",
+      "lower both '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) for better focus."
+    ],
+    "lowScoreNoIssue": [
+      "increase session length step by step.",
+      "extend duration progressively to build stamina.",
+      "add a few more minutes to each session.",
+      "gradually lengthen your focus periods."
+    ],
+    "lowScoreWithIssue": [
+      "start by reducing '{{issue}}' (avg {{count}} times).",
+      "prioritize fixing '{{issue}}' (avg {{count}} times).",
+      "your main challenge is '{{issue}}' (avg {{count}} times)—tackle this first.",
+      "lower the impact of '{{issue}}' (avg {{count}} times) to improve results."
+    ]
+  },
+  "conjunctions": {
+    "but": [
+      " To improve, ",
+      " To strengthen your focus, ",
+      " To make progress, ",
+      " To stabilize, "
+    ],
+    "normal": " "
+  }
+}

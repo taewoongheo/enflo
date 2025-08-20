@@ -1,265 +1,398 @@
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
-import { getLocales } from 'expo-localization';
+import { sessionService } from '@/services/SessionService';
+import { timerService } from '@/services/TimerService';
+import {
+  AppStateEvent,
+  PauseEvent,
+  ScrollInteractionEvent,
+} from '@/types/InterruptEvent';
 
-function generateMockTimerSession(
-  sessionName: string,
-  sessionIndexInDay: number,
-  targetDurationMinutes: number,
-  focusMinutes: number,
-  interrupts: {
-    shakes: number;
-    screenUnlocks: number;
-    scrollInteractions: number;
-    pauses: number;
-  },
-): TimerSession {
-  const baseDate = new Date();
-  const baseStartTime = new Date(
-    baseDate.getFullYear(),
-    baseDate.getMonth(),
-    baseDate.getDate(),
-    9,
-    0,
-    0,
-    0,
-  ).getTime();
-
-  const startTs = baseStartTime + sessionIndexInDay * 90 * 60 * 1000;
-  const targetDurationMs = targetDurationMinutes * 60 * 1000;
-  const netFocusMs = focusMinutes * 60 * 1000;
-
-  const totalInterruptMs =
-    targetDurationMs - netFocusMs > 0
-      ? targetDurationMs - netFocusMs
-      : 3 * 60 * 1000;
-  const endTs = startTs + targetDurationMs + totalInterruptMs;
-
-  const timerSession = new TimerSession({ session: sessionName });
+const createMockTimerSession = async (
+  sessionId: string,
+  targetDurationMs: number,
+  startTs: number,
+  endTs: number,
+  pauseEvents: PauseEvent[] = [],
+  scrollEvents: ScrollInteractionEvent[] = [],
+  screenUnlockEvents: AppStateEvent[] = [],
+): Promise<TimerSession> => {
+  const timerSession = await timerService.createTimerSession({
+    sessionId,
+    targetDurationMs,
+  });
 
   timerSession.startTs = startTs;
-  timerSession.endTs = endTs;
-  timerSession.targetDurationMs = targetDurationMs;
-
-  for (let i = 0; i < interrupts.screenUnlocks; i++) {
-    timerSession.screenUnlockCount.push({
-      startTs: startTs + Math.random() * targetDurationMs,
-    } as any);
-  }
-
-  for (let i = 0; i < interrupts.scrollInteractions; i++) {
-    timerSession.scrollInteractionCount.push({
-      startTs: startTs + Math.random() * targetDurationMs,
-    } as any);
-  }
-
-  let remainingPauseMs = interrupts.pauses > 0 ? totalInterruptMs : 0;
-  for (let i = 0; i < interrupts.pauses; i++) {
-    const durationMs =
-      i === interrupts.pauses - 1
-        ? remainingPauseMs
-        : remainingPauseMs * Math.random();
-    const eventStartTs = startTs + Math.random() * targetDurationMs;
-    timerSession.pauseEvents.push({
-      startTs: eventStartTs,
-      endTs: eventStartTs + durationMs,
-      durationMs,
-    });
-    remainingPauseMs -= durationMs;
-  }
+  timerSession.calculateEntropy({
+    endTs,
+    screenBackgroundCount: screenUnlockEvents,
+    scrollInteractionCount: scrollEvents,
+    pauseEvents,
+  });
 
   return timerSession;
-}
-
-const mockSessions: Session[] = [];
-
-const locale = getLocales()[0].languageCode;
-const isKorean = locale === 'ko';
-
-// Session 1: Work
-const workSession = new Session({
-  sessionName: isKorean
-    ? '집중 업무 및 프로젝트 개발'
-    : 'Focused tasks and project development',
-});
-workSession.timerSessionsByTimeRange = {
-  '00-03': [],
-  '03-06': [],
-  '06-09': [],
-  '09-12': [
-    generateMockTimerSession(
-      isKorean
-        ? '집중 업무 및 프로젝트 개발'
-        : 'Focused tasks and project development',
-      0,
-      60,
-      55,
-      {
-        shakes: 1,
-        screenUnlocks: 1,
-        scrollInteractions: 1,
-        pauses: 1,
-      },
-    ),
-    generateMockTimerSession(
-      isKorean
-        ? '집중 업무 및 프로젝트 개발'
-        : 'Focused tasks and project development',
-      1,
-      45,
-      40,
-      {
-        shakes: 0,
-        screenUnlocks: 1,
-        scrollInteractions: 0,
-        pauses: 2,
-      },
-    ),
-  ],
-  '12-15': [
-    generateMockTimerSession(
-      isKorean
-        ? '집중 업무 및 프로젝트 개발'
-        : 'Focused tasks and project development',
-      2,
-      90,
-      80,
-      {
-        shakes: 2,
-        screenUnlocks: 2,
-        scrollInteractions: 1,
-        pauses: 1,
-      },
-    ),
-  ],
-  '15-18': [
-    generateMockTimerSession(
-      isKorean
-        ? '집중 업무 및 프로젝트 개발'
-        : 'Focused tasks and project development',
-      3,
-      60,
-      50,
-      {
-        shakes: 1,
-        screenUnlocks: 2,
-        scrollInteractions: 2,
-        pauses: 3,
-      },
-    ),
-  ],
-  '18-21': [],
-  '21-24': [],
 };
-mockSessions.push(workSession);
 
-// Session 2: Reading
-const readingSession = new Session({
-  sessionName: isKorean
-    ? '자기계발 및 전문서적 독서'
-    : 'Self-improvement and professional books',
-});
-readingSession.timerSessionsByTimeRange = {
-  '00-03': [],
-  '03-06': [],
-  '06-09': [],
-  '09-12': [],
-  '12-15': [],
-  '15-18': [],
-  '18-21': [
-    generateMockTimerSession(
-      isKorean
-        ? '자기계발 및 전문서적 독서'
-        : 'Self-improvement and professional books',
-      0,
-      30,
-      28,
+export const createEnfloProjectSessions = async (): Promise<Session> => {
+  const sessionName = 'enflo 프로젝트 완성';
+  const session = await sessionService.createSession({
+    sessionName,
+  });
+
+  const sessionId = session.sessionId;
+
+  const timerSession1 = await createMockTimerSession(
+    sessionId,
+    1800000, // 30 minutes
+    new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0), // 2 days ago at 9:30 PM (18-24)
+    new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 1600000, // 26.7 minutes later
+    [
       {
-        shakes: 0,
-        screenUnlocks: 1,
-        scrollInteractions: 0,
-        pauses: 0,
+        startTs:
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 600000,
+        endTs:
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 660000,
+        durationMs: 60000,
       },
-    ),
-  ],
-  '21-24': [
-    generateMockTimerSession(
-      isKorean
-        ? '자기계발 및 전문서적 독서'
-        : 'Self-improvement and professional books',
-      1,
-      45,
-      45,
+    ],
+    [
       {
-        shakes: 0,
-        screenUnlocks: 0,
-        scrollInteractions: 0,
-        pauses: 0,
+        timestamp:
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 300000,
       },
-    ),
-    generateMockTimerSession(
-      isKorean
-        ? '자기계발 및 전문서적 독서'
-        : 'Self-improvement and professional books',
-      2,
-      60,
-      58,
       {
-        shakes: 1,
-        screenUnlocks: 1,
-        scrollInteractions: 0,
-        pauses: 1,
+        timestamp:
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 900000,
       },
-    ),
-  ],
+    ],
+    [
+      {
+        timestamp:
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 1200000,
+        appState: 'background',
+      },
+      {
+        timestamp:
+          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 1400000,
+        appState: 'active',
+      },
+    ],
+  );
+  const timerSession2 = await createMockTimerSession(
+    sessionId,
+    3600000, // 1 hour
+    new Date(Date.now() - 86400000).setHours(22, 15, 0, 0), // 1 day ago at 10:15 PM (18-24)
+    new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 3200000, // 53.3 minutes later
+    [
+      {
+        startTs:
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 1200000,
+        endTs: new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 1800000,
+        durationMs: 600000,
+      },
+      {
+        startTs:
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 2400000,
+        endTs: new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 2460000,
+        durationMs: 60000,
+      },
+    ],
+    [
+      {
+        timestamp:
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 600000,
+      },
+      {
+        timestamp:
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 1500000,
+      },
+      {
+        timestamp:
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 2700000,
+      },
+    ],
+    [
+      {
+        timestamp:
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 1800000,
+        appState: 'background',
+      },
+      {
+        timestamp:
+          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 2100000,
+        appState: 'active',
+      },
+    ],
+  );
+  const timerSession3 = await createMockTimerSession(
+    sessionId,
+    2700000, // 45 minutes
+    new Date(Date.now() - 43200000).setHours(23, 0, 0, 0), // 12 hours ago at 11:00 PM (18-24)
+    new Date(Date.now() - 43200000).setHours(23, 0, 0, 0) + 2400000, // 40 minutes later
+    [
+      {
+        startTs: Date.now() - 43200000 + 900000,
+        endTs: Date.now() - 43200000 + 960000,
+        durationMs: 60000,
+      },
+    ],
+    [
+      { timestamp: Date.now() - 43200000 + 300000 },
+      { timestamp: Date.now() - 43200000 + 1200000 },
+      { timestamp: Date.now() - 43200000 + 1800000 },
+    ],
+    [],
+  );
+
+  const timerSession4 = await createMockTimerSession(
+    sessionId,
+    1200000, // 20 minutes
+    new Date(Date.now() - 36000000).setHours(20, 45, 0, 0), // 10 hours ago at 8:45 PM (18-24)
+    new Date(Date.now() - 36000000).setHours(20, 45, 0, 0) + 1100000, // 18.3 minutes later
+    [
+      {
+        startTs: Date.now() - 36000000 + 400000,
+        endTs: Date.now() - 36000000 + 460000,
+        durationMs: 60000,
+      },
+    ],
+    [
+      { timestamp: Date.now() - 36000000 + 200000 },
+      { timestamp: Date.now() - 36000000 + 800000 },
+    ],
+    [
+      {
+        timestamp: Date.now() - 36000000 + 600000,
+        appState: 'background',
+      },
+      {
+        timestamp: Date.now() - 36000000 + 700000,
+        appState: 'active',
+      },
+    ],
+  );
+
+  const timerSession5 = await createMockTimerSession(
+    sessionId,
+    3000000, // 50 minutes
+    new Date(Date.now() - 18000000).setHours(21, 0, 0, 0), // 5 hours ago at 9:00 PM (18-24)
+    new Date(Date.now() - 18000000).setHours(21, 0, 0, 0) + 2800000, // 46.7 minutes later
+    [
+      {
+        startTs: Date.now() - 18000000 + 1000000,
+        endTs: Date.now() - 18000000 + 1120000,
+        durationMs: 120000,
+      },
+      {
+        startTs: Date.now() - 18000000 + 2000000,
+        endTs: Date.now() - 18000000 + 2060000,
+        durationMs: 60000,
+      },
+    ],
+    [
+      { timestamp: Date.now() - 18000000 + 500000 },
+      { timestamp: Date.now() - 18000000 + 1500000 },
+      { timestamp: Date.now() - 18000000 + 2200000 },
+    ],
+    [
+      {
+        timestamp: Date.now() - 18000000 + 1120000,
+        appState: 'background',
+      },
+      {
+        timestamp: Date.now() - 18000000 + 1300000,
+        appState: 'active',
+      },
+    ],
+  );
+
+  const timerSession6 = await createMockTimerSession(
+    sessionId,
+    1500000, // 25 minutes
+    new Date(Date.now() - 9000000).setHours(22, 30, 0, 0), // 2.5 hours ago at 10:30 PM (18-24)
+    new Date(Date.now() - 9000000).setHours(22, 30, 0, 0) + 1400000, // 23.3 minutes later
+    [
+      {
+        startTs: Date.now() - 9000000 + 600000,
+        endTs: Date.now() - 9000000 + 660000,
+        durationMs: 60000,
+      },
+    ],
+    [
+      { timestamp: Date.now() - 9000000 + 300000 },
+      { timestamp: Date.now() - 9000000 + 900000 },
+    ],
+    [],
+  );
+
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession1,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession2,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession3,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession4,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession5,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession6,
+  });
+
+  return session;
 };
-mockSessions.push(readingSession);
 
-// Session 3: Meditation
-const meditationSession = new Session({
-  sessionName: isKorean
-    ? '아침 명상 및 마음챙김 훈련'
-    : 'Morning meditation and mindfulness training',
-});
-meditationSession.timerSessionsByTimeRange = {
-  '00-03': [],
-  '03-06': [],
-  '06-09': [
-    generateMockTimerSession(
-      isKorean
-        ? '아침 명상 및 마음챙김 훈련'
-        : 'Morning meditation and mindfulness training',
-      0,
-      15,
-      15,
+export const createReadingSessions = async (): Promise<Session> => {
+  const sessionName = '독서';
+  const session = await sessionService.createSession({
+    sessionName,
+  });
+
+  const sessionId = session.sessionId;
+
+  const timerSession1 = await createMockTimerSession(
+    sessionId,
+    1200000, // 20 minutes
+    Date.now() - 86400000 * 3, // 3 days ago
+    Date.now() - 86400000 * 3 + 1100000, // 18.3 minutes later
+    [
       {
-        shakes: 0,
-        screenUnlocks: 0,
-        scrollInteractions: 0,
-        pauses: 0,
+        startTs: Date.now() - 86400000 * 3 + 600000,
+        endTs: Date.now() - 86400000 * 3 + 660000,
+        durationMs: 60000,
       },
-    ),
-    generateMockTimerSession(
-      isKorean
-        ? '아침 명상 및 마음챙김 훈련'
-        : 'Morning meditation and mindfulness training',
-      1,
-      20,
-      20,
+    ],
+    [{ timestamp: Date.now() - 86400000 * 3 + 300000 }],
+    [],
+  );
+
+  const timerSession2 = await createMockTimerSession(
+    sessionId,
+    1800000, // 30 minutes
+    Date.now() - 86400000 * 1.5, // 1.5 days ago
+    Date.now() - 86400000 * 1.5 + 1650000, // 27.5 minutes later
+    [
       {
-        shakes: 0,
-        screenUnlocks: 0,
-        scrollInteractions: 0,
-        pauses: 0,
+        startTs: Date.now() - 86400000 * 1.5 + 900000,
+        endTs: Date.now() - 86400000 * 1.5 + 1020000,
+        durationMs: 120000,
       },
-    ),
-  ],
-  '09-12': [],
-  '12-15': [],
-  '15-18': [],
-  '18-21': [],
-  '21-24': [],
+    ],
+    [
+      { timestamp: Date.now() - 86400000 * 1.5 + 600000 },
+      { timestamp: Date.now() - 86400000 * 1.5 + 1200000 },
+    ],
+    [
+      {
+        timestamp: Date.now() - 86400000 * 1.5 + 1020000,
+        appState: 'background',
+      },
+      { timestamp: Date.now() - 86400000 * 1.5 + 1200000, appState: 'active' },
+    ],
+  );
+
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession1,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession2,
+  });
+
+  return session;
 };
-mockSessions.push(meditationSession);
 
-export const sessionMockData = mockSessions;
+export const createFocusSessions = async (): Promise<Session> => {
+  const sessionName = '몰입';
+  const session = await sessionService.createSession({
+    sessionName,
+  });
+
+  const sessionId = session.sessionId;
+
+  const timerSession1 = await createMockTimerSession(
+    sessionId,
+    900000, // 15 minutes
+    Date.now() - 86400000 * 0.5, // 12 hours ago
+    Date.now() - 86400000 * 0.5 + 900000, // 15 minutes later (perfect)
+    [], // No pauses - perfect focus
+    [], // No scroll interactions
+    [], // No screen unlocks
+  );
+
+  const timerSession2 = await createMockTimerSession(
+    sessionId,
+    2400000, // 40 minutes
+    Date.now() - 21600000, // 6 hours ago
+    Date.now() - 21600000 + 2100000, // 35 minutes later
+    [
+      {
+        startTs: Date.now() - 21600000 + 1200000,
+        endTs: Date.now() - 21600000 + 1260000,
+        durationMs: 60000,
+      },
+    ],
+    [{ timestamp: Date.now() - 21600000 + 600000 }],
+    [],
+  );
+
+  const timerSession3 = await createMockTimerSession(
+    sessionId,
+    1800000, // 30 minutes
+    Date.now() - 7200000, // 2 hours ago
+    Date.now() - 7200000 + 1500000, // 25 minutes later
+    [
+      {
+        startTs: Date.now() - 7200000 + 600000,
+        endTs: Date.now() - 7200000 + 720000,
+        durationMs: 120000,
+      },
+      {
+        startTs: Date.now() - 7200000 + 1200000,
+        endTs: Date.now() - 7200000 + 1260000,
+        durationMs: 60000,
+      },
+    ],
+    [
+      { timestamp: Date.now() - 7200000 + 300000 },
+      { timestamp: Date.now() - 7200000 + 900000 },
+    ],
+    [
+      { timestamp: Date.now() - 7200000 + 720000, appState: 'background' },
+      { timestamp: Date.now() - 7200000 + 900000, appState: 'active' },
+    ],
+  );
+
+  // await sessionService.addTimerSession({
+  //   sessionId,
+  //   timerSession: timerSession1,
+  // });
+  // await sessionService.addTimerSession({
+  //   sessionId,
+  //   timerSession: timerSession2,
+  // });
+  // await sessionService.addTimerSession({
+  //   sessionId,
+  //   timerSession: timerSession3,
+  // });
+
+  return session;
+};
+
+export const createAllMockSessions = async (): Promise<void> => {
+  await createEnfloProjectSessions();
+  await createReadingSessions();
+  await createFocusSessions();
+};

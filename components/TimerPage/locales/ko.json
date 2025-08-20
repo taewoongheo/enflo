@@ -1,5 +1,10 @@
 {
   "timer": "타이머",
   "suggestions": "최근 세션에서 수요일 오후 3시는 집중 실패율 70%입니다. 짧은 세션부터 시작해보세요.",
-  "minutes": "분"
+  "minutes": "분",
+  "trends": "분석",
+  "totalFocusTime": "몰입 누적 시간",
+  "focusSuggestion": "몰입 제안",
+  "focusGraph": "시간별 몰입도 그래프",
+  "noData": "데이터가 준비중이에요"
 }
