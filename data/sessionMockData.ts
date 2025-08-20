@@ -375,18 +375,18 @@ export const createFocusSessions = async (): Promise<Session> => {
     ],
   );
 
-  await sessionService.addTimerSession({
-    sessionId,
-    timerSession: timerSession1,
-  });
-  await sessionService.addTimerSession({
-    sessionId,
-    timerSession: timerSession2,
-  });
-  await sessionService.addTimerSession({
-    sessionId,
-    timerSession: timerSession3,
-  });
+  // await sessionService.addTimerSession({
+  //   sessionId,
+  //   timerSession: timerSession1,
+  // });
+  // await sessionService.addTimerSession({
+  //   sessionId,
+  //   timerSession: timerSession2,
+  // });
+  // await sessionService.addTimerSession({
+  //   sessionId,
+  //   timerSession: timerSession3,
+  // });
 
   return session;
 };

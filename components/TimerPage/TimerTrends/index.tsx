@@ -8,7 +8,7 @@ import { Canvas, Circle, Group, Line, vec } from '@shopify/react-native-skia';
 import { TFunction } from 'i18next';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import { generateSuggestion } from '../utils/generateSuggestion';
 import { generateTimeStatus } from '../utils/generateTimeStatus';
@@ -123,8 +123,21 @@ function TimerTrends({
             setCanvasWidth(e.nativeEvent.layout.width);
           }}
         >
-          {focusGraphYValues.length === 0 ? (
-            <Text>데이터가 준비중이에요</Text>
+          {focusGraphYValues.length === 1 ? (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Typography
+                variant="body1Regular"
+                style={{ color: theme.colors.pages.timer.slider.text.primary }}
+              >
+                {t('noData')}
+              </Typography>
+            </View>
           ) : (
             <>
               <Canvas style={{ flex: 1 }}>
@@ -211,7 +224,7 @@ const InfoLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <View
       style={{
-        marginBottom: baseTokens.spacing[3],
+        marginBottom: baseTokens.spacing[4],
       }}
     >
       {children}

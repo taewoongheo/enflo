@@ -5,5 +5,6 @@
   "trends": "Trends",
   "totalFocusTime": "Total Focus Time",
   "focusSuggestion": "Focus Suggestion",
-  "focusGraph": "Focus Graph"
+  "focusGraph": "Focus Graph",
+  "noData": "No data"
 }
