@@ -91,6 +91,10 @@ function TimerContent({
     resetBackgroundEvent();
     resetScrollEvent();
     resetPauseEvent();
+
+    return () => {
+      timerSession.current = null;
+    };
   }, [time]);
 
   const handleTimerEnd = async () => {
