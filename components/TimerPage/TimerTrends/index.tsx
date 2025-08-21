@@ -4,7 +4,7 @@ import { baseTokens } from '@/styles/baseTokens';
 import { Theme } from '@/styles/themes';
 import { getToday } from '@/utils/time';
 import { TFunction } from 'i18next';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
@@ -41,6 +41,8 @@ function TimerTrends({
   const [canvasWidth, setCanvasWidth] = useState<number>(0);
   const [cellSize, setCellSize] = useState<number>(0);
 
+  const totalNetFocusMsMemo = useMemo(() => session.totalNetFocusMs, [session]);
+
   useEffect(() => {
     if (canvasWidth && focusGraphYValues.length > 0) {
       setCellSize(canvasWidth / focusGraphYValues.length);
@@ -68,7 +70,7 @@ function TimerTrends({
 
     maxTime.current = newYValues[newYValues.length - 1].time;
     setFocusGraphYValues(newYValues);
-  }, [session.totalNetFocusMs]);
+  }, [totalNetFocusMsMemo]);
 
   return (
     <>
