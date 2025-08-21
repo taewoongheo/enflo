@@ -1,3 +1,7 @@
+import CumulateTimes from '@/components/TimerPage/TimerTrends/CumulateTimes';
+import Graph from '@/components/TimerPage/TimerTrends/Graph';
+import Trends from '@/components/TimerPage/TimerTrends/Trends';
+import UserMessage from '@/components/TimerPage/TimerTrends/UserMessage';
 import i18n from '@/i18n';
 import Session from '@/models/Session';
 import { baseTokens } from '@/styles/baseTokens';
@@ -7,18 +11,11 @@ import { TFunction } from 'i18next';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { scale } from 'react-native-size-matters';
 import { generateSuggestion } from '../utils/generateSuggestion';
 import { generateTimeStatus } from '../utils/generateTimeStatus';
 import { ChartPoint, mapFocusToY } from '../utils/mapDropToY';
 import { toUserMessage } from '../utils/toUserMessage';
-import CumulateTimes from './CumulateTimes';
-import Graph from './Graph';
-import Trends from './Trends';
-import UserMessage from './UserMessage';
-
-export const GRAPH_HEIGHT = scale(120);
-export const CIRCLE_RADIUS = scale(4);
+import { CIRCLE_RADIUS, GRAPH_HEIGHT } from './const';
 
 function TimerTrends({
   session,

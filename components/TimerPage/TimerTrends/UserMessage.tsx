@@ -1,7 +1,7 @@
 import Typography from '@/components/common/Typography';
 import { Theme } from '@/styles/themes';
 import { TFunction } from 'i18next';
-import { InfoLayout } from '.';
+import InfoLayout from './InfoLayout';
 
 export default function UserMessage({
   theme,

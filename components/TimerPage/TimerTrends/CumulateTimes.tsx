@@ -3,7 +3,7 @@ import Session from '@/models/Session';
 import { Theme } from '@/styles/themes';
 import { formatMsToTime } from '@/utils/time';
 import { TFunction } from 'i18next';
-import { InfoLayout } from '.';
+import InfoLayout from './InfoLayout';
 
 export default function CumulateTimes({
   session,

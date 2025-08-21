@@ -4,8 +4,9 @@ import { Canvas, Circle, Group, Line, vec } from '@shopify/react-native-skia';
 import { TFunction } from 'i18next';
 import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
-import { GRAPH_HEIGHT, InfoLayout } from '.';
 import { ChartPoint } from '../utils/mapDropToY';
+import { GRAPH_HEIGHT } from './const';
+import InfoLayout from './InfoLayout';
 
 const GRAPH_HEIGHT_WITH_PADDING = scale(20);
 const GRAPH_TEXT_PADDING = scale(35);

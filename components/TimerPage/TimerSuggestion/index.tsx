@@ -54,7 +54,7 @@ function TimerSuggestion({
 
         clearInterval(intervalRef.current!);
         intervalRef.current = null;
-        setLeftTime(0);
+        setLeftTime(time);
         setIsRunning(false);
         return;
       }

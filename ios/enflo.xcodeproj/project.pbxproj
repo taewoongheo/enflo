@@ -8,46 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		1CE023CDCF7D4810B0730B92 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8E2AF98D6309406EBF3DB0AF /* Pretendard-Light.otf */; };
-		267D04AB4F5DC3EB2474066C /* libPods-enflo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E65E20043656B44D6FD4D3F7 /* libPods-enflo.a */; };
-		3134BCBC0C074D3982FE186A /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9455E1245084402A9676DE06 /* Pretendard-Regular.otf */; };
+		1460AF17541E8805AD3F5806 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389DD3E678133F8DE4093A1F /* ExpoModulesProvider.swift */; };
+		1BBEA47E811D4E39A19F7CE7 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = AA70B08FE7964332BF3E3CCC /* Pretendard-Medium.otf */; };
+		1C5D9C3635164BBB9BDA93DD /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4A7746B1BA2D44C09F4E5972 /* Pretendard-ExtraLight.otf */; };
+		1EAC9D66950F4A0EB1BBCDA3 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D0F173B4FFF840AF89DC724C /* Pretendard-SemiBold.otf */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		425EE6B298B0C5AA8700C170 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656AD693260FE5123AA6030D /* ExpoModulesProvider.swift */; };
-		43F9A5A76A3A422691BD826B /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 37DFEC4B8EFB4E3B973B8592 /* Pretendard-ExtraBold.otf */; };
-		5825EBA804E749819F0DCA01 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = BF30CE55946240E0AD4A6CF5 /* Pretendard-Bold.otf */; };
-		65719A58363A4E389B9FA1C3 /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = E6E0240EBF3F45EE9EF2DCC0 /* Pretendard-ExtraLight.otf */; };
-		89E56A43C98C46F8A062483F /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 564E513C562E4A61A6920A40 /* Pretendard-SemiBold.otf */; };
-		97663BA4B1D44F2BBDBFCC0E /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = F14064DED8094E47B75956D1 /* Pretendard-Black.otf */; };
-		A257106570F445639A7F26A8 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 636093223FFD4388A29CB3D1 /* Pretendard-Thin.otf */; };
-		B6A5FCE652DA4AFB8463A124 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F3DBEB6B922E432FB47404BD /* Pretendard-Medium.otf */; };
+		5E8A53E9FAEBDF5E43290E6E /* libPods-enflo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD35CC01ECD2CCA0DFA54443 /* libPods-enflo.a */; };
+		6049A1DCD70A4D799616D704 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0D7B07FA588E4CC08DB02B61 /* Pretendard-Bold.otf */; };
+		6A89E42EA60381E14062A9D3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 47EC6980D0D9D966B6D2B098 /* PrivacyInfo.xcprivacy */; };
+		6EB32A0EBBCC4AE383F6AF8B /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E8614D5B9B244CE6BF071773 /* Pretendard-ExtraBold.otf */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		C01FDF59A2BD13D985D85195 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3AD71D0B3EDE42B4C692F3F5 /* PrivacyInfo.xcprivacy */; };
+		D20868D765A0461C9BDF0ED8 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = C27DC5FFA4214B7E894FAF48 /* Pretendard-Regular.otf */; };
+		E542A0CB19B9405FADA7C7C6 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2D50C66F914A4D4FAA75AA01 /* Pretendard-Black.otf */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
+		FAB88657A7FA4FCB8A0EB20B /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 287E368BF895401F99B240CF /* Pretendard-Light.otf */; };
+		FABD73F9DC4C438AB3A5B9F7 /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 896D9638FB504406A4BFA327 /* Pretendard-Thin.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D7B07FA588E4CC08DB02B61 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Bold.otf"; path = "../assets/fonts/Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* enflo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = enflo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = enflo/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = enflo/Info.plist; sourceTree = "<group>"; };
-		206B090EB9AE8CD69A8082ED /* Pods-enflo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-enflo.debug.xcconfig"; path = "Target Support Files/Pods-enflo/Pods-enflo.debug.xcconfig"; sourceTree = "<group>"; };
-		37DFEC4B8EFB4E3B973B8592 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraBold.otf"; path = "../assets/fonts/Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
-		3AD71D0B3EDE42B4C692F3F5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = enflo/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		564E513C562E4A61A6920A40 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.otf"; path = "../assets/fonts/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
-		636093223FFD4388A29CB3D1 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Thin.otf"; path = "../assets/fonts/Pretendard-Thin.otf"; sourceTree = "<group>"; };
-		656AD693260FE5123AA6030D /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-enflo/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		8E2AF98D6309406EBF3DB0AF /* Pretendard-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.otf"; path = "../assets/fonts/Pretendard-Light.otf"; sourceTree = "<group>"; };
-		9455E1245084402A9676DE06 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.otf"; path = "../assets/fonts/Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		287E368BF895401F99B240CF /* Pretendard-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Light.otf"; path = "../assets/fonts/Pretendard-Light.otf"; sourceTree = "<group>"; };
+		2D50C66F914A4D4FAA75AA01 /* Pretendard-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Black.otf"; path = "../assets/fonts/Pretendard-Black.otf"; sourceTree = "<group>"; };
+		3747DC2944962AE6F338B6C0 /* Pods-enflo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-enflo.debug.xcconfig"; path = "Target Support Files/Pods-enflo/Pods-enflo.debug.xcconfig"; sourceTree = "<group>"; };
+		389DD3E678133F8DE4093A1F /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-enflo/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		47EC6980D0D9D966B6D2B098 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = enflo/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		4A7746B1BA2D44C09F4E5972 /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraLight.otf"; path = "../assets/fonts/Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
+		896D9638FB504406A4BFA327 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Thin.otf"; path = "../assets/fonts/Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = enflo/SplashScreen.storyboard; sourceTree = "<group>"; };
+		AA70B08FE7964332BF3E3CCC /* Pretendard-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.otf"; path = "../assets/fonts/Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		BF30CE55946240E0AD4A6CF5 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Bold.otf"; path = "../assets/fonts/Pretendard-Bold.otf"; sourceTree = "<group>"; };
-		D168E3862CBB91D475A38D45 /* Pods-enflo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-enflo.release.xcconfig"; path = "Target Support Files/Pods-enflo/Pods-enflo.release.xcconfig"; sourceTree = "<group>"; };
-		E65E20043656B44D6FD4D3F7 /* libPods-enflo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-enflo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6E0240EBF3F45EE9EF2DCC0 /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraLight.otf"; path = "../assets/fonts/Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
+		C27DC5FFA4214B7E894FAF48 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Regular.otf"; path = "../assets/fonts/Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		CD35CC01ECD2CCA0DFA54443 /* libPods-enflo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-enflo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0F173B4FFF840AF89DC724C /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.otf"; path = "../assets/fonts/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		E8614D5B9B244CE6BF071773 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraBold.otf"; path = "../assets/fonts/Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = enflo/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* enflo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "enflo-Bridging-Header.h"; path = "enflo/enflo-Bridging-Header.h"; sourceTree = "<group>"; };
-		F14064DED8094E47B75956D1 /* Pretendard-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Black.otf"; path = "../assets/fonts/Pretendard-Black.otf"; sourceTree = "<group>"; };
-		F3DBEB6B922E432FB47404BD /* Pretendard-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.otf"; path = "../assets/fonts/Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		F68BF6945F1BE3AA7138D6E9 /* Pods-enflo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-enflo.release.xcconfig"; path = "Target Support Files/Pods-enflo/Pods-enflo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,23 +55,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				267D04AB4F5DC3EB2474066C /* libPods-enflo.a in Frameworks */,
+				5E8A53E9FAEBDF5E43290E6E /* libPods-enflo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		104521C3297E2283A3FB5C11 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				206B090EB9AE8CD69A8082ED /* Pods-enflo.debug.xcconfig */,
-				D168E3862CBB91D475A38D45 /* Pods-enflo.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* enflo */ = {
 			isa = PBXGroup;
 			children = (
@@ -81,7 +71,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				3AD71D0B3EDE42B4C692F3F5 /* PrivacyInfo.xcprivacy */,
+				47EC6980D0D9D966B6D2B098 /* PrivacyInfo.xcprivacy */,
 			);
 			name = enflo;
 			sourceTree = "<group>";
@@ -90,25 +80,9 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				E65E20043656B44D6FD4D3F7 /* libPods-enflo.a */,
+				CD35CC01ECD2CCA0DFA54443 /* libPods-enflo.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4D4222670939363B3A09E183 /* enflo */ = {
-			isa = PBXGroup;
-			children = (
-				656AD693260FE5123AA6030D /* ExpoModulesProvider.swift */,
-			);
-			name = enflo;
-			sourceTree = "<group>";
-		};
-		752CDE1596C4D1EDD549DA5B /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				4D4222670939363B3A09E183 /* enflo */,
-			);
-			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -125,9 +99,9 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				F1E15FB8A0F7402994842ADE /* Resources */,
-				104521C3297E2283A3FB5C11 /* Pods */,
-				752CDE1596C4D1EDD549DA5B /* ExpoModulesProviders */,
+				E13C65C3675F485FB7F201D1 /* Resources */,
+				D147392D003D845972189F65 /* Pods */,
+				B49C35E92ED4A5DC8347BBF5 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -142,6 +116,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B49C35E92ED4A5DC8347BBF5 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				C1ABBE0351634E48EF2A3B65 /* enflo */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,18 +133,36 @@
 			path = enflo/Supporting;
 			sourceTree = "<group>";
 		};
-		F1E15FB8A0F7402994842ADE /* Resources */ = {
+		C1ABBE0351634E48EF2A3B65 /* enflo */ = {
 			isa = PBXGroup;
 			children = (
-				F14064DED8094E47B75956D1 /* Pretendard-Black.otf */,
-				BF30CE55946240E0AD4A6CF5 /* Pretendard-Bold.otf */,
-				37DFEC4B8EFB4E3B973B8592 /* Pretendard-ExtraBold.otf */,
-				E6E0240EBF3F45EE9EF2DCC0 /* Pretendard-ExtraLight.otf */,
-				8E2AF98D6309406EBF3DB0AF /* Pretendard-Light.otf */,
-				F3DBEB6B922E432FB47404BD /* Pretendard-Medium.otf */,
-				9455E1245084402A9676DE06 /* Pretendard-Regular.otf */,
-				564E513C562E4A61A6920A40 /* Pretendard-SemiBold.otf */,
-				636093223FFD4388A29CB3D1 /* Pretendard-Thin.otf */,
+				389DD3E678133F8DE4093A1F /* ExpoModulesProvider.swift */,
+			);
+			name = enflo;
+			sourceTree = "<group>";
+		};
+		D147392D003D845972189F65 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3747DC2944962AE6F338B6C0 /* Pods-enflo.debug.xcconfig */,
+				F68BF6945F1BE3AA7138D6E9 /* Pods-enflo.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E13C65C3675F485FB7F201D1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2D50C66F914A4D4FAA75AA01 /* Pretendard-Black.otf */,
+				0D7B07FA588E4CC08DB02B61 /* Pretendard-Bold.otf */,
+				E8614D5B9B244CE6BF071773 /* Pretendard-ExtraBold.otf */,
+				4A7746B1BA2D44C09F4E5972 /* Pretendard-ExtraLight.otf */,
+				287E368BF895401F99B240CF /* Pretendard-Light.otf */,
+				AA70B08FE7964332BF3E3CCC /* Pretendard-Medium.otf */,
+				C27DC5FFA4214B7E894FAF48 /* Pretendard-Regular.otf */,
+				D0F173B4FFF840AF89DC724C /* Pretendard-SemiBold.otf */,
+				896D9638FB504406A4BFA327 /* Pretendard-Thin.otf */,
 			);
 			name = Resources;
 			path = "";
@@ -176,13 +176,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "enflo" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				A8FD6D1BAEB9202EBC896925 /* [Expo] Configure project */,
+				0E8D05C090876CBDB68CCB48 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				D11D264ADFD925D50E16FB2F /* [CP] Embed Pods Frameworks */,
+				69E28D20DBFB479D45D15F83 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -232,16 +232,16 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				97663BA4B1D44F2BBDBFCC0E /* Pretendard-Black.otf in Resources */,
-				5825EBA804E749819F0DCA01 /* Pretendard-Bold.otf in Resources */,
-				43F9A5A76A3A422691BD826B /* Pretendard-ExtraBold.otf in Resources */,
-				65719A58363A4E389B9FA1C3 /* Pretendard-ExtraLight.otf in Resources */,
-				1CE023CDCF7D4810B0730B92 /* Pretendard-Light.otf in Resources */,
-				B6A5FCE652DA4AFB8463A124 /* Pretendard-Medium.otf in Resources */,
-				3134BCBC0C074D3982FE186A /* Pretendard-Regular.otf in Resources */,
-				89E56A43C98C46F8A062483F /* Pretendard-SemiBold.otf in Resources */,
-				A257106570F445639A7F26A8 /* Pretendard-Thin.otf in Resources */,
-				C01FDF59A2BD13D985D85195 /* PrivacyInfo.xcprivacy in Resources */,
+				E542A0CB19B9405FADA7C7C6 /* Pretendard-Black.otf in Resources */,
+				6049A1DCD70A4D799616D704 /* Pretendard-Bold.otf in Resources */,
+				6EB32A0EBBCC4AE383F6AF8B /* Pretendard-ExtraBold.otf in Resources */,
+				1C5D9C3635164BBB9BDA93DD /* Pretendard-ExtraLight.otf in Resources */,
+				FAB88657A7FA4FCB8A0EB20B /* Pretendard-Light.otf in Resources */,
+				1BBEA47E811D4E39A19F7CE7 /* Pretendard-Medium.otf in Resources */,
+				D20868D765A0461C9BDF0ED8 /* Pretendard-Regular.otf in Resources */,
+				1EAC9D66950F4A0EB1BBCDA3 /* Pretendard-SemiBold.otf in Resources */,
+				FABD73F9DC4C438AB3A5B9F7 /* Pretendard-Thin.otf in Resources */,
+				6A89E42EA60381E14062A9D3 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +283,43 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0E8D05C090876CBDB68CCB48 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-enflo/expo-configure-project.sh\"\n";
+		};
+		69E28D20DBFB479D45D15F83 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-enflo/Pods-enflo-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-enflo/Pods-enflo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
@@ -327,43 +364,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-enflo/Pods-enflo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A8FD6D1BAEB9202EBC896925 /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-enflo/expo-configure-project.sh\"\n";
-		};
-		D11D264ADFD925D50E16FB2F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-enflo/Pods-enflo-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-enflo/Pods-enflo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -372,7 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				425EE6B298B0C5AA8700C170 /* ExpoModulesProvider.swift in Sources */,
+				1460AF17541E8805AD3F5806 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,7 +381,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 206B090EB9AE8CD69A8082ED /* Pods-enflo.debug.xcconfig */;
+			baseConfigurationReference = 3747DC2944962AE6F338B6C0 /* Pods-enflo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -406,7 +406,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.enflo.app;
-				PRODUCT_NAME = "enflo";
+				PRODUCT_NAME = enflo;
 				SWIFT_OBJC_BRIDGING_HEADER = "enflo/enflo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -417,7 +417,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D168E3862CBB91D475A38D45 /* Pods-enflo.release.xcconfig */;
+			baseConfigurationReference = F68BF6945F1BE3AA7138D6E9 /* Pods-enflo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -437,7 +437,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.enflo.app;
-				PRODUCT_NAME = "enflo";
+				PRODUCT_NAME = enflo;
 				SWIFT_OBJC_BRIDGING_HEADER = "enflo/enflo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
