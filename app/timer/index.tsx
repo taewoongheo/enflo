@@ -68,7 +68,7 @@ function TimerContent({
   session: Session;
   t: TFunction;
 }) {
-  const [time, setTime] = useState(5 * 60 * 1000);
+  const [time, setTime] = useState(1 * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
 
   const timerSession = useRef<TimerSession | null>(null);
@@ -82,7 +82,7 @@ function TimerContent({
     useScrollEvent(isRunning);
   const { pauseEvent, resetPauseEvent } = usePauseEvent(
     isRunning,
-    timerSession.current?.startTs ?? null,
+    timerSession.current ?? null,
   );
 
   useEffect(() => {
@@ -98,39 +98,41 @@ function TimerContent({
   }, [time]);
 
   const handleTimerEnd = async () => {
-    if (timerSession.current) {
-      const entropyScore = await timerService.calculateEntropy({
-        timerSession: timerSession.current,
-        endTs: Date.now(),
-        screenBackgroundCount: screenBackgroundCount.current,
-        scrollInteractionCount: scrollInteractionCount.current,
-        pauseEvents: pauseEvent.current,
-      });
+    if (!timerSession.current) {
+      return;
+    }
 
+    const snapShot = {
+      timerSession: timerSession.current,
+      endTs: Date.now(),
+      screenBackgroundCount: [...screenBackgroundCount.current],
+      scrollInteractionCount: [...scrollInteractionCount.current],
+      pauseEvents: [...pauseEvent.current],
+    };
+
+    timerSession.current = null;
+
+    try {
+      const entropyScore = await timerService.calculateEntropy(snapShot);
       if (entropyScore) {
         updateEntropyScore(entropyScore);
+
         await sessionService.addTimerSession({
           sessionId: session.sessionId,
-          timerSession: timerSession.current,
+          timerSession: snapShot.timerSession,
         });
       }
+    } catch (error) {
+      console.error('entropy score 계산 중 오류 발생: ', error);
     }
-
-    timerSession.current = await timerService.createTimerSession({
-      sessionId: session.sessionId,
-      targetDurationMs: time,
-    });
   };
 
-  const handleStartPauseToggle = () => {
+  const handleStartPauseToggle = async () => {
     if (!timerSession.current) {
-      throw new Error('no timer session');
-    }
-
-    if (!timerSession.current.startTs) {
-      timerService.updateStartTs({
-        timerSession: timerSession.current,
+      timerSession.current = await timerService.createTimerSession({
+        sessionId: session.sessionId,
         startTs: Date.now(),
+        targetDurationMs: time,
       });
     }
 

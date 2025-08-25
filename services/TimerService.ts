@@ -29,13 +29,16 @@ class TimerService {
 
   async createTimerSession({
     sessionId,
+    startTs,
     targetDurationMs,
   }: {
     sessionId: string;
+    startTs: number;
     targetDurationMs: number;
   }): Promise<TimerSession> {
     const timerSession = new TimerSession({
       sessionId,
+      startTs,
       targetDurationMs,
       // TODO: sessionSequenceInDay
     });

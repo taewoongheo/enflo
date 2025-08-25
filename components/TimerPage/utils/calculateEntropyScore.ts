@@ -24,9 +24,9 @@ export function calculateEntropyScore(session: TimerSession): number | null {
   //   const overshootMs = session.overshootMs;
   const isSuccess = session.isSuccess;
 
-  if (netFocusMs <= 5 * 60 * 1000 - 100) {
-    return null;
-  }
+  // if (netFocusMs <= 5 * 60 * 1000 - 100) {
+  //   return null;
+  // }
 
   // Convert milliseconds to minutes
   const netFocusMinutes = netFocusMs / MINUTE_MS;

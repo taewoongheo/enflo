@@ -4,13 +4,11 @@ import Trends from '@/components/TimerPage/TimerTrends/Trends';
 import UserMessage from '@/components/TimerPage/TimerTrends/UserMessage';
 import i18n from '@/i18n';
 import Session from '@/models/Session';
-import { baseTokens } from '@/styles/baseTokens';
 import { Theme } from '@/styles/themes';
 import { getToday } from '@/utils/time';
 import { TFunction } from 'i18next';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
 import { generateSuggestion } from '../utils/generateSuggestion';
 import { generateTimeStatus } from '../utils/generateTimeStatus';
 import { ChartPoint, mapFocusToY } from '../utils/mapDropToY';
@@ -37,8 +35,6 @@ function TimerTrends({
 
   const [canvasWidth, setCanvasWidth] = useState<number>(0);
   const [cellSize, setCellSize] = useState<number>(0);
-
-  const totalNetFocusMsMemo = useMemo(() => session.totalNetFocusMs, [session]);
 
   useEffect(() => {
     if (canvasWidth && focusGraphYValues.length > 0) {
@@ -67,12 +63,16 @@ function TimerTrends({
 
     maxTime.current = newYValues[newYValues.length - 1].time;
     setFocusGraphYValues(newYValues);
-  }, [totalNetFocusMsMemo]);
+  }, [session.totalNetFocusMs]);
 
   return (
     <>
       <Trends theme={theme} t={t} />
-      <CumulateTimes session={session} theme={theme} t={t} />
+      <CumulateTimes
+        totalNetFocusMs={session.totalNetFocusMs}
+        theme={theme}
+        t={t}
+      />
       <UserMessage theme={theme} t={t} userMessage={userMessage} />
       <Graph
         theme={theme}
@@ -86,17 +86,5 @@ function TimerTrends({
     </>
   );
 }
-
-export const InfoLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <View
-      style={{
-        marginBottom: baseTokens.spacing[4],
-      }}
-    >
-      {children}
-    </View>
-  );
-};
 
 export default TimerTrends;

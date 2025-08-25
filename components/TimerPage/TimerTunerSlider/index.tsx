@@ -18,7 +18,7 @@ const ELEM_WIDTH = CELL_WIDTH * 5 + CELL_GAP * 4;
 
 const TRIANGLE_WIDTH = scale(25);
 
-const TIMER_RANGE = Array.from({ length: 18 }, (_, index) => (index + 1) * 5);
+const TIMER_RANGE = Array.from({ length: 18 }, (_, index) => (index + 1) * 1);
 
 const CENTER_CELL_INDEX = 2;
 

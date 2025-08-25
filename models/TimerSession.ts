@@ -19,10 +19,14 @@ class TimerSession {
 
   static SUCCESS_MARGIN_MS = 600000; // 10 minutes
 
-  constructor(params: { sessionId: string; targetDurationMs: number }) {
+  constructor(params: {
+    sessionId: string;
+    startTs: number;
+    targetDurationMs: number;
+  }) {
     this.sessionId = params.sessionId;
     this.timerSessionId = uuid.v4();
-    this.startTs = null;
+    this.startTs = params.startTs;
     this.endTs = null;
     this.targetDurationMs = params.targetDurationMs;
     this.screenUnlockCount = [];

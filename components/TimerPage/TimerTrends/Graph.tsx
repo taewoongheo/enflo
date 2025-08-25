@@ -11,6 +11,8 @@ import InfoLayout from './InfoLayout';
 const GRAPH_HEIGHT_WITH_PADDING = scale(20);
 const GRAPH_TEXT_PADDING = scale(35);
 
+// TODO: 그래프 길이가 최소 20분 이상은 되어야 할 듯
+
 export default function Graph({
   theme,
   t,

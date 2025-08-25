@@ -12,7 +12,7 @@ const EntropyScore = () => {
   const { theme } = useTheme();
   const entropyScore = useEntropyStore((s) => s.entropyScore);
 
-  console.log('entropy score: ', entropyScore);
+  // console.log('entropy score: ', entropyScore);
 
   return (
     <Pressable

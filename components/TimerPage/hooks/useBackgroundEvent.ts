@@ -4,18 +4,23 @@ import { AppState } from 'react-native';
 
 function useBackgroundEvent(isRunning: boolean) {
   const screenBackgroundCount = useRef<AppStateEvent[]>([]);
+  const isRunningRef = useRef<boolean>(isRunning);
+
+  useEffect(() => {
+    isRunningRef.current = isRunning;
+  }, [isRunning]);
 
   useEffect(() => {
     // screen unlock count
     const appStateSubscription = AppState.addEventListener(
       'change',
       (nextAppState) => {
-        if (!isRunning) {
+        if (!isRunningRef.current) {
           return;
         }
 
-        // TODO: only count active cases; 'background' is triggered when the app auto-locks
-        if (nextAppState === 'background' || nextAppState === 'active') {
+        if (nextAppState === 'background') {
+          console.log('background event');
           screenBackgroundCount.current.push({
             timestamp: Date.now(),
             appState: nextAppState,
@@ -27,7 +32,7 @@ function useBackgroundEvent(isRunning: boolean) {
     return () => {
       appStateSubscription.remove();
     };
-  }, [isRunning]);
+  }, []);
 
   const resetBackgroundEvent = useCallback(() => {
     screenBackgroundCount.current = [];

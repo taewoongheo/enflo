@@ -392,7 +392,7 @@ export const createFocusSessions = async (): Promise<Session> => {
 };
 
 export const createAllMockSessions = async (): Promise<void> => {
-  await createEnfloProjectSessions();
-  await createReadingSessions();
+  // await createEnfloProjectSessions();
+  // await createReadingSessions();
   await createFocusSessions();
 };
