@@ -76,13 +76,14 @@ function TimerContent({
   const updateEntropyScore = useEntropyStore((s) => s.updateEntropyScore);
 
   // timer session disturbance data
-  const { screenBackgroundCount, resetBackgroundEvent } =
-    useBackgroundEvent(isRunning);
+  const { screenBackgroundCount, resetBackgroundEvent } = useBackgroundEvent(
+    timerSession ?? null,
+  );
   const { scrollInteractionCount, handleScroll, resetScrollEvent } =
     useScrollEvent(isRunning);
   const { pauseEvent, resetPauseEvent } = usePauseEvent(
     isRunning,
-    timerSession.current ?? null,
+    timerSession ?? null,
   );
 
   useEffect(() => {
@@ -134,6 +135,7 @@ function TimerContent({
         startTs: Date.now(),
         targetDurationMs: time,
       });
+      console.log('timerSession 생성');
     }
 
     setIsRunning(!isRunning);

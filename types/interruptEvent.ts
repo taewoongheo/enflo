@@ -4,7 +4,7 @@ export type ScrollInteractionEvent = {
 
 export type AppStateEvent = {
   timestamp: number;
-  appState: 'active' | 'background';
+  appState: 'background';
 };
 
 export type PauseEvent = {

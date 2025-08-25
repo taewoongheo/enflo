@@ -1,17 +1,17 @@
 import TimerSession from '@/models/TimerSession';
 import { PauseEvent } from '@/types/InterruptEvent';
-import { useCallback, useEffect, useRef } from 'react';
+import { RefObject, useCallback, useEffect, useRef } from 'react';
 
 export default function usePauseEvent(
   isRunning: boolean,
-  timerSession: TimerSession | null,
+  timerSession: RefObject<TimerSession | null>,
 ) {
   const pauseEvent = useRef<PauseEvent[]>([]);
   const pauseStartTime = useRef<number | null>(null);
 
   // puase event
   useEffect(() => {
-    if (!timerSession) {
+    if (!timerSession.current) {
       return;
     }
 
@@ -33,7 +33,7 @@ export default function usePauseEvent(
     }
 
     pauseStartTime.current = Date.now();
-  }, [isRunning, timerSession]);
+  }, [isRunning, timerSession.current]);
 
   const resetPauseEvent = useCallback(() => {
     pauseEvent.current = [];
