@@ -1,4 +1,8 @@
-import { MINUTE_MS } from '@/constants/time/time';
+import {
+  MINUTE_MS,
+  SUCCESS_MARGIN_MS,
+  TIMER_MIN_MINUTES,
+} from '@/constants/time/time';
 import TimerSession from '@/models/TimerSession';
 import { clamp } from '@/utils/math';
 
@@ -24,9 +28,9 @@ export function calculateEntropyScore(session: TimerSession): number | null {
   //   const overshootMs = session.overshootMs;
   const isSuccess = session.isSuccess;
 
-  // if (netFocusMs <= 5 * 60 * 1000 - 100) {
-  //   return null;
-  // }
+  if (netFocusMs <= TIMER_MIN_MINUTES * 60 * 1000 - SUCCESS_MARGIN_MS) {
+    return null;
+  }
 
   // Convert milliseconds to minutes
   const netFocusMinutes = netFocusMs / MINUTE_MS;

@@ -8,107 +8,42 @@ import {
 
 const scenarios = [
   {
-    name: '5min target, complete, no disturbance events',
+    name: '20min target, complete, no disturbance events',
     session: new TimerSession({
       sessionId: Date.now().toString(),
-      targetDurationMs: 5 * 60 * 1000,
+      startTs: Date.now() - 20 * 60 * 1000,
+      targetDurationMs: 20 * 60 * 1000,
     }),
     disturbance: {
       screenUnlockEvents: [] as AppStateEvent[],
       scrollEvents: [] as ScrollInteractionEvent[],
       pauseEvents: [] as PauseEvent[],
       totalDisturbanceMs: 0,
-      startTs: Date.now() - 5 * 60 * 1000,
+      startTs: Date.now() - 20 * 60 * 1000,
       endTs: Date.now(),
     },
   },
   {
-    name: '10min target, complete, no disturbance events',
+    name: '20min target, incomplete, no disturbance events (ended at 10min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
-      targetDurationMs: 10 * 60 * 1000,
+      startTs: Date.now() - 20 * 60 * 1000,
+      targetDurationMs: 20 * 60 * 1000,
     }),
     disturbance: {
       screenUnlockEvents: [] as AppStateEvent[],
       scrollEvents: [] as ScrollInteractionEvent[],
       pauseEvents: [] as PauseEvent[],
       totalDisturbanceMs: 0,
-      startTs: Date.now() - 10 * 60 * 1000,
-      endTs: Date.now(),
-    },
-  },
-  {
-    name: '10min target, incomplete, no disturbance events (ended at 5min)',
-    session: new TimerSession({
-      sessionId: Date.now().toString(),
-      targetDurationMs: 10 * 60 * 1000,
-    }),
-    disturbance: {
-      screenUnlockEvents: [] as AppStateEvent[],
-      scrollEvents: [] as ScrollInteractionEvent[],
-      pauseEvents: [] as PauseEvent[],
-      totalDisturbanceMs: 0,
-      startTs: Date.now() - 10 * 60 * 1000,
-      endTs: Date.now() - 5 * 60 * 1000,
-    },
-  },
-  {
-    name: '15min target, complete, disturbance events (2 events, 2min)',
-    session: new TimerSession({
-      sessionId: Date.now().toString(),
-      targetDurationMs: 15 * 60 * 1000,
-    }),
-    disturbance: {
-      screenUnlockEvents: [
-        { timestamp: Date.now() - 8 * 60 * 1000, appState: 'background' },
-      ] as AppStateEvent[],
-      scrollEvents: [
-        { timestamp: Date.now() - 6 * 60 * 1000 },
-      ] as ScrollInteractionEvent[],
-      pauseEvents: [
-        {
-          startTs: Date.now() - 10 * 60 * 1000,
-          endTs: Date.now() - 8 * 60 * 1000,
-          durationMs: 2 * 60 * 1000,
-        },
-      ] as PauseEvent[],
-      totalDisturbanceMs: 2 * 60 * 1000,
-      startTs: Date.now() - 15 * 60 * 1000,
-      endTs: Date.now(),
-    },
-  },
-  {
-    name: '15min target, complete, disturbance events (5 events, 8min)',
-    session: new TimerSession({
-      sessionId: Date.now().toString(),
-      targetDurationMs: 15 * 60 * 1000,
-    }),
-    disturbance: {
-      screenUnlockEvents: [
-        { timestamp: Date.now() - 12 * 60 * 1000, appState: 'background' },
-        { timestamp: Date.now() - 8 * 60 * 1000, appState: 'background' },
-        { timestamp: Date.now() - 4 * 60 * 1000, appState: 'background' },
-      ] as AppStateEvent[],
-      scrollEvents: [
-        { timestamp: Date.now() - 10 * 60 * 1000 },
-        { timestamp: Date.now() - 6 * 60 * 1000 },
-      ] as ScrollInteractionEvent[],
-      pauseEvents: [
-        {
-          startTs: Date.now() - 14 * 60 * 1000,
-          endTs: Date.now() - 6 * 60 * 1000,
-          durationMs: 8 * 60 * 1000,
-        },
-      ] as PauseEvent[],
-      totalDisturbanceMs: 8 * 60 * 1000,
-      startTs: Date.now() - 15 * 60 * 1000,
-      endTs: Date.now(),
+      startTs: Date.now() - 20 * 60 * 1000,
+      endTs: Date.now() - 10 * 60 * 1000,
     },
   },
   {
     name: '20min target, complete, disturbance events (1 event, 30sec)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 20 * 60 * 1000,
       targetDurationMs: 20 * 60 * 1000,
     }),
     disturbance: {
@@ -132,6 +67,7 @@ const scenarios = [
     name: '20min target, incomplete, disturbance events (8 events, 15min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 20 * 60 * 1000,
       targetDurationMs: 20 * 60 * 1000,
     }),
     disturbance: {
@@ -163,6 +99,7 @@ const scenarios = [
     name: '25min target, complete, disturbance events (3 events, 1min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 25 * 60 * 1000,
       targetDurationMs: 25 * 60 * 1000,
     }),
     disturbance: {
@@ -188,6 +125,7 @@ const scenarios = [
     name: '25min target, incomplete, disturbance events (3 events, 1min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 25 * 60 * 1000,
       targetDurationMs: 25 * 60 * 1000,
     }),
     disturbance: {
@@ -213,6 +151,7 @@ const scenarios = [
     name: '30min target, complete, no disturbance events',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 30 * 60 * 1000,
       targetDurationMs: 30 * 60 * 1000,
     }),
     disturbance: {
@@ -228,6 +167,7 @@ const scenarios = [
     name: '30min target, complete, disturbance events (3 events, 10min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 30 * 60 * 1000,
       targetDurationMs: 30 * 60 * 1000,
     }),
     disturbance: {
@@ -253,6 +193,7 @@ const scenarios = [
     name: '35min target, complete, disturbance events (4 events, 5min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 35 * 60 * 1000,
       targetDurationMs: 35 * 60 * 1000,
     }),
     disturbance: {
@@ -280,6 +221,7 @@ const scenarios = [
     name: '35min target, incomplete, disturbance events (6 events, 20min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 35 * 60 * 1000,
       targetDurationMs: 35 * 60 * 1000,
     }),
     disturbance: {
@@ -309,6 +251,7 @@ const scenarios = [
     name: '45min target, complete, disturbance events (3 events, 3min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 45 * 60 * 1000,
       targetDurationMs: 45 * 60 * 1000,
     }),
     disturbance: {
@@ -334,6 +277,7 @@ const scenarios = [
     name: '45min target, complete, disturbance events (10 events, 0min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 45 * 60 * 1000,
       targetDurationMs: 45 * 60 * 1000,
     }),
     disturbance: {
@@ -361,6 +305,7 @@ const scenarios = [
     name: '45min target, incomplete, disturbance events (10 events, 25min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 45 * 60 * 1000,
       targetDurationMs: 45 * 60 * 1000,
     }),
     disturbance: {
@@ -394,6 +339,7 @@ const scenarios = [
     name: '50min target, complete, disturbance events (3 events, 10min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 50 * 60 * 1000,
       targetDurationMs: 50 * 60 * 1000,
     }),
     disturbance: {
@@ -420,6 +366,7 @@ const scenarios = [
     name: '60min target, complete, disturbance events (2 events, 1min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 60 * 60 * 1000,
       targetDurationMs: 60 * 60 * 1000,
     }),
     disturbance: {
@@ -445,6 +392,7 @@ const scenarios = [
     name: '60min target, incomplete, disturbance events (12 events, 35min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 60 * 60 * 1000,
       targetDurationMs: 60 * 60 * 1000,
     }),
     disturbance: {
@@ -480,6 +428,7 @@ const scenarios = [
     name: '90min target, complete, no disturbance events',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 90 * 60 * 1000,
       targetDurationMs: 90 * 60 * 1000,
     }),
     disturbance: {
@@ -495,6 +444,7 @@ const scenarios = [
     name: '90min target, complete, disturbance events (3 events, 10min)',
     session: new TimerSession({
       sessionId: Date.now().toString(),
+      startTs: Date.now() - 90 * 60 * 1000,
       targetDurationMs: 90 * 60 * 1000,
     }),
     disturbance: {
@@ -538,7 +488,7 @@ scenarios.forEach((scenario, idx) => {
     `   - Disturbance events: ${scenario.session.screenUnlockCount.length + scenario.session.scrollInteractionCount.length} events`,
   );
   console.log(
-    `   - Entropy Score: ${score === null ? 'null (less than 5min)' : score.toFixed(2)}`,
+    `   - Entropy Score: ${score === null ? 'null (less than 20min)' : score.toFixed(2)}`,
   );
   console.log('');
 });

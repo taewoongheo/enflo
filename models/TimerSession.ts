@@ -1,4 +1,5 @@
 import { calculateEntropyScore } from '@/components/TimerPage/utils/calculateEntropyScore';
+import { SUCCESS_MARGIN_MS } from '@/constants/time/time';
 import {
   AppStateEvent,
   PauseEvent,
@@ -16,8 +17,6 @@ class TimerSession {
   scrollInteractionCount: ScrollInteractionEvent[]; // Date.now()
   pauseEvents: PauseEvent[]; // Date.now(), duration = ms
   entropyScore: number | null; // 5 ~ 20
-
-  static SUCCESS_MARGIN_MS = 600000; // 10 minutes
 
   constructor(params: {
     sessionId: string;
@@ -56,9 +55,7 @@ class TimerSession {
   }
 
   get isSuccess(): boolean {
-    return (
-      this.netFocusMs >= this.targetDurationMs - TimerSession.SUCCESS_MARGIN_MS
-    );
+    return this.netFocusMs >= this.targetDurationMs - SUCCESS_MARGIN_MS;
   }
 
   get netFocusMs(): number {

@@ -11,6 +11,7 @@ import {
 import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent';
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
+import { TIMER_MIN_MINUTES } from '@/constants/time/time';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
@@ -68,7 +69,7 @@ function TimerContent({
   session: Session;
   t: TFunction;
 }) {
-  const [time, setTime] = useState(1 * 60 * 1000);
+  const [time, setTime] = useState(TIMER_MIN_MINUTES * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
 
   const timerSession = useRef<TimerSession | null>(null);
@@ -119,7 +120,7 @@ function TimerContent({
         });
       }
     } catch (error) {
-      console.error('entropy score 계산 중 오류 발생: ', error);
+      throw new Error('entropy score calculation failed', { cause: error });
     }
   };
 
