@@ -296,8 +296,8 @@ export const createFocusSessions = async (): Promise<Session> => {
   const timerSession1 = await createMockTimerSession(
     sessionId,
     900000, // 15 minutes
-    Date.now() - 86400000 * 0.5, // 12 hours ago
-    Date.now() - 86400000 * 0.5 + 900000, // 15 minutes later (perfect)
+    Date.now() - 10800000 * 0.5, // 3 hours ago
+    Date.now() - 10800000 * 0.5 + 900000, // 15 minutes later (perfect)
     [], // No pauses - perfect focus
     [], // No scroll interactions
     [], // No screen unlocks
@@ -306,8 +306,8 @@ export const createFocusSessions = async (): Promise<Session> => {
   const timerSession2 = await createMockTimerSession(
     sessionId,
     2400000, // 40 minutes
-    Date.now() - 21600000, // 6 hours ago
-    Date.now() - 21600000 + 2100000, // 35 minutes later
+    Date.now() - 3600000, // 1 hours ago
+    Date.now() - 3600000 + 2100000, // 35 minutes later
     [
       {
         startTs: Date.now() - 21600000 + 1200000,

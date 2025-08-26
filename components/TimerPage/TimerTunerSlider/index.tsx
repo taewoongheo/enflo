@@ -12,7 +12,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
 
 const CELL_CONTAINER_HEIGHT = scale(190);
-const CELL_WIDTH = scale(5);
+const CELL_WIDTH = scale(4.5);
 const CELL_GAP = scale(4);
 const CELL_HEIGHT = scale(160);
 const ELEM_WIDTH = CELL_WIDTH * 5 + CELL_GAP * 4;
@@ -203,7 +203,8 @@ const styles = StyleSheet.create({
     width: CELL_WIDTH + scale(1),
     height: CELL_HEIGHT,
     zIndex: 10,
-    borderRadius: baseTokens.borderRadius.xs,
+    // borderRadius: baseTokens.borderRadius.xs,
+    borderRadius: scale(1.5),
   },
   leftGradient: {
     width: scale(20),
@@ -239,7 +240,8 @@ const styles = StyleSheet.create({
   cell: {
     width: CELL_WIDTH,
     height: CELL_HEIGHT,
-    borderRadius: baseTokens.borderRadius.xs,
+    // borderRadius: baseTokens.borderRadius.xs,
+    borderRadius: scale(1.5),
   },
   separator: {
     width: CELL_GAP,

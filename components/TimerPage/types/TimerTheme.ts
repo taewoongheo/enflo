@@ -6,6 +6,7 @@ export interface TimerTheme {
     button: {
       icon: string;
       background: string;
+      border: string;
     };
     cell: {
       primary: string;

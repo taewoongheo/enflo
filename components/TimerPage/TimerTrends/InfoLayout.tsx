@@ -10,7 +10,7 @@ export default function InfoLayout({
   return (
     <View
       style={{
-        marginBottom: baseTokens.spacing[4],
+        marginBottom: baseTokens.spacing[3],
       }}
     >
       {children}

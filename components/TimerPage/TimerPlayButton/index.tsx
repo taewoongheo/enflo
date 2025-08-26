@@ -22,6 +22,8 @@ function TimerPlayButton({
         borderRadius: baseTokens.borderRadius.sm,
         padding: baseTokens.spacing[2],
         paddingVertical: baseTokens.spacing[3],
+        borderWidth: 1,
+        borderColor: theme.colors.pages.timer.slider.button.border,
       }}
       onPress={handleStartPauseToggle}
     >
