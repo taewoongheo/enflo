@@ -19,6 +19,7 @@ const createMockTimerSession = async (
 ): Promise<TimerSession> => {
   const timerSession = await timerService.createTimerSession({
     sessionId,
+    startTs,
     targetDurationMs,
   });
 
@@ -71,11 +72,6 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
           new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 1200000,
         appState: 'background',
       },
-      {
-        timestamp:
-          new Date(Date.now() - 86400000 * 2).setHours(21, 30, 0, 0) + 1400000,
-        appState: 'active',
-      },
     ],
   );
   const timerSession2 = await createMockTimerSession(
@@ -116,11 +112,6 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
         timestamp:
           new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 1800000,
         appState: 'background',
-      },
-      {
-        timestamp:
-          new Date(Date.now() - 86400000).setHours(22, 15, 0, 0) + 2100000,
-        appState: 'active',
       },
     ],
   );
@@ -165,10 +156,6 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
         timestamp: Date.now() - 36000000 + 600000,
         appState: 'background',
       },
-      {
-        timestamp: Date.now() - 36000000 + 700000,
-        appState: 'active',
-      },
     ],
   );
 
@@ -198,10 +185,6 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
       {
         timestamp: Date.now() - 18000000 + 1120000,
         appState: 'background',
-      },
-      {
-        timestamp: Date.now() - 18000000 + 1300000,
-        appState: 'active',
       },
     ],
   );
@@ -298,7 +281,6 @@ export const createReadingSessions = async (): Promise<Session> => {
         timestamp: Date.now() - 86400000 * 1.5 + 1020000,
         appState: 'background',
       },
-      { timestamp: Date.now() - 86400000 * 1.5 + 1200000, appState: 'active' },
     ],
   );
 
@@ -369,30 +351,27 @@ export const createFocusSessions = async (): Promise<Session> => {
       { timestamp: Date.now() - 7200000 + 300000 },
       { timestamp: Date.now() - 7200000 + 900000 },
     ],
-    [
-      { timestamp: Date.now() - 7200000 + 720000, appState: 'background' },
-      { timestamp: Date.now() - 7200000 + 900000, appState: 'active' },
-    ],
+    [{ timestamp: Date.now() - 7200000 + 720000, appState: 'background' }],
   );
 
-  // await sessionService.addTimerSession({
-  //   sessionId,
-  //   timerSession: timerSession1,
-  // });
-  // await sessionService.addTimerSession({
-  //   sessionId,
-  //   timerSession: timerSession2,
-  // });
-  // await sessionService.addTimerSession({
-  //   sessionId,
-  //   timerSession: timerSession3,
-  // });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession1,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession2,
+  });
+  await sessionService.addTimerSession({
+    sessionId,
+    timerSession: timerSession3,
+  });
 
   return session;
 };
 
 export const createAllMockSessions = async (): Promise<void> => {
-  // await createEnfloProjectSessions();
-  // await createReadingSessions();
+  await createEnfloProjectSessions();
+  await createReadingSessions();
   await createFocusSessions();
 };

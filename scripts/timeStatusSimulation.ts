@@ -16,13 +16,14 @@ function createMockTimerSession(params: {
   screenUnlockEvents?: AppStateEvent[];
   scrollEvents?: ScrollInteractionEvent[];
 }): TimerSession {
+  const now = Date.now();
+  const startTs = now - params.actualDurationMs;
+
   const session = new TimerSession({
     sessionId: params.sessionId,
+    startTs: startTs,
     targetDurationMs: params.targetDurationMs,
   });
-
-  const now = Date.now();
-  session.startTs = now - params.actualDurationMs;
 
   session.calculateEntropy({
     endTs: now,
@@ -50,7 +51,7 @@ function createPauseEvent(
 function createAppStateEvent(
   offset: number,
   baseTs: number,
-  appState: 'active' | 'background',
+  appState: 'background',
 ): AppStateEvent {
   return {
     timestamp: baseTs + offset,
@@ -72,16 +73,17 @@ function runTimeStatusSimulation() {
 
   const timeRange = getTimeRange(Date.now());
 
-  // 시나리오 1: 짧은 세션들에서 방해 패턴 분석
-  console.log('\n시나리오 1: 짧은 세션들 (10-20분), 다양한 방해 패턴');
+  // 시나리오 1: 짧은 세션들에서 방해 패턴 분석 (20-30분)
+  console.log('\n시나리오 1: 짧은 세션들 (20-30분), 다양한 방해 패턴');
   const shortSession = new Session({ sessionName: '짧은 세션 패턴' });
   shortSession.timerSessionsByTimeRange[timeRange] = [];
 
   const shortPatterns = [
-    { duration: 12, pauses: 1, unlocks: 2, scrolls: 3 },
-    { duration: 15, pauses: 2, unlocks: 3, scrolls: 4 },
-    { duration: 18, pauses: 1, unlocks: 4, scrolls: 2 },
-    { duration: 20, pauses: 3, unlocks: 2, scrolls: 5 },
+    { duration: 20, pauses: 1, unlocks: 2, scrolls: 3 },
+    { duration: 22, pauses: 2, unlocks: 3, scrolls: 4 },
+    { duration: 25, pauses: 1, unlocks: 4, scrolls: 2 },
+    { duration: 28, pauses: 3, unlocks: 2, scrolls: 5 },
+    { duration: 30, pauses: 2, unlocks: 3, scrolls: 3 },
   ];
 
   shortPatterns.forEach((pattern) => {
@@ -101,13 +103,6 @@ function runTimeStatusSimulation() {
       unlockEvents.push(
         createAppStateEvent((2 + u * 2) * 60 * 1000, startTs, 'background'),
       );
-      unlockEvents.push(
-        createAppStateEvent(
-          (2 + u * 2) * 60 * 1000 + 15 * 1000,
-          startTs,
-          'active',
-        ),
-      );
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -117,7 +112,7 @@ function runTimeStatusSimulation() {
 
     const session = createMockTimerSession({
       sessionId: shortSession.sessionId,
-      targetDurationMs: 25 * 60 * 1000,
+      targetDurationMs: 30 * 60 * 1000,
       actualDurationMs: actualDuration,
       pauseEvents,
       screenUnlockEvents: unlockEvents,
@@ -130,20 +125,19 @@ function runTimeStatusSimulation() {
   const shortFocusY = mapFocusToY(shortTimeStatus);
 
   console.log('짧은 세션 Time Status (5분 버킷):');
-  console.log('원본 데이터:', shortTimeStatus);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', shortFocusY);
 
-  // 시나리오 2: 중간 길이 세션들 (25-40분)
-  console.log('\n시나리오 2: 중간 길이 세션들 (25-40분)');
+  // 시나리오 2: 중간 길이 세션들 (30-50분)
+  console.log('\n시나리오 2: 중간 길이 세션들 (30-50분)');
   const mediumSession = new Session({ sessionName: '중간 길이 세션 패턴' });
   mediumSession.timerSessionsByTimeRange[timeRange] = [];
 
   const mediumPatterns = [
-    { duration: 25, pauses: 1, unlocks: 2, scrolls: 2 },
-    { duration: 30, pauses: 2, unlocks: 3, scrolls: 3 },
-    { duration: 35, pauses: 1, unlocks: 4, scrolls: 2 },
-    { duration: 40, pauses: 3, unlocks: 2, scrolls: 4 },
-    { duration: 28, pauses: 2, unlocks: 3, scrolls: 3 },
+    { duration: 30, pauses: 1, unlocks: 2, scrolls: 2 },
+    { duration: 35, pauses: 2, unlocks: 3, scrolls: 3 },
+    { duration: 40, pauses: 1, unlocks: 4, scrolls: 2 },
+    { duration: 45, pauses: 3, unlocks: 2, scrolls: 4 },
+    { duration: 50, pauses: 2, unlocks: 3, scrolls: 3 },
   ];
 
   mediumPatterns.forEach((pattern) => {
@@ -163,13 +157,6 @@ function runTimeStatusSimulation() {
       unlockEvents.push(
         createAppStateEvent((7 + u * 5) * 60 * 1000, startTs, 'background'),
       );
-      unlockEvents.push(
-        createAppStateEvent(
-          (7 + u * 5) * 60 * 1000 + 20 * 1000,
-          startTs,
-          'active',
-        ),
-      );
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -179,7 +166,7 @@ function runTimeStatusSimulation() {
 
     const session = createMockTimerSession({
       sessionId: mediumSession.sessionId,
-      targetDurationMs: 45 * 60 * 1000,
+      targetDurationMs: 50 * 60 * 1000,
       actualDurationMs: actualDuration,
       pauseEvents,
       screenUnlockEvents: unlockEvents,
@@ -192,7 +179,6 @@ function runTimeStatusSimulation() {
   const mediumFocusY = mapFocusToY(mediumTimeStatus);
 
   console.log('중간 길이 세션 Time Status (5분 버킷):');
-  console.log('원본 데이터:', mediumTimeStatus);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', mediumFocusY);
 
   // 시나리오 3: 장시간 세션들 (60-90분)
@@ -201,10 +187,11 @@ function runTimeStatusSimulation() {
   longSession.timerSessionsByTimeRange[timeRange] = [];
 
   const longPatterns = [
-    { duration: 65, pauses: 2, unlocks: 3, scrolls: 4 },
-    { duration: 75, pauses: 3, unlocks: 4, scrolls: 5 },
-    { duration: 85, pauses: 1, unlocks: 2, scrolls: 2 },
-    { duration: 90, pauses: 4, unlocks: 5, scrolls: 6 },
+    { duration: 60, pauses: 2, unlocks: 3, scrolls: 4 },
+    { duration: 70, pauses: 3, unlocks: 4, scrolls: 5 },
+    { duration: 80, pauses: 1, unlocks: 2, scrolls: 2 },
+    { duration: 85, pauses: 4, unlocks: 5, scrolls: 6 },
+    { duration: 90, pauses: 2, unlocks: 3, scrolls: 3 },
   ];
 
   longPatterns.forEach((pattern) => {
@@ -223,13 +210,6 @@ function runTimeStatusSimulation() {
     for (let u = 0; u < pattern.unlocks; u += 2) {
       unlockEvents.push(
         createAppStateEvent((10 + u * 12) * 60 * 1000, startTs, 'background'),
-      );
-      unlockEvents.push(
-        createAppStateEvent(
-          (10 + u * 12) * 60 * 1000 + 30 * 1000,
-          startTs,
-          'active',
-        ),
       );
     }
 
@@ -253,7 +233,6 @@ function runTimeStatusSimulation() {
   const longFocusY = mapFocusToY(longTimeStatus);
 
   console.log('장시간 세션 Time Status (5분 버킷):');
-  console.log('원본 데이터:', longTimeStatus);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', longFocusY);
 
   // 시나리오 4: 초기 집중력 약화 패턴 (처음 10분에 방해 집중)
@@ -264,7 +243,7 @@ function runTimeStatusSimulation() {
   earlyDisturbanceSession.timerSessionsByTimeRange[timeRange] = [];
 
   for (let i = 0; i < 4; i++) {
-    const actualDuration = (30 + i * 5) * 60 * 1000;
+    const actualDuration = (35 + i * 5) * 60 * 1000;
     const now = Date.now();
     const startTs = now - actualDuration;
 
@@ -276,11 +255,8 @@ function runTimeStatusSimulation() {
 
     const unlockEvents: AppStateEvent[] = [
       createAppStateEvent(2 * 60 * 1000, startTs, 'background'),
-      createAppStateEvent(2 * 60 * 1000 + 10 * 1000, startTs, 'active'),
       createAppStateEvent(5 * 60 * 1000, startTs, 'background'),
-      createAppStateEvent(5 * 60 * 1000 + 15 * 1000, startTs, 'active'),
       createAppStateEvent(8 * 60 * 1000, startTs, 'background'),
-      createAppStateEvent(8 * 60 * 1000 + 20 * 1000, startTs, 'active'),
     ];
 
     const scrollEvents: ScrollInteractionEvent[] = [
@@ -292,7 +268,7 @@ function runTimeStatusSimulation() {
 
     const session = createMockTimerSession({
       sessionId: earlyDisturbanceSession.sessionId,
-      targetDurationMs: 45 * 60 * 1000,
+      targetDurationMs: 50 * 60 * 1000,
       actualDurationMs: actualDuration,
       pauseEvents,
       screenUnlockEvents: unlockEvents,
@@ -308,7 +284,6 @@ function runTimeStatusSimulation() {
   const earlyFocusY = mapFocusToY(earlyDisturbanceTimeStatus);
 
   console.log('초기 방해 패턴 Time Status (5분 버킷):');
-  console.log('원본 데이터:', earlyDisturbanceTimeStatus);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', earlyFocusY);
 
   // 시나리오 5: 후반 피로도 증가 패턴 (20분 이후 방해 증가)
@@ -317,7 +292,7 @@ function runTimeStatusSimulation() {
   lateFatigueSession.timerSessionsByTimeRange[timeRange] = [];
 
   for (let i = 0; i < 5; i++) {
-    const actualDuration = (35 + i * 3) * 60 * 1000;
+    const actualDuration = (40 + i * 5) * 60 * 1000;
     const now = Date.now();
     const startTs = now - actualDuration;
 
@@ -330,13 +305,9 @@ function runTimeStatusSimulation() {
 
     const unlockEvents: AppStateEvent[] = [
       createAppStateEvent(21 * 60 * 1000, startTs, 'background'),
-      createAppStateEvent(21 * 60 * 1000 + 20 * 1000, startTs, 'active'),
       createAppStateEvent(25 * 60 * 1000, startTs, 'background'),
-      createAppStateEvent(25 * 60 * 1000 + 25 * 1000, startTs, 'active'),
       createAppStateEvent(30 * 60 * 1000, startTs, 'background'),
-      createAppStateEvent(30 * 60 * 1000 + 30 * 1000, startTs, 'active'),
       createAppStateEvent(34 * 60 * 1000, startTs, 'background'),
-      createAppStateEvent(34 * 60 * 1000 + 15 * 1000, startTs, 'active'),
     ];
 
     const scrollEvents: ScrollInteractionEvent[] = [
@@ -349,7 +320,7 @@ function runTimeStatusSimulation() {
 
     const session = createMockTimerSession({
       sessionId: lateFatigueSession.sessionId,
-      targetDurationMs: 45 * 60 * 1000,
+      targetDurationMs: 60 * 60 * 1000,
       actualDurationMs: actualDuration,
       pauseEvents,
       screenUnlockEvents: unlockEvents,
@@ -362,7 +333,6 @@ function runTimeStatusSimulation() {
   const lateFocusY = mapFocusToY(lateFatigueTimeStatus);
 
   console.log('후반 피로 패턴 Time Status (5분 버킷):');
-  console.log('원본 데이터:', lateFatigueTimeStatus);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', lateFocusY);
 
   // 시나리오 6: 완벽한 집중 패턴 (방해 거의 없음)
@@ -371,7 +341,7 @@ function runTimeStatusSimulation() {
   perfectSession.timerSessionsByTimeRange[timeRange] = [];
 
   for (let i = 0; i < 3; i++) {
-    const actualDuration = (50 + i * 10) * 60 * 1000;
+    const actualDuration = (60 + i * 10) * 60 * 1000;
     const now = Date.now();
     const startTs = now - actualDuration;
 
@@ -381,10 +351,7 @@ function runTimeStatusSimulation() {
 
     const unlockEvents: AppStateEvent[] =
       i === 2
-        ? [
-            createAppStateEvent(15 * 60 * 1000, startTs, 'background'),
-            createAppStateEvent(15 * 60 * 1000 + 10 * 1000, startTs, 'active'),
-          ]
+        ? [createAppStateEvent(15 * 60 * 1000, startTs, 'background')]
         : [];
 
     const scrollEvents: ScrollInteractionEvent[] =
@@ -392,7 +359,7 @@ function runTimeStatusSimulation() {
 
     const session = createMockTimerSession({
       sessionId: perfectSession.sessionId,
-      targetDurationMs: 60 * 60 * 1000,
+      targetDurationMs: 75 * 60 * 1000,
       actualDurationMs: actualDuration,
       pauseEvents,
       screenUnlockEvents: unlockEvents,
@@ -401,11 +368,10 @@ function runTimeStatusSimulation() {
     perfectSession.timerSessionsByTimeRange[timeRange].push(session);
   }
 
-  const perfectTimeStatus = generateTimeStatus(perfectSession, 5);
+  const perfectTimeStatus = generateTimeStatus(perfectSession, 10);
   const perfectFocusY = mapFocusToY(perfectTimeStatus);
 
   console.log('완벽한 집중 패턴 Time Status (5분 버킷):');
-  console.log('원본 데이터:', perfectTimeStatus);
   console.log('몰입도 Y값 (0~100, 높을수록 집중):', perfectFocusY);
 
   console.log('\n=== 시뮬레이션 완료 ===');

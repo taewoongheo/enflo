@@ -7,7 +7,7 @@ import Session from '@/models/Session';
 import { Theme } from '@/styles/themes';
 import { getToday } from '@/utils/time';
 import { TFunction } from 'i18next';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateSuggestion } from '../utils/generateSuggestion';
 import { generateTimeStatus } from '../utils/generateTimeStatus';
@@ -31,7 +31,6 @@ function TimerTrends({
   const [focusGraphYValues, setFocusGraphYValues] = useState<ChartPoint[] | []>(
     [],
   );
-  const maxTime = useRef<number>(0);
 
   const [canvasWidth, setCanvasWidth] = useState<number>(0);
   const [cellSize, setCellSize] = useState<number>(0);
@@ -51,17 +50,14 @@ function TimerTrends({
       ),
     );
 
-    const timeStatus = generateTimeStatus(session, 5);
-    let yValues = mapFocusToY(timeStatus);
-
-    yValues = [{ time: 0, y: 0 }, ...yValues];
+    const timeStatus = generateTimeStatus(session, 10);
+    const yValues = mapFocusToY(timeStatus);
 
     const newYValues = yValues.map((el) => ({
       ...el,
       y: (GRAPH_HEIGHT / 100) * el.y,
     }));
 
-    maxTime.current = newYValues[newYValues.length - 1].time;
     setFocusGraphYValues(newYValues);
   }, [session.totalNetFocusMs]);
 
@@ -81,7 +77,6 @@ function TimerTrends({
         setCanvasWidth={setCanvasWidth}
         cellSize={cellSize}
         CIRCLE_RADIUS={CIRCLE_RADIUS}
-        maxTime={maxTime.current}
       />
     </>
   );

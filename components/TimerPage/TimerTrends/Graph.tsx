@@ -11,8 +11,6 @@ import InfoLayout from './InfoLayout';
 const GRAPH_HEIGHT_WITH_PADDING = scale(20);
 const GRAPH_TEXT_PADDING = scale(35);
 
-// TODO: 그래프 길이가 최소 20분 이상은 되어야 할 듯
-
 export default function Graph({
   theme,
   t,
@@ -20,7 +18,6 @@ export default function Graph({
   setCanvasWidth,
   cellSize,
   CIRCLE_RADIUS,
-  maxTime,
 }: {
   theme: Theme;
   t: TFunction;
@@ -28,7 +25,6 @@ export default function Graph({
   setCanvasWidth: (width: number) => void;
   cellSize: number;
   CIRCLE_RADIUS: number;
-  maxTime: number;
 }) {
   return (
     <InfoLayout>
@@ -108,28 +104,24 @@ export default function Graph({
               }}
             >
               {focusGraphYValues.map((el) => {
-                if (el.time % Math.floor(maxTime / 2) === 0) {
-                  return (
-                    <View
-                      key={el.time}
+                return (
+                  <View
+                    key={el.time}
+                    style={{
+                      width: cellSize,
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Typography
+                      variant="body1Regular"
                       style={{
-                        width: cellSize,
-                        alignItems: 'center',
+                        color: theme.colors.pages.timer.slider.text.primary,
                       }}
                     >
-                      <Typography
-                        variant="body1Regular"
-                        style={{
-                          color: theme.colors.pages.timer.slider.text.primary,
-                        }}
-                      >
-                        {el.time}
-                      </Typography>
-                    </View>
-                  );
-                }
-
-                return null;
+                      {el.time}
+                    </Typography>
+                  </View>
+                );
               })}
             </View>
           </>

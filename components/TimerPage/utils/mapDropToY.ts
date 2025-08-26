@@ -8,7 +8,11 @@ export function mapFocusToY(
   tauFactor = 1.5,
 ): ChartPoint[] {
   const drops = mapDropToY(series, refKPercentile, tauFactor);
-  return drops.map((p) => ({ time: p.time, y: round2(100 - p.y) }));
+  return drops.map((p, index) => {
+    const hasData = series[index].hasData;
+    const y = hasData ? round2(100 - p.y) : 0;
+    return { time: p.time, y };
+  });
 }
 
 export function mapDropToY(
