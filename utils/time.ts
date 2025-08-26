@@ -39,6 +39,7 @@ export function getToday(locale: string) {
 
   const today = new Date();
   const day = today.getDay();
-  const dayName = locale === 'ko' ? dayInKorean[day] : dayInEnglish[day];
+  const dayName =
+    locale === 'ko' ? dayInKorean[day - 1] : dayInEnglish[day - 1];
   return dayName;
 }
