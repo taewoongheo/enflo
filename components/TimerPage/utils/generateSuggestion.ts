@@ -9,9 +9,9 @@ import Session, { getTimeRange } from '@/models/Session';
 import { clamp, iqrMean, mean, stddev } from '@/utils/math';
 import { Level, Suggestion, Trend } from '../types/Suggestion';
 
-export function generateSuggestion(sessions: Session): Suggestion | null {
+export function generateSuggestion(session: Session): Suggestion | null {
   const rangeKey = getTimeRange(Date.now());
-  const bucket = (sessions.timerSessionsByTimeRange[rangeKey] ||= []);
+  const bucket = (session.timerSessionsByTimeRange[rangeKey] ||= []);
 
   const sessionCount = bucket.length;
 

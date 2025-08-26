@@ -1,12 +1,30 @@
+import suggestionKo from '@/components/TimerPage/locales/suggestion_ko.json';
 import { generateSuggestion } from '@/components/TimerPage/utils/generateSuggestion';
 import { toUserMessage } from '@/components/TimerPage/utils/toUserMessage';
-import Session, { getTimeRange } from '@/models/Session';
+import Session, { getTimeRange, TimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 import {
   AppStateEvent,
   PauseEvent,
   ScrollInteractionEvent,
 } from '@/types/InterruptEvent';
+import { getToday } from '@/utils/time';
+
+// 시뮬레이션용 간단한 번역 함수
+function mockT(key: string, options?: any) {
+  const keys = key.split('.');
+  let result: any = suggestionKo;
+
+  for (const k of keys) {
+    result = result?.[k];
+  }
+
+  if (options?.returnObjects) {
+    return result;
+  }
+
+  return Array.isArray(result) ? result[0] : result;
+}
 
 function createMockTimerSession(params: {
   sessionId: string;
@@ -16,13 +34,14 @@ function createMockTimerSession(params: {
   screenUnlockEvents?: AppStateEvent[];
   scrollEvents?: ScrollInteractionEvent[];
 }): TimerSession {
+  const now = Date.now();
+  const startTs = now - params.actualDurationMs;
+
   const session = new TimerSession({
     sessionId: params.sessionId,
+    startTs: startTs,
     targetDurationMs: params.targetDurationMs,
   });
-
-  const now = Date.now();
-  session.startTs = now - params.actualDurationMs;
 
   session.calculateEntropy({
     endTs: now,
@@ -30,8 +49,6 @@ function createMockTimerSession(params: {
     scrollInteractionCount: params.scrollEvents || [],
     pauseEvents: params.pauseEvents || [],
   });
-
-  session.startTs = now - params.actualDurationMs;
 
   return session;
 }
@@ -49,14 +66,10 @@ function createPauseEvent(
   };
 }
 
-function createAppStateEvent(
-  offset: number,
-  baseTs: number,
-  appState: 'active' | 'background',
-): AppStateEvent {
+function createAppStateEvent(offset: number, baseTs: number): AppStateEvent {
   return {
     timestamp: baseTs + offset,
-    appState,
+    appState: 'background',
   };
 }
 
@@ -79,11 +92,11 @@ function runSimulation() {
   failSession.timerSessionsByTimeRange[timeRange] = [];
 
   const shortSessionPatterns = [
-    { duration: 8, pauses: 1, unlocks: 2, scrolls: 2 },
-    { duration: 10, pauses: 2, unlocks: 3, scrolls: 3 },
-    { duration: 12, pauses: 3, unlocks: 4, scrolls: 4 },
-    { duration: 15, pauses: 4, unlocks: 5, scrolls: 5 },
-    { duration: 18, pauses: 5, unlocks: 6, scrolls: 6 },
+    { duration: 20, pauses: 1, unlocks: 2, scrolls: 2 }, // 20분 이상으로 수정
+    { duration: 21, pauses: 2, unlocks: 3, scrolls: 3 },
+    { duration: 22, pauses: 3, unlocks: 4, scrolls: 4 },
+    { duration: 23, pauses: 4, unlocks: 5, scrolls: 5 },
+    { duration: 24, pauses: 5, unlocks: 6, scrolls: 6 },
   ];
 
   shortSessionPatterns.forEach((pattern) => {
@@ -102,15 +115,9 @@ function runSimulation() {
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
       unlockEvents.push(
-        createAppStateEvent((1 + u * 1.5) * 60 * 1000, startTs, 'background'),
+        createAppStateEvent((1 + u * 1.5) * 60 * 1000, startTs),
       );
-      unlockEvents.push(
-        createAppStateEvent(
-          (1 + u * 1.5) * 60 * 1000 + 20 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push();
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -120,7 +127,7 @@ function runSimulation() {
 
     const session = createMockTimerSession({
       sessionId: failSession.sessionId,
-      targetDurationMs: 25 * 60 * 1000,
+      targetDurationMs: 25 * 60 * 1000, // 25분 (이미 20분 이상)
       actualDurationMs: actualDuration,
       pauseEvents,
       screenUnlockEvents: unlockEvents,
@@ -151,7 +158,7 @@ function runSimulation() {
     console.log(
       `  - 스크롤 방해: ${failSuggestion.interruptionStats.scrolls.count.toFixed(1)}회/세션`,
     );
-    console.log(`메시지: ${toUserMessage(failSuggestion, '월요일', () => {})}`);
+    console.log(`메시지: ${toUserMessage(failSuggestion, '월요일', mockT)}\n`);
   }
 
   console.log('시나리오 2: 방해가 많은 집중 패턴');
@@ -161,10 +168,10 @@ function runSimulation() {
   problematicSession.timerSessionsByTimeRange[timeRange] = [];
 
   const disturbancePatterns = [
-    { duration: 15, pauses: 3, unlocks: 8, scrolls: 10 },
-    { duration: 18, pauses: 4, unlocks: 6, scrolls: 8 },
-    { duration: 20, pauses: 5, unlocks: 10, scrolls: 12 },
-    { duration: 12, pauses: 2, unlocks: 4, scrolls: 6 },
+    { duration: 25, pauses: 3, unlocks: 8, scrolls: 10 }, // 20분 이상으로 수정
+    { duration: 23, pauses: 4, unlocks: 6, scrolls: 8 },
+    { duration: 22, pauses: 5, unlocks: 10, scrolls: 12 },
+    { duration: 21, pauses: 2, unlocks: 4, scrolls: 6 },
   ];
 
   disturbancePatterns.forEach((pattern) => {
@@ -182,15 +189,9 @@ function runSimulation() {
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
       unlockEvents.push(
-        createAppStateEvent((1 + u * 1.5) * 60 * 1000, startTs, 'background'),
+        createAppStateEvent((1 + u * 1.5) * 60 * 1000, startTs),
       );
-      unlockEvents.push(
-        createAppStateEvent(
-          (1 + u * 1.5) * 60 * 1000 + 20 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push();
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -224,7 +225,7 @@ function runSimulation() {
     console.log(`레이블: ${problematicSuggestion.label}`);
     console.log(`추세: ${problematicSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(problematicSuggestion, '화요일', () => {})}`,
+      `메시지: ${toUserMessage(problematicSuggestion, '화요일', mockT)}\n`,
     );
   }
 
@@ -244,16 +245,7 @@ function runSimulation() {
       pauseEvents:
         i < 2 ? [createPauseEvent(15 * 60 * 1000, 30 * 1000, startTs)] : [],
       screenUnlockEvents:
-        i < 3
-          ? [
-              createAppStateEvent(20 * 60 * 1000, startTs, 'background'),
-              createAppStateEvent(
-                20 * 60 * 1000 + 10 * 1000,
-                startTs,
-                'active',
-              ),
-            ]
-          : [],
+        i < 3 ? [createAppStateEvent(20 * 60 * 1000, startTs)] : [],
       scrollEvents: i < 1 ? [createScrollEvent(10 * 60 * 1000, startTs)] : [],
     });
     successSession.timerSessionsByTimeRange[timeRange].push(session);
@@ -272,7 +264,7 @@ function runSimulation() {
     console.log(`레이블: ${successSuggestion.label}`);
     console.log(`추세: ${successSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(successSuggestion, '수요일', () => {})}`,
+      `메시지: ${toUserMessage(successSuggestion, '수요일', mockT)}\n`,
     );
   }
 
@@ -309,19 +301,9 @@ function runSimulation() {
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
       unlockEvents.push(
-        createAppStateEvent(
-          pattern.duration * 0.7 * 60 * 1000,
-          startTs,
-          'background',
-        ),
+        createAppStateEvent(pattern.duration * 0.7 * 60 * 1000, startTs),
       );
-      unlockEvents.push(
-        createAppStateEvent(
-          pattern.duration * 0.7 * 60 * 1000 + 10 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push();
     }
 
     const session = createMockTimerSession({
@@ -350,7 +332,7 @@ function runSimulation() {
     console.log(`레이블: ${perfectMediumSuggestion.label}`);
     console.log(`추세: ${perfectMediumSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(perfectMediumSuggestion, '목요일', () => {})}`,
+      `메시지: ${toUserMessage(perfectMediumSuggestion, '목요일', mockT)}\n`,
     );
   }
 
@@ -361,11 +343,11 @@ function runSimulation() {
   improvingSession.timerSessionsByTimeRange[timeRange] = [];
 
   const improvingData = [
-    { duration: 12, pauses: 3, unlocks: 6, scrolls: 5 },
-    { duration: 15, pauses: 2, unlocks: 4, scrolls: 3 },
-    { duration: 20, pauses: 1, unlocks: 2, scrolls: 2 },
-    { duration: 24, pauses: 1, unlocks: 1, scrolls: 1 },
-    { duration: 26, pauses: 0, unlocks: 0, scrolls: 0 },
+    { duration: 20, pauses: 3, unlocks: 6, scrolls: 5 }, // 20분 이상으로 수정
+    { duration: 21, pauses: 2, unlocks: 4, scrolls: 3 },
+    { duration: 23, pauses: 1, unlocks: 2, scrolls: 2 },
+    { duration: 25, pauses: 1, unlocks: 1, scrolls: 1 },
+    { duration: 27, pauses: 0, unlocks: 0, scrolls: 0 },
   ];
 
   improvingData.forEach((pattern) => {
@@ -382,16 +364,8 @@ function runSimulation() {
 
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
-      unlockEvents.push(
-        createAppStateEvent((2 + u * 3) * 60 * 1000, startTs, 'background'),
-      );
-      unlockEvents.push(
-        createAppStateEvent(
-          (2 + u * 3) * 60 * 1000 + 15 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push(createAppStateEvent((2 + u * 3) * 60 * 1000, startTs));
+      unlockEvents.push();
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -423,7 +397,7 @@ function runSimulation() {
     console.log(`레이블: ${improvingSuggestion.label}`);
     console.log(`추세: ${improvingSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(improvingSuggestion, '금요일', () => {})}`,
+      `메시지: ${toUserMessage(improvingSuggestion, '금요일', mockT)}\n`,
     );
   }
 
@@ -484,15 +458,9 @@ function runSimulation() {
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
       unlockEvents.push(
-        createAppStateEvent((15 + u * 15) * 60 * 1000, startTs, 'background'),
+        createAppStateEvent((15 + u * 15) * 60 * 1000, startTs),
       );
-      unlockEvents.push(
-        createAppStateEvent(
-          (15 + u * 15) * 60 * 1000 + 30 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push();
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -502,7 +470,7 @@ function runSimulation() {
 
     const session = createMockTimerSession({
       sessionId: longSession.sessionId,
-      targetDurationMs: 60 * 60 * 1000,
+      targetDurationMs: 30 * 60 * 1000, // 30분으로 수정 (60분은 너무 김)
       actualDurationMs: actualDuration,
       pauseEvents,
       screenUnlockEvents: unlockEvents,
@@ -523,7 +491,7 @@ function runSimulation() {
     console.log(`점수: ${longSuggestion.score.toFixed(1)}/100`);
     console.log(`레이블: ${longSuggestion.label}`);
     console.log(`추세: ${longSuggestion.trend}`);
-    console.log(`메시지: ${toUserMessage(longSuggestion, '토요일', () => {})}`);
+    console.log(`메시지: ${toUserMessage(longSuggestion, '토요일', mockT)}\n`);
   }
 
   console.log('시나리오 8: 장시간이지만 방해가 많은 패턴');
@@ -557,16 +525,8 @@ function runSimulation() {
 
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
-      unlockEvents.push(
-        createAppStateEvent((3 + u * 3) * 60 * 1000, startTs, 'background'),
-      );
-      unlockEvents.push(
-        createAppStateEvent(
-          (3 + u * 3) * 60 * 1000 + 25 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push(createAppStateEvent((3 + u * 3) * 60 * 1000, startTs));
+      unlockEvents.push();
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -576,7 +536,7 @@ function runSimulation() {
 
     const session = createMockTimerSession({
       sessionId: disturbedLongSession.sessionId,
-      targetDurationMs: 60 * 60 * 1000,
+      targetDurationMs: 30 * 60 * 1000, // 30분으로 수정 (60분은 너무 김)
       actualDurationMs: actualDuration,
       pauseEvents,
       screenUnlockEvents: unlockEvents,
@@ -600,7 +560,7 @@ function runSimulation() {
     console.log(`레이블: ${disturbedLongSuggestion.label}`);
     console.log(`추세: ${disturbedLongSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(disturbedLongSuggestion, '일요일', () => {})}`,
+      `메시지: ${toUserMessage(disturbedLongSuggestion, '일요일', mockT)}\n`,
     );
   }
 
@@ -620,7 +580,7 @@ function runSimulation() {
     { duration: 28, pauses: 3, unlocks: 5, scrolls: 5 },
     { duration: 25, pauses: 3, unlocks: 6, scrolls: 6 },
     { duration: 20, pauses: 4, unlocks: 7, scrolls: 7 },
-    { duration: 15, pauses: 5, unlocks: 8, scrolls: 8 },
+    { duration: 20, pauses: 5, unlocks: 8, scrolls: 8 }, // 20분 이상으로 수정
   ];
 
   declinePatterns.forEach((pattern) => {
@@ -637,16 +597,8 @@ function runSimulation() {
 
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
-      unlockEvents.push(
-        createAppStateEvent((3 + u * 2) * 60 * 1000, startTs, 'background'),
-      );
-      unlockEvents.push(
-        createAppStateEvent(
-          (3 + u * 2) * 60 * 1000 + 15 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push(createAppStateEvent((3 + u * 2) * 60 * 1000, startTs));
+      unlockEvents.push();
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -682,7 +634,7 @@ function runSimulation() {
     console.log(`레이블: ${highScoreDeclineSuggestion.label}`);
     console.log(`추세: ${highScoreDeclineSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(highScoreDeclineSuggestion, '월요일', () => {})}`,
+      `메시지: ${toUserMessage(highScoreDeclineSuggestion, '월요일', mockT)}\n`,
     );
   }
 
@@ -691,14 +643,14 @@ function runSimulation() {
   lowScoreRisingSession.timerSessionsByTimeRange[timeRange] = [];
 
   const recoveryPatterns = [
-    { duration: 8, pauses: 2, unlocks: 10, scrolls: 12 },
-    { duration: 10, pauses: 2, unlocks: 8, scrolls: 10 },
-    { duration: 12, pauses: 2, unlocks: 7, scrolls: 8 },
-    { duration: 15, pauses: 2, unlocks: 6, scrolls: 6 },
-    { duration: 18, pauses: 1, unlocks: 5, scrolls: 5 },
-    { duration: 20, pauses: 1, unlocks: 4, scrolls: 4 },
-    { duration: 22, pauses: 1, unlocks: 3, scrolls: 3 },
-    { duration: 25, pauses: 0, unlocks: 2, scrolls: 2 },
+    { duration: 20, pauses: 2, unlocks: 10, scrolls: 12 }, // 20분 이상으로 수정
+    { duration: 21, pauses: 2, unlocks: 8, scrolls: 10 },
+    { duration: 22, pauses: 2, unlocks: 7, scrolls: 8 },
+    { duration: 23, pauses: 2, unlocks: 6, scrolls: 6 },
+    { duration: 24, pauses: 1, unlocks: 5, scrolls: 5 },
+    { duration: 25, pauses: 1, unlocks: 4, scrolls: 4 },
+    { duration: 26, pauses: 1, unlocks: 3, scrolls: 3 },
+    { duration: 27, pauses: 0, unlocks: 2, scrolls: 2 },
   ];
 
   recoveryPatterns.forEach((pattern) => {
@@ -716,15 +668,9 @@ function runSimulation() {
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
       unlockEvents.push(
-        createAppStateEvent((1 + u * 1.5) * 60 * 1000, startTs, 'background'),
+        createAppStateEvent((1 + u * 1.5) * 60 * 1000, startTs),
       );
-      unlockEvents.push(
-        createAppStateEvent(
-          (1 + u * 1.5) * 60 * 1000 + 20 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push();
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -758,7 +704,7 @@ function runSimulation() {
     console.log(`레이블: ${lowScoreRisingSuggestion.label}`);
     console.log(`추세: ${lowScoreRisingSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(lowScoreRisingSuggestion, '화요일', () => {})}`,
+      `메시지: ${toUserMessage(lowScoreRisingSuggestion, '화요일', mockT)}\n`,
     );
   }
 
@@ -772,7 +718,7 @@ function runSimulation() {
     { duration: 24, pauses: 1, unlocks: 4, scrolls: 3 },
     { duration: 21, pauses: 2, unlocks: 3, scrolls: 3 },
     { duration: 23, pauses: 1, unlocks: 3, scrolls: 4 },
-    { duration: 19, pauses: 2, unlocks: 4, scrolls: 3 },
+    { duration: 20, pauses: 2, unlocks: 4, scrolls: 3 }, // 19분을 20분으로 수정
     { duration: 22, pauses: 1, unlocks: 3, scrolls: 3 },
     { duration: 20, pauses: 2, unlocks: 3, scrolls: 4 },
     { duration: 24, pauses: 1, unlocks: 4, scrolls: 3 },
@@ -793,16 +739,8 @@ function runSimulation() {
 
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
-      unlockEvents.push(
-        createAppStateEvent((3 + u * 3) * 60 * 1000, startTs, 'background'),
-      );
-      unlockEvents.push(
-        createAppStateEvent(
-          (3 + u * 3) * 60 * 1000 + 25 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push(createAppStateEvent((3 + u * 3) * 60 * 1000, startTs));
+      unlockEvents.push();
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -836,7 +774,7 @@ function runSimulation() {
     console.log(`레이블: ${mediumStableSuggestion.label}`);
     console.log(`추세: ${mediumStableSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(mediumStableSuggestion, '수요일', () => {})}`,
+      `메시지: ${toUserMessage(mediumStableSuggestion, '수요일', mockT)}\n`,
     );
   }
 
@@ -846,13 +784,13 @@ function runSimulation() {
 
   const zigzagPatterns = [
     { duration: 45, pauses: 0, unlocks: 0, scrolls: 0 },
-    { duration: 12, pauses: 2, unlocks: 8, scrolls: 10 },
+    { duration: 20, pauses: 2, unlocks: 8, scrolls: 10 }, // 20분 이상으로 수정
     { duration: 40, pauses: 1, unlocks: 1, scrolls: 1 },
-    { duration: 10, pauses: 2, unlocks: 9, scrolls: 12 },
+    { duration: 21, pauses: 2, unlocks: 9, scrolls: 12 }, // 20분 이상으로 수정
     { duration: 38, pauses: 0, unlocks: 2, scrolls: 1 },
-    { duration: 14, pauses: 2, unlocks: 6, scrolls: 8 },
+    { duration: 22, pauses: 2, unlocks: 6, scrolls: 8 }, // 20분 이상으로 수정
     { duration: 42, pauses: 1, unlocks: 1, scrolls: 0 },
-    { duration: 16, pauses: 2, unlocks: 7, scrolls: 9 },
+    { duration: 23, pauses: 2, unlocks: 7, scrolls: 9 }, // 20분 이상으로 수정
   ];
 
   zigzagPatterns.forEach((pattern) => {
@@ -870,15 +808,9 @@ function runSimulation() {
     const unlockEvents: AppStateEvent[] = [];
     for (let u = 0; u < pattern.unlocks; u += 2) {
       unlockEvents.push(
-        createAppStateEvent((1 + u * 1.5) * 60 * 1000, startTs, 'background'),
+        createAppStateEvent((1 + u * 1.5) * 60 * 1000, startTs),
       );
-      unlockEvents.push(
-        createAppStateEvent(
-          (1 + u * 1.5) * 60 * 1000 + 20 * 1000,
-          startTs,
-          'active',
-        ),
-      );
+      unlockEvents.push();
     }
 
     const scrollEvents: ScrollInteractionEvent[] = [];
@@ -910,9 +842,117 @@ function runSimulation() {
     console.log(`레이블: ${volatileSuggestion.label}`);
     console.log(`추세: ${volatileSuggestion.trend}`);
     console.log(
-      `메시지: ${toUserMessage(volatileSuggestion, '목요일', () => {})}`,
+      `메시지: ${toUserMessage(volatileSuggestion, '목요일', mockT)}\n`,
     );
   }
+
+  console.log('시나리오 13: 시간대별 완벽한 집중 패턴 (방해 없음)');
+
+  // 각 시간대별로 시뮬레이션
+  const timeRanges = ['00-06', '06-12', '12-18', '18-24'];
+  const timeRangeNames = ['새벽', '오전', '오후', '저녁'];
+
+  timeRanges.forEach((range, index) => {
+    console.log(`\n--- ${timeRangeNames[index]} 시간대 (${range}) ---`);
+
+    const cleanSession = new Session({
+      sessionName: `${timeRangeNames[index]} 완벽한 세션`,
+    });
+    cleanSession.timerSessionsByTimeRange[range as TimeRange] = [];
+
+    // 각 시간대별로 조금씩 다른 패턴
+    const patterns = [
+      // 새벽: 짧지만 고집중
+      range === '00-06'
+        ? [
+            { duration: 20, pauses: 0, unlocks: 0, scrolls: 0 },
+            { duration: 22, pauses: 0, unlocks: 0, scrolls: 0 },
+            { duration: 25, pauses: 0, unlocks: 0, scrolls: 0 },
+            { duration: 28, pauses: 0, unlocks: 0, scrolls: 0 },
+            { duration: 30, pauses: 0, unlocks: 0, scrolls: 0 },
+          ]
+        : // 오전: 중간 길이, 안정적
+          range === '06-12'
+          ? [
+              { duration: 25, pauses: 0, unlocks: 0, scrolls: 0 },
+              { duration: 30, pauses: 0, unlocks: 0, scrolls: 0 },
+              { duration: 35, pauses: 0, unlocks: 0, scrolls: 0 },
+              { duration: 40, pauses: 0, unlocks: 0, scrolls: 0 },
+              { duration: 45, pauses: 0, unlocks: 0, scrolls: 0 },
+            ]
+          : // 오후: 장시간, 최고 집중
+            range === '12-18'
+            ? [
+                { duration: 40, pauses: 0, unlocks: 0, scrolls: 0 },
+                { duration: 45, pauses: 0, unlocks: 0, scrolls: 0 },
+                { duration: 50, pauses: 0, unlocks: 0, scrolls: 0 },
+                { duration: 55, pauses: 0, unlocks: 0, scrolls: 0 },
+                { duration: 60, pauses: 0, unlocks: 0, scrolls: 0 },
+              ]
+            : // 저녁: 중간 길이, 점진적 향상
+              [
+                { duration: 20, pauses: 0, unlocks: 0, scrolls: 0 },
+                { duration: 25, pauses: 0, unlocks: 0, scrolls: 0 },
+                { duration: 30, pauses: 0, unlocks: 0, scrolls: 0 },
+                { duration: 35, pauses: 0, unlocks: 0, scrolls: 0 },
+                { duration: 40, pauses: 0, unlocks: 0, scrolls: 0 },
+              ],
+    ][0];
+
+    patterns.forEach((pattern) => {
+      const actualDuration = pattern.duration * 60 * 1000;
+
+      const session = createMockTimerSession({
+        sessionId: cleanSession.sessionId,
+        targetDurationMs: 25 * 60 * 1000,
+        actualDurationMs: actualDuration,
+        pauseEvents: [], // 방해 없음
+        screenUnlockEvents: [], // 방해 없음
+        scrollEvents: [], // 방해 없음
+      });
+      cleanSession.timerSessionsByTimeRange[range as TimeRange].push(session);
+    });
+
+    console.log('각 세션의 엔트로피 스코어:');
+    cleanSession.timerSessionsByTimeRange[range as TimeRange].forEach(
+      (session, i) => {
+        console.log(
+          `  세션 ${i + 1}: ${session.entropyScore?.toFixed(2) ?? 'null'} (성공: ${session.isSuccess}, 길이: ${((session.endTs! - session.startTs!) / 60000).toFixed(1)}분)`,
+        );
+      },
+    );
+
+    // 해당 시간대에 대한 제안을 생성하기 위해 임시로 현재 시간대 데이터를 복사
+    const currentRange = getTimeRange(Date.now());
+    const originalData = cleanSession.timerSessionsByTimeRange[currentRange];
+    cleanSession.timerSessionsByTimeRange[currentRange as TimeRange] =
+      cleanSession.timerSessionsByTimeRange[range as TimeRange];
+
+    const cleanSuggestion = generateSuggestion(cleanSession);
+
+    // 원래 데이터 복원
+    cleanSession.timerSessionsByTimeRange[currentRange] = originalData;
+    if (cleanSuggestion) {
+      console.log(`점수: ${cleanSuggestion.score.toFixed(1)}/100`);
+      console.log(`레이블: ${cleanSuggestion.label}`);
+      console.log(`추세: ${cleanSuggestion.trend}`);
+      console.log(`방해 요소 통계:`);
+      console.log(
+        `  - 일시정지: ${cleanSuggestion.interruptionStats.pauses.count.toFixed(1)}회/세션`,
+      );
+      console.log(
+        `  - 앱 이탈: ${cleanSuggestion.interruptionStats.unlocks.count.toFixed(1)}회/세션`,
+      );
+      console.log(
+        `  - 스크롤: ${cleanSuggestion.interruptionStats.scrolls.count.toFixed(1)}회/세션`,
+      );
+      console.log(
+        `메시지: ${toUserMessage(cleanSuggestion, getToday('ko'), mockT)}\n`,
+      );
+    } else {
+      console.log('제안 생성되지 않음 (데이터 부족)\n');
+    }
+  });
 }
 
 // 시뮬레이션 실행

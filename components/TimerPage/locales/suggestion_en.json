@@ -68,10 +68,10 @@
       "maintain this optimal focus control."
     ],
     "risingStable": [
-      "maintain this improving trajectory.",
-      "keep reinforcing the upward trend.",
-      "continue progressing in this direction.",
-      "sustain the steady improvement."
+      "You're steadily improving. As you get more comfortable, try extending your focus time little by little.",
+      "Great upward trend. Make it a goal to gradually increase your session length.",
+      "You're making good progress. It might be a good time to start lengthening your sessions step by step.",
+      "You're heading in the right direction. Try increasing your focus duration gradually."
     ],
     "stableHigh": [
       "keep your stability consistently high.",
@@ -86,10 +86,10 @@
       "addressing {{issue}} will further strengthen your results."
     ],
     "risingMedium": [
-      "maintain the pace of improvement.",
-      "keep reinforcing the progress you’re making.",
-      "continue with consistent efforts.",
-      "build on this positive momentum."
+      "You're showing improvement! Try extending your focus sessions step by step.",
+      "Good progress. Gradually increase your session length as you build momentum.",
+      "You're on the right track. Focus on extending your concentration time little by little.",
+      "Positive trend. Work on lengthening your focus periods progressively."
     ],
     "risingWithTip": [
       "reduce '{{issue}}' to accelerate progress (avg {{count}} times).",

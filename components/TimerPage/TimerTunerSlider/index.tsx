@@ -99,7 +99,7 @@ function TimerTunerSlider({
             setScrollHalfWidth(e.nativeEvent.layout.width / 2);
           }}
           scrollEnabled={!isRunning}
-          bounces={false}
+          // bounces={false}
           onMomentumScrollEnd={onMomentumScrollEnd}
           scrollEventThrottle={16}
           snapToAlignment="center"
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   cell: {
     width: CELL_WIDTH,
     height: CELL_HEIGHT,
-    borderRadius: baseTokens.borderRadius.sm,
+    borderRadius: baseTokens.borderRadius.xs,
   },
   separator: {
     width: CELL_GAP,

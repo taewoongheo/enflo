@@ -62,7 +62,7 @@ export function generateTimeStatus(
 
     // count active(unlock) events
     for (const ev of ts.screenUnlockCount) {
-      if (ev.appState === 'active') addInstantEvent(ev.timestamp);
+      addInstantEvent(ev.timestamp);
     }
 
     // count scroll events
