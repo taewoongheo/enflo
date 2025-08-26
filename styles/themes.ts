@@ -56,8 +56,8 @@ export const darkTheme = {
     pages: {
       main: {
         sessionCard: {
-          background: 'rgba(130, 134, 138, 0.5)',
-          border: 'rgb(120, 125, 130)',
+          background: palette.neutral[750],
+          border: palette.neutral[600],
           edgeGradient: 'rgba(30, 32, 34, 0)',
           text: {
             name: palette.neutral[200],

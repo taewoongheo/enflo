@@ -4,7 +4,6 @@ import Session from '@/models/Session';
 import { baseTokens } from '@/styles';
 import { formatMsToTime } from '@/utils/time';
 import { Fontisto } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -43,10 +42,11 @@ function SessionCard({ item }: { item: Session }) {
         styles.sessionCard,
         {
           borderColor: sessionCardStyle.border,
+          backgroundColor: theme.colors.pages.main.sessionCard.background,
         },
       ]}
     >
-      <LinearGradient
+      {/* <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: gradientOffset, y: 0 }}
         colors={[themeBackground, themeEdgeGradient]}
@@ -72,7 +72,7 @@ function SessionCard({ item }: { item: Session }) {
         end={{ x: 1 - gradientOffset, y: 1 }}
         colors={[themeBackground, themeEdgeGradient]}
         style={[styles.linearGradient]}
-      />
+      /> */}
       <Typography
         variant="body1Regular"
         style={{ color: sessionCardStyle.text.name }}
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     padding: baseTokens.spacing[4],
     borderRadius: baseTokens.borderRadius.lg,
     justifyContent: 'space-between',
-    borderWidth: 1.3,
-    overflow: 'hidden',
+    borderWidth: 1,
+    // overflow: 'hidden',
   },
   sessionCardRow: {
     flexDirection: 'row',
