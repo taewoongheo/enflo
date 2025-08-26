@@ -67,7 +67,11 @@ class TimerSession {
     }
 
     const totalDisturbance = this.totalDisturbanceMs;
-    return Math.max(0, this.endTs - this.startTs - totalDisturbance);
+
+    return Math.max(
+      0,
+      Math.floor(this.endTs - this.startTs) - Math.floor(totalDisturbance),
+    );
   }
 
   get totalDisturbanceMs(): number {

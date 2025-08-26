@@ -88,14 +88,6 @@ function TimerContent({
 
   useEffect(() => {
     handleTimerEnd();
-
-    resetBackgroundEvent();
-    resetScrollEvent();
-    resetPauseEvent();
-
-    return () => {
-      timerSession.current = null;
-    };
   }, [time]);
 
   const handleTimerEnd = async () => {
@@ -111,6 +103,9 @@ function TimerContent({
       pauseEvents: [...pauseEvent.current],
     };
 
+    resetBackgroundEvent();
+    resetScrollEvent();
+    resetPauseEvent();
     timerSession.current = null;
 
     try {
@@ -135,7 +130,6 @@ function TimerContent({
         startTs: Date.now(),
         targetDurationMs: time,
       });
-      console.log('timerSession 생성');
     }
 
     setIsRunning(!isRunning);
