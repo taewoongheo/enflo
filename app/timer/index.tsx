@@ -15,6 +15,7 @@ import { TIMER_MIN_MINUTES } from '@/constants/time/time';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
+import { entropyService } from '@/services/EntropyService';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
 import { useEntropyStore } from '@/store/entropyStore';
@@ -75,7 +76,6 @@ function TimerContent({
   const timerSession = useRef<TimerSession | null>(null);
 
   const entropy = useEntropyStore((s) => s.entropyScore);
-  const updateEntropyScore = useEntropyStore((s) => s.updateEntropyScore);
 
   // timer session disturbance data
   const { screenBackgroundCount, resetBackgroundEvent } = useBackgroundEvent(
@@ -113,7 +113,7 @@ function TimerContent({
     try {
       const entropyScore = await timerService.calculateEntropy(snapShot);
       if (entropyScore) {
-        updateEntropyScore(entropy + entropyScore);
+        await entropyService.updateEntropy(entropy + entropyScore, Date.now());
 
         await sessionService.addTimerSession({
           sessionId: session.sessionId,

@@ -1,13 +1,11 @@
 import Typography from '@/components/common/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
-import { db } from '@/db/db';
-import { globalEntropyScore } from '@/db/schema';
+import { entropyService } from '@/services/EntropyService';
 import { INITIAL_ENTROPY_SCORE, useEntropyStore } from '@/store/entropyStore';
 import { baseTokens } from '@/styles';
 import { clamp } from '@/utils/math';
 import { normalizeScoreToEntropy } from '@/utils/score';
 import { AntDesign } from '@expo/vector-icons';
-import { eq } from 'drizzle-orm';
 import { useFocusEffect } from 'expo-router';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { StyleSheet } from 'react-native';
@@ -18,7 +16,6 @@ const DELTA_PER_MINUTE = 20;
 const EntropyScore = () => {
   const { theme } = useTheme();
   const entropyScore = useEntropyStore((s) => s.entropyScore);
-  const updateEntropyScore = useEntropyStore((s) => s.updateEntropyScore);
 
   const entropyStateSnapshot = useRef<{
     entropyScore: number;
@@ -53,102 +50,66 @@ const EntropyScore = () => {
         );
 
         try {
-          await db
-            .update(globalEntropyScore)
-            .set({
-              entropyScore: newScore,
-              updatedAt: now,
-            })
-            .where(eq(globalEntropyScore.id, 1));
+          await entropyService.updateEntropy(newScore, now);
 
           entropyStateSnapshot.current = {
             entropyScore: newScore,
             delta: delta,
             updatedAt: now,
           };
-
-          updateEntropyScore(newScore);
         } catch (error) {
           console.error(error);
         }
       }, 3 * 1000);
 
       return () => {
-        try {
-          if (!entropyStateSnapshot.current) {
-            return;
-          }
-
-          db.update(globalEntropyScore)
-            .set({
-              entropyScore: entropyStateSnapshot.current.entropyScore,
-              updatedAt: entropyStateSnapshot.current.updatedAt,
-            })
-            .where(eq(globalEntropyScore.id, 1));
-
-          updateEntropyScore(entropyStateSnapshot.current.entropyScore);
-        } catch (error) {
-          throw new Error('Failed to update db', { cause: error });
-        } finally {
-          if (updateDBRef.current) {
-            clearInterval(updateDBRef.current);
-            updateDBRef.current = null;
-          }
+        if (updateDBRef.current) {
+          clearInterval(updateDBRef.current);
+          updateDBRef.current = null;
         }
+
+        if (!entropyStateSnapshot.current) {
+          return;
+        }
+
+        entropyService.updateEntropy(
+          entropyStateSnapshot.current.entropyScore,
+          entropyStateSnapshot.current.updatedAt,
+        );
       };
     }, []),
   );
 
   useEffect(() => {
     const updateGlobalEntropyScore = async () => {
-      const entropyRow = await db
-        .select()
-        .from(globalEntropyScore)
-        .where(eq(globalEntropyScore.id, 1));
+      const entropyRow = await entropyService.getEntropy();
 
       let entropy;
 
-      if (!entropyRow.length) {
-        try {
-          await db.insert(globalEntropyScore).values({
-            id: 1,
-            entropyScore: INITIAL_ENTROPY_SCORE,
-            updatedAt: Date.now(),
-          });
-        } catch (error) {
-          throw new Error('Failed to insert entropy score', { cause: error });
-        }
+      const now = Date.now();
+      if (!entropyRow) {
+        await entropyService.initializeEntropy(INITIAL_ENTROPY_SCORE, now);
 
         entropy = {
-          id: 1,
           entropyScore: INITIAL_ENTROPY_SCORE,
-          updatedAt: Date.now(),
+          updatedAt: now,
         };
       } else {
-        entropy = entropyRow[0];
+        entropy = entropyRow;
       }
 
-      const now = Date.now();
       const diffMin = (now - entropy.updatedAt) / 60000;
       const delta = diffMin * DELTA_PER_MINUTE;
       const newScore = clamp(entropy.entropyScore - delta, 0, 100);
 
       try {
-        await db
-          .update(globalEntropyScore)
-          .set({
-            entropyScore: newScore,
-            updatedAt: now,
-          })
-          .where(eq(globalEntropyScore.id, 1));
+        await entropyService.updateEntropy(newScore, now);
 
         entropyStateSnapshot.current = {
           entropyScore: newScore,
           delta: delta,
           updatedAt: now,
         };
-
-        updateEntropyScore(newScore);
       } catch (error) {
         console.error(error);
       }
