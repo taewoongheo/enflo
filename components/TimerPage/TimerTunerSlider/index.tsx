@@ -1,5 +1,5 @@
 import Typography from '@/components/common/Typography';
-import { TIMER_MIN_MINUTES } from '@/constants/time/time';
+import { TIMER_MIN_MINUTES, TIMER_UNIT_MINUTES } from '@/constants/time/time';
 import { baseTokens, Theme } from '@/styles';
 import { useState } from 'react';
 import {
@@ -21,7 +21,7 @@ const TRIANGLE_WIDTH = scale(25);
 
 const TIMER_RANGE = Array.from(
   { length: 18 },
-  (_, index) => (index + 1) * 5,
+  (_, index) => (index + 1) * TIMER_UNIT_MINUTES,
 ).filter((el) => el >= TIMER_MIN_MINUTES);
 
 const CENTER_CELL_INDEX = 2;

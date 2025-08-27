@@ -20,7 +20,7 @@ export const timerSessions = sqliteTable(
       .notNull()
       .references(() => sessions.sessionId, { onDelete: 'cascade' })
       .notNull(),
-    startTs: integer('start_ts'),
+    startTs: integer('start_ts').notNull(),
     endTs: integer('end_ts'),
     targetDurationMs: integer('target_duration_ms').notNull(),
     entropyScore: integer('entropy_score'),
@@ -90,6 +90,12 @@ export const scrollInteractionEvents = sqliteTable(
     index('idx_scroll_events_timer_session_id').on(table.timerSessionId),
   ],
 );
+
+export const globalEntropyScore = sqliteTable('global_entropy_score', {
+  id: integer('id').primaryKey(),
+  entropyScore: integer('entropy_score').notNull(),
+  updatedAt: integer('updated_at').notNull(),
+});
 
 export const sessionsRelations = relations(sessions, ({ many }) => ({
   timerSessions: many(timerSessions),

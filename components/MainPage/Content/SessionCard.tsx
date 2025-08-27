@@ -7,15 +7,15 @@ import { Fontisto } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Pressable } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
 
-const IOS_GRADIENT_OFFSET = 0.15;
-const ANDROID_GRADIENT_OFFSET = 0.09;
+// const IOS_GRADIENT_OFFSET = 0.15;
+// const ANDROID_GRADIENT_OFFSET = 0.09;
 
-const gradientOffset =
-  Platform.OS === 'ios' ? IOS_GRADIENT_OFFSET : ANDROID_GRADIENT_OFFSET;
+// const gradientOffset =
+//   Platform.OS === 'ios' ? IOS_GRADIENT_OFFSET : ANDROID_GRADIENT_OFFSET;
 
 function SessionCard({ item }: { item: Session }) {
   const { theme } = useTheme();
@@ -23,8 +23,8 @@ function SessionCard({ item }: { item: Session }) {
   const router = useRouter();
 
   const sessionCardStyle = theme.colors.pages.main.sessionCard;
-  const themeBackground = sessionCardStyle.background;
-  const themeEdgeGradient = sessionCardStyle.edgeGradient;
+  // const themeBackground = sessionCardStyle.background;
+  // const themeEdgeGradient = sessionCardStyle.edgeGradient;
 
   const handlePress = () => {
     router.push({

@@ -43,3 +43,11 @@ export function getToday(locale: string) {
     locale === 'ko' ? dayInKorean[day - 1] : dayInEnglish[day - 1];
   return dayName;
 }
+
+export const formatTimestampToHHMM = (timestamp: number): string => {
+  const date = new Date(timestamp);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+};

@@ -1,6 +1,8 @@
 import { clamp } from '@/utils/math';
 import { create } from 'zustand';
 
+export const INITIAL_ENTROPY_SCORE = 80;
+
 type EntropyStore = {
   entropyScore: number;
   updateEntropyScore: (es: number) => void;
@@ -9,9 +11,9 @@ type EntropyStore = {
 // entropyScore: 0 ~ 100
 //  but the UI should be 0 ~ 1(+reverse)
 export const useEntropyStore = create<EntropyStore>((set) => ({
-  entropyScore: 80,
+  entropyScore: INITIAL_ENTROPY_SCORE,
   updateEntropyScore: (es) =>
-    set((state: { entropyScore: number }) => ({
-      entropyScore: clamp(state.entropyScore + es, 0, 100),
+    set(() => ({
+      entropyScore: clamp(es, 0, 100),
     })),
 }));

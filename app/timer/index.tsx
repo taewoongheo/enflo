@@ -74,6 +74,7 @@ function TimerContent({
 
   const timerSession = useRef<TimerSession | null>(null);
 
+  const entropy = useEntropyStore((s) => s.entropyScore);
   const updateEntropyScore = useEntropyStore((s) => s.updateEntropyScore);
 
   // timer session disturbance data
@@ -112,7 +113,7 @@ function TimerContent({
     try {
       const entropyScore = await timerService.calculateEntropy(snapShot);
       if (entropyScore) {
-        updateEntropyScore(entropyScore);
+        updateEntropyScore(entropy + entropyScore);
 
         await sessionService.addTimerSession({
           sessionId: session.sessionId,

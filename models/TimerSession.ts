@@ -10,7 +10,7 @@ import uuid from 'react-native-uuid';
 class TimerSession {
   sessionId: string;
   timerSessionId: string;
-  startTs: number | null; // Date.now()
+  startTs: number; // Date.now()
   endTs: number | null; // Date.now()
   targetDurationMs: number; // ms
   screenUnlockCount: AppStateEvent[]; // Date.now()

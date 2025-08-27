@@ -1,6 +1,7 @@
 import { db } from '@/db/db';
 import {
   appStateEvents,
+  globalEntropyScore,
   pauseEvents,
   scrollInteractionEvents,
   sessions,
@@ -8,6 +9,7 @@ import {
 } from '@/db/schema';
 import Session, { getTimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
+import { useEntropyStore } from '@/store/entropyStore';
 import { useSessionCache } from '@/store/sessionCache';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
@@ -36,11 +38,11 @@ class SessionService {
         for (const timerRow of timerSessionRows) {
           const timerSession = new TimerSession({
             sessionId: sessionRow.sessionId,
+            startTs: timerRow.startTs,
             targetDurationMs: timerRow.targetDurationMs,
           });
 
           timerSession.timerSessionId = timerRow.timerSessionId;
-          timerSession.startTs = timerRow.startTs;
           timerSession.endTs = timerRow.endTs;
           timerSession.entropyScore = timerRow.entropyScore;
 
@@ -62,7 +64,7 @@ class SessionService {
 
           timerSession.screenUnlockCount = appStateEventRows.map((row) => ({
             timestamp: row.timestamp,
-            appState: row.appState as 'active' | 'background',
+            appState: row.appState as 'background',
           }));
 
           const scrollEventRows = await this.db
@@ -127,6 +129,10 @@ class SessionService {
   }): Promise<TimerSession> {
     try {
       await this.db.transaction(async (tx) => {
+        if (!timerSession.entropyScore) {
+          throw new Error('Entropy score is not set');
+        }
+
         await tx.insert(timerSessions).values({
           timerSessionId: timerSession.timerSessionId,
           sessionId: sessionId,
@@ -159,6 +165,21 @@ class SessionService {
             timestamp: scrollEvent.timestamp,
           });
         }
+
+        await tx
+          .insert(globalEntropyScore)
+          .values({
+            id: 1,
+            entropyScore: useEntropyStore.getState().entropyScore,
+            updatedAt: Date.now(),
+          })
+          .onConflictDoUpdate({
+            target: globalEntropyScore.id,
+            set: {
+              entropyScore: useEntropyStore.getState().entropyScore,
+              updatedAt: Date.now(),
+            },
+          });
       });
     } catch (error) {
       throw new Error('Failed to add timer session', { cause: error });

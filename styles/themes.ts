@@ -74,7 +74,7 @@ export const darkTheme = {
           button: {
             icon: palette.neutral[50],
             background: 'rgb(91, 104, 125)',
-            border: 'rgb(138, 149, 165)',
+            border: 'rgb(123, 133, 147)',
           },
           cell: {
             primary: palette.neutral[400],
