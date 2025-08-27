@@ -41,19 +41,17 @@ const EntropyScore = () => {
         }
 
         const now = Date.now();
-        const diffMin = (now - entropyStateSnapshot.current.updatedAt) / 60000;
-        const delta = diffMin * DELTA_PER_MINUTE;
-        const newScore = clamp(
-          entropyStateSnapshot.current.entropyScore - delta,
-          0,
-          100,
+        const { entropyScore, delta } = getNewEntropyScore(
+          entropyStateSnapshot.current.entropyScore,
+          entropyStateSnapshot.current.updatedAt,
+          now,
         );
 
         try {
-          await entropyService.updateEntropy(newScore, now);
+          await entropyService.updateEntropy(entropyScore, now);
 
           entropyStateSnapshot.current = {
-            entropyScore: newScore,
+            entropyScore: entropyScore,
             delta: delta,
             updatedAt: now,
           };
@@ -98,15 +96,17 @@ const EntropyScore = () => {
         entropy = entropyRow;
       }
 
-      const diffMin = (now - entropy.updatedAt) / 60000;
-      const delta = diffMin * DELTA_PER_MINUTE;
-      const newScore = clamp(entropy.entropyScore - delta, 0, 100);
+      const { entropyScore, delta } = getNewEntropyScore(
+        entropy.entropyScore,
+        entropy.updatedAt,
+        now,
+      );
 
       try {
-        await entropyService.updateEntropy(newScore, now);
+        await entropyService.updateEntropy(entropyScore, now);
 
         entropyStateSnapshot.current = {
-          entropyScore: newScore,
+          entropyScore: entropyScore,
           delta: delta,
           updatedAt: now,
         };
@@ -140,6 +140,15 @@ const EntropyScore = () => {
     </Pressable>
   );
 };
+
+function getNewEntropyScore(entropy: number, updatedAt: number, now: number) {
+  const diffMin = (now - updatedAt) / 60000;
+  const delta = diffMin * DELTA_PER_MINUTE;
+  return {
+    entropyScore: clamp(entropy - delta, 0, 100),
+    delta: delta,
+  };
+}
 
 const styles = StyleSheet.create({
   entropyScoreContainer: {
