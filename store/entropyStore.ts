@@ -1,3 +1,4 @@
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/constants/entropySystem/entropySystem';
 import { clamp } from '@/utils/math';
 import { create } from 'zustand';
 
@@ -14,6 +15,10 @@ export const useEntropyStore = create<EntropyStore>((set) => ({
   entropyScore: INITIAL_ENTROPY_SCORE,
   updateEntropyScore: (es) =>
     set(() => ({
-      entropyScore: clamp(es, 0, 100),
+      entropyScore: clamp(
+        es,
+        ENTROPY_SYSTEM_CONSTANTS.MIN_ENTROPY_SCORE,
+        ENTROPY_SYSTEM_CONSTANTS.MAX_ENTROPY_SCORE,
+      ),
     })),
 }));

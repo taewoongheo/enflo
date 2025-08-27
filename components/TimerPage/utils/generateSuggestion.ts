@@ -5,6 +5,7 @@ import {
   SUGGESTION_WEIGHTS,
   TREND_LABELS,
 } from '@/components/TimerPage/constant/suggestion';
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/constants/entropySystem/entropySystem';
 import Session, { getTimeRange } from '@/models/Session';
 import { clamp, iqrMean, mean, stddev } from '@/utils/math';
 import { Level, Suggestion, Trend } from '../types/Suggestion';
@@ -48,7 +49,11 @@ export function generateSuggestion(session: Session): Suggestion | null {
     SUGGESTION_WEIGHTS.HISTORY * eAllScore +
     SUGGESTION_WEIGHTS.SUCCESS * successScore +
     SUGGESTION_WEIGHTS.RECENT * eRecentScore;
-  const score = clamp(rawScore, 0, 100);
+  const score = clamp(
+    rawScore,
+    ENTROPY_SYSTEM_CONSTANTS.MIN_ENTROPY_SCORE,
+    ENTROPY_SYSTEM_CONSTANTS.MAX_ENTROPY_SCORE,
+  );
 
   const { trend, thUsed, sd } = trendFrom(recentEntropy);
 

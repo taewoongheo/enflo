@@ -1,4 +1,5 @@
 import Typography from '@/components/common/Typography';
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/constants/entropySystem/entropySystem';
 import { useTheme } from '@/contexts/ThemeContext';
 import { entropyService } from '@/services/EntropyService';
 import { INITIAL_ENTROPY_SCORE, useEntropyStore } from '@/store/entropyStore';
@@ -10,8 +11,6 @@ import { useFocusEffect } from 'expo-router';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { Pressable } from 'react-native-gesture-handler';
-
-const DELTA_PER_MINUTE = 20;
 
 const EntropyScore = () => {
   const { theme } = useTheme();
@@ -58,7 +57,7 @@ const EntropyScore = () => {
         } catch (error) {
           console.error(error);
         }
-      }, 3 * 1000);
+      }, 60 * 1000);
 
       return () => {
         if (updateDBRef.current) {
@@ -143,9 +142,13 @@ const EntropyScore = () => {
 
 function getNewEntropyScore(entropy: number, updatedAt: number, now: number) {
   const diffMin = (now - updatedAt) / 60000;
-  const delta = diffMin * DELTA_PER_MINUTE;
+  const delta = diffMin * ENTROPY_SYSTEM_CONSTANTS.DELTA_PER_MINUTE;
   return {
-    entropyScore: clamp(entropy - delta, 0, 100),
+    entropyScore: clamp(
+      entropy - delta,
+      ENTROPY_SYSTEM_CONSTANTS.MIN_ENTROPY_SCORE,
+      ENTROPY_SYSTEM_CONSTANTS.MAX_ENTROPY_SCORE,
+    ),
     delta: delta,
   };
 }

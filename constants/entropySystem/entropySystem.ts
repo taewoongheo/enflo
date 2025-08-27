@@ -14,6 +14,11 @@ export const ENTROPY_SYSTEM_CONSTANTS = {
   // edge particle setting
   EDGE_ANGLE_STEP: 3,
   EDGE_RANDOM_OFFSET: 6,
+
+  // entropy score
+  MIN_ENTROPY_SCORE: 0,
+  MAX_ENTROPY_SCORE: 100,
+  DELTA_PER_MINUTE: 0.08,
 } as const;
 
 export const RENDER_CONSTANTS = {
