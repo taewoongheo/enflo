@@ -1,5 +1,5 @@
 {
-  "noDataMessage": "We’re still learning your flow patterns. Keep recording your sessions, and we’ll provide personalized analysis soon.",
+  "noDataMessage": "We’re still learning your focus patterns in this time range. Keep recording your sessions, and we’ll provide personalized analysis soon.",
   "levels": {
     "danger": "At Risk",
     "unstable": "Unstable",
@@ -24,72 +24,72 @@
   },
   "statusMessages": {
     "danger": [
-      "flow stability is at high risk.",
-      "your flow level is very low.",
-      "maintaining flow is difficult right now.",
-      "your flow state is dropping sharply."
+      "focus stability is at high risk.",
+      "concentration levels are very low.",
+      "maintaining focus is difficult right now.",
+      "your concentration is dropping sharply."
     ],
     "unstable": [
-      "flow is inconsistent.",
-      "your flow state is fluctuating.",
-      "flow stability is uneven.",
-      "your flow shows irregular patterns."
+      "focus is inconsistent.",
+      "concentration is fluctuating.",
+      "focus stability is uneven.",
+      "your concentration shows irregular patterns."
     ],
     "stable": [
-      "flow remains steady.",
-      "your flow is consistently maintained.",
-      "flow stability is good.",
-      "you’re sustaining a solid flow state."
+      "focus remains steady.",
+      "concentration is consistently maintained.",
+      "focus stability is good.",
+      "you’re sustaining a solid level of concentration."
     ],
     "good": [
-      "flow is excellent.",
-      "your flow level is very strong.",
-      "you’re fully in flow.",
-      "your flow state is near peak."
+      "focus is excellent.",
+      "concentration levels are very strong.",
+      "you’re highly focused.",
+      "your focus condition is near peak."
     ]
   },
   "headerVariations": [
     "During {{weekday}} {{timeRange}}, ",
     "For {{weekday}} {{timeRange}}, ",
     "In the {{weekday}} {{timeRange}} period, ",
-    "Looking at {{weekday}} {{timeRange}} flow patterns, ",
+    "Looking at {{weekday}} {{timeRange}} patterns, ",
     "Recently, during {{weekday}} {{timeRange}}, ",
     "Results for {{weekday}} {{timeRange}} indicate "
   ],
   "actionMessages": {
     "excellent": [
-      "maintain your current flow state.",
-      "keep this strong flow going.",
+      "maintain your current focus level.",
+      "keep this strong pattern going.",
       "reinforce this optimal state.",
       "sustain this stability.",
-      "aim to keep your flow at this level.",
+      "aim to keep performance at this level.",
       "keep the momentum steady.",
-      "continue performing at a high flow level.",
-      "maintain this optimal flow state."
+      "continue performing at a high standard.",
+      "maintain this optimal focus control."
     ],
     "risingStable": [
-      "You're steadily improving. As you get more comfortable, try extending your flow sessions little by little.",
+      "You're steadily improving. As you get more comfortable, try extending your focus time little by little.",
       "Great upward trend. Make it a goal to gradually increase your session length.",
-      "You're making good progress. It might be a good time to start lengthening your flow sessions step by step.",
-      "You're heading in the right direction. Try increasing your flow duration gradually."
+      "You're making good progress. It might be a good time to start lengthening your sessions step by step.",
+      "You're heading in the right direction. Try increasing your focus duration gradually."
     ],
     "stableHigh": [
-      "keep your flow consistently high.",
-      "continue maintaining a strong flow state.",
-      "sustain this steady, reliable flow.",
+      "keep your stability consistently high.",
+      "continue maintaining a strong level of concentration.",
+      "sustain this steady, reliable focus.",
       "keep up the sustained stability."
     ],
     "minorImprovement": [
-      "reduce {{issue}} slightly to refine your flow.",
+      "reduce {{issue}} slightly to refine your results.",
       "a small adjustment to {{issue}} will bring you closer to optimal.",
-      "reducing {{issue}} a bit will strengthen your flow overall.",
-      "addressing {{issue}} will further improve your flow."
+      "reducing {{issue}} a bit will improve overall quality.",
+      "addressing {{issue}} will further strengthen your results."
     ],
     "risingMedium": [
-      "You're showing improvement! Try extending your flow sessions step by step.",
+      "You're showing improvement! Try extending your focus sessions step by step.",
       "Good progress. Gradually increase your session length as you build momentum.",
-      "You're on the right track. Extend your flow time little by little.",
-      "Positive trend. Work on lengthening your flow periods progressively."
+      "You're on the right track. Focus on extending your concentration time little by little.",
+      "Positive trend. Work on lengthening your focus periods progressively."
     ],
     "risingWithTip": [
       "reduce '{{issue}}' to accelerate progress (avg {{count}} times).",
@@ -98,44 +98,44 @@
       "pay closer attention to '{{issue}}' (avg {{count}} times)."
     ],
     "risingMultiTip": [
-      "reduce '{{issue}}' (avg {{count}} times).",
+      "reduce '{{issue}}' (avg {{count}} times)",
       "work on minimizing '{{issue}}' (avg {{count}} times).",
-      "address '{{issue}}' (avg {{count}} times) for smoother flow."
+      "focus on reducing '{{issue}}' (avg {{count}} times) for better control."
     ],
     "noIssue": [
-      "extend your flow sessions gradually.",
-      "challenge yourself with longer flow durations.",
-      "aim to lengthen your flow time now.",
-      "target extended flow periods."
+      "extend your focus sessions gradually.",
+      "challenge yourself with longer durations.",
+      "aim to lengthen focus time now.",
+      "target extended concentration periods."
     ],
     "singleIssue": [
       "primary disruption: '{{issue}}' (avg {{count}} times)—work on reducing this.",
-      "'{{issue}}' is impacting your flow sessions (avg {{count}} times)—address this factor.",
-      "loss of flow is mostly linked to '{{issue}}' (avg {{count}} times).",
-      "main disruption detected: '{{issue}}' (avg {{count}} times)—prioritize improvement here."
+      "'{{issue}}' is impacting your sessions (avg {{count}} times)—address this factor.",
+      "concentration loss is mostly linked to '{{issue}}' (avg {{count}} times).",
+      "main distraction detected: '{{issue}}' (avg {{count}} times)—prioritize improvement here."
     ],
     "multiIssue": [
-      "address '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) to improve flow stability.",
+      "address '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) to improve stability.",
       "reduce disruptions from '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}).",
-      "lower both '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) for better flow."
+      "lower both '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) for better focus."
     ],
     "lowScoreNoIssue": [
-      "increase your flow duration step by step.",
-      "extend flow periods progressively to build stamina.",
-      "add a few more minutes to each flow session.",
-      "gradually lengthen your flow time."
+      "increase session length step by step.",
+      "extend duration progressively to build stamina.",
+      "add a few more minutes to each session.",
+      "gradually lengthen your focus periods."
     ],
     "lowScoreWithIssue": [
       "start by reducing '{{issue}}' (avg {{count}} times).",
       "prioritize fixing '{{issue}}' (avg {{count}} times).",
       "your main challenge is '{{issue}}' (avg {{count}} times)—tackle this first.",
-      "lower the impact of '{{issue}}' (avg {{count}} times) to improve flow."
+      "lower the impact of '{{issue}}' (avg {{count}} times) to improve results."
     ]
   },
   "conjunctions": {
     "but": [
       " To improve, ",
-      " To strengthen your flow, ",
+      " To strengthen your focus, ",
       " To make progress, ",
       " To stabilize, "
     ],
