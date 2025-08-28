@@ -34,31 +34,32 @@ export default function Graph({
       >
         {t('focusGraph')}
       </Typography>
-      <View
-        style={{
-          flex: 1,
-          height: GRAPH_HEIGHT + GRAPH_HEIGHT_WITH_PADDING + GRAPH_TEXT_PADDING,
-        }}
-        onLayout={(e) => {
-          setCanvasWidth(e.nativeEvent.layout.width);
-        }}
-      >
-        {focusGraphYValues.length === 1 ? (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+      {!focusGraphYValues.length ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Typography
+            variant="body1Regular"
+            style={{ color: theme.colors.pages.timer.slider.text.primary }}
           >
-            <Typography
-              variant="body1Regular"
-              style={{ color: theme.colors.pages.timer.slider.text.primary }}
-            >
-              {t('noData')}
-            </Typography>
-          </View>
-        ) : (
+            {t('noData')}
+          </Typography>
+        </View>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            height:
+              GRAPH_HEIGHT + GRAPH_HEIGHT_WITH_PADDING + GRAPH_TEXT_PADDING,
+          }}
+          onLayout={(e) => {
+            setCanvasWidth(e.nativeEvent.layout.width);
+          }}
+        >
           <>
             <Canvas style={{ flex: 1 }}>
               <Group
@@ -125,8 +126,8 @@ export default function Graph({
               })}
             </View>
           </>
-        )}
-      </View>
+        </View>
+      )}
     </InfoLayout>
   );
 }
