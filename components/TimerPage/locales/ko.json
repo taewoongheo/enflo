@@ -4,7 +4,7 @@
   "minutes": "분",
   "trends": "분석",
   "totalFocusTime": "몰입 누적 시간",
-  "focusSuggestion": "몰입 제안",
-  "focusGraph": "시간별 몰입도 그래프",
-  "noData": "데이터가 준비중이에요"
+  "focusSuggestion": "시간대별 몰입 패턴 분석",
+  "focusGraph": "몰입도 추세 그래프",
+  "noData": "아직은 몰입 패턴을 수집 중이에요. 기록이 더 쌓이면 그래프를 제공해드립니다."
 }

@@ -2,7 +2,7 @@ import Typography from '@/components/common/Typography';
 import { ENTROPY_SYSTEM_CONSTANTS } from '@/constants/entropySystem/entropySystem';
 import { useTheme } from '@/contexts/ThemeContext';
 import { entropyService } from '@/services/EntropyService';
-import { INITIAL_ENTROPY_SCORE, useEntropyStore } from '@/store/entropyStore';
+import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens } from '@/styles';
 import { clamp } from '@/utils/math';
 import { normalizeScoreToEntropy } from '@/utils/score';
@@ -55,6 +55,7 @@ const EntropyScore = () => {
             updatedAt: now,
           };
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error(error);
         }
       }, 60 * 1000);
@@ -85,10 +86,13 @@ const EntropyScore = () => {
 
       const now = Date.now();
       if (!entropyRow) {
-        await entropyService.initializeEntropy(INITIAL_ENTROPY_SCORE, now);
+        await entropyService.initializeEntropy(
+          ENTROPY_SYSTEM_CONSTANTS.INITIAL_ENTROPY_SCORE,
+          now,
+        );
 
         entropy = {
-          entropyScore: INITIAL_ENTROPY_SCORE,
+          entropyScore: ENTROPY_SYSTEM_CONSTANTS.INITIAL_ENTROPY_SCORE,
           updatedAt: now,
         };
       } else {
@@ -110,6 +114,7 @@ const EntropyScore = () => {
           updatedAt: now,
         };
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     };

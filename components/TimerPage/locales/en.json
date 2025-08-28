@@ -1,10 +1,10 @@
 {
-  "timer": "timer",
-  "suggestions": "Recent sessions show that Wednesday afternoon 3pm has a 70% focus failure rate. Start with a short session.",
+  "timer": "Timer",
+  "suggestions": "Recent sessions show that Wednesday 3 PM has a 70% flow drop. Try starting with a shorter session.",
   "minutes": "min",
-  "trends": "Trends",
-  "totalFocusTime": "Total Focus Time",
-  "focusSuggestion": "Focus Suggestion",
-  "focusGraph": "Focus Graph",
-  "noData": "No data"
+  "trends": "Insights",
+  "totalFocusTime": "Total Flow Time",
+  "focusSuggestion": "Flow Insights",
+  "focusGraph": "Flow Trends",
+  "noData": "We’re still gathering your flow patterns. As you record more, a personalized graph will appear."
 }
