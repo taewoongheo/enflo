@@ -20,7 +20,7 @@ export function generateTimeStatus(
     session.timerSessionsByTimeRange as Record<TimeRange, TimerSession[]>,
   ).flat();
 
-  if (timerSessions.length === 0) return [];
+  if (timerSessions.length < 3) return [];
 
   // create fixed bucket array for 20-90 minute range
   const times: number[] = [];
