@@ -115,15 +115,33 @@ function EntropySystem({
   const entropyScore = useEntropyStore((s) => s.entropyScore);
 
   if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.VERY_LOW_MAX) {
-    return <VeryLowEntropySystem />;
+    return (
+      <VeryLowEntropySystem
+        touchX={touchX}
+        touchY={touchY}
+        isTouching={isTouching}
+      />
+    );
   }
 
   if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.LOW_MAX) {
-    return <LowEntropySystem />;
+    return (
+      <LowEntropySystem
+        touchX={touchX}
+        touchY={touchY}
+        isTouching={isTouching}
+      />
+    );
   }
 
   if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.MEDIUM_MAX) {
-    return <MediumEntropySystem />;
+    return (
+      <MediumEntropySystem
+        touchX={touchX}
+        touchY={touchY}
+        isTouching={isTouching}
+      />
+    );
   }
 
   if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.HIGH_MAX) {
@@ -136,7 +154,13 @@ function EntropySystem({
     );
   }
 
-  return <VeryHighEntropySystem />;
+  return (
+    <VeryHighEntropySystem
+      touchX={touchX}
+      touchY={touchY}
+      isTouching={isTouching}
+    />
+  );
 }
 
 export default EntropyCanvas;

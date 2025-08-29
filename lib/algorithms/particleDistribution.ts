@@ -1,14 +1,12 @@
-import {
-  MAX_ATTEMPTS,
-  MAX_THRESHOLD,
-  MIN_DISTANCE,
-  MIN_THRESHOLD,
-} from '@/components/MainPage/EntropyCanvas/EntropySystem/HighEntropySystem';
+import { MAX_ATTEMPTS } from '@/components/MainPage/EntropyCanvas/EntropySystem/MediumEntropySystem';
 import { Vector } from '@/lib/math/Vector';
 
 interface PoissonDiskSamplingOptions {
   width: number;
   height: number;
+  minDistance: number;
+  maxThreshold: number;
+  minThreshold: number;
 }
 
 /**
@@ -20,12 +18,11 @@ interface PoissonDiskSamplingOptions {
 export function poissonDiskSampling(
   options: PoissonDiskSamplingOptions,
 ): (Vector | undefined)[] {
-  const { width, height } = options;
+  const { width, height, minDistance, maxThreshold, minThreshold } = options;
 
   const centerX = width / 2;
   const centerY = height / 2;
 
-  const minDistance = MIN_DISTANCE;
   const attempts = MAX_ATTEMPTS;
   const cellSize = minDistance / Math.sqrt(2);
   const grid: (Vector | undefined)[] = [];
@@ -41,8 +38,8 @@ export function poissonDiskSampling(
   }
 
   // start point
-  const x = centerX + MIN_THRESHOLD;
-  const y = centerY + MIN_THRESHOLD;
+  const x = centerX + minThreshold;
+  const y = centerY + minThreshold;
   const colIdx = Math.floor(x / cellSize);
   const rowIdx = Math.floor(y / cellSize);
   const pos = new Vector(x, y);
@@ -74,13 +71,13 @@ export function poissonDiskSampling(
         row < 0 ||
         row >= rowCnt ||
         grid[col + row * colCnt] ||
-        distFromCenter > MAX_THRESHOLD ||
-        distFromCenter < MIN_THRESHOLD
+        distFromCenter > maxThreshold ||
+        distFromCenter < minThreshold
       ) {
         continue;
       }
 
-      const remainDistance = MAX_THRESHOLD - distFromCenter;
+      const remainDistance = maxThreshold - distFromCenter;
       const currentR = Math.max(0.2, remainDistance * 0.2);
 
       let neighborDistOk = true;
