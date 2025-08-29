@@ -58,7 +58,7 @@ const EntropyScore = () => {
           // eslint-disable-next-line no-console
           console.error(error);
         }
-      }, 60 * 1000);
+      }, ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE_UPDATE_INTERVAL_MS);
 
       return () => {
         if (updateDBRef.current) {

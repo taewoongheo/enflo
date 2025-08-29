@@ -1,0 +1,101 @@
+{
+  "entropyStateMessages": {
+    "veryHigh": [
+      "You are currently in a very low entropy state.",
+      "You are in a very stable low entropy state.",
+      "You are in a very low entropy range.",
+      "A very low entropy state is being maintained steadily.",
+      "You are showing a very stable entropy state.",
+      "Low entropy is continuing in a stable flow.",
+      "You are consistently maintaining a low entropy range.",
+      "You are currently maintaining a very low entropy state."
+    ],
+    "high": [
+      "You are currently in a low entropy state.",
+      "Low entropy is continuing with a stable flow.",
+      "You are in a relatively low entropy state.",
+      "A low entropy state is being maintained stably.",
+      "Low entropy is continuing.",
+      "You are within a low entropy range.",
+      "You are currently in a fairly stable low entropy state."
+    ],
+    "medium": [
+      "You are currently in a medium-level entropy state.",
+      "You are in a somewhat unstable medium-level entropy state.",
+      "You are in a slightly shaky medium entropy state.",
+      "You are in a somewhat unstable medium entropy state.",
+      "You are currently in a somewhat unstable medium entropy state.",
+      "You are in a partially unstable medium entropy state."
+    ],
+    "low": [
+      "You are currently in a high and unstable entropy state.",
+      "You are in a relatively unstable entropy state.",
+      "You are showing a fairly high entropy state.",
+      "You are in a slightly high entropy state.",
+      "You are in a high-level entropy state.",
+      "You are in an unstable high entropy state."
+    ],
+    "veryLow": [
+      "You are currently in a very high entropy state.",
+      "You are in a very high entropy state.",
+      "You are in an unstable entropy state.",
+      "You are currently showing a very unstable entropy state."
+    ]
+  },
+  "suggestionMessages": {
+    "veryHigh": [
+      "Keep your immersion as it is.",
+      "Continue carrying on your immersion state.",
+      "Keep continuing your current immersion flow.",
+      "Continue maintaining your immersion.",
+      "Carry your immersion flow for longer.",
+      "Don’t lose your current immersion—keep going.",
+      "Maintain your immersion stably.",
+      "It’s good to maintain your current immersion state.",
+      "Continue sustaining your immersion.",
+      "Make sure your immersion does not break."
+    ],
+    "high": [
+      "Turn on the timer and start right away.",
+      "Start your immersion immediately.",
+      "In this state, you can immerse yourself right away.",
+      "After a short preparation, start your immersion.",
+      "Do a little preparation and then start immediately.",
+      "If you start now, immersion will continue easily.",
+      "Quickly tidy up your surroundings and start.",
+      "Prepare briefly and then start.",
+      "Do a small tidy-up and start your immersion.",
+      "Organize your space and start right away."
+    ],
+    "medium": [
+      "Do a small tidy-up and then start.",
+      "Reduce distracting factors.",
+      "Cut down on noise and then begin.",
+      "Just start lightly.",
+      "Start without pressure.",
+      "Take short breaks from time to time.",
+      "Use small breaks to adjust your rhythm.",
+      "Take short pauses as you get started."
+    ],
+    "low": [
+      "Reset your environment before starting.",
+      "Reorganize your surroundings and then start.",
+      "Rearrange your environment and then immerse yourself.",
+      "Block distracting factors.",
+      "Reduce unnecessary elements.",
+      "Cut down noise and then start immersing.",
+      "Start with simple tasks step by step.",
+      "Don’t rush and start slowly."
+    ],
+    "veryLow": [
+      "Don’t rush and start slowly.",
+      "Take a moment to steady your breathing before starting.",
+      "Calm your breathing and then begin.",
+      "Prepare by organizing your surroundings.",
+      "Tidy up your space and then get ready.",
+      "Start lightly.",
+      "Prepare slowly to enter immersion.",
+      "Start slowly and ease into immersion."
+    ]
+  }
+}

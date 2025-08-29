@@ -12,7 +12,8 @@
     "test": "jest --watchAll",
     "simulate:entropy": "tsx scripts/entropyScoreSimulation.ts",
     "simulate:suggestion": "tsx scripts/suggestionSimulation.ts",
-    "simulate:timeStatus": "tsx scripts/timeStatusSimulation.ts"
+    "simulate:timeStatus": "tsx scripts/timeStatusSimulation.ts",
+    "simulate:mainSuggestion": "tsx scripts/mainSuggestionSimulation.ts"
   },
   "jest": {
     "preset": "jest-expo"

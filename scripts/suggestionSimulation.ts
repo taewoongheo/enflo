@@ -1,3 +1,4 @@
+import mainSuggestionKo from '@/components/MainPage/locales/main_suggestion_ko.json';
 import suggestionKo from '@/components/TimerPage/locales/suggestion_ko.json';
 import { generateSuggestion } from '@/components/TimerPage/utils/generateSuggestion';
 import { toUserMessage } from '@/components/TimerPage/utils/toUserMessage';
@@ -11,19 +12,45 @@ import {
 import { getToday } from '@/utils/time';
 
 // 시뮬레이션용 간단한 번역 함수
-function mockT(key: string, options?: any) {
-  const keys = key.split('.');
-  let result: any = suggestionKo;
+export function mockT(key: string, options?: any) {
+  const keys = key.split(':');
+  const namespace = keys[0];
+  const path = keys[1];
 
-  for (const k of keys) {
-    result = result?.[k];
+  let data: any;
+  if (namespace === 'suggestion') {
+    data = suggestionKo;
+  } else if (namespace === 'mainSuggestion') {
+    data = mainSuggestionKo;
+  } else {
+    // 기본값으로 suggestionKo 사용
+    data = suggestionKo;
+    const allKeys = key.split('.');
+    let result: any = data;
+    for (const k of allKeys) {
+      result = result?.[k];
+    }
+    if (options?.returnObjects) {
+      return result;
+    }
+    return Array.isArray(result) ? result[0] : result;
   }
 
-  if (options?.returnObjects) {
-    return result;
+  if (path) {
+    const pathKeys = path.split('.');
+    let result: any = data;
+    for (const k of pathKeys) {
+      result = result?.[k];
+    }
+
+    if (options?.returnObjects) {
+      return result;
+    }
+
+    return Array.isArray(result) ? result[0] : result;
   }
 
-  return Array.isArray(result) ? result[0] : result;
+  return data;
 }
 
 function createMockTimerSession(params: {
