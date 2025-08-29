@@ -39,23 +39,23 @@ const {
 const RING_PARTICLE_CONSTANTS = [
   {
     threshold: MAX_THRESHOLD,
-    stepAngle: 10,
-    randomOffset: 3,
+    stepAngle: MAX_THRESHOLD * 0.1,
+    randomOffset: MAX_THRESHOLD * 0.03,
   },
   {
     threshold: MAX_THRESHOLD * 0.9,
-    stepAngle: 12,
-    randomOffset: 5,
+    stepAngle: MAX_THRESHOLD * 0.12,
+    randomOffset: MAX_THRESHOLD * 0.05,
   },
   {
     threshold: MAX_THRESHOLD * 0.76,
-    stepAngle: 14,
-    randomOffset: 7,
+    stepAngle: MAX_THRESHOLD * 0.14,
+    randomOffset: MAX_THRESHOLD * 0.07,
   },
   {
     threshold: MAX_THRESHOLD * 0.6,
-    stepAngle: 16,
-    randomOffset: 10,
+    stepAngle: MAX_THRESHOLD * 0.16,
+    randomOffset: MAX_THRESHOLD * 0.1,
   },
 ];
 

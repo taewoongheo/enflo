@@ -40,22 +40,22 @@ interface ParticleSystemProps {
 const RING_PARTICLE_CONSTANTS = [
   {
     threshold: MAX_THRESHOLD,
-    stepAngle: 6,
+    stepAngle: MAX_THRESHOLD * 0.06,
     randomOffset: 0,
   },
   {
     threshold: MAX_THRESHOLD * 0.92,
-    stepAngle: 6,
+    stepAngle: MAX_THRESHOLD * 0.06,
     randomOffset: 0,
   },
   {
     threshold: MAX_THRESHOLD * 0.85,
-    stepAngle: 6,
+    stepAngle: MAX_THRESHOLD * 0.06,
     randomOffset: 0,
   },
   {
     threshold: MAX_THRESHOLD * 0.78,
-    stepAngle: 6,
+    stepAngle: MAX_THRESHOLD * 0.06,
     randomOffset: 0,
   },
 ];
