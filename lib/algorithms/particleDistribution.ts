@@ -1,4 +1,4 @@
-import { MAX_ATTEMPTS } from '@/components/MainPage/EntropyCanvas/EntropySystem/MediumEntropySystem';
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { Vector } from '@/lib/math/Vector';
 
 interface PoissonDiskSamplingOptions {
@@ -23,7 +23,7 @@ export function poissonDiskSampling(
   const centerX = width / 2;
   const centerY = height / 2;
 
-  const attempts = MAX_ATTEMPTS;
+  const attempts = ENTROPY_SYSTEM_CONSTANTS.MAX_ATTEMPTS;
   const cellSize = minDistance / Math.sqrt(2);
   const grid: (Vector | undefined)[] = [];
   const active: Vector[] = [];

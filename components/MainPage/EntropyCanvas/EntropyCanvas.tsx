@@ -2,7 +2,7 @@ import {
   particleCanvasHeight,
   particleCanvasWidth,
 } from '@/components/MainPage/constants/entropySystem/dimension';
-import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
+import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { useEntropyStore } from '@/store/entropyStore';
 import {
   Canvas,
@@ -114,7 +114,9 @@ function EntropySystem({
 }) {
   const entropyScore = useEntropyStore((s) => s.entropyScore);
 
-  if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.VERY_LOW_MAX) {
+  if (
+    entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.VERY_LOW_MAX
+  ) {
     return (
       <VeryLowEntropySystem
         touchX={touchX}
@@ -124,7 +126,7 @@ function EntropySystem({
     );
   }
 
-  if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.LOW_MAX) {
+  if (entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.LOW_MAX) {
     return (
       <LowEntropySystem
         touchX={touchX}
@@ -134,7 +136,9 @@ function EntropySystem({
     );
   }
 
-  if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.MEDIUM_MAX) {
+  if (
+    entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.MEDIUM_MAX
+  ) {
     return (
       <MediumEntropySystem
         touchX={touchX}
@@ -144,7 +148,7 @@ function EntropySystem({
     );
   }
 
-  if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.HIGH_MAX) {
+  if (entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.HIGH_MAX) {
     return (
       <HighEntropySystem
         touchX={touchX}

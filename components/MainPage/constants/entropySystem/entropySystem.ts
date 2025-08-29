@@ -1,4 +1,6 @@
-export const ENTROPY_SYSTEM_CONSTANTS = {
+import { particleCanvasWidth } from './dimension';
+
+export const ENTROPY_SYSTEM_GLOBAL_CONSTANTS = {
   // entropy score
   MIN_ENTROPY_SCORE: 0,
   MAX_ENTROPY_SCORE: 100,
@@ -14,6 +16,88 @@ export const ENTROPY_SYSTEM_CONSTANTS = {
     VERY_HIGH_MAX: 100,
   },
 } as const;
+
+export const ENTROPY_SYSTEM_CONSTANTS = {
+  MAX_ATTEMPTS: 30,
+  VERY_LOW: {
+    PARTICLE: {
+      INFLUENCE_DISTANCE: 100,
+      FRICTION: 0.98,
+      PUSH_FORCE: 2,
+      SPEED_SCALE: 0.2,
+      PARTICLE_MIN_DISTANCE: 10,
+    },
+    MIN_DISTANCE: 40,
+    MAX_ATTEMPTS: 50,
+    MAX_THRESHOLD: particleCanvasWidth,
+    MIN_THRESHOLD: 0,
+    MIN_RADIUS: 2,
+    MAX_RADIUS: 2.5,
+  },
+  LOW: {
+    PARTICLE: {
+      INFLUENCE_DISTANCE: 100,
+      FRICTION: 0.98,
+      PUSH_FORCE: 2,
+      SPEED_SCALE: 0.2,
+      PARTICLE_MIN_DISTANCE: 10,
+    },
+    MIN_DISTANCE: 40,
+    MAX_ATTEMPTS: 50,
+    MAX_THRESHOLD: 160,
+    MIN_THRESHOLD: 30,
+    MIN_RADIUS: 2,
+    MAX_RADIUS: 2.5,
+  },
+  MEDIUM: {
+    PARTICLE: {
+      INFLUENCE_DISTANCE: 100,
+      RESTORE_FORCE: 0.01,
+      FRICTION: 0.99,
+      PUSH_FORCE: 20,
+      SPEED_SCALE: 0.2,
+      PARTICLE_MIN_DISTANCE: 10,
+    },
+    MIN_DISTANCE: 35,
+    MAX_ATTEMPTS: 40,
+    MAX_THRESHOLD: 130,
+    MIN_THRESHOLD: 20,
+    MIN_RADIUS: 2,
+    MAX_RADIUS: 2.5,
+  },
+  HIGH: {
+    PARTICLE: {
+      INFLUENCE_DISTANCE: 100,
+      RESTORE_FORCE: 0.01,
+      FRICTION: 0.97,
+      PUSH_FORCE: 20,
+      SPEED_SCALE: 0.2,
+      PARTICLE_MIN_DISTANCE: 10,
+    },
+    MIN_DISTANCE: 30,
+    MAX_ATTEMPTS: 30,
+    MAX_THRESHOLD: 100,
+    MIN_THRESHOLD: 20,
+    MIN_RADIUS: 2,
+    MAX_RADIUS: 2.5,
+  },
+  VERY_HIGH: {
+    PARTICLE: {
+      INFLUENCE_DISTANCE: 100,
+      RESTORE_FORCE: 0.05,
+      FRICTION: 0.89,
+      PUSH_FORCE: 20,
+      SPEED_SCALE: 0.2,
+      PARTICLE_MIN_DISTANCE: 10,
+    },
+    MIN_DISTANCE: 30,
+    MAX_ATTEMPTS: 30,
+    MAX_THRESHOLD: 100,
+    MIN_THRESHOLD: 20,
+    MIN_RADIUS: 2,
+    MAX_RADIUS: 2.5,
+  },
+};
 
 export const RENDER_CONSTANTS = {
   // particle color range

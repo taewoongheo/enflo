@@ -1,4 +1,4 @@
-import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
+import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import {
   LEVEL_LABELS,
   SUGGESTION_SCORE_RANGES,
@@ -51,8 +51,8 @@ export function generateSuggestion(session: Session): Suggestion | null {
     SUGGESTION_WEIGHTS.RECENT * eRecentScore;
   const score = clamp(
     rawScore,
-    ENTROPY_SYSTEM_CONSTANTS.MIN_ENTROPY_SCORE,
-    ENTROPY_SYSTEM_CONSTANTS.MAX_ENTROPY_SCORE,
+    ENTROPY_SYSTEM_GLOBAL_CONSTANTS.MIN_ENTROPY_SCORE,
+    ENTROPY_SYSTEM_GLOBAL_CONSTANTS.MAX_ENTROPY_SCORE,
   );
 
   const { trend, thUsed, sd } = trendFrom(recentEntropy);

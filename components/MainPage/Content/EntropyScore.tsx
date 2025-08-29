@@ -1,5 +1,5 @@
+import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import Typography from '@/components/common/Typography';
-import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { useTheme } from '@/contexts/ThemeContext';
 import { entropyService } from '@/services/EntropyService';
 import { useEntropyStore } from '@/store/entropyStore';
@@ -58,7 +58,7 @@ const EntropyScore = () => {
           // eslint-disable-next-line no-console
           console.error(error);
         }
-      }, ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE_UPDATE_INTERVAL_MS);
+      }, ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE_UPDATE_INTERVAL_MS);
 
       return () => {
         if (updateDBRef.current) {
@@ -87,12 +87,12 @@ const EntropyScore = () => {
       const now = Date.now();
       if (!entropyRow) {
         await entropyService.initializeEntropy(
-          ENTROPY_SYSTEM_CONSTANTS.INITIAL_ENTROPY_SCORE,
+          ENTROPY_SYSTEM_GLOBAL_CONSTANTS.INITIAL_ENTROPY_SCORE,
           now,
         );
 
         entropy = {
-          entropyScore: ENTROPY_SYSTEM_CONSTANTS.INITIAL_ENTROPY_SCORE,
+          entropyScore: ENTROPY_SYSTEM_GLOBAL_CONSTANTS.INITIAL_ENTROPY_SCORE,
           updatedAt: now,
         };
       } else {
@@ -147,12 +147,12 @@ const EntropyScore = () => {
 
 function getNewEntropyScore(entropy: number, updatedAt: number, now: number) {
   const diffMin = (now - updatedAt) / 60000;
-  const delta = diffMin * ENTROPY_SYSTEM_CONSTANTS.DELTA_PER_MINUTE;
+  const delta = diffMin * ENTROPY_SYSTEM_GLOBAL_CONSTANTS.DELTA_PER_MINUTE;
   return {
     entropyScore: clamp(
       entropy - delta,
-      ENTROPY_SYSTEM_CONSTANTS.MIN_ENTROPY_SCORE,
-      ENTROPY_SYSTEM_CONSTANTS.MAX_ENTROPY_SCORE,
+      ENTROPY_SYSTEM_GLOBAL_CONSTANTS.MIN_ENTROPY_SCORE,
+      ENTROPY_SYSTEM_GLOBAL_CONSTANTS.MAX_ENTROPY_SCORE,
     ),
     delta: delta,
   };

@@ -2,7 +2,10 @@ import {
   particleCanvasHeight,
   particleCanvasWidth,
 } from '@/components/MainPage/constants/entropySystem/dimension';
-import { RENDER_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
+import {
+  ENTROPY_SYSTEM_CONSTANTS,
+  RENDER_CONSTANTS,
+} from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { poissonDiskSampling } from '@/lib/algorithms/particleDistribution';
 import { Vector } from '@/lib/math/Vector';
 import { Circle, vec } from '@shopify/react-native-skia';
@@ -14,31 +17,20 @@ import {
   useSharedValue,
 } from 'react-native-reanimated';
 
-const INFLUENCE_DISTANCE = 100;
-
-// friction
-const FRICTION = 0.98;
-
-// push force
-const PUSH_FORCE = 5;
-
-// speed scale
-const SPEED_SCALE = 0.05;
-
-// safe distance
-const PARTICLE_MIN_DISTANCE = 10;
-
-// poisson disk sampling
-export const MIN_DISTANCE = 40;
-export const MAX_ATTEMPTS = 60;
-
-// particle creation range
-export const MAX_THRESHOLD = 150;
-export const MIN_THRESHOLD = 30;
-
-// particle radius range
-const MIN_RADIUS = 2;
-const MAX_RADIUS = 2.5;
+const {
+  PARTICLE: {
+    INFLUENCE_DISTANCE,
+    FRICTION,
+    PUSH_FORCE,
+    SPEED_SCALE,
+    PARTICLE_MIN_DISTANCE,
+  },
+  MIN_DISTANCE,
+  MAX_THRESHOLD,
+  MIN_THRESHOLD,
+  MIN_RADIUS,
+  MAX_RADIUS,
+} = ENTROPY_SYSTEM_CONSTANTS.LOW;
 
 interface ParticleSystemProps {
   touchX: SharedValue<number>;
