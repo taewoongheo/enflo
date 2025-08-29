@@ -2,6 +2,7 @@ import {
   particleCanvasHeight,
   particleCanvasWidth,
 } from '@/constants/entropySystem/dimension';
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/constants/entropySystem/entropySystem';
 import { useEntropyStore } from '@/store/entropyStore';
 import {
   Canvas,
@@ -113,19 +114,19 @@ function EntropySystem({
 }) {
   const entropyScore = useEntropyStore((s) => s.entropyScore);
 
-  if (entropyScore <= 20) {
+  if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.VERY_LOW) {
     return <VeryLowEntropySystem />;
   }
 
-  if (entropyScore <= 40) {
+  if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.LOW) {
     return <LowEntropySystem />;
   }
 
-  if (entropyScore <= 60) {
+  if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.MEDIUM) {
     return <MediumEntropySystem />;
   }
 
-  if (entropyScore <= 80) {
+  if (entropyScore <= ENTROPY_SYSTEM_CONSTANTS.ENTROPY_SCORE.HIGH) {
     return (
       <HighEntropySystem
         touchX={touchX}
