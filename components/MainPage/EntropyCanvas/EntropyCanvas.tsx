@@ -17,15 +17,17 @@ import {
   GestureUpdateEvent,
   TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
-import { useSharedValue } from 'react-native-reanimated';
+import { SharedValue, useSharedValue } from 'react-native-reanimated';
 import { PanGestureHandlerEventPayload } from 'react-native-screens';
-import EntropySystem from './EntropySystem';
+import HighEntropySystem from './EntropySystem/HighEntropySystem';
+import LowEntropySystem from './EntropySystem/LowEntropySystem';
+import MediumEntropySystem from './EntropySystem/MediumEntropySystem';
+import VeryHighEntropySystem from './EntropySystem/VeryHighEntropySystem';
+import VeryLowEntropySystem from './EntropySystem/VeryLowEntropySystem';
 
 const FADE_START_RATIO = 0.75;
 
 const EntropyCanvas = () => {
-  const entropyScore = useEntropyStore((s) => s.entropyScore);
-
   const touchX = useSharedValue(0);
   const touchY = useSharedValue(0);
   const isTouching = useSharedValue(false);
@@ -99,5 +101,41 @@ const EntropyCanvas = () => {
     </GestureDetector>
   );
 };
+
+function EntropySystem({
+  touchX,
+  touchY,
+  isTouching,
+}: {
+  touchX: SharedValue<number>;
+  touchY: SharedValue<number>;
+  isTouching: SharedValue<boolean>;
+}) {
+  const entropyScore = useEntropyStore((s) => s.entropyScore);
+
+  if (entropyScore <= 20) {
+    return <VeryLowEntropySystem />;
+  }
+
+  if (entropyScore <= 40) {
+    return <LowEntropySystem />;
+  }
+
+  if (entropyScore <= 60) {
+    return <MediumEntropySystem />;
+  }
+
+  if (entropyScore <= 80) {
+    return (
+      <HighEntropySystem
+        touchX={touchX}
+        touchY={touchY}
+        isTouching={isTouching}
+      />
+    );
+  }
+
+  return <VeryHighEntropySystem />;
+}
 
 export default EntropyCanvas;

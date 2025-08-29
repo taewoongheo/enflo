@@ -43,7 +43,11 @@ interface ParticleSystemProps {
   isTouching: SharedValue<boolean>;
 }
 
-function EntropySystem({ touchX, touchY, isTouching }: ParticleSystemProps) {
+function VeryHighEntropySystem({
+  touchX,
+  touchY,
+  isTouching,
+}: ParticleSystemProps) {
   const particles = useMemo(() => {
     const sampledParticles = poissonDiskSampling({
       width: particleCanvasWidth,
@@ -106,4 +110,4 @@ function EntropySystem({ touchX, touchY, isTouching }: ParticleSystemProps) {
   );
 }
 
-export default EntropySystem;
+export default VeryHighEntropySystem;
