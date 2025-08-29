@@ -17,10 +17,9 @@ export const ENTROPY_SYSTEM_GLOBAL_CONSTANTS = {
   },
 } as const;
 
-// TODO: 전체 화면 너비 기준으로 만들어야 됨
-// TODO: 파티클 위치 초기화 버튼
 // TODO: 1분마다 렌더링 매번 되는거 방지
 // TOOD: 테스트
+// TODO: 아이콘 크기 fontScale 로 보정
 
 export const ENTROPY_SYSTEM_CONSTANTS = {
   MAX_ATTEMPTS: 30,

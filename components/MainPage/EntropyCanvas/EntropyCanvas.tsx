@@ -3,7 +3,10 @@ import {
   particleCanvasWidth,
 } from '@/components/MainPage/constants/entropySystem/dimension';
 import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
+import { useTheme } from '@/contexts/ThemeContext';
 import { useEntropyStore } from '@/store/entropyStore';
+import { baseTokens } from '@/styles';
+import { Foundation } from '@expo/vector-icons';
 import {
   Canvas,
   LinearGradient,
@@ -11,11 +14,13 @@ import {
   Rect,
   vec,
 } from '@shopify/react-native-skia';
-import React from 'react';
+import React, { useCallback, useReducer } from 'react';
+import { View } from 'react-native';
 import {
   Gesture,
   GestureDetector,
   GestureUpdateEvent,
+  Pressable,
   TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
@@ -26,9 +31,18 @@ import MediumEntropySystem from './EntropySystem/MediumEntropySystem';
 import VeryHighEntropySystem from './EntropySystem/VeryHighEntropySystem';
 import VeryLowEntropySystem from './EntropySystem/VeryLowEntropySystem';
 
-const FADE_START_RATIO = 0.75;
-
 const EntropyCanvas = () => {
+  const FADE_START_RATIO = 0.75;
+  const BUTTON_HEIGHT = particleCanvasHeight * 0.08;
+
+  const { theme } = useTheme();
+
+  const [refreshKey, setRefreshKey] = useReducer((s) => s + 1, 0);
+
+  const handleRefresh = useCallback(() => {
+    setRefreshKey();
+  }, []);
+
   const touchX = useSharedValue(0);
   const touchY = useSharedValue(0);
   const isTouching = useSharedValue(false);
@@ -66,40 +80,77 @@ const EntropyCanvas = () => {
   const combinedGesture = Gesture.Race(tap, pan);
 
   return (
-    <GestureDetector gesture={combinedGesture}>
-      <Canvas
-        style={{ width: particleCanvasWidth, height: particleCanvasHeight }}
-      >
-        <Mask
-          mode="alpha"
-          mask={
-            <Rect
-              x={0}
-              y={0}
-              width={particleCanvasWidth}
-              height={particleCanvasHeight}
-            >
-              <LinearGradient
-                start={vec(0, 0)}
-                end={vec(0, particleCanvasHeight)}
-                colors={[
-                  'rgba(255,255,255,1)',
-                  'rgba(255,255,255,1)',
-                  'rgba(255,255,255,0)',
-                ]}
-                positions={[0, FADE_START_RATIO, 1]}
-              />
-            </Rect>
-          }
+    <View style={{ position: 'relative' }}>
+      <GestureDetector gesture={combinedGesture}>
+        <Canvas
+          style={{ width: particleCanvasWidth, height: particleCanvasHeight }}
         >
-          <EntropySystem
-            touchX={touchX}
-            touchY={touchY}
-            isTouching={isTouching}
+          <Mask
+            mode="alpha"
+            mask={
+              <Rect
+                x={0}
+                y={0}
+                width={particleCanvasWidth}
+                height={particleCanvasHeight}
+              >
+                <LinearGradient
+                  start={vec(0, 0)}
+                  end={vec(0, particleCanvasHeight)}
+                  colors={[
+                    'rgba(255,255,255,1)',
+                    'rgba(255,255,255,1)',
+                    'rgba(255,255,255,0)',
+                  ]}
+                  positions={[0, FADE_START_RATIO, 1]}
+                />
+              </Rect>
+            }
+          >
+            <EntropySystem
+              touchX={touchX}
+              touchY={touchY}
+              isTouching={isTouching}
+              key={refreshKey}
+            />
+          </Mask>
+        </Canvas>
+      </GestureDetector>
+      <View
+        pointerEvents="box-none"
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: particleCanvasHeight * 0.025,
+          height: BUTTON_HEIGHT,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Pressable
+          onPress={handleRefresh}
+          style={{
+            backgroundColor: theme.colors.pages.main.sessionCard.background,
+            borderWidth: 1,
+            borderColor: theme.colors.pages.main.sessionCard.border,
+            borderRadius: baseTokens.borderRadius.lg,
+
+            paddingVertical: baseTokens.spacing[2],
+            aspectRatio: 1.7,
+
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Foundation
+            name="refresh"
+            size={BUTTON_HEIGHT * 0.55}
+            color={theme.colors.text.primary}
           />
-        </Mask>
-      </Canvas>
-    </GestureDetector>
+        </Pressable>
+      </View>
+    </View>
   );
 };
 
