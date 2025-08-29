@@ -1,3 +1,4 @@
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import {
   LEVEL_LABELS,
   SUGGESTION_SCORE_RANGES,
@@ -5,7 +6,6 @@ import {
   SUGGESTION_WEIGHTS,
   TREND_LABELS,
 } from '@/components/TimerPage/constant/suggestion';
-import { ENTROPY_SYSTEM_CONSTANTS } from '@/constants/entropySystem/entropySystem';
 import Session, { getTimeRange } from '@/models/Session';
 import { clamp, iqrMean, mean, stddev } from '@/utils/math';
 import { Level, Suggestion, Trend } from '../types/Suggestion';

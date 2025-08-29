@@ -1,4 +1,4 @@
-import { ENTROPY_SYSTEM_CONSTANTS } from '@/constants/entropySystem/entropySystem';
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { clamp } from '@/utils/math';
 import { create } from 'zustand';
 

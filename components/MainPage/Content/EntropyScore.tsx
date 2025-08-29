@@ -1,5 +1,5 @@
 import Typography from '@/components/common/Typography';
-import { ENTROPY_SYSTEM_CONSTANTS } from '@/constants/entropySystem/entropySystem';
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { useTheme } from '@/contexts/ThemeContext';
 import { entropyService } from '@/services/EntropyService';
 import { useEntropyStore } from '@/store/entropyStore';

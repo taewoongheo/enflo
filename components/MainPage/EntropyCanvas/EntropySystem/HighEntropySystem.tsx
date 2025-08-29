@@ -2,11 +2,8 @@ import Particle from '@/components/MainPage/EntropyCanvas/Particle';
 import {
   particleCanvasHeight,
   particleCanvasWidth,
-} from '@/constants/entropySystem/dimension';
-import {
-  ENTROPY_SYSTEM_CONSTANTS,
-  RENDER_CONSTANTS,
-} from '@/constants/entropySystem/entropySystem';
+} from '@/components/MainPage/constants/entropySystem/dimension';
+import { RENDER_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import {
   generateEdgeParticles,
   poissonDiskSampling,
@@ -14,6 +11,18 @@ import {
 import { Vector } from '@/lib/math/Vector';
 import React, { useMemo } from 'react';
 import { SharedValue } from 'react-native-reanimated';
+
+// poisson disk sampling
+export const MIN_DISTANCE = 30;
+export const MAX_ATTEMPTS = 30;
+
+// particle creation range
+export const MAX_THRESHOLD = 100;
+export const MIN_THRESHOLD = 20;
+
+// particle radius range
+const MIN_RADIUS = 2;
+const MAX_RADIUS = 2.5;
 
 const RING_PARTICLE_CONSTANTS = [
   {
@@ -79,11 +88,7 @@ function VeryHighEntropySystem({
   return (
     <>
       {particles.map((particle, index) => {
-        const radius =
-          Math.random() *
-            (ENTROPY_SYSTEM_CONSTANTS.MAX_RADIUS -
-              ENTROPY_SYSTEM_CONSTANTS.MIN_RADIUS) +
-          ENTROPY_SYSTEM_CONSTANTS.MIN_RADIUS;
+        const radius = Math.random() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
 
         const colorValue =
           Math.random() *

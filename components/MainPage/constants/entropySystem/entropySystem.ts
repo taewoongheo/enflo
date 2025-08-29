@@ -1,20 +1,4 @@
 export const ENTROPY_SYSTEM_CONSTANTS = {
-  // poisson disk sampling
-  MIN_DISTANCE: 30,
-  MAX_ATTEMPTS: 30,
-
-  // particle creation range
-  MAX_THRESHOLD: 100,
-  MIN_THRESHOLD: 20,
-
-  // particle radius range
-  MIN_RADIUS: 2,
-  MAX_RADIUS: 2.5,
-
-  // edge particle setting
-  EDGE_ANGLE_STEP: 3,
-  EDGE_RANDOM_OFFSET: 6,
-
   // entropy score
   MIN_ENTROPY_SCORE: 0,
   MAX_ENTROPY_SCORE: 100,
@@ -23,11 +7,11 @@ export const ENTROPY_SYSTEM_CONSTANTS = {
   ENTROPY_SCORE_UPDATE_INTERVAL_MS: 60 * 1000,
 
   ENTROPY_SCORE: {
-    VERY_LOW: 0,
-    LOW: 20,
-    MEDIUM: 40,
-    HIGH: 60,
-    VERY_HIGH: 80,
+    VERY_LOW_MAX: 20,
+    LOW_MAX: 40,
+    MEDIUM_MAX: 60,
+    HIGH_MAX: 80,
+    VERY_HIGH_MAX: 100,
   },
 } as const;
 
