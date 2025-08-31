@@ -1,11 +1,14 @@
 import { ContentLayout } from '@/components/common/ContentLayout';
 import { StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SettingsScreen() {
   return (
     <ContentLayout>
-      <Text style={styles.title}>Settings</Text>
-      <Text style={styles.subtitle}>This is the settings page</Text>
+      <SafeAreaView>
+        <Text style={styles.title}>Settings</Text>
+        <Text style={styles.subtitle}>This is the settings page</Text>
+      </SafeAreaView>
     </ContentLayout>
   );
 }

@@ -17,8 +17,6 @@ export const ENTROPY_SYSTEM_GLOBAL_CONSTANTS = {
   },
 } as const;
 
-// TODO: 1분마다 렌더링 매번 되는거 방지
-// TOOD: 테스트
 // TODO: 아이콘 크기 fontScale 로 보정
 
 export const ENTROPY_SYSTEM_CONSTANTS = {

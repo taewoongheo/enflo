@@ -2,8 +2,20 @@ import { baseTokens } from '@/styles';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-export function ContentLayout({ children }: { children: React.ReactNode }) {
-  return <View style={styles.container}>{children}</View>;
+export function ContentLayout({
+  children,
+  isTopMargin,
+}: {
+  children: React.ReactNode;
+  isTopMargin?: number;
+}) {
+  return (
+    <View
+      style={[styles.container, { marginTop: isTopMargin ? isTopMargin : 0 }]}
+    >
+      {children}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

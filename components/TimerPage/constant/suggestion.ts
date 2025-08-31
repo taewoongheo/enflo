@@ -1,3 +1,5 @@
+// TODO: 엔트로피 점수 난이도 조절(난이도 별 차별 요소 필요(그래프 컬러가 달라진다거나 등))
+
 export const SUGGESTION_WEIGHTS = {
   HISTORY: 0.375,
   SUCCESS: 0.25,
