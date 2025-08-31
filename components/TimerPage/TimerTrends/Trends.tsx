@@ -7,7 +7,7 @@ export default function Trends({ theme, t }: { theme: Theme; t: TFunction }) {
   return (
     <InfoLayout>
       <Typography
-        variant="title2Bold"
+        variant="title3Bold"
         style={{ color: theme.colors.pages.timer.slider.text.primary }}
       >
         {t('trends')}

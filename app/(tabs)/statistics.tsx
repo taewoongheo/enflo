@@ -1,5 +1,8 @@
 import { ContentLayout } from '@/components/common/ContentLayout';
 import Typography from '@/components/common/Typography';
+import EntropyTrendSection from '@/components/Stats/EntropyTrendSection';
+import FocusTimeBySessionSection from '@/components/Stats/FocusTimeBySessionSection';
+import KeyMetricsSection from '@/components/Stats/KeyMetricsSection';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import React from 'react';
@@ -9,9 +12,6 @@ import { scale } from 'react-native-size-matters';
 
 const contentGap = baseTokens.spacing[1];
 
-const cardGap = baseTokens.spacing[0];
-const cardPadding = baseTokens.spacing[3];
-
 export default function StatisticsScreen() {
   const { theme } = useTheme();
 
@@ -19,111 +19,19 @@ export default function StatisticsScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ContentLayout isTopMargin={scale(10)}>
         <Typography
-          variant="title2Bold"
+          variant="title3Bold"
           style={{ color: theme.colors.text.primary }}
         >
           통계
         </Typography>
         <InfoLayout>
-          <Typography
-            variant="title2Bold"
-            style={{ color: theme.colors.text.secondary }}
-          >
-            총 몰입 시간 & 연속일
-          </Typography>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              gap: baseTokens.spacing[2],
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: theme.colors.pages.main.sessionCard.background,
-                borderColor: theme.colors.pages.main.sessionCard.border,
-                borderWidth: scale(1),
-                borderRadius: baseTokens.borderRadius.md,
-                padding: cardPadding,
-              }}
-            >
-              <Typography
-                variant="body1Bold"
-                style={{
-                  color: theme.colors.text.secondary,
-                }}
-              >
-                총 몰입 시간
-              </Typography>
-              <Typography
-                variant="body1Bold"
-                style={{ color: theme.colors.text.primary }}
-              >
-                43:12:34
-              </Typography>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: theme.colors.pages.main.sessionCard.background,
-                borderColor: theme.colors.pages.main.sessionCard.border,
-                borderWidth: scale(1),
-                borderRadius: baseTokens.borderRadius.md,
-                padding: cardPadding,
-                gap: cardGap,
-              }}
-            >
-              <Typography
-                variant="body1Bold"
-                style={{ color: theme.colors.text.secondary }}
-              >
-                연속일
-              </Typography>
-              <Typography
-                variant="body1Bold"
-                style={{ color: theme.colors.text.primary }}
-              >
-                98일
-              </Typography>
-            </View>
-          </View>
+          <KeyMetricsSection theme={theme} />
         </InfoLayout>
         <InfoLayout>
-          <Typography
-            variant="title2Bold"
-            style={{ color: theme.colors.text.secondary }}
-          >
-            엔트로피 기록
-          </Typography>
-          <View
-            style={{
-              width: '100%',
-              height: scale(150),
-              backgroundColor: theme.colors.pages.main.sessionCard.background,
-              borderColor: theme.colors.pages.main.sessionCard.border,
-              borderWidth: scale(1),
-              borderRadius: baseTokens.borderRadius.md,
-            }}
-          ></View>
+          <EntropyTrendSection theme={theme} />
         </InfoLayout>
         <InfoLayout>
-          <Typography
-            variant="title2Bold"
-            style={{ color: theme.colors.text.secondary }}
-          >
-            몰입 기록
-          </Typography>
-          <View
-            style={{
-              width: '100%',
-              height: scale(150),
-              backgroundColor: theme.colors.pages.main.sessionCard.background,
-              borderColor: theme.colors.pages.main.sessionCard.border,
-              borderWidth: scale(1),
-              borderRadius: baseTokens.borderRadius.md,
-            }}
-          ></View>
+          <FocusTimeBySessionSection theme={theme} />
         </InfoLayout>
       </ContentLayout>
     </SafeAreaView>
