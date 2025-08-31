@@ -1,6 +1,10 @@
 import { baseTokens, Theme } from '@/styles';
 import Typography from '../common/Typography';
 
+import Session from '@/models/Session';
+import { useSessionCache } from '@/store/sessionCache';
+import { formatMsToTime } from '@/utils/time';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 
@@ -8,6 +12,19 @@ const cardGap = baseTokens.spacing[0];
 const cardPadding = baseTokens.spacing[3];
 
 export default function KeyMetricsSection({ theme }: { theme: Theme }) {
+  const [totalSessionsNetFocusMs, setTotalSessionsNetFocusMs] = useState(0);
+
+  const sessions = useSessionCache((s) => s.sessionCache);
+
+  useEffect(() => {
+    const totalTime = Object.values(sessions).reduce(
+      (acc: number, session: Session) => acc + session.totalNetFocusMs,
+      0,
+    );
+
+    setTotalSessionsNetFocusMs(totalTime);
+  }, [sessions]);
+
   return (
     <>
       <Typography
@@ -45,7 +62,7 @@ export default function KeyMetricsSection({ theme }: { theme: Theme }) {
             variant="body1Bold"
             style={{ color: theme.colors.text.primary }}
           >
-            43:12:34
+            {formatMsToTime(totalSessionsNetFocusMs)}
           </Typography>
         </View>
         <View
