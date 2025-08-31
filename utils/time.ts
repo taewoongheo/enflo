@@ -19,28 +19,27 @@ export function formatMsToMMSS(ms: number): string {
 
 export function getToday(locale: string) {
   const dayInKorean = [
+    '일요일',
     '월요일',
     '화요일',
     '수요일',
     '목요일',
     '금요일',
     '토요일',
-    '일요일',
   ];
   const dayInEnglish = [
+    'sunday',
     'monday',
     'tuesday',
     'wednesday',
     'thursday',
     'friday',
     'saturday',
-    'sunday',
   ];
 
   const today = new Date();
   const day = today.getDay();
-  const dayName =
-    locale === 'ko' ? dayInKorean[day - 1] : dayInEnglish[day - 1];
+  const dayName = locale === 'ko' ? dayInKorean[day] : dayInEnglish[day];
   return dayName;
 }
 
