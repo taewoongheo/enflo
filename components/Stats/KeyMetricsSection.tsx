@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 
-const cardGap = baseTokens.spacing[0];
 const cardPadding = baseTokens.spacing[3];
 
 export default function KeyMetricsSection({ theme }: { theme: Theme }) {
@@ -25,13 +24,34 @@ export default function KeyMetricsSection({ theme }: { theme: Theme }) {
     setTotalSessionsNetFocusMs(totalTime);
   }, [sessions]);
 
+  //   useEffect(() => {
+  //     const fetchStreakStartedAt = async () => {
+  //       try {
+  //         const streakStartedAt = await entropyService.getStreakStartedAt();
+  //         if (!streakStartedAt) {
+  //           throw new Error('Streak started at not found');
+  //         }
+
+  //         const today = Date.now();
+  //         const diff = today - streakStartedAt;
+  //         const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  //         console.log('diffDays: ', diffDays);
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
+
+  //     fetchStreakStartedAt();
+  //   }, [entropyScore]);
+
   return (
     <>
       <Typography
         variant="title3Bold"
         style={{ color: theme.colors.text.secondary }}
       >
-        요약
+        총 몰입 시간
       </Typography>
       <View
         style={{
@@ -52,41 +72,9 @@ export default function KeyMetricsSection({ theme }: { theme: Theme }) {
         >
           <Typography
             variant="body1Bold"
-            style={{
-              color: theme.colors.text.secondary,
-            }}
-          >
-            총 몰입 시간
-          </Typography>
-          <Typography
-            variant="body1Bold"
             style={{ color: theme.colors.text.primary }}
           >
             {formatMsToTime(totalSessionsNetFocusMs)}
-          </Typography>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: theme.colors.pages.main.sessionCard.background,
-            borderColor: theme.colors.pages.main.sessionCard.border,
-            borderWidth: scale(1),
-            borderRadius: baseTokens.borderRadius.sm,
-            padding: cardPadding,
-            gap: cardGap,
-          }}
-        >
-          <Typography
-            variant="body1Bold"
-            style={{ color: theme.colors.text.secondary }}
-          >
-            연속일
-          </Typography>
-          <Typography
-            variant="body1Bold"
-            style={{ color: theme.colors.text.primary }}
-          >
-            98일
           </Typography>
         </View>
       </View>

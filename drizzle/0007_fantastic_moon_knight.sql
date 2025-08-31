@@ -1,0 +1,1 @@
+-- This migration was replaced by 0008

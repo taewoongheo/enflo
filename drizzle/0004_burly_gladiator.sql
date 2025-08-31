@@ -1,0 +1,1 @@
+ALTER TABLE `global_entropy_score` ADD `streak` integer NOT NULL;

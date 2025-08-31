@@ -1,0 +1,1 @@
+ALTER TABLE `global_entropy_score` DROP COLUMN `streak_started_at`;
