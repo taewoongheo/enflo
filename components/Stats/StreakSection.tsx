@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
 
-export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
+export default function StreakSection({ theme }: { theme: Theme }) {
   return (
     <View
       style={{
@@ -20,7 +20,7 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
         variant="body1Bold"
         style={{ color: theme.colors.text.primary }}
       >
-        세션별 몰입 시간
+        집중 연속일
       </Typography>
     </View>
   );

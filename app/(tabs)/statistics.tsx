@@ -1,7 +1,8 @@
 import { ContentLayout } from '@/components/common/ContentLayout';
-import Typography from '@/components/common/Typography';
 import EntropyTrendSection from '@/components/Stats/EntropyTrendSection';
 import FocusTimeBySessionSection from '@/components/Stats/FocusTimeBySessionSection';
+import FocusTimeByWeek from '@/components/Stats/FocusTimeByWeek';
+import StreakSection from '@/components/Stats/StreakSection';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import React from 'react';
@@ -17,22 +18,25 @@ export default function StatisticsScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ContentLayout isTopMargin={scale(10)}>
-        <InfoLayout>
+        {/* <InfoLayout>
           <Typography
             variant="title3Bold"
             style={{ color: theme.colors.text.primary }}
           >
             통계
           </Typography>
-        </InfoLayout>
-        {/* <InfoLayout>
-          <KeyMetricsSection theme={theme} />
         </InfoLayout> */}
         <InfoLayout>
           <EntropyTrendSection theme={theme} />
         </InfoLayout>
         <InfoLayout>
+          <FocusTimeByWeek theme={theme} />
+        </InfoLayout>
+        <InfoLayout>
           <FocusTimeBySessionSection theme={theme} />
+        </InfoLayout>
+        <InfoLayout>
+          <StreakSection theme={theme} />
         </InfoLayout>
       </ContentLayout>
     </SafeAreaView>
