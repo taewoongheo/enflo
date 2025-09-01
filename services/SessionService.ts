@@ -1,6 +1,7 @@
 import { db } from '@/db/db';
 import {
   appStateEvents,
+  entropyLog,
   pauseEvents,
   scrollInteractionEvents,
   sessions,
@@ -9,6 +10,12 @@ import {
 import Session, { getTimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 import { useSessionCache } from '@/store/sessionCache';
+import {
+  timestampToDayKey,
+  timestampToMonthKey,
+  timestampToWeekKey,
+  timestampToYearKey,
+} from '@/utils/time';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 
@@ -161,6 +168,20 @@ class SessionService {
           await tx.insert(scrollInteractionEvents).values({
             timerSessionId: timerSession.timerSessionId,
             timestamp: scrollEvent.timestamp,
+          });
+        }
+
+        const now = Date.now();
+
+        if (timerSession) {
+          await this.db.insert(entropyLog).values({
+            entropyScore: timerSession.entropyScore,
+            durationMs: timerSession.netFocusMs,
+            timerSessionId: timerSession.timerSessionId,
+            dayKey: timestampToDayKey(now),
+            weekKey: timestampToWeekKey(now),
+            monthKey: timestampToMonthKey(now),
+            yearKey: timestampToYearKey(now),
           });
         }
       });

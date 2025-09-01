@@ -50,3 +50,66 @@ export const formatTimestampToHHMM = (timestamp: number): string => {
 
   return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 };
+
+/**
+ * Convert timestamp to dayKey format (YYYYMMDD)
+ */
+export const timestampToDayKey = (timestamp: number): number => {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return year * 10000 + month * 100 + day;
+};
+
+/**
+ * Convert timestamp to weekKey format (YYYYWW)
+ */
+export const timestampToWeekKey = (timestamp: number): number => {
+  const d = new Date(timestamp);
+  const date = new Date(d.getFullYear(), d.getMonth(), d.getDate()); // local midnight
+
+  let dow = date.getDay();
+  if (dow === 0) dow = 7;
+  date.setDate(date.getDate() + (4 - dow));
+
+  const weekYear = date.getFullYear();
+
+  const jan4 = new Date(weekYear, 0, 4); // local
+  const jan4Dow = jan4.getDay() || 7; // 1..7 (Sun→7)
+  const week1Monday = new Date(weekYear, 0, 4 - (jan4Dow - 1)); // local Monday
+
+  const daysDiff = Math.floor(
+    (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
+      Date.UTC(
+        week1Monday.getFullYear(),
+        week1Monday.getMonth(),
+        week1Monday.getDate(),
+      )) /
+      86400000,
+  );
+
+  const weekNumber = Math.floor(daysDiff / 7) + 1;
+
+  return weekYear * 100 + weekNumber;
+};
+
+/**
+ * Convert timestamp to monthKey format (YYYYMM)
+ */
+export const timestampToMonthKey = (timestamp: number): number => {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+
+  return year * 100 + month;
+};
+
+/**
+ * Convert timestamp to yearKey format (YYYY)
+ */
+export const timestampToYearKey = (timestamp: number): number => {
+  const date = new Date(timestamp);
+  return date.getFullYear();
+};
