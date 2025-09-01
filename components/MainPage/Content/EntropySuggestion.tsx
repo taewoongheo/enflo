@@ -3,13 +3,20 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useEntropyStore } from '@/store/entropyStore';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '../constants/entropySystem/entropySystem';
 import { generateMainSuggestion } from '../utils/generateMainSuggestion';
 
 const getEntropyRange = (entropyScore: number) => {
-  if (entropyScore >= 80) return 'VERY_HIGH';
-  if (entropyScore >= 60) return 'HIGH';
-  if (entropyScore >= 40) return 'MEDIUM';
-  if (entropyScore >= 20) return 'LOW';
+  if (entropyScore >= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.HIGH_MAX)
+    return 'VERY_HIGH';
+  if (entropyScore >= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.MEDIUM_MAX)
+    return 'HIGH';
+  if (entropyScore >= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.LOW_MAX)
+    return 'MEDIUM';
+  if (
+    entropyScore >= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.VERY_LOW_MAX
+  )
+    return 'LOW';
   return 'VERY_LOW';
 };
 
