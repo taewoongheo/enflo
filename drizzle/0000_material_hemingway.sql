@@ -14,10 +14,10 @@ CREATE TABLE `entropy_log` (
 	`created_at` integer DEFAULT (strftime('%s', 'now') * 1000) NOT NULL,
 	`duration_ms` integer NOT NULL,
 	`timer_session_id` text NOT NULL,
-	`day_key` integer GENERATED ALWAYS AS (CAST(strftime('%Y%m%d', (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)) VIRTUAL,
-	`week_key` integer GENERATED ALWAYS AS (CAST(strftime('%Y%W',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)) VIRTUAL,
-	`month_key` integer GENERATED ALWAYS AS (CAST(strftime('%Y%m',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)) VIRTUAL,
-	`year_key` integer GENERATED ALWAYS AS (CAST(strftime('%Y',    (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)) VIRTUAL
+	`day_key` integer NOT NULL,
+	`week_key` integer NOT NULL,
+	`month_key` integer NOT NULL,
+	`year_key` integer NOT NULL
 );
 --> statement-breakpoint
 CREATE INDEX `entropy_log_created_at_idx` ON `entropy_log` (`created_at`);--> statement-breakpoint

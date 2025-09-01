@@ -97,11 +97,6 @@ export const globalEntropyStatus = sqliteTable('global_entropy_status', {
   updatedAt: integer('updated_at').notNull(),
 });
 
-const DAY_KEY_SQL = sql<number>`CAST(strftime('%Y%m%d', (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)`;
-const WEEK_KEY_SQL = sql<number>`CAST(strftime('%Y%W',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)`;
-const MONTH_KEY_SQL = sql<number>`CAST(strftime('%Y%m',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)`;
-const YEAR_KEY_SQL = sql<number>`CAST(strftime('%Y',    (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)`;
-
 export const entropyLog = sqliteTable(
   'entropy_log',
   {
@@ -117,10 +112,13 @@ export const entropyLog = sqliteTable(
 
     timerSessionId: text('timer_session_id').notNull(),
 
-    dayKey: integer('day_key').generatedAlwaysAs(DAY_KEY_SQL), // YYYYMMDD
-    weekKey: integer('week_key').generatedAlwaysAs(WEEK_KEY_SQL), // YYYYWW  (일요일 기준)
-    monthKey: integer('month_key').generatedAlwaysAs(MONTH_KEY_SQL), // YYYYMM
-    yearKey: integer('year_key').generatedAlwaysAs(YEAR_KEY_SQL), // YYYY
+    dayKey: integer('day_key').notNull(), // YYYYMMDD
+
+    weekKey: integer('week_key').notNull(), // YYYYWW
+
+    monthKey: integer('month_key').notNull(), // YYYYMM
+
+    yearKey: integer('year_key').notNull(), // YYYY
   },
   (table) => [
     index('entropy_log_created_at_idx').on(table.createdAt),

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "5c1f83f8-a7a5-428c-97e2-bef606b2e9e2",
+  "id": "354c0866-ff14-4a6e-b3f2-71ecaad25ea9",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "app_state_events": {
@@ -115,45 +115,29 @@
           "name": "day_key",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "generated": {
-            "as": "(CAST(strftime('%Y%m%d', (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER))",
-            "type": "virtual"
-          }
+          "notNull": true,
+          "autoincrement": false
         },
         "week_key": {
           "name": "week_key",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "generated": {
-            "as": "(CAST(strftime('%Y%W',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER))",
-            "type": "virtual"
-          }
+          "notNull": true,
+          "autoincrement": false
         },
         "month_key": {
           "name": "month_key",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "generated": {
-            "as": "(CAST(strftime('%Y%m',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER))",
-            "type": "virtual"
-          }
+          "notNull": true,
+          "autoincrement": false
         },
         "year_key": {
           "name": "year_key",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "generated": {
-            "as": "(CAST(strftime('%Y',    (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER))",
-            "type": "virtual"
-          }
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {
