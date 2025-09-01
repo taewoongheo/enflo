@@ -91,11 +91,46 @@ export const scrollInteractionEvents = sqliteTable(
   ],
 );
 
-export const globalEntropyScore = sqliteTable('global_entropy_score', {
+export const globalEntropyStatus = sqliteTable('global_entropy_status', {
   id: integer('id').primaryKey(),
   entropyScore: integer('entropy_score').notNull(),
   updatedAt: integer('updated_at').notNull(),
 });
+
+const DAY_KEY_SQL = sql<number>`CAST(strftime('%Y%m%d', (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)`;
+const WEEK_KEY_SQL = sql<number>`CAST(strftime('%Y%W',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)`;
+const MONTH_KEY_SQL = sql<number>`CAST(strftime('%Y%m',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)`;
+const YEAR_KEY_SQL = sql<number>`CAST(strftime('%Y',    (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER)`;
+
+export const entropyLog = sqliteTable(
+  'entropy_log',
+  {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+
+    entropyScore: integer('entropy_score').notNull(),
+
+    createdAt: integer('created_at', { mode: 'timestamp_ms' })
+      .notNull()
+      .default(sql`(strftime('%s', 'now') * 1000)`),
+
+    durationMs: integer('duration_ms').notNull(),
+
+    timerSessionId: text('timer_session_id').notNull(),
+
+    dayKey: integer('day_key').generatedAlwaysAs(DAY_KEY_SQL), // YYYYMMDD
+    weekKey: integer('week_key').generatedAlwaysAs(WEEK_KEY_SQL), // YYYYWW  (일요일 기준)
+    monthKey: integer('month_key').generatedAlwaysAs(MONTH_KEY_SQL), // YYYYMM
+    yearKey: integer('year_key').generatedAlwaysAs(YEAR_KEY_SQL), // YYYY
+  },
+  (table) => [
+    index('entropy_log_created_at_idx').on(table.createdAt),
+    index('entropy_log_day_key_idx').on(table.dayKey),
+    index('entropy_log_week_key_idx').on(table.weekKey),
+    index('entropy_log_month_key_idx').on(table.monthKey),
+    index('entropy_log_year_key_idx').on(table.yearKey),
+    index('entropy_log_timer_session_idx').on(table.timerSessionId),
+  ],
+);
 
 export const sessionsRelations = relations(sessions, ({ many }) => ({
   timerSessions: many(timerSessions),

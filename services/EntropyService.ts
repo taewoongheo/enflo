@@ -1,5 +1,5 @@
 import { db } from '@/db/db';
-import { globalEntropyScore } from '@/db/schema';
+import { globalEntropyStatus } from '@/db/schema';
 import { useEntropyStore } from '@/store/entropyStore';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
@@ -16,9 +16,9 @@ class EntropyService {
   async updateEntropy(newScore: number, now: number): Promise<void> {
     try {
       await this.db
-        .update(globalEntropyScore)
+        .update(globalEntropyStatus)
         .set({ entropyScore: newScore, updatedAt: now })
-        .where(eq(globalEntropyScore.id, ENTROPY_SCORE_ID));
+        .where(eq(globalEntropyStatus.id, ENTROPY_SCORE_ID));
 
       useEntropyStore.getState().updateEntropyScore(newScore);
     } catch (error) {
@@ -29,14 +29,14 @@ class EntropyService {
   async initializeEntropy(score: number, now: number) {
     try {
       await this.db
-        .insert(globalEntropyScore)
+        .insert(globalEntropyStatus)
         .values({
           id: ENTROPY_SCORE_ID,
           entropyScore: score,
           updatedAt: now,
         })
         .onConflictDoUpdate({
-          target: globalEntropyScore.id,
+          target: globalEntropyStatus.id,
           set: {
             entropyScore: score,
             updatedAt: now,
@@ -56,8 +56,8 @@ class EntropyService {
   > {
     const entropyRow = await this.db
       .select()
-      .from(globalEntropyScore)
-      .where(eq(globalEntropyScore.id, ENTROPY_SCORE_ID));
+      .from(globalEntropyStatus)
+      .where(eq(globalEntropyStatus.id, ENTROPY_SCORE_ID));
 
     return entropyRow[0];
   }

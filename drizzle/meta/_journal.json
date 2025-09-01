@@ -5,78 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1755007176480,
-      "tag": "0000_zippy_mentallo",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1755007646674,
-      "tag": "0001_new_eddie_brock",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1755009017460,
-      "tag": "0002_red_sister_grimm",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1756213144157,
-      "tag": "0003_dapper_prism",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1756642298858,
-      "tag": "0004_burly_gladiator",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "6",
-      "when": 1756642432433,
-      "tag": "0005_numerous_proudstar",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "6",
-      "when": 1756642711076,
-      "tag": "0006_tiny_jack_murdock",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "6",
-      "when": 1756646756358,
-      "tag": "0007_fantastic_moon_knight",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "6",
-      "when": 1756647136416,
-      "tag": "0008_tranquil_wrecking_crew",
-      "breakpoints": true
-    },
-    {
-      "idx": 9,
-      "version": "6",
-      "when": 1756647334531,
-      "tag": "0009_striped_magdalene",
-      "breakpoints": true
-    },
-    {
-      "idx": 10,
-      "version": "6",
-      "when": 1756647546040,
-      "tag": "0010_large_dust",
+      "when": 1756695316730,
+      "tag": "0000_closed_marvel_boy",
       "breakpoints": true
     }
   ]

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "27a4ad1f-19f9-49aa-8865-b8fde6d777af",
+  "id": "5c1f83f8-a7a5-428c-97e2-bef606b2e9e2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "app_state_events": {
@@ -68,6 +68,170 @@
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "entropy_log": {
+      "name": "entropy_log",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "entropy_score": {
+          "name": "entropy_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(strftime('%s', 'now') * 1000)"
+        },
+        "duration_ms": {
+          "name": "duration_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "timer_session_id": {
+          "name": "timer_session_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "day_key": {
+          "name": "day_key",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "generated": {
+            "as": "(CAST(strftime('%Y%m%d', (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER))",
+            "type": "virtual"
+          }
+        },
+        "week_key": {
+          "name": "week_key",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "generated": {
+            "as": "(CAST(strftime('%Y%W',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER))",
+            "type": "virtual"
+          }
+        },
+        "month_key": {
+          "name": "month_key",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "generated": {
+            "as": "(CAST(strftime('%Y%m',  (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER))",
+            "type": "virtual"
+          }
+        },
+        "year_key": {
+          "name": "year_key",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "generated": {
+            "as": "(CAST(strftime('%Y',    (created_at / 1000), 'unixepoch', 'localtime') AS INTEGER))",
+            "type": "virtual"
+          }
+        }
+      },
+      "indexes": {
+        "entropy_log_created_at_idx": {
+          "name": "entropy_log_created_at_idx",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "entropy_log_day_key_idx": {
+          "name": "entropy_log_day_key_idx",
+          "columns": [
+            "day_key"
+          ],
+          "isUnique": false
+        },
+        "entropy_log_week_key_idx": {
+          "name": "entropy_log_week_key_idx",
+          "columns": [
+            "week_key"
+          ],
+          "isUnique": false
+        },
+        "entropy_log_month_key_idx": {
+          "name": "entropy_log_month_key_idx",
+          "columns": [
+            "month_key"
+          ],
+          "isUnique": false
+        },
+        "entropy_log_year_key_idx": {
+          "name": "entropy_log_year_key_idx",
+          "columns": [
+            "year_key"
+          ],
+          "isUnique": false
+        },
+        "entropy_log_timer_session_idx": {
+          "name": "entropy_log_timer_session_idx",
+          "columns": [
+            "timer_session_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "global_entropy_status": {
+      "name": "global_entropy_status",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "entropy_score": {
+          "name": "entropy_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
@@ -242,15 +406,7 @@
           "default": "(strftime('%s', 'now') * 1000)"
         }
       },
-      "indexes": {
-        "idx_sessions_session_id": {
-          "name": "idx_sessions_session_id",
-          "columns": [
-            "session_id"
-          ],
-          "isUnique": false
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
@@ -277,7 +433,7 @@
           "name": "start_ts",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "end_ts": {

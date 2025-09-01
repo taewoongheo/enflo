@@ -1,1 +1,0 @@
-ALTER TABLE `global_entropy_score` RENAME COLUMN "streak" TO "created_at";

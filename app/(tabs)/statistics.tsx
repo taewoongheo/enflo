@@ -7,6 +7,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import React from 'react';
 import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
 
@@ -16,9 +17,11 @@ export default function StatisticsScreen() {
   const { theme } = useTheme();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <ContentLayout isTopMargin={scale(10)}>
-        {/* <InfoLayout>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <SafeAreaView>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <ContentLayout isTopMargin={scale(10)}>
+            {/* <InfoLayout>
           <Typography
             variant="title3Bold"
             style={{ color: theme.colors.text.primary }}
@@ -26,20 +29,22 @@ export default function StatisticsScreen() {
             통계
           </Typography>
         </InfoLayout> */}
-        <InfoLayout>
-          <EntropyTrendSection theme={theme} />
-        </InfoLayout>
-        <InfoLayout>
-          <FocusTimeByWeek theme={theme} />
-        </InfoLayout>
-        <InfoLayout>
-          <FocusTimeBySessionSection theme={theme} />
-        </InfoLayout>
-        <InfoLayout>
-          <StreakSection theme={theme} />
-        </InfoLayout>
-      </ContentLayout>
-    </SafeAreaView>
+            <InfoLayout>
+              <EntropyTrendSection theme={theme} />
+            </InfoLayout>
+            <InfoLayout>
+              <FocusTimeByWeek theme={theme} />
+            </InfoLayout>
+            <InfoLayout>
+              <FocusTimeBySessionSection theme={theme} />
+            </InfoLayout>
+            <InfoLayout>
+              <StreakSection theme={theme} />
+            </InfoLayout>
+          </ContentLayout>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 }
 

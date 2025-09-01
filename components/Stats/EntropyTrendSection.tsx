@@ -1,9 +1,6 @@
 import { baseTokens, Theme } from '@/styles';
-
 import { View } from 'react-native';
-
 import { scale } from 'react-native-size-matters';
-
 import Typography from '../common/Typography';
 
 export default function EntropyTrendSection({ theme }: { theme: Theme }) {
@@ -11,8 +8,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
     <>
       <View
         style={{
-          // width: '100%',
-          // height: scale(150),
+          height: scale(150),
           backgroundColor: theme.colors.pages.main.sessionCard.background,
           borderColor: theme.colors.pages.main.sessionCard.border,
           borderWidth: scale(1),

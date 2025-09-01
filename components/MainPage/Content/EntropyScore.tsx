@@ -79,7 +79,7 @@ const EntropyScore = () => {
   );
 
   useEffect(() => {
-    const updateGlobalEntropyScore = async () => {
+    const updateGlobalEntropyStatus = async () => {
       const entropyRow = await entropyService.getEntropy();
 
       let entropy;
@@ -119,7 +119,7 @@ const EntropyScore = () => {
       }
     };
 
-    updateGlobalEntropyScore();
+    updateGlobalEntropyStatus();
   }, []);
 
   return (

@@ -1,1 +1,0 @@
-ALTER TABLE `global_entropy_score` RENAME COLUMN "created_at" TO "started_at";
