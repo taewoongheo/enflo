@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "354c0866-ff14-4a6e-b3f2-71ecaad25ea9",
+  "id": "0c3dcac4-b7bd-4897-9d23-3655e03caf03",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "app_state_events": {
@@ -97,18 +97,11 @@
           "autoincrement": false,
           "default": "(strftime('%s', 'now') * 1000)"
         },
-        "duration_ms": {
-          "name": "duration_ms",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "timer_session_id": {
           "name": "timer_session_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "day_key": {

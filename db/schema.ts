@@ -108,9 +108,7 @@ export const entropyLog = sqliteTable(
       .notNull()
       .default(sql`(strftime('%s', 'now') * 1000)`),
 
-    durationMs: integer('duration_ms').notNull(),
-
-    timerSessionId: text('timer_session_id').notNull(),
+    timerSessionId: text('timer_session_id'),
 
     dayKey: integer('day_key').notNull(), // YYYYMMDD
 

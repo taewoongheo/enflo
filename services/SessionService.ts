@@ -171,19 +171,14 @@ class SessionService {
           });
         }
 
-        const now = Date.now();
-
-        if (timerSession) {
-          await this.db.insert(entropyLog).values({
-            entropyScore: timerSession.entropyScore,
-            durationMs: timerSession.netFocusMs,
-            timerSessionId: timerSession.timerSessionId,
-            dayKey: timestampToDayKey(now),
-            weekKey: timestampToWeekKey(now),
-            monthKey: timestampToMonthKey(now),
-            yearKey: timestampToYearKey(now),
-          });
-        }
+        await this.db.insert(entropyLog).values({
+          entropyScore: timerSession.entropyScore,
+          timerSessionId: timerSession.timerSessionId,
+          dayKey: timestampToDayKey(timerSession.endTs!),
+          weekKey: timestampToWeekKey(timerSession.endTs!),
+          monthKey: timestampToMonthKey(timerSession.endTs!),
+          yearKey: timestampToYearKey(timerSession.endTs!),
+        });
       });
     } catch (error) {
       throw new Error('Failed to add timer session', { cause: error });
