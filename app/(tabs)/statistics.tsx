@@ -1,9 +1,11 @@
 import { ContentLayout } from '@/components/common/ContentLayout';
 import Typography from '@/components/common/Typography';
-import EntropyTrendSection from '@/components/StatsPage/EntropyTrendSection';
-import FocusTimeBySessionSection from '@/components/StatsPage/FocusTimeBySessionSection';
-import FocusTimeByWeek from '@/components/StatsPage/FocusTimeByWeek';
-import StreakSection from '@/components/StatsPage/StreakSection';
+import {
+  EntropyTrendSection,
+  FocusTimeBySessionSection,
+  FocusTimeByWeek,
+  StreakSection,
+} from '@/components/StatsPage';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import React from 'react';

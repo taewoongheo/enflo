@@ -1,5 +1,5 @@
 import { db } from '@/db/db';
-import { globalEntropyStatus } from '@/db/schema';
+import { entropyLog, globalEntropyStatus } from '@/db/schema';
 import { useEntropyStore } from '@/store/entropyStore';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
@@ -60,6 +60,24 @@ class EntropyService {
       .where(eq(globalEntropyStatus.id, ENTROPY_SCORE_ID));
 
     return entropyRow[0];
+  }
+
+  async getEntropyLogs(period: 'weekly' | 'monthly', key: number) {
+    if (period === 'weekly') {
+      return this.db
+        .select()
+        .from(entropyLog)
+        .where(eq(entropyLog.weekKey, key));
+    }
+
+    if (period === 'monthly') {
+      return this.db
+        .select()
+        .from(entropyLog)
+        .where(eq(entropyLog.monthKey, key));
+    }
+
+    return null;
   }
 }
 

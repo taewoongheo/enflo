@@ -113,3 +113,8 @@ export const timestampToYearKey = (timestamp: number): number => {
   const date = new Date(timestamp);
   return date.getFullYear();
 };
+
+// YYYYMMDD → 'MM.DD'
+export function yyyymmddToMdDot(yyyymmdd: string) {
+  return `${yyyymmdd.substring(4, 6)}.${yyyymmdd.substring(6, 8)}`;
+}
