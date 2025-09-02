@@ -1,49 +1,54 @@
 import { ContentLayout } from '@/components/common/ContentLayout';
-import EntropyTrendSection from '@/components/Stats/EntropyTrendSection';
-import FocusTimeBySessionSection from '@/components/Stats/FocusTimeBySessionSection';
-import FocusTimeByWeek from '@/components/Stats/FocusTimeByWeek';
-import StreakSection from '@/components/Stats/StreakSection';
+import Typography from '@/components/common/Typography';
+import EntropyTrendSection from '@/components/StatsPage/EntropyTrendSection';
+import FocusTimeBySessionSection from '@/components/StatsPage/FocusTimeBySessionSection';
+import FocusTimeByWeek from '@/components/StatsPage/FocusTimeByWeek';
+import StreakSection from '@/components/StatsPage/StreakSection';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import React from 'react';
-import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
 
 const contentGap = baseTokens.spacing[1];
 
 export default function StatisticsScreen() {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <SafeAreaView>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <ContentLayout isTopMargin={scale(10)}>
-            {/* <InfoLayout>
-          <Typography
-            variant="title3Bold"
-            style={{ color: theme.colors.text.primary }}
-          >
-            통계
-          </Typography>
-        </InfoLayout> */}
-            <InfoLayout>
-              <EntropyTrendSection theme={theme} />
-            </InfoLayout>
-            <InfoLayout>
-              <FocusTimeByWeek theme={theme} />
-            </InfoLayout>
-            <InfoLayout>
-              <FocusTimeBySessionSection theme={theme} />
-            </InfoLayout>
-            <InfoLayout>
-              <StreakSection theme={theme} />
-            </InfoLayout>
-          </ContentLayout>
-        </ScrollView>
-      </SafeAreaView>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        paddingTop: insets.top,
+      }}
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <ContentLayout isTopMargin={scale(10)}>
+          <InfoLayout>
+            <Typography
+              variant="title2Bold"
+              style={{ color: theme.colors.text.primary }}
+            >
+              통계
+            </Typography>
+          </InfoLayout>
+          <InfoLayout>
+            <EntropyTrendSection theme={theme} />
+          </InfoLayout>
+          <InfoLayout>
+            <FocusTimeByWeek theme={theme} />
+          </InfoLayout>
+          <InfoLayout>
+            <FocusTimeBySessionSection theme={theme} />
+          </InfoLayout>
+          <InfoLayout>
+            <StreakSection theme={theme} />
+          </InfoLayout>
+        </ContentLayout>
+      </ScrollView>
     </View>
   );
 }

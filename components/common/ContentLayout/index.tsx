@@ -21,6 +21,6 @@ export function ContentLayout({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: baseTokens.spacing[5],
+    paddingHorizontal: baseTokens.spacing[3],
   },
 });
