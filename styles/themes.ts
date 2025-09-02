@@ -1,4 +1,5 @@
 import { MainTheme } from '@/components/MainPage';
+import { StatsTheme } from '@/components/StatsPage';
 import { TimerTheme } from '@/components/TimerPage';
 import { palette } from './palette';
 
@@ -14,6 +15,7 @@ export interface Theme {
     pages: {
       main: MainTheme;
       timer: TimerTheme;
+      stats: StatsTheme;
     };
     border: string;
   };
@@ -87,6 +89,11 @@ export const darkTheme = {
         },
         info: {
           background: palette.neutral[800],
+        },
+      },
+      stats: {
+        toggle: {
+          selectedBackground: palette.neutral[600],
         },
       },
     },
