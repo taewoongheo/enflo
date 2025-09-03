@@ -1,3 +1,4 @@
+import { PERIOD } from '@/components/StatsPage/EntropyTrendSection/constants/period';
 import { db } from '@/db/db';
 import { entropyLog, globalEntropyStatus } from '@/db/schema';
 import { useEntropyStore } from '@/store/entropyStore';
@@ -62,15 +63,18 @@ class EntropyService {
     return entropyRow[0];
   }
 
-  async getEntropyLogs(period: 'weekly' | 'monthly', key: number) {
-    if (period === 'weekly') {
+  async getEntropyLogs(
+    period: (typeof PERIOD)[keyof typeof PERIOD],
+    key: number,
+  ) {
+    if (period === PERIOD.WEEKLY) {
       return this.db
         .select()
         .from(entropyLog)
         .where(eq(entropyLog.weekKey, key));
     }
 
-    if (period === 'monthly') {
+    if (period === PERIOD.MONTHLY) {
       return this.db
         .select()
         .from(entropyLog)

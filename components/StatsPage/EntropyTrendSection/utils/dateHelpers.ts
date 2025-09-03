@@ -28,15 +28,13 @@ export function formatWeeklyPeriodStr(baseDateMs: number) {
   const days: string[] = [];
   for (let i = 0; i < 7; i++) {
     days.push(
-      yyyymmddToMdDot(
-        String(
-          timestampToDayKey(
-            new Date(
-              mon.getFullYear(),
-              mon.getMonth(),
-              mon.getDate() + i,
-            ).getTime(),
-          ),
+      String(
+        timestampToDayKey(
+          new Date(
+            mon.getFullYear(),
+            mon.getMonth(),
+            mon.getDate() + i,
+          ).getTime(),
         ),
       ),
     );
@@ -64,11 +62,7 @@ export function formatMonthlyPeriodStr(baseDateMs: number) {
   for (let i = 0; i < last.getDate(); i++) {
     if (i % 7 !== 0) continue;
 
-    days.push(
-      yyyymmddToMdDot(
-        String(timestampToDayKey(new Date(y, m, i + 1).getTime())),
-      ),
-    );
+    days.push(String(timestampToDayKey(new Date(y, m, i + 1).getTime())));
   }
 
   return {

@@ -38,7 +38,7 @@ export default function PeriodNavigator({
       </Pressable>
 
       <Typography
-        variant="body1Regular"
+        variant="body1Bold"
         style={{ color: theme.colors.text.primary }}
       >
         {periodStr}

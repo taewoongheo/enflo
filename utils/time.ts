@@ -118,3 +118,18 @@ export const timestampToYearKey = (timestamp: number): number => {
 export function yyyymmddToMdDot(yyyymmdd: string) {
   return `${yyyymmdd.substring(4, 6)}.${yyyymmdd.substring(6, 8)}`;
 }
+
+// YYYYMMDD -> MM/DD
+export function yyyymmddToMdSlash(yyyymmdd: string) {
+  let month = yyyymmdd.substring(4, 6);
+  let day = yyyymmdd.substring(6, 8);
+
+  if (month.startsWith('0')) {
+    month = month.substring(1);
+  }
+  if (day.startsWith('0')) {
+    day = day.substring(1);
+  }
+
+  return `${month}/${day}`;
+}
