@@ -25,7 +25,28 @@ export function formatWeeklyPeriodStr(baseDateMs: number) {
   const monKey = String(timestampToDayKey(mon.getTime()));
   const sunKey = String(timestampToDayKey(sun.getTime()));
 
-  return `${yyyymmddToMdDot(monKey)} - ${yyyymmddToMdDot(sunKey)}`;
+  const days: string[] = [];
+  for (let i = 0; i < 7; i++) {
+    days.push(
+      yyyymmddToMdDot(
+        String(
+          timestampToDayKey(
+            new Date(
+              mon.getFullYear(),
+              mon.getMonth(),
+              mon.getDate() + i,
+            ).getTime(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  return {
+    first: yyyymmddToMdDot(monKey),
+    last: yyyymmddToMdDot(sunKey),
+    days,
+  };
 }
 
 // 월간 기간 문자열 'YYYY.MM' 또는 'MM.01 - MM.31'
@@ -39,7 +60,22 @@ export function formatMonthlyPeriodStr(baseDateMs: number) {
   const firstKey = String(timestampToDayKey(first.getTime()));
   const lastKey = String(timestampToDayKey(last.getTime()));
 
-  return `${yyyymmddToMdDot(firstKey)} - ${yyyymmddToMdDot(lastKey)}`;
+  const days: string[] = [];
+  for (let i = 0; i < last.getDate(); i++) {
+    if (i % 7 !== 0) continue;
+
+    days.push(
+      yyyymmddToMdDot(
+        String(timestampToDayKey(new Date(y, m, i + 1).getTime())),
+      ),
+    );
+  }
+
+  return {
+    first: yyyymmddToMdDot(firstKey),
+    last: yyyymmddToMdDot(lastKey),
+    days,
+  };
 }
 
 // 주간 네비게이션: ±7일

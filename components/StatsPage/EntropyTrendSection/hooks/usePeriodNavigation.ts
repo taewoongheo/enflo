@@ -38,7 +38,7 @@ export default function usePeriodNavigation() {
     return nextYM <= nowYM;
   }, [baseDateMs, selectedPeriod]);
 
-  const periodStr = useMemo(() => {
+  const period = useMemo(() => {
     return selectedPeriod === PERIOD.WEEKLY
       ? formatWeeklyPeriodStr(baseDateMs)
       : formatMonthlyPeriodStr(baseDateMs);
@@ -71,7 +71,7 @@ export default function usePeriodNavigation() {
   return {
     selectedPeriod,
     baseDateMs,
-    periodStr,
+    period,
     isNextAvailable,
     handleTogglePeriod,
     handlePrev,
