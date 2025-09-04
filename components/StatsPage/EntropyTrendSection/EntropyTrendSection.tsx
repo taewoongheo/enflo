@@ -23,8 +23,15 @@ type GraphData = {
 };
 
 const yValues = [0, 25, 50, 75, 100];
-const CIRCLE_RADIUS = scale(2.5);
-const STROKE_WIDTH = scale(1.5);
+const WEEKLY_CIRCLE_RADIUS = scale(2);
+const MONTHLY_CIRCLE_RADIUS = scale(1.5);
+const WEEKLY_STROKE_WIDTH = scale(1.2);
+const MONTHLY_STROKE_WIDTH = scale(1);
+
+const WEEKLY_DAYS = 7;
+const MONTHLY_DAYS = 30;
+
+const WEEKLY_DAYS_LABEL_DIVIDE = 5;
 
 export default function EntropyTrendSection({ theme }: { theme: Theme }) {
   const {
@@ -70,17 +77,17 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
               }));
         }
 
-        // console.log('=======logs start======');
-        // for (const log of logs) {
-        //   console.log(log.dayKey + ': ', log.entropyScore);
-        // }
-        // console.log('=======logs end======');
+        console.log('=======logs start======');
+        for (const log of logs) {
+          console.log(log.dayKey + ': ', log.entropyScore);
+        }
+        console.log('=======logs end======');
 
         const parsedDatas: GraphData[] = [];
 
         // 각 날짜마다 가장 높은 엔트로피를 뽑아야됨
         period.days.map((day) => {
-          // console.log('day:', day);
+          console.log('day:', day);
           const matchedLogs = logs.filter((log) => log.dayKey === Number(day));
           const maxScore = matchedLogs.reduce(
             (max, cur) => Math.max(max, cur.entropyScore),
@@ -92,6 +99,8 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
             entropyScore: Number(normalizeScoreToEntropy(maxScore)),
           });
         });
+
+        console.log(parsedDatas);
 
         setDatas(parsedDatas);
       } catch (error) {
@@ -205,30 +214,67 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
                 return (
                   <Group key={day.day}>
                     <Circle
-                      cx={index * (canvasWidth / 7) + canvasWidth / 7 / 2}
+                      cx={
+                        index *
+                          (canvasWidth /
+                            (selectedPeriod === PERIOD.WEEKLY
+                              ? WEEKLY_DAYS
+                              : MONTHLY_DAYS)) +
+                        canvasWidth /
+                          (selectedPeriod === PERIOD.WEEKLY
+                            ? WEEKLY_DAYS
+                            : MONTHLY_DAYS) /
+                          2
+                      }
                       cy={
                         (canvasHeight - canvasHeight / 10) * day.entropyScore +
                         canvasHeight / 10 / 2
                       }
-                      r={CIRCLE_RADIUS}
+                      r={
+                        selectedPeriod === PERIOD.WEEKLY
+                          ? WEEKLY_CIRCLE_RADIUS
+                          : MONTHLY_CIRCLE_RADIUS
+                      }
                       color={theme.colors.pages.timer.slider.text.primary}
                     />
                     {hasNext && (
                       <Line
                         p1={vec(
-                          index * (canvasWidth / 7) + canvasWidth / 7 / 2,
+                          index *
+                            (canvasWidth /
+                              (selectedPeriod === PERIOD.WEEKLY
+                                ? WEEKLY_DAYS
+                                : MONTHLY_DAYS)) +
+                            canvasWidth /
+                              (selectedPeriod === PERIOD.WEEKLY
+                                ? WEEKLY_DAYS
+                                : MONTHLY_DAYS) /
+                              2,
                           (canvasHeight - canvasHeight / 10) *
                             day.entropyScore +
                             canvasHeight / 10 / 2,
                         )}
                         p2={vec(
-                          (index + 1) * (canvasWidth / 7) + canvasWidth / 7 / 2,
+                          (index + 1) *
+                            (canvasWidth /
+                              (selectedPeriod === PERIOD.WEEKLY
+                                ? WEEKLY_DAYS
+                                : MONTHLY_DAYS)) +
+                            canvasWidth /
+                              (selectedPeriod === PERIOD.WEEKLY
+                                ? WEEKLY_DAYS
+                                : MONTHLY_DAYS) /
+                              2,
                           (canvasHeight - canvasHeight / 10) *
                             datas[index + 1].entropyScore +
                             canvasHeight / 10 / 2,
                         )}
                         color={theme.colors.pages.timer.slider.text.primary}
-                        strokeWidth={STROKE_WIDTH}
+                        strokeWidth={
+                          selectedPeriod === PERIOD.WEEKLY
+                            ? WEEKLY_STROKE_WIDTH
+                            : MONTHLY_STROKE_WIDTH
+                        }
                       />
                     )}
                   </Group>
@@ -239,29 +285,43 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
               alignItems: 'center',
+              overflow: 'hidden',
             }}
           >
-            {datas.map((day) => (
-              <View
-                key={day.day}
-                style={{
-                  width: canvasWidth / 7,
-                  alignItems: 'center',
-                }}
-                onLayout={(e) => setTextHeight(e.nativeEvent.layout.height)}
-              >
-                <Typography
-                  variant="label"
+            {datas.map((day) => {
+              if (
+                selectedPeriod === PERIOD.MONTHLY &&
+                day.day % WEEKLY_DAYS_LABEL_DIVIDE !== 0
+              ) {
+                return null;
+              }
+
+              return (
+                <View
+                  key={day.day}
                   style={{
-                    color: theme.colors.text.primary,
+                    width:
+                      canvasWidth /
+                      (selectedPeriod === PERIOD.WEEKLY
+                        ? WEEKLY_DAYS
+                        : period.days.length / WEEKLY_DAYS_LABEL_DIVIDE),
+                    alignItems: 'center',
                   }}
+                  onLayout={(e) => setTextHeight(e.nativeEvent.layout.height)}
                 >
-                  {yyyymmddToMdSlash(String(day.day))}
-                </Typography>
-              </View>
-            ))}
+                  <Typography
+                    variant="label"
+                    style={{
+                      color: theme.colors.text.primary,
+                    }}
+                  >
+                    {yyyymmddToMdSlash(String(day.day))}
+                  </Typography>
+                </View>
+              );
+            })}
           </View>
         </View>
       </View>
