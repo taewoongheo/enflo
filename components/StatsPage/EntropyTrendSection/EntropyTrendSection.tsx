@@ -41,7 +41,9 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
 
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
-  const [textHeight, setTextHeight] = useState(1);
+  const [textHeight, setTextHeight] = useState(10);
+
+  const todayYYYYMMDD = timestampToDayKey(new Date().getTime());
 
   useEffect(() => {
     const fetchEntropyLogs = async () => {
@@ -70,7 +72,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
 
         // console.log('=======logs start======');
         // for (const log of logs) {
-        //   console.log(log.dayKey);
+        //   console.log(log.dayKey + ': ', log.entropyScore);
         // }
         // console.log('=======logs end======');
 
@@ -193,7 +195,12 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
           >
             <Group transform={[{ scaleY: -1 }, { translateY: -canvasHeight }]}>
               {datas.map((day, index) => {
-                const next = datas[index + 1];
+                if (day.day > todayYYYYMMDD) {
+                  return null;
+                }
+
+                const hasNext =
+                  !!datas[index + 1] && datas[index].day < todayYYYYMMDD;
 
                 return (
                   <Group key={day.day}>
@@ -206,7 +213,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
                       r={CIRCLE_RADIUS}
                       color={theme.colors.pages.timer.slider.text.primary}
                     />
-                    {next && (
+                    {hasNext && (
                       <Line
                         p1={vec(
                           index * (canvasWidth / 7) + canvasWidth / 7 / 2,
@@ -217,7 +224,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
                         p2={vec(
                           (index + 1) * (canvasWidth / 7) + canvasWidth / 7 / 2,
                           (canvasHeight - canvasHeight / 10) *
-                            next.entropyScore +
+                            datas[index + 1].entropyScore +
                             canvasHeight / 10 / 2,
                         )}
                         color={theme.colors.pages.timer.slider.text.primary}
