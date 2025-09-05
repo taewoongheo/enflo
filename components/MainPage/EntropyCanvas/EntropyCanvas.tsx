@@ -15,22 +15,22 @@ import {
   vec,
 } from '@shopify/react-native-skia';
 import React, { useCallback, useReducer } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import {
   Gesture,
   GestureDetector,
   GestureUpdateEvent,
-  Pressable,
+  PanGestureHandlerEventPayload,
   TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
-import { PanGestureHandlerEventPayload } from 'react-native-screens';
 import HighEntropySystem from './EntropySystem/HighEntropySystem';
 import LowEntropySystem from './EntropySystem/LowEntropySystem';
 import MediumEntropySystem from './EntropySystem/MediumEntropySystem';
 import VeryHighEntropySystem from './EntropySystem/VeryHighEntropySystem';
 import VeryLowEntropySystem from './EntropySystem/VeryLowEntropySystem';
 
+// TODO: race condition between pan gesture and scrollView
 const EntropyCanvas = () => {
   const FADE_START_RATIO = 0.75;
   const BUTTON_HEIGHT = particleCanvasHeight * 0.08;
@@ -59,7 +59,9 @@ const EntropyCanvas = () => {
   };
 
   const tap = Gesture.Tap()
-    .onStart((e) => handleTouch(e))
+    .onBegin((e) => {
+      handleTouch(e);
+    })
     .onEnd(() => {
       'worklet';
       isTouching.value = false;
@@ -141,6 +143,8 @@ const EntropyCanvas = () => {
 
             justifyContent: 'center',
             alignItems: 'center',
+
+            zIndex: 1000,
           }}
         >
           <Foundation
