@@ -3,7 +3,7 @@ import Typography from '@/components/common/Typography';
 import {
   EntropyTrendSection,
   FocusTimeBySessionSection,
-  FocusTimeByWeek,
+  FocusTimeSection,
   StreakSection,
 } from '@/components/StatsPage';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -41,7 +41,7 @@ export default function StatisticsScreen() {
             <EntropyTrendSection theme={theme} />
           </InfoLayout>
           <InfoLayout>
-            <FocusTimeByWeek theme={theme} />
+            <FocusTimeSection theme={theme} />
           </InfoLayout>
           <InfoLayout>
             <FocusTimeBySessionSection theme={theme} />
