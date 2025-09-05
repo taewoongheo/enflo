@@ -25,7 +25,7 @@ type GraphData = {
 
 const yValues = [0, 25, 50, 75, 100];
 
-export default function EntropyTrendSection({ theme }: { theme: Theme }) {
+export default function FocusTimeByWeek({ theme }: { theme: Theme }) {
   const {
     selectedPeriod,
     baseDateMs,
@@ -112,7 +112,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
             variant="body1Bold"
             style={{ color: theme.colors.text.primary }}
           >
-            엔트로피 변화
+            주간 몰입 시간
           </Typography>
 
           <PeriodToggle

@@ -1,4 +1,4 @@
-import { PERIOD } from '@/components/StatsPage/EntropyTrendSection/constants/period';
+import { PERIOD } from '@/components/StatsPage/constants/period';
 import { db } from '@/db/db';
 import { entropyLog, globalEntropyStatus } from '@/db/schema';
 import { useEntropyStore } from '@/store/entropyStore';
