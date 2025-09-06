@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "0c3dcac4-b7bd-4897-9d23-3655e03caf03",
+  "id": "4f24cfce-6e2e-4a3f-993d-bcff3a6c56cb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "app_state_events": {
@@ -463,6 +463,13 @@
           "name": "idx_timer_sessions_start_ts",
           "columns": [
             "start_ts"
+          ],
+          "isUnique": false
+        },
+        "idx_timer_sessions_end_ts": {
+          "name": "idx_timer_sessions_end_ts",
+          "columns": [
+            "end_ts"
           ],
           "isUnique": false
         }

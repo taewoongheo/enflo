@@ -34,6 +34,7 @@ export const timerSessions = sqliteTable(
   (table) => [
     index('idx_timer_sessions_session_id').on(table.sessionId),
     index('idx_timer_sessions_start_ts').on(table.startTs),
+    index('idx_timer_sessions_end_ts').on(table.endTs),
   ],
 );
 

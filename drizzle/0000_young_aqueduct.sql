@@ -71,4 +71,5 @@ CREATE TABLE `timer_sessions` (
 );
 --> statement-breakpoint
 CREATE INDEX `idx_timer_sessions_session_id` ON `timer_sessions` (`session_id`);--> statement-breakpoint
-CREATE INDEX `idx_timer_sessions_start_ts` ON `timer_sessions` (`start_ts`);
+CREATE INDEX `idx_timer_sessions_start_ts` ON `timer_sessions` (`start_ts`);--> statement-breakpoint
+CREATE INDEX `idx_timer_sessions_end_ts` ON `timer_sessions` (`end_ts`);
