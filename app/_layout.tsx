@@ -1,3 +1,4 @@
+import Typography from '@/components/common/Typography';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { createAllMockSessions } from '@/data/sessionMockData';
 import { db, expoDb } from '@/db/db';
@@ -11,13 +12,13 @@ import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStu
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { Suspense, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 // TODO: caculate global entropy score - when user is not in timer
 const AppInit = ({ children }: { children: React.ReactNode }) => {
-  useMigrations(db, migrations);
+  const { success, error } = useMigrations(db, migrations);
   useDrizzleStudio(expoDb);
 
   useEffect(() => {
@@ -37,6 +38,26 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
 
     initializeSessions();
   }, []);
+
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Typography variant="body1Bold" style={{ color: 'red' }}>
+          Migration error: {error.message}
+        </Typography>
+      </View>
+    );
+  }
+
+  if (!success) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Typography variant="body1Bold" style={{ color: 'green' }}>
+          loading...
+        </Typography>
+      </View>
+    );
+  }
 
   return <>{children}</>;
 };
