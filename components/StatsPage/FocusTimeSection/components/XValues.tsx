@@ -21,7 +21,7 @@ export default function XValues({
     last: string;
     days: string[];
   };
-  datas: { day: number; entropyScore: number }[];
+  datas: { day: number; focusTimeYValues: number }[];
   selectedPeriod: 'weekly' | 'monthly';
   canvasWidth: number;
   setTextHeight: (height: number) => void;

@@ -1,6 +1,5 @@
 import Typography from '@/components/common/Typography';
 import { baseTokens, Theme } from '@/styles';
-import { normalizeScoreToEntropy } from '@/utils/score';
 import { View } from 'react-native';
 
 export default function YValues({
@@ -29,7 +28,7 @@ export default function YValues({
                 marginRight: baseTokens.spacing[1],
               }}
             >
-              {normalizeScoreToEntropy(value)}
+              {value}
             </Typography>
           </View>
         );

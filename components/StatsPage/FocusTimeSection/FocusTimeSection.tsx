@@ -1,16 +1,11 @@
-import { entropyService } from '@/services/EntropyService';
+import { sessionService } from '@/services/SessionService';
 import { baseTokens, Theme } from '@/styles';
-import { normalizeScoreToEntropy } from '@/utils/score';
-import {
-  timestampToDayKey,
-  timestampToMonthKey,
-  timestampToWeekKey,
-} from '@/utils/time';
+import { clamp } from '@/utils/math';
+import { timestampToDayKey, yyyymmddToYyyyMmDd } from '@/utils/time';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../../common/Typography';
-import { PERIOD } from '../constants/period';
 import usePeriodNavigation from '../hooks/usePeriodNavigation';
 import GraphCanvas from './components/GraphCanvas';
 import PeriodNavigator from './components/PeriodNavigator';
@@ -18,12 +13,13 @@ import PeriodToggle from './components/PeriodToggle';
 import XValues from './components/XValues';
 import YValues from './components/YValues';
 
+// focusTime: hour unit, 0~10 range
 type GraphData = {
   day: number;
-  entropyScore: number;
+  focusTimeYValues: number;
 };
 
-const yValues = [0, 25, 50, 75, 100];
+const yValues = [10, 8, 6, 4, 2, 0];
 
 export default function FocusTimeSection({ theme }: { theme: Theme }) {
   const {
@@ -45,49 +41,51 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
   const todayYYYYMMDD = timestampToDayKey(new Date().getTime());
 
   useEffect(() => {
-    const fetchEntropyLogs = async () => {
+    const fetchFocusTimeLogs = async () => {
       try {
-        const key =
-          selectedPeriod === PERIOD.WEEKLY
-            ? timestampToWeekKey(baseDateMs)
-            : timestampToMonthKey(baseDateMs);
+        const startKey = new Date(yyyymmddToYyyyMmDd(period.days[0])).getTime();
+        const endKey = new Date(
+          yyyymmddToYyyyMmDd(period.days[period.days.length - 1]),
+        ).getTime();
 
-        const logs = await entropyService.getEntropyLogs(selectedPeriod, key);
-
-        if (!logs) {
-          return selectedPeriod === PERIOD.WEEKLY
-            ? period.days.map((day) => ({
-                day,
-                entropyScore: 0,
-              }))
-            : period.days.map((day) => ({
-                day,
-                entropyScore: 0,
-              }));
-        }
+        const timerSessions = await sessionService.getTimerSessionsByDateRange(
+          startKey,
+          endKey,
+        );
 
         const parsedDatas: GraphData[] = [];
 
-        // get max entropy score for each day
-        period.days.map((day) => {
-          const matchedLogs = logs.filter((log) => log.dayKey === Number(day));
-          const maxScore = matchedLogs.reduce(
-            (max, cur) => Math.max(max, cur.entropyScore),
+        period.days.forEach((day) => {
+          const matchedTimerSessions = timerSessions.filter((timerSession) => {
+            if (timerSession.endTs === null) {
+              return false;
+            }
+            return timestampToDayKey(timerSession.endTs) === Number(day);
+          });
+
+          const totalFocusTime = matchedTimerSessions.reduce(
+            (acc, timerSession) => acc + timerSession.targetDurationMs,
             0,
           );
 
           parsedDatas.push({
             day: Number(day),
-            entropyScore: Number(normalizeScoreToEntropy(maxScore)),
+            focusTimeYValues: clamp(
+              (totalFocusTime / (1000 * 60 * 60)) * 0.1,
+              0,
+              10,
+            ),
           });
         });
+
+        console.log(parsedDatas);
 
         setDatas(parsedDatas);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchEntropyLogs();
+    fetchFocusTimeLogs();
   }, [selectedPeriod, baseDateMs]);
 
   return (
@@ -112,7 +110,7 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
             variant="body1Bold"
             style={{ color: theme.colors.text.primary }}
           >
-            몰입 시간
+            누적 몰입 시간
           </Typography>
 
           <PeriodToggle

@@ -16,7 +16,7 @@ import {
   timestampToWeekKey,
   timestampToYearKey,
 } from '@/utils/time';
-import { eq } from 'drizzle-orm';
+import { and, eq, gte, lte } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 
 class SessionService {
@@ -191,6 +191,18 @@ class SessionService {
       .addTimerSession(sessionId, timerSession, timeRange);
 
     return timerSession;
+  }
+
+  async getTimerSessionsByDateRange(startTs: number, endTs: number) {
+    return this.db
+      .select()
+      .from(timerSessions)
+      .where(
+        and(
+          gte(timerSessions.startTs, startTs),
+          lte(timerSessions.endTs, endTs),
+        ),
+      );
   }
 }
 

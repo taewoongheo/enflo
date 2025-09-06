@@ -22,7 +22,7 @@ export default function GraphCanvas({
   setCanvasHeight,
 }: {
   theme: Theme;
-  datas: { day: number; entropyScore: number }[];
+  datas: { day: number; focusTimeYValues: number }[];
   selectedPeriod: 'weekly' | 'monthly';
   todayYYYYMMDD: number;
   canvasWidth: number;
@@ -65,7 +65,7 @@ export default function GraphCanvas({
                     2
                 }
                 cy={
-                  (canvasHeight - canvasHeight / 10) * day.entropyScore +
+                  (canvasHeight - canvasHeight / 10) * day.focusTimeYValues +
                   canvasHeight / 10 / 2
                 }
                 r={
@@ -88,7 +88,7 @@ export default function GraphCanvas({
                           ? WEEKLY_DAYS
                           : MONTHLY_DAYS) /
                         2,
-                    (canvasHeight - canvasHeight / 10) * day.entropyScore +
+                    (canvasHeight - canvasHeight / 10) * day.focusTimeYValues +
                       canvasHeight / 10 / 2,
                   )}
                   p2={vec(
@@ -103,7 +103,7 @@ export default function GraphCanvas({
                           : MONTHLY_DAYS) /
                         2,
                     (canvasHeight - canvasHeight / 10) *
-                      datas[index + 1].entropyScore +
+                      datas[index + 1].focusTimeYValues +
                       canvasHeight / 10 / 2,
                   )}
                   color={theme.colors.pages.timer.slider.text.primary}

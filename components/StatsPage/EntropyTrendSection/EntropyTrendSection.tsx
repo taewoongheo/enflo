@@ -25,6 +25,7 @@ type GraphData = {
 
 const yValues = [0, 25, 50, 75, 100];
 
+// TODO: 타이머세션 추가 시 실시간으로 업데이트 되는지 확인(재랜더링 필요할 수 있음, useEffect)
 export default function EntropyTrendSection({ theme }: { theme: Theme }) {
   const {
     selectedPeriod,
