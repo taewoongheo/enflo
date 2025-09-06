@@ -71,14 +71,12 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
           parsedDatas.push({
             day: Number(day),
             focusTimeYValues: clamp(
-              (totalFocusTime / (1000 * 60 * 60)) * 0.1,
-              0,
-              10,
+              Math.floor(totalFocusTime / (1000 * 60 * 60)) * 0.1,
+              0.02,
+              1,
             ),
           });
         });
-
-        console.log(parsedDatas);
 
         setDatas(parsedDatas);
       } catch (error) {
