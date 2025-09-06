@@ -198,10 +198,7 @@ class SessionService {
       .select()
       .from(timerSessions)
       .where(
-        and(
-          gte(timerSessions.startTs, startTs),
-          lte(timerSessions.endTs, endTs),
-        ),
+        and(gte(timerSessions.endTs, startTs), lte(timerSessions.endTs, endTs)),
       );
   }
 }

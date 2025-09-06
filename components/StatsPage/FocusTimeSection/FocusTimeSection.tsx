@@ -1,7 +1,7 @@
 import { sessionService } from '@/services/SessionService';
 import { baseTokens, Theme } from '@/styles';
 import { clamp } from '@/utils/math';
-import { timestampToDayKey, yyyymmddToYyyyMmDd } from '@/utils/time';
+import { timestampToDayKey } from '@/utils/time';
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
@@ -43,16 +43,23 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
   useEffect(() => {
     const fetchFocusTimeLogs = async () => {
       try {
-        const startKey = new Date(yyyymmddToYyyyMmDd(period.days[0])).getTime();
+        const firstDay = period.days[0];
+        const lastDay = period.days[period.days.length - 1];
+        const startKey = new Date(
+          Number(firstDay.substring(0, 4)),
+          Number(firstDay.substring(4, 6)) - 1,
+          Number(firstDay.substring(6, 8)),
+        ).getTime();
         const endKey = new Date(
-          yyyymmddToYyyyMmDd(period.days[period.days.length - 1]),
+          Number(lastDay.substring(0, 4)),
+          Number(lastDay.substring(4, 6)) - 1,
+          Number(lastDay.substring(6, 8)),
         ).getTime();
 
         const timerSessions = await sessionService.getTimerSessionsByDateRange(
           startKey,
           endKey,
         );
-
         const parsedDatas: GraphData[] = [];
 
         period.days.forEach((day) => {
@@ -60,6 +67,7 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
             if (timerSession.endTs === null) {
               return false;
             }
+
             return timestampToDayKey(timerSession.endTs) === Number(day);
           });
 

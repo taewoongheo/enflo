@@ -31,7 +31,6 @@ export default function GraphCanvas({
   setCanvasWidth: (width: number) => void;
   setCanvasHeight: (height: number) => void;
 }) {
-  console.log(datas);
   const cellWidth =
     canvasWidth /
     (selectedPeriod === PERIOD.WEEKLY ? WEEKLY_DAYS : MONTHLY_DAYS);
