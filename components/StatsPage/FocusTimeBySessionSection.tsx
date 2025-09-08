@@ -19,12 +19,16 @@ const SECTION_RADIUS = baseTokens.borderRadius.sm;
 
 const LINE_HEIGHT = scale(30);
 
+const OTHERS_RATIO = 0.1;
+
 export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
   const [canvasWidth, setCanvasWidth] = useState(0);
 
   const [selectedSessionIdx, setSelectedSessionIdx] = useState<number>(0);
 
   const [datas, setDatas] = useState<SessionFocusTime[]>([]);
+
+  console.log(datas);
 
   const sessions = useSessionCache((s) => s.sessionCache);
 
@@ -34,15 +38,35 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
       0,
     );
 
-    setDatas(
-      Object.values(sessions).map((session: Session) => ({
-        sessionId: session.sessionId,
-        sessionName: session.sessionName,
-        focusTime: session.totalNetFocusMs,
-        ratio: session.totalNetFocusMs / totalFocusTime,
-      })),
+    const raw = Object.values(sessions).map((session: Session) => ({
+      sessionId: session.sessionId,
+      sessionName: session.sessionName,
+      focusTime: session.totalNetFocusMs,
+      ratio: session.totalNetFocusMs / totalFocusTime,
+    }));
+
+    const othersRow = raw.filter((data) => data.ratio < OTHERS_RATIO);
+    const othersRatio = othersRow.reduce((acc, data) => acc + data.ratio, 0);
+    const othersFocusTime = othersRow.reduce(
+      (acc, data) => acc + data.focusTime,
+      0,
     );
-  }, [sessions, canvasWidth]);
+
+    if (othersRatio > 0) {
+      setDatas([
+        ...raw.filter((data) => data.ratio >= OTHERS_RATIO),
+        {
+          sessionId: 'others',
+          sessionName: 'Others',
+          focusTime: othersFocusTime,
+          ratio: othersRatio,
+        },
+      ]);
+      return;
+    }
+
+    setDatas([...raw.filter((data) => data.ratio >= OTHERS_RATIO)]);
+  }, [sessions]);
 
   return (
     <View
@@ -55,30 +79,30 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
         padding: baseTokens.spacing[3],
       }}
     >
-      <View
-        style={{
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-        }}
-      >
-        <Typography
-          variant="body2Regular"
-          style={{ color: theme.colors.text.primary }}
-        >
-          {datas[selectedSessionIdx].sessionName}
-        </Typography>
-        <Typography
-          variant="title2Bold"
+      {datas[selectedSessionIdx] && (
+        <View
           style={{
-            color: theme.colors.text.primary,
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
           }}
         >
-          {datas.length > 0
-            ? formatMsToTime(datas[selectedSessionIdx].focusTime)
-            : '00:00:00'}
-        </Typography>
-      </View>
+          <Typography
+            variant="body2Regular"
+            style={{ color: theme.colors.text.primary }}
+          >
+            {datas[selectedSessionIdx].sessionName}
+          </Typography>
+          <Typography
+            variant="title2Bold"
+            style={{
+              color: theme.colors.text.primary,
+            }}
+          >
+            {formatMsToTime(datas[selectedSessionIdx].focusTime)}
+          </Typography>
+        </View>
+      )}
       <View
         onLayout={(e) => {
           setCanvasWidth(e.nativeEvent.layout.width);
@@ -106,6 +130,7 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
                         : theme.colors.pages.timer.slider.text.secondary,
                     paddingLeft: baseTokens.spacing[1],
                     width: data.ratio * canvasWidth,
+                    opacity: data.sessionId === 'others' ? 0 : 1,
                   }}
                 >
                   {data.sessionName}
@@ -142,9 +167,10 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
                   style={{
                     color: theme.colors.pages.main.sessionCard.background,
                     paddingLeft: baseTokens.spacing[1],
+                    opacity: data.sessionId === 'others' ? 0 : 1,
                   }}
                 >
-                  {String(data.ratio * 100).substring(0, 4)}%
+                  {String(data.ratio * 100).substring(0, 2)}%
                 </Typography>
               </Pressable>
             </View>

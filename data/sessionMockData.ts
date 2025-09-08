@@ -47,7 +47,7 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   const timerSessions = [];
 
   // Generate timer sessions for the past 60 days to today
-  for (let dayOffset = -10; dayOffset <= 0; dayOffset++) {
+  for (let dayOffset = -5; dayOffset <= 0; dayOffset++) {
     const dayStart = now + dayOffset * oneDay;
 
     // Skip some days randomly to create realistic gaps
@@ -151,7 +151,7 @@ export const createReadingSessions = async (): Promise<Session> => {
   const timerSessions = [];
 
   // Generate timer sessions for the past 60 days to today
-  for (let dayOffset = -60; dayOffset <= 0; dayOffset++) {
+  for (let dayOffset = -30; dayOffset <= 0; dayOffset++) {
     const dayStart = now + dayOffset * oneDay;
 
     // Skip some days randomly to create realistic gaps (reading is less frequent)
@@ -255,7 +255,7 @@ export const createFocusSessions = async (): Promise<Session> => {
   const timerSessions = [];
 
   // Generate timer sessions for the past 60 days to today
-  for (let dayOffset = -60; dayOffset <= 0; dayOffset++) {
+  for (let dayOffset = -30; dayOffset <= 0; dayOffset++) {
     const dayStart = now + dayOffset * oneDay;
 
     // Skip some days randomly to create realistic gaps (focus sessions are less frequent)
