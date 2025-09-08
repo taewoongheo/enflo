@@ -28,8 +28,6 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
 
   const [datas, setDatas] = useState<SessionFocusTime[]>([]);
 
-  console.log(datas);
-
   const sessions = useSessionCache((s) => s.sessionCache);
 
   useEffect(() => {

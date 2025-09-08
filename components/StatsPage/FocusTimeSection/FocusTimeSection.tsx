@@ -1,4 +1,5 @@
 import { sessionService } from '@/services/SessionService';
+import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
 import { clamp } from '@/utils/math';
 import { timestampToDayKey } from '@/utils/time';
@@ -34,6 +35,8 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
 
   const [datas, setDatas] = useState<GraphData[]>([]);
 
+  const sessions = useSessionCache((s) => s.sessionCache);
+
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
   const [textHeight, setTextHeight] = useState(10);
@@ -60,6 +63,7 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
           startKey,
           endKey,
         );
+
         const parsedDatas: GraphData[] = [];
 
         period.days.forEach((day) => {
@@ -92,7 +96,7 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
       }
     };
     fetchFocusTimeLogs();
-  }, [selectedPeriod, baseDateMs]);
+  }, [sessions, selectedPeriod, baseDateMs]);
 
   return (
     <View

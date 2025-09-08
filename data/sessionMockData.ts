@@ -129,12 +129,12 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   }
 
   // Add all timer sessions to the session
-  for (const timerSession of timerSessions) {
-    await sessionService.addTimerSession({
-      sessionId,
-      timerSession,
-    });
-  }
+  // for (const timerSession of timerSessions) {
+  //   await sessionService.addTimerSession({
+  //     sessionId,
+  //     timerSession,
+  //   });
+  // }
 
   return session;
 };
@@ -349,6 +349,6 @@ export const createFocusSessions = async (): Promise<Session> => {
 
 export const createAllMockSessions = async (): Promise<void> => {
   await createEnfloProjectSessions();
-  await createReadingSessions();
-  await createFocusSessions();
+  // await createReadingSessions();
+  // await createFocusSessions();
 };

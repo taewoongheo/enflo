@@ -1,4 +1,5 @@
 import { entropyService } from '@/services/EntropyService';
+import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
 import { normalizeScoreToEntropy } from '@/utils/score';
 import {
@@ -25,7 +26,6 @@ type GraphData = {
 
 const yValues = [0, 25, 50, 75, 100];
 
-// TODO: 타이머세션 추가 시 실시간으로 업데이트 되는지 확인(재랜더링 필요할 수 있음, useEffect)
 export default function EntropyTrendSection({ theme }: { theme: Theme }) {
   const {
     selectedPeriod,
@@ -38,6 +38,8 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
   } = usePeriodNavigation();
 
   const [datas, setDatas] = useState<GraphData[]>([]);
+
+  const sessions = useSessionCache((s) => s.sessionCache);
 
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
@@ -89,7 +91,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
       }
     };
     fetchEntropyLogs();
-  }, [selectedPeriod, baseDateMs]);
+  }, [sessions, selectedPeriod, baseDateMs]);
 
   return (
     <View
