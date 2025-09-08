@@ -83,6 +83,10 @@ class EntropyService {
 
     return null;
   }
+
+  async clear() {
+    await this.db.delete(entropyLog);
+  }
 }
 
 export const entropyService = new EntropyService(db);

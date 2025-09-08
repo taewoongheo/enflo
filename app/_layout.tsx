@@ -5,6 +5,7 @@ import { db, expoDb } from '@/db/db';
 import migrations from '@/drizzle/migrations';
 import { INSERT_MOCK_DATA } from '@/environment.config';
 import '@/i18n';
+import { entropyService } from '@/services/EntropyService';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
@@ -27,6 +28,7 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
         if (INSERT_MOCK_DATA) {
           await sessionService.clear();
           await timerService.clear();
+          await entropyService.clear();
           await createAllMockSessions();
         }
 
