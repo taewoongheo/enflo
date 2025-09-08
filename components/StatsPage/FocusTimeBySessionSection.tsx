@@ -77,7 +77,7 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
         padding: baseTokens.spacing[3],
       }}
     >
-      {datas[selectedSessionIdx] && (
+      {datas[selectedSessionIdx] ? (
         <View
           style={{
             flexDirection: 'column',
@@ -100,21 +100,29 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
             {formatMsToTime(datas[selectedSessionIdx].focusTime)}
           </Typography>
         </View>
+      ) : (
+        <Typography
+          variant="body1Bold"
+          style={{ color: theme.colors.text.primary }}
+        >
+          세션별 몰입 시간
+        </Typography>
       )}
-      <View
-        onLayout={(e) => {
-          setCanvasWidth(e.nativeEvent.layout.width);
-        }}
-        style={{
-          width: '100%',
-          height: LINE_HEIGHT,
-          marginTop: baseTokens.spacing[6],
-          flexDirection: 'row',
-          alignItems: 'flex-end',
-        }}
-      >
-        {datas.length > 0 ? (
-          datas.map((data, index) => (
+
+      {datas.length > 0 ? (
+        <View
+          onLayout={(e) => {
+            setCanvasWidth(e.nativeEvent.layout.width);
+          }}
+          style={{
+            width: '100%',
+            height: LINE_HEIGHT,
+            marginTop: baseTokens.spacing[6],
+            flexDirection: 'row',
+            alignItems: 'flex-end',
+          }}
+        >
+          {datas.map((data, index) => (
             <View key={data.sessionId} style={{ gap: baseTokens.spacing[1] }}>
               <View>
                 <Typography
@@ -172,18 +180,18 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
                 </Typography>
               </Pressable>
             </View>
-          ))
-        ) : (
-          <View>
-            <Typography
-              variant="label"
-              style={{ color: theme.colors.text.primary }}
-            >
-              세션별 몰입 시간 데이터가 없습니다.
-            </Typography>
-          </View>
-        )}
-      </View>
+          ))}
+        </View>
+      ) : (
+        <View>
+          <Typography
+            variant="label"
+            style={{ color: theme.colors.text.primary }}
+          >
+            세션별 몰입 시간 데이터가 없습니다.
+          </Typography>
+        </View>
+      )}
     </View>
   );
 }
