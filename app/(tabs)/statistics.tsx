@@ -4,7 +4,6 @@ import {
   EntropyTrendSection,
   FocusTimeBySessionSection,
   FocusTimeSection,
-  StreakSection,
 } from '@/components/StatsPage';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
@@ -46,9 +45,9 @@ export default function StatisticsScreen() {
           <InfoLayout>
             <FocusTimeBySessionSection theme={theme} />
           </InfoLayout>
-          <InfoLayout>
+          {/* <InfoLayout>
             <StreakSection theme={theme} />
-          </InfoLayout>
+          </InfoLayout> */}
         </ContentLayout>
       </ScrollView>
     </View>
