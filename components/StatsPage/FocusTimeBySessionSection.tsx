@@ -1,14 +1,53 @@
+import Session from '@/models/Session';
+import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
+import { formatMsToTime } from '@/utils/time';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
+import { Pressable } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
 
+type SessionFocusTime = {
+  sessionId: string;
+  sessionName: string;
+  focusTime: number;
+  ratio: number;
+};
+
+const SECTION_RADIUS = baseTokens.borderRadius.sm;
+
+const LINE_HEIGHT = scale(30);
+
 export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
+  const [canvasWidth, setCanvasWidth] = useState(0);
+
+  const [selectedSessionIdx, setSelectedSessionIdx] = useState<number>(0);
+
+  const [datas, setDatas] = useState<SessionFocusTime[]>([]);
+
+  const sessions = useSessionCache((s) => s.sessionCache);
+
+  useEffect(() => {
+    const totalFocusTime = Object.values(sessions).reduce(
+      (acc, session) => acc + session.totalNetFocusMs,
+      0,
+    );
+
+    setDatas(
+      Object.values(sessions).map((session: Session) => ({
+        sessionId: session.sessionId,
+        sessionName: session.sessionName,
+        focusTime: session.totalNetFocusMs,
+        ratio: session.totalNetFocusMs / totalFocusTime,
+      })),
+    );
+  }, [sessions, canvasWidth]);
+
   return (
     <View
       style={{
-        width: '100%',
-        height: scale(150),
+        flex: 1,
         backgroundColor: theme.colors.pages.main.sessionCard.background,
         borderColor: theme.colors.pages.main.sessionCard.border,
         borderWidth: scale(1),
@@ -16,12 +55,111 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
         padding: baseTokens.spacing[3],
       }}
     >
-      <Typography
-        variant="body1Bold"
-        style={{ color: theme.colors.text.primary }}
+      <View
+        style={{
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+        }}
       >
-        세션별 몰입 시간
-      </Typography>
+        <Typography
+          variant="body2Regular"
+          style={{ color: theme.colors.text.primary }}
+        >
+          {datas[selectedSessionIdx].sessionName}
+        </Typography>
+        <Typography
+          variant="title2Bold"
+          style={{
+            color: theme.colors.text.primary,
+          }}
+        >
+          {datas.length > 0
+            ? formatMsToTime(datas[selectedSessionIdx].focusTime)
+            : '00:00:00'}
+        </Typography>
+      </View>
+      <View
+        onLayout={(e) => {
+          setCanvasWidth(e.nativeEvent.layout.width);
+        }}
+        style={{
+          width: '100%',
+          height: LINE_HEIGHT,
+          marginTop: baseTokens.spacing[6],
+          flexDirection: 'row',
+          alignItems: 'flex-end',
+        }}
+      >
+        {datas.length > 0 ? (
+          datas.map((data, index) => (
+            <View key={data.sessionId} style={{ gap: baseTokens.spacing[1] }}>
+              <View>
+                <Typography
+                  variant="label"
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={{
+                    color:
+                      selectedSessionIdx === index
+                        ? theme.colors.pages.timer.slider.text.primary
+                        : theme.colors.pages.timer.slider.text.secondary,
+                    paddingLeft: baseTokens.spacing[1],
+                    width: data.ratio * canvasWidth,
+                  }}
+                >
+                  {data.sessionName}
+                </Typography>
+              </View>
+              <Pressable
+                onPress={() => setSelectedSessionIdx(index)}
+                style={{
+                  width: data.ratio * canvasWidth,
+                  height: LINE_HEIGHT,
+                  backgroundColor:
+                    selectedSessionIdx === index
+                      ? theme.colors.pages.timer.slider.text.primary
+                      : theme.colors.pages.timer.slider.text.secondary,
+                  borderTopLeftRadius: index === 0 ? SECTION_RADIUS : 0,
+                  borderBottomLeftRadius: index === 0 ? SECTION_RADIUS : 0,
+                  borderTopRightRadius:
+                    index === datas.length - 1 ? SECTION_RADIUS : 0,
+                  borderBottomRightRadius:
+                    index === datas.length - 1 ? SECTION_RADIUS : 0,
+                  justifyContent: 'center',
+                  alignItems: 'flex-start',
+                  paddingLeft: baseTokens.spacing[1],
+
+                  // borderRightWidth: index === datas.length - 1 ? 1 : 0,
+                  // borderWidth: 1,
+                  // borderColor: theme.colors.pages.timer.slider.text.primary,
+                }}
+              >
+                <Typography
+                  variant="body1Bold"
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={{
+                    color: theme.colors.pages.main.sessionCard.background,
+                    paddingLeft: baseTokens.spacing[1],
+                  }}
+                >
+                  {String(data.ratio * 100).substring(0, 4)}%
+                </Typography>
+              </Pressable>
+            </View>
+          ))
+        ) : (
+          <View>
+            <Typography
+              variant="label"
+              style={{ color: theme.colors.text.primary }}
+            >
+              세션별 몰입 시간 데이터가 없습니다.
+            </Typography>
+          </View>
+        )}
+      </View>
     </View>
   );
 }

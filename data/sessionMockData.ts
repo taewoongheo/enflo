@@ -47,7 +47,7 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   const timerSessions = [];
 
   // Generate timer sessions for the past 60 days to today
-  for (let dayOffset = -30; dayOffset <= 0; dayOffset++) {
+  for (let dayOffset = -10; dayOffset <= 0; dayOffset++) {
     const dayStart = now + dayOffset * oneDay;
 
     // Skip some days randomly to create realistic gaps
@@ -350,5 +350,5 @@ export const createFocusSessions = async (): Promise<Session> => {
 export const createAllMockSessions = async (): Promise<void> => {
   await createEnfloProjectSessions();
   await createReadingSessions();
-  // await createFocusSessions();
+  await createFocusSessions();
 };
