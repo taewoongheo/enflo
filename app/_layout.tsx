@@ -12,12 +12,15 @@ import '@/i18n';
 import { entropyService } from '@/services/EntropyService';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStudio';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useCallback, useEffect } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -72,14 +75,36 @@ function BottomSheetWrapper() {
   const { addSessionBottomSheetRef, editSessionBottomSheetRef } =
     useBottomSheet();
 
+  const renderBackdrop = useCallback(
+    (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        enableTouchThrough={false}
+      />
+    ),
+    [],
+  );
+
   return (
     <>
-      <BottomSheet ref={addSessionBottomSheetRef} index={-1}>
+      <BottomSheet
+        ref={addSessionBottomSheetRef}
+        index={-1}
+        enablePanDownToClose={true}
+        backdropComponent={renderBackdrop}
+      >
         <BottomSheetView style={{ flex: 1, backgroundColor: 'red' }}>
           <Text>Add Session</Text>
         </BottomSheetView>
       </BottomSheet>
-      <BottomSheet ref={editSessionBottomSheetRef} index={-1}>
+      <BottomSheet
+        ref={editSessionBottomSheetRef}
+        index={-1}
+        enablePanDownToClose={true}
+        backdropComponent={renderBackdrop}
+      >
         <BottomSheetView style={{ flex: 1, backgroundColor: 'blue' }}>
           <Text>Edit Session</Text>
         </BottomSheetView>
