@@ -1,4 +1,8 @@
 import Typography from '@/components/common/Typography';
+import {
+  BottomSheetProvider,
+  useBottomSheet,
+} from '@/contexts/BottomSheetContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { createAllMockSessions } from '@/data/sessionMockData';
 import { db, expoDb } from '@/db/db';
@@ -8,16 +12,16 @@ import '@/i18n';
 import { entropyService } from '@/services/EntropyService';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStudio';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { Suspense, useEffect } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-// TODO: caculate global entropy score - when user is not in timer
 const AppInit = ({ children }: { children: React.ReactNode }) => {
   const { success, error } = useMigrations(db, migrations);
   useDrizzleStudio(expoDb);
@@ -64,24 +68,51 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+function BottomSheetWrapper() {
+  const { addSessionBottomSheetRef, editSessionBottomSheetRef } =
+    useBottomSheet();
+
+  return (
+    <>
+      <BottomSheet ref={addSessionBottomSheetRef} index={-1}>
+        <BottomSheetView style={{ flex: 1, backgroundColor: 'red' }}>
+          <Text>Add Session</Text>
+        </BottomSheetView>
+      </BottomSheet>
+      <BottomSheet ref={editSessionBottomSheetRef} index={-1}>
+        <BottomSheetView style={{ flex: 1, backgroundColor: 'blue' }}>
+          <Text>Edit Session</Text>
+        </BottomSheetView>
+      </BottomSheet>
+    </>
+  );
+}
+
 export default function RootLayout() {
   return (
     <AppInit>
       <Suspense fallback={<ActivityIndicator size="large" />}>
         <GestureHandlerRootView>
-          <SafeAreaProvider>
-            <ThemeProvider>
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen
-                  name="timer/index"
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen name="+not-found" />
-              </Stack>
-              <StatusBar style="light" />
-            </ThemeProvider>
-          </SafeAreaProvider>
+          <ThemeProvider>
+            <BottomSheetProvider>
+              <SafeAreaProvider>
+                <Stack>
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="timer/index"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen name="+not-found" />
+                </Stack>
+                <StatusBar style="light" />
+              </SafeAreaProvider>
+
+              <BottomSheetWrapper />
+            </BottomSheetProvider>
+          </ThemeProvider>
         </GestureHandlerRootView>
       </Suspense>
     </AppInit>
