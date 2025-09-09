@@ -8,6 +8,15 @@ export interface Theme {
     primary: string;
     secondary: string;
     background: string;
+    bottomSheet: {
+      background: string;
+      buttonBackground: string;
+      text: {
+        primary: string;
+        placeholder: string;
+      };
+      border: string;
+    };
     text: {
       primary: string;
       secondary: string;
@@ -54,6 +63,15 @@ export const darkTheme = {
     text: {
       primary: palette.neutral[50],
       secondary: palette.neutral[400],
+    },
+    bottomSheet: {
+      background: palette.neutral[850],
+      buttonBackground: palette.neutral[500],
+      text: {
+        primary: palette.neutral[50],
+        placeholder: palette.neutral[400],
+      },
+      border: palette.neutral[600],
     },
     pages: {
       main: {
