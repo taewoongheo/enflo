@@ -1,8 +1,6 @@
 import Typography from '@/components/common/Typography';
-import { useBottomSheet } from '@/contexts/BottomSheetContext';
-import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
-import { baseTokens } from '@/styles';
+import { baseTokens, Theme } from '@/styles';
 import { formatMsToTime } from '@/utils/time';
 import { AntDesign, Fontisto } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -19,12 +17,17 @@ import { ADD_SESSION_ID } from './SessionList';
 // const gradientOffset =
 //   Platform.OS === 'ios' ? IOS_GRADIENT_OFFSET : ANDROID_GRADIENT_OFFSET;
 
-function SessionCard({ item }: { item: Session | { sessionId: string } }) {
-  const { theme } = useTheme();
+function SessionCard({
+  theme,
+  item,
+  handleAddSessionClick,
+}: {
+  theme: Theme;
+  item: Session | { sessionId: string };
+  handleAddSessionClick: () => void;
+}) {
   const { t } = useTranslation();
   const router = useRouter();
-
-  const { addSessionBottomSheetRef } = useBottomSheet();
 
   const sessionCardStyle = theme.colors.pages.main.sessionCard;
 
@@ -37,18 +40,15 @@ function SessionCard({ item }: { item: Session | { sessionId: string } }) {
     });
   };
 
-  const handleAddSessionClick = () => {
-    addSessionBottomSheetRef.current?.expand();
-  };
-
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {item.sessionId === ADD_SESSION_ID ? (
         <Pressable
           onPress={handleAddSessionClick}
           style={[
             {
               flex: 1,
+              height: scale(150),
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: baseTokens.borderRadius.sm,
@@ -59,7 +59,11 @@ function SessionCard({ item }: { item: Session | { sessionId: string } }) {
             },
           ]}
         >
-          <AntDesign name="plus" size={24} color={theme.colors.background} />
+          <AntDesign
+            name="plus"
+            size={baseTokens.iconSize.lg}
+            color={theme.colors.background}
+          />
         </Pressable>
       ) : (
         <Pressable
