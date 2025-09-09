@@ -3,6 +3,7 @@ export interface MainTheme {
     background: string;
     edgeGradient: string;
     border: string;
+    addButtonBorder: string;
     text: {
       name: string;
       timer: string;

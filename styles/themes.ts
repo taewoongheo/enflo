@@ -61,6 +61,7 @@ export const darkTheme = {
           background: palette.neutral[750],
           border: palette.neutral[600],
           edgeGradient: 'rgba(30, 32, 34, 0)',
+          addButtonBorder: 'rgb(225, 225, 225)',
           text: {
             name: palette.neutral[200],
             timer: palette.neutral[100],

@@ -53,7 +53,7 @@ function SessionCard({ item }: { item: Session | { sessionId: string } }) {
               justifyContent: 'center',
               borderRadius: baseTokens.borderRadius.sm,
               borderWidth: 1,
-              borderColor: sessionCardStyle.border,
+              borderColor: sessionCardStyle.addButtonBorder,
               paddingHorizontal: baseTokens.spacing[3],
               backgroundColor: theme.colors.text.secondary,
             },
