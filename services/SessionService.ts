@@ -201,6 +201,23 @@ class SessionService {
         and(gte(timerSessions.endTs, startTs), lte(timerSessions.endTs, endTs)),
       );
   }
+
+  async addSession({ sessionName }: { sessionName: string }) {
+    const session = new Session({
+      sessionName,
+    });
+
+    try {
+      await this.db.insert(sessions).values({
+        sessionId: session.sessionId,
+        sessionName: session.sessionName,
+      });
+
+      useSessionCache.getState().createSession(session);
+    } catch (error) {
+      throw new Error('Failed to add session', { cause: error });
+    }
+  }
 }
 
 export const sessionService = new SessionService(db);

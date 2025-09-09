@@ -22,7 +22,7 @@ import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStudio';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { Suspense, useCallback, useEffect } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Keyboard,
@@ -85,6 +85,9 @@ function BottomSheetWrapper() {
   const { addSessionBottomSheetRef, editSessionBottomSheetRef } =
     useBottomSheet();
 
+  const [sessionName, setSessionName] = useState('');
+  console.log(sessionName);
+
   const renderBackdrop = useCallback(
     (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
       <BottomSheetBackdrop
@@ -143,6 +146,10 @@ function BottomSheetWrapper() {
               새로운 세션 추가
             </Typography>
             <BottomSheetTextInput
+              onChangeText={(text) => {
+                setSessionName(text);
+              }}
+              value={sessionName}
               placeholder="세션 이름"
               placeholderTextColor={theme.colors.bottomSheet.text.placeholder}
               style={{
@@ -157,8 +164,18 @@ function BottomSheetWrapper() {
               }}
             />
             <Pressable
-              onPress={(e) => {
-                console.log('add');
+              onPress={async (e) => {
+                try {
+                  await sessionService.addSession({
+                    sessionName: sessionName,
+                  });
+                  setSessionName('');
+                  addSessionBottomSheetRef.current?.close();
+                  Keyboard.dismiss();
+                } catch (error) {
+                  console.error(error);
+                }
+
                 e.stopPropagation();
               }}
               style={{
