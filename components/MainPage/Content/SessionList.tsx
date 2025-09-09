@@ -5,9 +5,14 @@ import { StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import SessionCard from './SessionCard';
 
+export const ADD_SESSION_ID = 'add-session';
+
 const SessionList = () => {
   const sessionsRef = useSessionCache((s) => s.sessionCache);
-  const sessions = useMemo(() => Object.values(sessionsRef), [sessionsRef]);
+  const sessions = useMemo(
+    () => [...Object.values(sessionsRef), { sessionId: ADD_SESSION_ID }],
+    [sessionsRef],
+  );
 
   return (
     <FlatList
