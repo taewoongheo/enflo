@@ -7,6 +7,7 @@ import BottomSheet, {
 } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import React, { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
@@ -20,6 +21,7 @@ function AddSessionBottomSheet({
   theme: Theme;
   renderBackdrop: FC<BottomSheetBackdropProps>;
 }) {
+  const { t } = useTranslation('main');
   const [sessionName, setSessionName] = useState('');
 
   return (
@@ -61,14 +63,14 @@ function AddSessionBottomSheet({
             variant="body1Bold"
             style={{ color: theme.colors.bottomSheet.text.primary }}
           >
-            새로운 세션 추가
+            {t('addNewSessionTitle')}
           </Typography>
           <BottomSheetTextInput
             onChangeText={(text) => {
               setSessionName(text);
             }}
             value={sessionName}
-            placeholder="세션 이름"
+            placeholder={t('sessionNamePlaceholder')}
             placeholderTextColor={theme.colors.bottomSheet.text.placeholder}
             style={{
               borderWidth: scale(1.3),
@@ -111,7 +113,7 @@ function AddSessionBottomSheet({
               variant="body1Bold"
               style={{ color: theme.colors.background }}
             >
-              추가
+              {t('addButton')}
             </Typography>
           </Pressable>
         </Pressable>

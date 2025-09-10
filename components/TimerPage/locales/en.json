@@ -6,5 +6,9 @@
   "totalFocusTime": "Total Flow Time",
   "focusSuggestion": "Flow Insights",
   "focusGraph": "Flow Trends",
-  "noData": "We’re still gathering your flow patterns. As you record more, a personalized graph will appear."
+  "noData": "We're still gathering your flow patterns. As you record more, a personalized graph will appear.",
+  "editSessionTitle": "Edit Session Name",
+  "sessionNamePlaceholder": "Session Name",
+  "editButton": "Edit",
+  "deleteSession": "Delete Session"
 }

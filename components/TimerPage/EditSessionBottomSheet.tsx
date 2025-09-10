@@ -9,6 +9,7 @@ import BottomSheet, {
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { useGlobalSearchParams, useRouter, useSegments } from 'expo-router';
 import React, { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
@@ -22,6 +23,7 @@ function EditSessionBottomSheet({
   editSessionBottomSheetRef: React.RefObject<BottomSheetMethods>;
   renderBackdrop: FC<BottomSheetBackdropProps>;
 }) {
+  const { t } = useTranslation('timer');
   const router = useRouter();
 
   const segment = useSegments();
@@ -81,14 +83,14 @@ function EditSessionBottomSheet({
             variant="body1Bold"
             style={{ color: theme.colors.bottomSheet.text.primary }}
           >
-            세션 이름 수정
+            {t('editSessionTitle')}
           </Typography>
           <BottomSheetTextInput
             onChangeText={(text) => {
               setSessionName(text);
             }}
             value={sessionName}
-            placeholder="세션 이름"
+            placeholder={t('sessionNamePlaceholder')}
             placeholderTextColor={theme.colors.bottomSheet.text.placeholder}
             style={{
               borderWidth: scale(1.3),
@@ -132,7 +134,7 @@ function EditSessionBottomSheet({
               variant="body1Bold"
               style={{ color: theme.colors.background }}
             >
-              수정
+              {t('editButton')}
             </Typography>
           </Pressable>
           <Pressable
@@ -158,7 +160,7 @@ function EditSessionBottomSheet({
             }}
           >
             <Typography variant="body1Regular" style={{ color: 'tomato' }}>
-              세션 삭제
+              {t('deleteSession')}
             </Typography>
           </Pressable>
         </Pressable>

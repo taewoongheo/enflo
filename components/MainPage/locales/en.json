@@ -1,4 +1,7 @@
 {
   "entropySuggestion": "The current entropy is stable. Clean up your surroundings and start the timer. Keep it up.",
-  "totalDuration": "Total duration"
+  "totalDuration": "Total duration",
+  "addNewSessionTitle": "Add New Session",
+  "sessionNamePlaceholder": "Session Name",
+  "addButton": "Add"
 }

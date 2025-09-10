@@ -6,5 +6,11 @@
   "entropyTrendTitle": "Entropy Trend",
   "weeklyPeriod": "Week",
   "monthlyPeriod": "Month",
-  "others": "Others"
+  "others": "Others",
+  "editSessionTitle": "Edit Session Name",
+  "sessionNamePlaceholder": "Session Name",
+  "editButton": "Edit",
+  "deleteSession": "Delete Session",
+  "addNewSessionTitle": "Add New Session",
+  "addButton": "Add"
 }
