@@ -3,6 +3,7 @@ import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
 import { formatMsToTime } from '@/utils/time';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Pressable } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
@@ -22,6 +23,7 @@ const LINE_HEIGHT = scale(30);
 const OTHERS_RATIO = 0.1;
 
 export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
+  const { t } = useTranslation('stats');
   const [canvasWidth, setCanvasWidth] = useState(0);
 
   const [selectedSessionIdx, setSelectedSessionIdx] = useState<number>(0);
@@ -55,7 +57,7 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
         ...raw.filter((data) => data.ratio >= OTHERS_RATIO),
         {
           sessionId: 'others',
-          sessionName: 'Others',
+          sessionName: t('others'),
           focusTime: othersFocusTime,
           ratio: othersRatio,
         },
@@ -105,7 +107,7 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
           variant="body1Bold"
           style={{ color: theme.colors.text.primary }}
         >
-          세션별 몰입 시간
+          {t('focusTimeBySessionTitle')}
         </Typography>
       )}
 
@@ -188,7 +190,7 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
             variant="label"
             style={{ color: theme.colors.text.primary }}
           >
-            세션별 몰입 시간 데이터가 없습니다.
+            {t('focusTimeBySessionNoData')}
           </Typography>
         </View>
       )}

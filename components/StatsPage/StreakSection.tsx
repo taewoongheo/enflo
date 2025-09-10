@@ -1,6 +1,7 @@
 import { baseTokens, Theme } from '@/styles';
 import { Canvas, Rect } from '@shopify/react-native-skia';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
@@ -8,6 +9,7 @@ import Typography from '../common/Typography';
 const CELL_GAP = scale(3);
 
 export default function StreakSection({ theme }: { theme: Theme }) {
+  const { t } = useTranslation('stats');
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [cellSize, setCellSize] = useState(0);
 
@@ -30,7 +32,7 @@ export default function StreakSection({ theme }: { theme: Theme }) {
         variant="body1Bold"
         style={{ color: theme.colors.text.primary }}
       >
-        집중 연속일
+        {t('focusStreakTitle')}
       </Typography>
 
       <Canvas

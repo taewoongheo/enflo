@@ -1,0 +1,10 @@
+{
+  "focusStreakTitle": "집중 연속일",
+  "focusTimeBySessionTitle": "세션별 몰입 시간",
+  "focusTimeBySessionNoData": "세션별 몰입 시간 데이터가 없습니다.",
+  "cumulativeFocusTimeTitle": "누적 몰입 시간",
+  "entropyTrendTitle": "엔트로피 변화",
+  "weeklyPeriod": "주간",
+  "monthlyPeriod": "월간",
+  "others": "기타"
+}

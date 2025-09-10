@@ -4,6 +4,7 @@ import { baseTokens, Theme } from '@/styles';
 import { clamp } from '@/utils/math';
 import { timestampToDayKey } from '@/utils/time';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../../common/Typography';
@@ -23,6 +24,7 @@ type GraphData = {
 const yValues = [10, 8, 6, 4, 2, 0];
 
 export default function FocusTimeSection({ theme }: { theme: Theme }) {
+  const { t } = useTranslation('stats');
   const {
     selectedPeriod,
     baseDateMs,
@@ -120,7 +122,7 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
             variant="body1Bold"
             style={{ color: theme.colors.text.primary }}
           >
-            누적 몰입 시간
+            {t('cumulativeFocusTimeTitle')}
           </Typography>
 
           <PeriodToggle

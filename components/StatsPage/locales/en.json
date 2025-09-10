@@ -1,0 +1,10 @@
+{
+  "focusStreakTitle": "Focus Streak",
+  "focusTimeBySessionTitle": "Focus Time by Session",
+  "focusTimeBySessionNoData": "No focus time by session data available.",
+  "cumulativeFocusTimeTitle": "Cumulative Focus Time",
+  "entropyTrendTitle": "Entropy Trend",
+  "weeklyPeriod": "Week",
+  "monthlyPeriod": "Month",
+  "others": "Others"
+}

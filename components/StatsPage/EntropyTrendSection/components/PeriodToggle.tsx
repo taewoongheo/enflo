@@ -1,4 +1,5 @@
 import { baseTokens, Theme } from '@/styles';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { Pressable } from 'react-native-gesture-handler';
 import Typography from '../../../common/Typography';
@@ -15,6 +16,7 @@ export default function PeriodToggle({
   selectedPeriod,
   onToggle,
 }: PeriodToggleProps) {
+  const { t } = useTranslation('stats');
   return (
     <View
       style={{
@@ -42,7 +44,7 @@ export default function PeriodToggle({
           variant="label"
           style={{ color: theme.colors.text.primary }}
         >
-          주간
+          {t('weeklyPeriod')}
         </Typography>
       </Pressable>
 
@@ -63,7 +65,7 @@ export default function PeriodToggle({
           variant="label"
           style={{ color: theme.colors.text.primary }}
         >
-          월간
+          {t('monthlyPeriod')}
         </Typography>
       </Pressable>
     </View>

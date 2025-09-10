@@ -8,6 +8,7 @@ import {
   timestampToWeekKey,
 } from '@/utils/time';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../../common/Typography';
@@ -27,6 +28,7 @@ type GraphData = {
 const yValues = [0, 25, 50, 75, 100];
 
 export default function EntropyTrendSection({ theme }: { theme: Theme }) {
+  const { t } = useTranslation('stats');
   const {
     selectedPeriod,
     baseDateMs,
@@ -115,7 +117,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
             variant="body1Bold"
             style={{ color: theme.colors.text.primary }}
           >
-            엔트로피 변화
+            {t('entropyTrendTitle')}
           </Typography>
 
           <PeriodToggle
