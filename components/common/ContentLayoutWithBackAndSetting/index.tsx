@@ -1,3 +1,4 @@
+import { useBottomSheet } from '@/contexts/BottomSheetContext';
 import { baseTokens } from '@/styles';
 import { Entypo } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -7,7 +8,7 @@ import { Pressable } from 'react-native-gesture-handler';
 import { scale } from 'react-native-size-matters';
 import { ContentLayout } from '../ContentLayout';
 
-function ContentLayoutWithBack({
+function ContentLayoutWithBackAndSetting({
   children,
   color,
 }: {
@@ -15,6 +16,11 @@ function ContentLayoutWithBack({
   color: string;
 }) {
   const router = useRouter();
+  const { editSessionBottomSheetRef } = useBottomSheet();
+
+  const handleSettingPress = () => {
+    editSessionBottomSheetRef.current?.expand();
+  };
 
   return (
     <ContentLayout>
@@ -22,7 +28,7 @@ function ContentLayoutWithBack({
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginTop: baseTokens.spacing[5],
+          marginTop: baseTokens.spacing[3],
         }}
       >
         <Pressable
@@ -39,10 +45,24 @@ function ContentLayoutWithBack({
             color={color}
           />
         </Pressable>
+        <Pressable
+          onPress={handleSettingPress}
+          style={{
+            marginTop: Platform.OS === 'ios' ? 0 : baseTokens.spacing[5],
+            marginBottom: baseTokens.spacing[5],
+            alignSelf: 'flex-start',
+          }}
+        >
+          <Entypo
+            name="dots-three-horizontal"
+            size={baseTokens.iconSize.md}
+            color={color}
+          />
+        </Pressable>
       </View>
       {children}
     </ContentLayout>
   );
 }
 
-export default ContentLayoutWithBack;
+export default ContentLayoutWithBackAndSetting;
