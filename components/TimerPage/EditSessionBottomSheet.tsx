@@ -1,3 +1,5 @@
+import { sessionService } from '@/services/SessionService';
+import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
 import BottomSheet, {
   BottomSheetBackdropProps,
@@ -5,7 +7,8 @@ import BottomSheet, {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
-import React, { FC } from 'react';
+import { useGlobalSearchParams, useSegments } from 'expo-router';
+import React, { FC, useEffect, useState } from 'react';
 import { Keyboard, Pressable } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
@@ -19,6 +22,21 @@ function EditSessionBottomSheet({
   editSessionBottomSheetRef: React.RefObject<BottomSheetMethods>;
   renderBackdrop: FC<BottomSheetBackdropProps>;
 }) {
+  const segment = useSegments();
+  const globalParams = useGlobalSearchParams();
+  const sessionId = globalParams.sessionId as string;
+  const [sessionName, setSessionName] = useState('');
+
+  const sessions = useSessionCache((s) => s.sessionCache);
+
+  useEffect(() => {
+    if (segment[0] !== 'timer') {
+      return;
+    }
+    const session = sessions[sessionId];
+    setSessionName(session.sessionName);
+  }, [sessionId, sessions]);
+
   return (
     <BottomSheet
       ref={editSessionBottomSheetRef}
@@ -61,10 +79,10 @@ function EditSessionBottomSheet({
             세션 이름 수정
           </Typography>
           <BottomSheetTextInput
-            // onChangeText={(text) => {
-            //   setSessionName(text);
-            // }}
-            // value={sessionName}
+            onChangeText={(text) => {
+              setSessionName(text);
+            }}
+            value={sessionName}
             placeholder="세션 이름"
             placeholderTextColor={theme.colors.bottomSheet.text.placeholder}
             style={{
@@ -80,17 +98,19 @@ function EditSessionBottomSheet({
           />
           <Pressable
             onPress={async (e) => {
-              // try {
-              //   await sessionService.addSession({
-              //     sessionName: sessionName,
-              //   });
-              //   setSessionName('');
-              //   addSessionBottomSheetRef.current?.close();
-              //   Keyboard.dismiss();
-              // } catch (error) {
-              //   console.error(error);
-              // }
-              // e.stopPropagation();
+              try {
+                await sessionService.updateSessionName({
+                  sessionId: sessionId,
+                  sessionName: sessionName,
+                });
+
+                editSessionBottomSheetRef.current?.close();
+                Keyboard.dismiss();
+              } catch (error) {
+                console.error(error);
+              }
+
+              e.stopPropagation();
             }}
             style={{
               backgroundColor: theme.colors.text.secondary,
@@ -108,6 +128,30 @@ function EditSessionBottomSheet({
               style={{ color: theme.colors.background }}
             >
               수정
+            </Typography>
+          </Pressable>
+          <Pressable
+            // onPress={async (e) => {
+            // try {
+            //   await sessionService.addSession({
+            //     sessionName: sessionName,
+            //   });
+            //   setSessionName('');
+            //   addSessionBottomSheetRef.current?.close();
+            //   Keyboard.dismiss();
+            // } catch (error) {
+            //   console.error(error);
+            // }
+            // e.stopPropagation();
+            // }}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: scale(50),
+            }}
+          >
+            <Typography variant="body1Regular" style={{ color: 'tomato' }}>
+              세션 삭제
             </Typography>
           </Pressable>
         </Pressable>

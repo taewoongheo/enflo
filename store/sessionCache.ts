@@ -10,6 +10,7 @@ type SessionCache = {
   createSession: (session: Session) => Session;
   upsertSession: (session: Session) => Session;
   updateSession: (session: Session) => Session;
+  updateSessionName: (sessionId: string, sessionName: string) => string;
   deleteSession: (sessionId: string) => void;
   addTimerSession: (
     sessionId: string,
@@ -58,6 +59,21 @@ export const useSessionCache = create(
       });
 
       return session;
+    },
+
+    updateSessionName: (sessionId, sessionName) => {
+      set((draft) => {
+        const prevSession = draft.sessionCache[sessionId];
+        if (prevSession) {
+          draft.sessionCache[sessionId] = new Session({
+            sessionId: prevSession.sessionId,
+            sessionName: sessionName,
+            timerSessionsByTimeRange: prevSession.timerSessionsByTimeRange,
+          });
+        }
+      });
+
+      return sessionId;
     },
 
     deleteSession: (sessionId) => {

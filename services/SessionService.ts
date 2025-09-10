@@ -218,6 +218,25 @@ class SessionService {
       throw new Error('Failed to add session', { cause: error });
     }
   }
+
+  async updateSessionName({
+    sessionId,
+    sessionName,
+  }: {
+    sessionId: string;
+    sessionName: string;
+  }) {
+    try {
+      await this.db
+        .update(sessions)
+        .set({ sessionName })
+        .where(eq(sessions.sessionId, sessionId));
+
+      useSessionCache.getState().updateSessionName(sessionId, sessionName);
+    } catch (error) {
+      throw new Error('Failed to update session name', { cause: error });
+    }
+  }
 }
 
 export const sessionService = new SessionService(db);
