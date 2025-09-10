@@ -37,7 +37,7 @@ const SessionList = () => {
             borderWidth: 1,
             borderColor: theme.colors.pages.main.sessionCard.addButtonBorder,
             marginTop: baseTokens.spacing[4],
-            marginBottom: baseTokens.spacing[6],
+            marginBottom: baseTokens.spacing[7],
             backgroundColor: theme.colors.text.secondary,
           },
         ]}
