@@ -1,5 +1,5 @@
 import { ContentLayout } from '@/components/common/ContentLayout';
-import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
+import ContentLayoutWithBackAndSetting from '@/components/common/ContentLayoutWithBackAndSetting';
 import {
   ScrollColorBackground,
   TimerHeader,
@@ -154,7 +154,7 @@ function TimerContent({
         ]}
       >
         {/* Timer Slider */}
-        <ContentLayoutWithBack
+        <ContentLayoutWithBackAndSetting
           color={theme.colors.pages.timer.slider.text.primary}
         >
           <TimerHeader theme={theme} session={session!} t={t} />
@@ -179,7 +179,7 @@ function TimerContent({
               handleStartPauseToggle={handleStartPauseToggle}
             />
           </View>
-        </ContentLayoutWithBack>
+        </ContentLayoutWithBackAndSetting>
       </View>
       {/* Timer Info */}
       <ContentLayout>
