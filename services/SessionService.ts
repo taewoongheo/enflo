@@ -237,6 +237,16 @@ class SessionService {
       throw new Error('Failed to update session name', { cause: error });
     }
   }
+
+  async deleteSession({ sessionId }: { sessionId: string }) {
+    try {
+      await this.db.delete(sessions).where(eq(sessions.sessionId, sessionId));
+
+      useSessionCache.getState().deleteSession(sessionId);
+    } catch (error) {
+      throw new Error('Failed to delete session', { cause: error });
+    }
+  }
 }
 
 export const sessionService = new SessionService(db);

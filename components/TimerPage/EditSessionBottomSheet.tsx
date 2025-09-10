@@ -7,7 +7,7 @@ import BottomSheet, {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
-import { useGlobalSearchParams, useSegments } from 'expo-router';
+import { useGlobalSearchParams, useRouter, useSegments } from 'expo-router';
 import React, { FC, useEffect, useState } from 'react';
 import { Keyboard, Pressable } from 'react-native';
 import { scale } from 'react-native-size-matters';
@@ -22,6 +22,8 @@ function EditSessionBottomSheet({
   editSessionBottomSheetRef: React.RefObject<BottomSheetMethods>;
   renderBackdrop: FC<BottomSheetBackdropProps>;
 }) {
+  const router = useRouter();
+
   const segment = useSegments();
   const globalParams = useGlobalSearchParams();
   const sessionId = globalParams.sessionId as string;
@@ -34,6 +36,9 @@ function EditSessionBottomSheet({
       return;
     }
     const session = sessions[sessionId];
+    if (!session) {
+      return;
+    }
     setSessionName(session.sessionName);
   }, [sessionId, sessions]);
 
@@ -131,19 +136,21 @@ function EditSessionBottomSheet({
             </Typography>
           </Pressable>
           <Pressable
-            // onPress={async (e) => {
-            // try {
-            //   await sessionService.addSession({
-            //     sessionName: sessionName,
-            //   });
-            //   setSessionName('');
-            //   addSessionBottomSheetRef.current?.close();
-            //   Keyboard.dismiss();
-            // } catch (error) {
-            //   console.error(error);
-            // }
-            // e.stopPropagation();
-            // }}
+            onPress={async (e) => {
+              try {
+                await sessionService.deleteSession({
+                  sessionId: sessionId,
+                });
+                editSessionBottomSheetRef.current?.close();
+                router.back();
+
+                Keyboard.dismiss();
+              } catch (error) {
+                console.error(error);
+              }
+
+              e.stopPropagation();
+            }}
             style={{
               alignItems: 'center',
               justifyContent: 'center',
