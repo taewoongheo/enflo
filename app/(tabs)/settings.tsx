@@ -1,12 +1,17 @@
 import { ContentLayout } from '@/components/common/ContentLayout';
 import Typography from '@/components/common/Typography';
+import {
+  InfoLayout,
+  SectionHeader,
+  SettingsItem,
+  SettingsLayout,
+} from '@/components/SettingPage';
 import { useTheme } from '@/contexts/ThemeContext';
-import { baseTokens, Theme } from '@/styles';
-import { AntDesign } from '@expo/vector-icons';
+import { baseTokens } from '@/styles';
 import Constants from 'expo-constants';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
 
@@ -17,6 +22,7 @@ export default function SettingsScreen() {
 
   const handleSettingPress = (setting: string) => {
     // TODO: Implement navigation to specific setting pages
+    // eslint-disable-next-line no-console
     console.log(`Navigate to ${setting}`);
   };
 
@@ -107,98 +113,6 @@ export default function SettingsScreen() {
           </InfoLayout>
         </View>
       </ContentLayout>
-    </View>
-  );
-}
-
-function SectionHeader({ theme, title }: { theme: Theme; title: string }) {
-  return (
-    <Typography
-      variant="body1Bold"
-      style={{
-        color: theme.colors.text.secondary,
-      }}
-    >
-      {title}
-    </Typography>
-  );
-}
-
-function SettingsLayout({
-  children,
-  theme,
-}: {
-  children: React.ReactNode;
-  theme: Theme;
-}) {
-  return (
-    <View
-      style={{
-        backgroundColor: theme.colors.pages.main.sessionCard.background,
-        borderColor: theme.colors.pages.main.sessionCard.border,
-        borderWidth: scale(1),
-        borderRadius: baseTokens.borderRadius.sm,
-        padding: baseTokens.spacing[3],
-        gap: baseTokens.spacing[4],
-        overflow: 'hidden',
-      }}
-    >
-      {children}
-    </View>
-  );
-}
-
-function SettingsItem({
-  theme,
-  title,
-  onPress,
-}: {
-  theme: Theme;
-  title: string;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      onPress={onPress}
-      style={() => ({
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        // padding: baseTokens.spacing[3],
-        // backgroundColor: pressed
-        //   ? theme.colors.pages.main.sessionCard.border
-        //   : 'transparent',
-      })}
-    >
-      <Typography
-        variant="body1Regular"
-        style={{
-          color: theme.colors.text.primary,
-          flex: 1,
-        }}
-      >
-        {title}
-      </Typography>
-      <AntDesign
-        name="right"
-        size={baseTokens.iconSize.sm}
-        color={theme.colors.text.secondary}
-      />
-    </Pressable>
-  );
-}
-
-function InfoLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <View
-      style={{
-        marginBottom: baseTokens.spacing[3],
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        gap: baseTokens.spacing[1],
-      }}
-    >
-      {children}
     </View>
   );
 }
