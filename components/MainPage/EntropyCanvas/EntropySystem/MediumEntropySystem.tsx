@@ -2,12 +2,10 @@ import {
   particleCanvasHeight,
   particleCanvasWidth,
 } from '@/components/MainPage/constants/entropySystem/dimension';
-import {
-  ENTROPY_SYSTEM_CONSTANTS,
-  RENDER_CONSTANTS,
-} from '@/components/MainPage/constants/entropySystem/entropySystem';
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { poissonDiskSampling } from '@/lib/algorithms/particleDistribution';
 import { Vector } from '@/lib/math/Vector';
+import { Theme } from '@/styles';
 import { Circle, vec } from '@shopify/react-native-skia';
 import React, { useMemo } from 'react';
 import {
@@ -37,12 +35,14 @@ interface ParticleSystemProps {
   touchX: SharedValue<number>;
   touchY: SharedValue<number>;
   isTouching: SharedValue<boolean>;
+  theme: Theme;
 }
 
 function MediumEntropySystem({
   touchX,
   touchY,
   isTouching,
+  theme,
 }: ParticleSystemProps) {
   const particles = useMemo(() => {
     const sampledParticles = poissonDiskSampling({
@@ -70,9 +70,8 @@ function MediumEntropySystem({
 
         const colorValue =
           Math.random() *
-            (RENDER_CONSTANTS.MAX_COLOR_VALUE -
-              RENDER_CONSTANTS.MIN_COLOR_VALUE) +
-          RENDER_CONSTANTS.MIN_COLOR_VALUE;
+            (theme.colors.particles.red.max - theme.colors.particles.red.min) +
+          theme.colors.particles.red.min;
 
         const color = `rgb(${colorValue}, ${colorValue}, ${colorValue})`;
 

@@ -95,9 +95,3 @@ export const ENTROPY_SYSTEM_CONSTANTS = {
     MAX_RADIUS: particleCanvasWidth * 0.00625,
   },
 };
-
-export const RENDER_CONSTANTS = {
-  // particle color range
-  MAX_COLOR_VALUE: 255,
-  MIN_COLOR_VALUE: 140,
-} as const;

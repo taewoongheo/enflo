@@ -5,7 +5,7 @@ import {
 import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useEntropyStore } from '@/store/entropyStore';
-import { baseTokens } from '@/styles';
+import { baseTokens, Theme } from '@/styles';
 import { Foundation } from '@expo/vector-icons';
 import {
   Canvas,
@@ -114,6 +114,7 @@ const EntropyCanvas = () => {
               touchY={touchY}
               isTouching={isTouching}
               key={refreshKey}
+              theme={theme}
             />
           </Mask>
         </Canvas>
@@ -162,10 +163,12 @@ function EntropySystem({
   touchX,
   touchY,
   isTouching,
+  theme,
 }: {
   touchX: SharedValue<number>;
   touchY: SharedValue<number>;
   isTouching: SharedValue<boolean>;
+  theme: Theme;
 }) {
   const entropyScore = useEntropyStore((s) => s.entropyScore);
 
@@ -177,6 +180,7 @@ function EntropySystem({
         touchX={touchX}
         touchY={touchY}
         isTouching={isTouching}
+        theme={theme}
       />
     );
   }
@@ -187,6 +191,7 @@ function EntropySystem({
         touchX={touchX}
         touchY={touchY}
         isTouching={isTouching}
+        theme={theme}
       />
     );
   }
@@ -199,6 +204,7 @@ function EntropySystem({
         touchX={touchX}
         touchY={touchY}
         isTouching={isTouching}
+        theme={theme}
       />
     );
   }
@@ -209,6 +215,7 @@ function EntropySystem({
         touchX={touchX}
         touchY={touchY}
         isTouching={isTouching}
+        theme={theme}
       />
     );
   }
@@ -218,6 +225,7 @@ function EntropySystem({
       touchX={touchX}
       touchY={touchY}
       isTouching={isTouching}
+      theme={theme}
     />
   );
 }
