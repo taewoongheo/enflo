@@ -128,6 +128,34 @@ export default function RootLayout() {
                     name="timer/index"
                     options={{ headerShown: false }}
                   />
+                  <Stack.Screen
+                    name="settings/Feedback"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="settings/HowToUse"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="settings/Language"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="settings/License"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="settings/Privacy"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="settings/Terms"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="settings/ThemeChangeScreen"
+                    options={{ headerShown: false }}
+                  />
                   <Stack.Screen name="+not-found" />
                 </Stack>
                 <StatusBar style="light" />

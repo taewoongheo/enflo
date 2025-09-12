@@ -9,6 +9,7 @@ import {
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import Constants from 'expo-constants';
+import { RelativePathString, useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -19,11 +20,13 @@ export default function SettingsScreen() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation('settings');
+  const router = useRouter();
 
   const handleSettingPress = (setting: string) => {
     // TODO: Implement navigation to specific setting pages
     // eslint-disable-next-line no-console
     console.log(`Navigate to ${setting}`);
+    router.push(`/settings/${setting}` as RelativePathString);
   };
 
   return (
@@ -53,22 +56,22 @@ export default function SettingsScreen() {
               <SettingsItem
                 theme={theme}
                 title={t('howToUseEnflo')}
-                onPress={() => handleSettingPress('howToUse')}
+                onPress={() => handleSettingPress('HowToUse')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('language')}
-                onPress={() => handleSettingPress('language')}
+                onPress={() => handleSettingPress('Language')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('themeChange')}
-                onPress={() => handleSettingPress('theme')}
+                onPress={() => handleSettingPress('ThemeChangeScreen')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('feedbackInquiry')}
-                onPress={() => handleSettingPress('feedback')}
+                onPress={() => handleSettingPress('Feedback')}
               />
             </SettingsLayout>
           </InfoLayout>
@@ -80,17 +83,17 @@ export default function SettingsScreen() {
               <SettingsItem
                 theme={theme}
                 title={t('privacyPolicy')}
-                onPress={() => handleSettingPress('privacy')}
+                onPress={() => handleSettingPress('Privacy')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('termsOfService')}
-                onPress={() => handleSettingPress('terms')}
+                onPress={() => handleSettingPress('Terms')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('licenseInfo')}
-                onPress={() => handleSettingPress('license')}
+                onPress={() => handleSettingPress('License')}
               />
             </SettingsLayout>
           </InfoLayout>
