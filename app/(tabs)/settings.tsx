@@ -56,22 +56,22 @@ export default function SettingsScreen() {
               <SettingsItem
                 theme={theme}
                 title={t('howToUseEnflo')}
-                onPress={() => handleSettingPress('HowToUse')}
+                onPress={() => handleSettingPress('howToUse')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('language')}
-                onPress={() => handleSettingPress('Language')}
+                onPress={() => handleSettingPress('language')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('themeChange')}
-                onPress={() => handleSettingPress('ThemeChangeScreen')}
+                onPress={() => handleSettingPress('themeChangeScreen')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('feedbackInquiry')}
-                onPress={() => handleSettingPress('Feedback')}
+                onPress={() => handleSettingPress('feedback')}
               />
             </SettingsLayout>
           </InfoLayout>
@@ -83,17 +83,17 @@ export default function SettingsScreen() {
               <SettingsItem
                 theme={theme}
                 title={t('privacyPolicy')}
-                onPress={() => handleSettingPress('Privacy')}
+                onPress={() => handleSettingPress('privacy')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('termsOfService')}
-                onPress={() => handleSettingPress('Terms')}
+                onPress={() => handleSettingPress('terms')}
               />
               <SettingsItem
                 theme={theme}
                 title={t('licenseInfo')}
-                onPress={() => handleSettingPress('License')}
+                onPress={() => handleSettingPress('license')}
               />
             </SettingsLayout>
           </InfoLayout>

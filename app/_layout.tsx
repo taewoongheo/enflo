@@ -119,43 +119,16 @@ export default function RootLayout() {
           <ThemeProvider>
             <BottomSheetProvider>
               <SafeAreaProvider>
-                <Stack>
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="timer/index"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="settings/Feedback"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="settings/HowToUse"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="settings/Language"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="settings/License"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="settings/Privacy"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="settings/Terms"
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="settings/ThemeChangeScreen"
-                    options={{ headerShown: false }}
-                  />
+                <Stack screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="(tabs)" />
+                  <Stack.Screen name="timer/index" />
+                  <Stack.Screen name="settings/feedback" />
+                  <Stack.Screen name="settings/howToUse" />
+                  <Stack.Screen name="settings/language" />
+                  <Stack.Screen name="settings/license" />
+                  <Stack.Screen name="settings/privacy" />
+                  <Stack.Screen name="settings/terms" />
+                  <Stack.Screen name="settings/themeChangeScreen" />
                   <Stack.Screen name="+not-found" />
                 </Stack>
                 <StatusBar style="light" />
