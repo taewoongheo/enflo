@@ -22,6 +22,8 @@ export interface Theme {
     text: {
       primary: string;
       secondary: string;
+      success: string;
+      error: string;
     };
     pages: {
       main: MainTheme;
@@ -41,6 +43,8 @@ const lightTheme = {
     text: {
       primary: lightSemanticColors.text.primary,
       secondary: lightSemanticColors.text.secondary,
+      success: lightSemanticColors.text.success,
+      error: lightSemanticColors.text.error,
     },
     bottomSheet: {
       background: lightSemanticColors.background.overlay,
@@ -105,6 +109,8 @@ const darkTheme = {
     text: {
       primary: darkSemanticColors.text.primary,
       secondary: darkSemanticColors.text.secondary,
+      success: darkSemanticColors.text.success,
+      error: darkSemanticColors.text.error,
     },
     bottomSheet: {
       background: darkSemanticColors.background.overlay,

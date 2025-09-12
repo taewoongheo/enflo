@@ -159,7 +159,10 @@ function EditSessionBottomSheet({
               height: scale(50),
             }}
           >
-            <Typography variant="body1Regular" style={{ color: 'tomato' }}>
+            <Typography
+              variant="body1Regular"
+              style={{ color: theme.colors.text.error }}
+            >
               {t('deleteSession')}
             </Typography>
           </Pressable>

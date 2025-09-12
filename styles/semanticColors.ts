@@ -10,6 +10,8 @@ interface SemanticColors {
   text: {
     primary: string;
     secondary: string;
+    success: string;
+    error: string;
   };
   border: {
     primary: string;
@@ -45,6 +47,8 @@ export const lightSemanticColors: SemanticColors = {
   text: {
     primary: palette.light[700],
     secondary: palette.light[550],
+    success: palette.green[700],
+    error: palette.red[700],
   },
   border: {
     primary: palette.light[400],
@@ -80,6 +84,8 @@ export const darkSemanticColors: SemanticColors = {
   text: {
     primary: palette.dark[50],
     secondary: palette.dark[400],
+    success: palette.green[400],
+    error: palette.red[400],
   },
   border: {
     primary: palette.dark[600],
