@@ -55,7 +55,7 @@ function SessionCard({
               borderWidth: 1,
               borderColor: sessionCardStyle.addButtonBorder,
               paddingHorizontal: baseTokens.spacing[3],
-              backgroundColor: theme.colors.text.secondary,
+              backgroundColor: sessionCardStyle.addButtonBackground,
             },
           ]}
         >

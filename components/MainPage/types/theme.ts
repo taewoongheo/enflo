@@ -1,9 +1,9 @@
 export interface MainTheme {
   sessionCard: {
     background: string;
-    edgeGradient: string;
     border: string;
     addButtonBorder: string;
+    addButtonBackground: string;
     text: {
       name: string;
       timer: string;

@@ -1,7 +1,6 @@
 export interface TimerTheme {
   slider: {
     background: string;
-    edgeGradient: string;
     picker: string;
     button: {
       icon: string;
@@ -16,8 +15,5 @@ export interface TimerTheme {
       primary: string;
       secondary: string;
     };
-  };
-  info: {
-    background: string;
   };
 }

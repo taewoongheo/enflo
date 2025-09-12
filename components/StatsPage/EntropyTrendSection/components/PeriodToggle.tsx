@@ -23,7 +23,7 @@ export default function PeriodToggle({
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: theme.colors.border,
+        borderColor: theme.colors.pages.stats.toggle.border,
         borderRadius: baseTokens.borderRadius.sm,
       }}
     >

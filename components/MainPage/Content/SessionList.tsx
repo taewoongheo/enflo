@@ -38,7 +38,8 @@ const SessionList = () => {
             borderColor: theme.colors.pages.main.sessionCard.addButtonBorder,
             marginTop: baseTokens.spacing[4],
             marginBottom: baseTokens.spacing[7],
-            backgroundColor: theme.colors.text.secondary,
+            backgroundColor:
+              theme.colors.pages.main.sessionCard.addButtonBackground,
           },
         ]}
       >

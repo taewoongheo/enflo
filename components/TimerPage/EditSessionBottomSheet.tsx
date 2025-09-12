@@ -120,7 +120,7 @@ function EditSessionBottomSheet({
               e.stopPropagation();
             }}
             style={{
-              backgroundColor: theme.colors.text.secondary,
+              backgroundColor: theme.colors.bottomSheet.buttonBackground,
               borderWidth: scale(1.3),
               borderColor: theme.colors.pages.main.sessionCard.addButtonBorder,
               paddingHorizontal: baseTokens.spacing[3],
