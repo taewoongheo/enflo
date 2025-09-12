@@ -5,19 +5,9 @@ import { darkSemanticColors, lightSemanticColors } from './semanticColors';
 
 export interface Theme {
   colors: {
-    particles: {
-      red: {
-        min: number;
-        max: number;
-      };
-      green: {
-        min: number;
-        max: number;
-      };
-      blue: {
-        min: number;
-        max: number;
-      };
+    particlesRGBValue: {
+      min: number;
+      max: number;
     };
     background: string;
     bottomSheet: {
@@ -43,6 +33,10 @@ export interface Theme {
 
 const lightTheme = {
   colors: {
+    particlesRGBValue: {
+      min: 0,
+      max: 50,
+    },
     background: lightSemanticColors.background.surface,
     text: {
       primary: lightSemanticColors.text.primary,

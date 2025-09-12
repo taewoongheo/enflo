@@ -7,13 +7,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens, Theme } from '@/styles';
 import { Foundation } from '@expo/vector-icons';
-import {
-  Canvas,
-  LinearGradient,
-  Mask,
-  Rect,
-  vec,
-} from '@shopify/react-native-skia';
+import { Canvas } from '@shopify/react-native-skia';
 import React, { useCallback, useReducer } from 'react';
 import { Pressable, View } from 'react-native';
 import {
@@ -87,7 +81,7 @@ const EntropyCanvas = () => {
         <Canvas
           style={{ width: particleCanvasWidth, height: particleCanvasHeight }}
         >
-          <Mask
+          {/* <Mask
             mode="alpha"
             mask={
               <Rect
@@ -108,15 +102,15 @@ const EntropyCanvas = () => {
                 />
               </Rect>
             }
-          >
-            <EntropySystem
-              touchX={touchX}
-              touchY={touchY}
-              isTouching={isTouching}
-              key={refreshKey}
-              theme={theme}
-            />
-          </Mask>
+          > */}
+          <EntropySystem
+            touchX={touchX}
+            touchY={touchY}
+            isTouching={isTouching}
+            key={refreshKey}
+            theme={theme}
+          />
+          {/* </Mask> */}
         </Canvas>
       </GestureDetector>
       <View
