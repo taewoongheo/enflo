@@ -23,9 +23,6 @@ export default function SettingsScreen() {
   const router = useRouter();
 
   const handleSettingPress = (setting: string) => {
-    // TODO: Implement navigation to specific setting pages
-    // eslint-disable-next-line no-console
-    console.log(`Navigate to ${setting}`);
     router.push(`/settings/${setting}` as RelativePathString);
   };
 

@@ -122,13 +122,7 @@ export default function RootLayout() {
                 <Stack screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="(tabs)" />
                   <Stack.Screen name="timer/index" />
-                  <Stack.Screen name="settings/feedback" />
-                  <Stack.Screen name="settings/howToUse" />
-                  <Stack.Screen name="settings/language" />
-                  <Stack.Screen name="settings/license" />
-                  <Stack.Screen name="settings/privacy" />
-                  <Stack.Screen name="settings/terms" />
-                  <Stack.Screen name="settings/themeChangeScreen" />
+                  <Stack.Screen name="settings" />
                   <Stack.Screen name="+not-found" />
                 </Stack>
                 <StatusBar style="light" />

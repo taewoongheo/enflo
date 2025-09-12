@@ -1,10 +1,17 @@
-import { Text, View } from 'react-native';
+import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
+import { useTheme } from '@/contexts/ThemeContext';
+import { Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function LicenseScreen() {
+  const { theme } = useTheme();
+
   return (
-    <View>
-      <Text>License</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <ContentLayoutWithBack color={theme.colors.text.primary}>
+        <Text>License</Text>
+      </ContentLayoutWithBack>
+    </SafeAreaView>
   );
 }
 

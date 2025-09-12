@@ -1,18 +1,16 @@
-import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
-import { useTheme } from '@/contexts/ThemeContext';
+import { Stack } from 'expo-router';
 import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-function SettingsLayout({ children }: { children: React.ReactNode }) {
-  const { theme } = useTheme();
-
+export default function SettingsLayout() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <ContentLayoutWithBack color={theme.colors.text.primary}>
-        {children}
-      </ContentLayoutWithBack>
-    </SafeAreaView>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="feedback" />
+      <Stack.Screen name="howToUse" />
+      <Stack.Screen name="language" />
+      <Stack.Screen name="license" />
+      <Stack.Screen name="privacy" />
+      <Stack.Screen name="terms" />
+      <Stack.Screen name="themeChangeScreen" />
+    </Stack>
   );
 }
-
-export default SettingsLayout;
