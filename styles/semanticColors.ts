@@ -37,70 +37,70 @@ interface SemanticColors {
 
 export const lightSemanticColors: SemanticColors = {
   background: {
-    surface: palette.neutral[300],
-    surfaceInverse: palette.neutral[350],
-    elevatedVariant: palette.neutral[750],
-    overlay: palette.neutral[900],
+    surface: palette.light[100],
+    surfaceInverse: palette.light[700],
+    elevatedVariant: palette.light[150],
+    overlay: palette.light[150],
   },
   text: {
-    primary: palette.neutral[50],
-    secondary: palette.neutral[400],
+    primary: palette.light[700],
+    secondary: palette.light[550],
   },
   border: {
-    primary: palette.neutral[600],
-    inverse: palette.neutral[250],
+    primary: palette.light[400],
+    inverse: palette.light[700],
   },
   timer: {
     button: {
-      background: palette.neutral[400],
-      border: palette.neutral[350],
-      color: palette.neutral[50],
+      background: palette.light[700],
+      border: palette.light[1000],
+      color: palette.light[100],
     },
     cell: {
-      primary: palette.neutral[400],
-      secondary: palette.neutral[500],
-      picker: 'rgb(208, 255, 68)',
+      primary: palette.light[650],
+      secondary: palette.light[600],
+      picker: 'rgb(218, 94, 48)',
     },
   },
   stats: {
     toggle: {
-      selectedBackground: palette.neutral[600],
-      border: palette.neutral[700],
+      selectedBackground: palette.light[400],
+      border: palette.light[500],
     },
   },
 };
 
 export const darkSemanticColors: SemanticColors = {
   background: {
-    surface: palette.neutral[900],
-    surfaceInverse: palette.neutral[350],
-    elevatedVariant: palette.neutral[750],
-    overlay: palette.neutral[900],
+    surface: palette.dark[900],
+    surfaceInverse: palette.dark[350],
+    elevatedVariant: palette.dark[750],
+    overlay: palette.dark[900],
   },
   text: {
-    primary: palette.neutral[50],
-    secondary: palette.neutral[400],
+    primary: palette.dark[50],
+    secondary: palette.dark[400],
   },
   border: {
-    primary: palette.neutral[600],
-    inverse: palette.neutral[250],
+    primary: palette.dark[600],
+    inverse: palette.dark[250],
   },
   timer: {
     button: {
-      background: palette.neutral[400],
-      border: palette.neutral[350],
-      color: palette.neutral[50],
+      background: palette.dark[400],
+      border: palette.dark[350],
+      color: palette.dark[50],
     },
     cell: {
-      primary: palette.neutral[400],
-      secondary: palette.neutral[500],
+      primary: palette.dark[400],
+      secondary: palette.dark[500],
       picker: 'rgb(208, 255, 68)',
     },
   },
   stats: {
     toggle: {
-      selectedBackground: palette.neutral[600],
-      border: palette.neutral[700],
+      selectedBackground: palette.dark[600],
+      border: palette.dark[700],
     },
   },
 };

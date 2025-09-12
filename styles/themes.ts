@@ -35,7 +35,7 @@ const lightTheme = {
   colors: {
     particlesRGBValue: {
       min: 0,
-      max: 50,
+      max: 150,
     },
     background: lightSemanticColors.background.surface,
     text: {
@@ -97,19 +97,9 @@ const lightTheme = {
 
 const darkTheme = {
   colors: {
-    particles: {
-      red: {
-        min: 140,
-        max: 255,
-      },
-      green: {
-        min: 140,
-        max: 255,
-      },
-      blue: {
-        min: 140,
-        max: 255,
-      },
+    particlesRGBValue: {
+      min: 100,
+      max: 255,
     },
     background: darkSemanticColors.background.surface,
     text: {
