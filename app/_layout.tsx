@@ -1,5 +1,6 @@
 import Typography from '@/components/common/Typography';
 import AddSessionBottomSheet from '@/components/MainPage/AddSessionBottomSheet';
+import { FeedbackBottomSheet } from '@/components/SettingPage';
 import EditSessionBottomSheet from '@/components/TimerPage/EditSessionBottomSheet';
 import {
   BottomSheetProvider,
@@ -73,8 +74,11 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
 
 function BottomSheetWrapper() {
   const { theme } = useTheme();
-  const { addSessionBottomSheetRef, editSessionBottomSheetRef } =
-    useBottomSheet();
+  const {
+    addSessionBottomSheetRef,
+    editSessionBottomSheetRef,
+    feedbackBottomSheetRef,
+  } = useBottomSheet();
 
   const renderBackdrop = useCallback(
     (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
@@ -103,6 +107,13 @@ function BottomSheetWrapper() {
       <EditSessionBottomSheet
         editSessionBottomSheetRef={
           editSessionBottomSheetRef as React.RefObject<BottomSheetMethods>
+        }
+        theme={theme}
+        renderBackdrop={renderBackdrop}
+      />
+      <FeedbackBottomSheet
+        feedbackBottomSheetRef={
+          feedbackBottomSheetRef as React.RefObject<BottomSheetMethods>
         }
         theme={theme}
         renderBackdrop={renderBackdrop}

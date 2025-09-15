@@ -63,7 +63,7 @@ export const lightSemanticColors: SemanticColors = {
     cell: {
       primary: palette.light[650],
       secondary: palette.light[600],
-      picker: 'rgb(218, 94, 48)',
+      picker: 'rgb(225, 114, 73)',
     },
   },
   stats: {

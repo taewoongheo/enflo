@@ -6,6 +6,7 @@ import {
   SettingsItem,
   SettingsLayout,
 } from '@/components/SettingPage';
+import { useBottomSheet } from '@/contexts/BottomSheetContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import Constants from 'expo-constants';
@@ -21,6 +22,8 @@ export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation('settings');
   const router = useRouter();
+
+  const { feedbackBottomSheetRef } = useBottomSheet();
 
   const handleSettingPress = (setting: string) => {
     router.push(`/settings/${setting}` as RelativePathString);
@@ -68,7 +71,7 @@ export default function SettingsScreen() {
               <SettingsItem
                 theme={theme}
                 title={t('feedbackInquiry')}
-                onPress={() => handleSettingPress('feedback')}
+                onPress={() => feedbackBottomSheetRef.current?.expand()}
               />
             </SettingsLayout>
           </InfoLayout>
