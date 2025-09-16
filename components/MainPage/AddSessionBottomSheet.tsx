@@ -1,12 +1,12 @@
 import { sessionService } from '@/services/SessionService';
 import { baseTokens, Theme } from '@/styles';
 import BottomSheet, {
-  BottomSheetBackdropProps,
+  BottomSheetBackdrop,
   BottomSheetTextInput,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
-import React, { FC, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable } from 'react-native';
 import { scale } from 'react-native-size-matters';
@@ -15,14 +15,28 @@ import Typography from '../common/Typography';
 function AddSessionBottomSheet({
   addSessionBottomSheetRef,
   theme,
-  renderBackdrop,
 }: {
   addSessionBottomSheetRef: React.RefObject<BottomSheetMethods>;
   theme: Theme;
-  renderBackdrop: FC<BottomSheetBackdropProps>;
 }) {
   const { t } = useTranslation('main');
   const [sessionName, setSessionName] = useState('');
+
+  const renderBackdrop = useCallback(
+    (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        enableTouchThrough={false}
+        onPress={() => {
+          Keyboard.dismiss();
+          setSessionName('');
+        }}
+      />
+    ),
+    [],
+  );
 
   return (
     <BottomSheet

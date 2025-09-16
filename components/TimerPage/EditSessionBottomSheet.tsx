@@ -2,13 +2,13 @@ import { sessionService } from '@/services/SessionService';
 import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
 import BottomSheet, {
-  BottomSheetBackdropProps,
+  BottomSheetBackdrop,
   BottomSheetTextInput,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { useGlobalSearchParams, useRouter, useSegments } from 'expo-router';
-import React, { FC, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable } from 'react-native';
 import { scale } from 'react-native-size-matters';
@@ -17,11 +17,9 @@ import Typography from '../common/Typography';
 function EditSessionBottomSheet({
   theme,
   editSessionBottomSheetRef,
-  renderBackdrop,
 }: {
   theme: Theme;
   editSessionBottomSheetRef: React.RefObject<BottomSheetMethods>;
-  renderBackdrop: FC<BottomSheetBackdropProps>;
 }) {
   const { t } = useTranslation('timer');
   const router = useRouter();
@@ -43,6 +41,22 @@ function EditSessionBottomSheet({
     }
     setSessionName(session.sessionName);
   }, [sessionId, sessions]);
+
+  const renderBackdrop = useCallback(
+    (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        enableTouchThrough={false}
+        onPress={() => {
+          Keyboard.dismiss();
+          setSessionName(sessions[sessionId].sessionName);
+        }}
+      />
+    ),
+    [sessionId, sessions],
+  );
 
   return (
     <BottomSheet
@@ -111,6 +125,7 @@ function EditSessionBottomSheet({
                   sessionName: sessionName,
                 });
 
+                setSessionName(sessionName);
                 editSessionBottomSheetRef.current?.close();
                 Keyboard.dismiss();
               } catch (error) {
@@ -143,6 +158,7 @@ function EditSessionBottomSheet({
                 await sessionService.deleteSession({
                   sessionId: sessionId,
                 });
+                setSessionName('');
                 editSessionBottomSheetRef.current?.close();
                 router.back();
 
@@ -157,6 +173,7 @@ function EditSessionBottomSheet({
               alignItems: 'center',
               justifyContent: 'center',
               height: scale(50),
+              alignSelf: 'center',
             }}
           >
             <Typography

@@ -15,14 +15,13 @@ import '@/i18n';
 import { entropyService } from '@/services/EntropyService';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
-import { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStudio';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { Suspense, useCallback, useEffect } from 'react';
-import { ActivityIndicator, Keyboard, View } from 'react-native';
+import React, { Suspense, useEffect } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -80,21 +79,6 @@ function BottomSheetWrapper() {
     feedbackBottomSheetRef,
   } = useBottomSheet();
 
-  const renderBackdrop = useCallback(
-    (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={0}
-        enableTouchThrough={false}
-        onPress={() => {
-          Keyboard.dismiss();
-        }}
-      />
-    ),
-    [],
-  );
-
   return (
     <>
       <AddSessionBottomSheet
@@ -102,21 +86,18 @@ function BottomSheetWrapper() {
           addSessionBottomSheetRef as React.RefObject<BottomSheetMethods>
         }
         theme={theme}
-        renderBackdrop={renderBackdrop}
       />
       <EditSessionBottomSheet
         editSessionBottomSheetRef={
           editSessionBottomSheetRef as React.RefObject<BottomSheetMethods>
         }
         theme={theme}
-        renderBackdrop={renderBackdrop}
       />
       <FeedbackBottomSheet
         feedbackBottomSheetRef={
           feedbackBottomSheetRef as React.RefObject<BottomSheetMethods>
         }
         theme={theme}
-        renderBackdrop={renderBackdrop}
       />
     </>
   );

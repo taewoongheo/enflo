@@ -1,27 +1,23 @@
 import { baseTokens, Theme } from '@/styles';
 import { FontAwesome } from '@expo/vector-icons';
 import BottomSheet, {
-  BottomSheetBackdropProps,
+  BottomSheetBackdrop,
   BottomSheetTextInput,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
-import React, { FC, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
 
-// TODO: backdrop 렌더링 시 state 값들 초기화
-
 function FeedbackBottomSheet({
   feedbackBottomSheetRef,
   theme,
-  renderBackdrop,
 }: {
   feedbackBottomSheetRef: React.RefObject<BottomSheetMethods>;
   theme: Theme;
-  renderBackdrop: FC<BottomSheetBackdropProps>;
 }) {
   const { t } = useTranslation('settings');
 
@@ -61,6 +57,26 @@ function FeedbackBottomSheet({
       selected: false,
     },
   ]);
+
+  const renderBackdrop = useCallback(
+    (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        enableTouchThrough={false}
+        onPress={() => {
+          Keyboard.dismiss();
+          setFeedback('');
+          setSatisfiedItems(
+            satisfiedItems.map((el) => ({ ...el, selected: false })),
+          );
+          setRating(0);
+        }}
+      />
+    ),
+    [],
+  );
 
   return (
     <BottomSheet
