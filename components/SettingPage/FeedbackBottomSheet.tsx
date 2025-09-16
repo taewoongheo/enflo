@@ -1,4 +1,5 @@
 import { baseTokens, Theme } from '@/styles';
+import { signRequest } from '@/utils/auth';
 import { FontAwesome } from '@expo/vector-icons';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -226,9 +227,22 @@ function FeedbackBottomSheet({
                     .map((el) => el.name)
                     .join(' | ');
 
+                  const rawBody = JSON.stringify({ feedback, checked, rating });
+                  const timestamp = Math.floor(Date.now() / 1000).toString();
+
                   await fetch(`${process.env.EXPO_PUBLIC_API_URL}/feedback`, {
                     method: 'POST',
-                    body: JSON.stringify({ feedback, checked, rating }),
+                    body: rawBody,
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'x-timestamp': timestamp,
+                      'x-signature': signRequest(
+                        'POST',
+                        '/feedback',
+                        timestamp,
+                        rawBody,
+                      ),
+                    },
                   });
 
                   setFeedback('');
