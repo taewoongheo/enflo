@@ -5,7 +5,7 @@ import { clamp } from '@/utils/math';
 import { timestampToDayKey } from '@/utils/time';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../../common/Typography';
 import usePeriodNavigation from '../hooks/usePeriodNavigation';
@@ -36,6 +36,7 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
   } = usePeriodNavigation();
 
   const [datas, setDatas] = useState<GraphData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const sessions = useSessionCache((s) => s.sessionCache);
 
@@ -47,6 +48,7 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
 
   useEffect(() => {
     const fetchFocusTimeLogs = async () => {
+      setIsLoading(true);
       try {
         const firstDay = period.days[0];
         const lastDay = period.days[period.days.length - 1];
@@ -93,8 +95,15 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
         });
 
         setDatas(parsedDatas);
-      } catch (error) {
-        console.error(error);
+      } catch {
+        // 에러 시에도 빈 데이터로 설정
+        const emptyData = period.days.map((day) => ({
+          day: Number(day),
+          focusTimeYValues: 0.02,
+        }));
+        setDatas(emptyData);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchFocusTimeLogs();
@@ -157,26 +166,43 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
           padding: baseTokens.spacing[3],
         }}
       >
-        <YValues theme={theme} textHeight={textHeight} yValues={yValues} />
-        <View style={{ flex: 1 }}>
-          <GraphCanvas
-            datas={datas}
-            selectedPeriod={selectedPeriod}
-            todayYYYYMMDD={todayYYYYMMDD}
-            canvasWidth={canvasWidth}
-            canvasHeight={canvasHeight}
-            setCanvasWidth={setCanvasWidth}
-            setCanvasHeight={setCanvasHeight}
-          />
-          <XValues
-            theme={theme}
-            period={period}
-            datas={datas}
-            selectedPeriod={selectedPeriod}
-            canvasWidth={canvasWidth}
-            setTextHeight={setTextHeight}
-          />
-        </View>
+        {isLoading ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <ActivityIndicator
+              size="small"
+              color={theme.colors.text.secondary}
+            />
+          </View>
+        ) : (
+          <>
+            <YValues theme={theme} textHeight={textHeight} yValues={yValues} />
+            <View style={{ flex: 1 }}>
+              <GraphCanvas
+                datas={datas}
+                selectedPeriod={selectedPeriod}
+                todayYYYYMMDD={todayYYYYMMDD}
+                canvasWidth={canvasWidth}
+                canvasHeight={canvasHeight}
+                setCanvasWidth={setCanvasWidth}
+                setCanvasHeight={setCanvasHeight}
+              />
+              <XValues
+                theme={theme}
+                period={period}
+                datas={datas}
+                selectedPeriod={selectedPeriod}
+                canvasWidth={canvasWidth}
+                setTextHeight={setTextHeight}
+              />
+            </View>
+          </>
+        )}
       </View>
     </View>
   );

@@ -9,7 +9,7 @@ import {
 } from '@/utils/time';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../../common/Typography';
 import { PERIOD } from '../constants/period';
@@ -40,6 +40,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
   } = usePeriodNavigation();
 
   const [datas, setDatas] = useState<GraphData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const sessions = useSessionCache((s) => s.sessionCache);
 
@@ -51,6 +52,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
 
   useEffect(() => {
     const fetchEntropyLogs = async () => {
+      setIsLoading(true);
       try {
         const key =
           selectedPeriod === PERIOD.WEEKLY
@@ -60,15 +62,18 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
         const logs = await entropyService.getEntropyLogs(selectedPeriod, key);
 
         if (!logs) {
-          return selectedPeriod === PERIOD.WEEKLY
-            ? period.days.map((day) => ({
-                day,
-                entropyScore: 0,
-              }))
-            : period.days.map((day) => ({
-                day,
-                entropyScore: 0,
-              }));
+          const emptyData =
+            selectedPeriod === PERIOD.WEEKLY
+              ? period.days.map((day) => ({
+                  day: Number(day),
+                  entropyScore: 0,
+                }))
+              : period.days.map((day) => ({
+                  day: Number(day),
+                  entropyScore: 0,
+                }));
+          setDatas(emptyData);
+          return;
         }
 
         const parsedDatas: GraphData[] = [];
@@ -88,10 +93,17 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
         });
 
         setDatas(parsedDatas);
-      } catch (error) {
-        console.error(error);
+      } catch {
+        const emptyData = period.days.map((day) => ({
+          day: Number(day),
+          entropyScore: 0,
+        }));
+        setDatas(emptyData);
+      } finally {
+        setIsLoading(false);
       }
     };
+
     fetchEntropyLogs();
   }, [sessions, selectedPeriod, baseDateMs]);
 
@@ -152,27 +164,44 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
           padding: baseTokens.spacing[3],
         }}
       >
-        <YValues theme={theme} textHeight={textHeight} yValues={yValues} />
-        <View style={{ flex: 1 }}>
-          <GraphCanvas
-            theme={theme}
-            datas={datas}
-            selectedPeriod={selectedPeriod}
-            todayYYYYMMDD={todayYYYYMMDD}
-            canvasWidth={canvasWidth}
-            canvasHeight={canvasHeight}
-            setCanvasWidth={setCanvasWidth}
-            setCanvasHeight={setCanvasHeight}
-          />
-          <XValues
-            theme={theme}
-            period={period}
-            datas={datas}
-            selectedPeriod={selectedPeriod}
-            canvasWidth={canvasWidth}
-            setTextHeight={setTextHeight}
-          />
-        </View>
+        {isLoading ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <ActivityIndicator
+              size="small"
+              color={theme.colors.text.secondary}
+            />
+          </View>
+        ) : (
+          <>
+            <YValues theme={theme} textHeight={textHeight} yValues={yValues} />
+            <View style={{ flex: 1 }}>
+              <GraphCanvas
+                theme={theme}
+                datas={datas}
+                selectedPeriod={selectedPeriod}
+                todayYYYYMMDD={todayYYYYMMDD}
+                canvasWidth={canvasWidth}
+                canvasHeight={canvasHeight}
+                setCanvasWidth={setCanvasWidth}
+                setCanvasHeight={setCanvasHeight}
+              />
+              <XValues
+                theme={theme}
+                period={period}
+                datas={datas}
+                selectedPeriod={selectedPeriod}
+                canvasWidth={canvasWidth}
+                setTextHeight={setTextHeight}
+              />
+            </View>
+          </>
+        )}
       </View>
     </View>
   );
