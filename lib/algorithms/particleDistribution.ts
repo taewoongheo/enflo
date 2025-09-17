@@ -144,15 +144,17 @@ interface GenerateEdgeParticlesOptions {
  * @param centerY center Y coordinate
  * @param threshold threshold
  * @param stepAngle angle step (degrees)
+ * @param edgeNumber edge number(1~4)
  * @returns array of edge particles
  */
 export function generateEdgeParticles(
   options: GenerateEdgeParticlesOptions,
-): Vector[] {
+  edgeNumber?: number,
+) {
   const { centerX, centerY, threshold, stepAngle, randomOffset } = options;
 
   const centerVector = new Vector(centerX, centerY);
-  const edgeParticles: Vector[] = [];
+  const edgeParticles = [];
 
   for (let i = 0; i < 360; i += stepAngle) {
     const radians = (i * Math.PI) / 180;
@@ -167,7 +169,66 @@ export function generateEdgeParticles(
     vector.x += randomOffsetX;
     vector.y += randomOffsetY;
 
-    edgeParticles.push(vector);
+    let nextX = 0;
+    let nextY = 0;
+
+    // edge offset
+    if (edgeNumber) {
+      const newVector = new Vector(Math.cos(radians), Math.sin(radians));
+
+      if (edgeNumber === 1) {
+        newVector.setMagnitude(threshold * 1.6);
+        newVector.addVector(centerVector);
+
+        const randomOffsetX = Math.random() * 30;
+        const randomOffsetY = Math.random() * 30;
+
+        nextX = newVector.x + randomOffsetX;
+        nextY = newVector.y + randomOffsetY;
+      }
+      if (edgeNumber === 2) {
+        newVector.setMagnitude(threshold * 1.4);
+        newVector.addVector(centerVector);
+
+        const randomOffsetX = Math.random() * 30;
+        const randomOffsetY = Math.random() * 30;
+
+        nextX = newVector.x + randomOffsetX;
+        nextY = newVector.y + randomOffsetY;
+      }
+      if (edgeNumber === 3) {
+        newVector.setMagnitude(threshold * 1.2);
+        newVector.addVector(centerVector);
+
+        const randomOffsetX = Math.random() * 40;
+        const randomOffsetY = Math.random() * 40;
+
+        nextX = newVector.x + randomOffsetX;
+        nextY = newVector.y + randomOffsetY;
+      }
+      if (edgeNumber === 4) {
+        newVector.setMagnitude(threshold * 1);
+        newVector.addVector(centerVector);
+
+        const randomOffsetX = Math.random() * 50;
+        const randomOffsetY = Math.random() * 50;
+
+        nextX = newVector.x + randomOffsetX;
+        nextY = newVector.y + randomOffsetY;
+      }
+      if (edgeNumber === 5) {
+        newVector.setMagnitude(threshold * 0.5);
+        newVector.addVector(centerVector);
+
+        const randomOffsetX = Math.random() * 50;
+        const randomOffsetY = Math.random() * 50;
+
+        nextX = newVector.x + randomOffsetX;
+        nextY = newVector.y + randomOffsetY;
+      }
+    }
+
+    edgeParticles.push({ ...vector, nextX, nextY });
   }
 
   return edgeParticles;

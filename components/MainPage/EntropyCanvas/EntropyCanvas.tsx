@@ -26,7 +26,7 @@ import VeryLowEntropySystem from './EntropySystem/VeryLowEntropySystem';
 
 // TODO: race condition between pan gesture and scrollView
 const EntropyCanvas = () => {
-  const FADE_START_RATIO = 0.75;
+  // const FADE_START_RATIO = 0.75;
   const BUTTON_HEIGHT = particleCanvasHeight * 0.08;
 
   const { theme } = useTheme();

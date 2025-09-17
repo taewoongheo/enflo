@@ -4,7 +4,6 @@ import {
 } from '@/components/MainPage/constants/entropySystem/dimension';
 import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { generateEdgeParticles } from '@/lib/algorithms/particleDistribution';
-import { Vector } from '@/lib/math/Vector';
 import { Theme } from '@/styles';
 import { Circle, vec } from '@shopify/react-native-skia';
 import React, { useMemo } from 'react';
@@ -36,7 +35,7 @@ interface ParticleSystemProps {
   theme: Theme;
 }
 
-const RING_PARTICLE_CONSTANTS = [
+export const RING_PARTICLE_CONSTANTS = [
   {
     threshold: MAX_THRESHOLD,
     stepAngle: MAX_THRESHOLD * 0.06,
@@ -57,6 +56,11 @@ const RING_PARTICLE_CONSTANTS = [
     stepAngle: MAX_THRESHOLD * 0.06,
     randomOffset: 0,
   },
+  {
+    threshold: MAX_THRESHOLD * 0.71,
+    stepAngle: MAX_THRESHOLD * 0.06,
+    randomOffset: 0,
+  },
 ];
 
 function VeryHighEntropySystem({
@@ -66,9 +70,7 @@ function VeryHighEntropySystem({
   theme,
 }: ParticleSystemProps) {
   const particles = useMemo(() => {
-    const sampledParticles: Vector[] = [];
-
-    const ringParticles: Vector[] = [];
+    const ringParticles = [];
 
     for (const ringParticleConstant of RING_PARTICLE_CONSTANTS) {
       ringParticles.push(
@@ -82,10 +84,7 @@ function VeryHighEntropySystem({
       );
     }
 
-    const allParticles: Vector[] = [
-      ...sampledParticles.filter((p): p is Vector => p !== undefined),
-      ...ringParticles,
-    ];
+    const allParticles = [...ringParticles];
 
     return allParticles;
   }, []);
