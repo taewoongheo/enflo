@@ -1,3 +1,4 @@
+import Typography from '@/components/common/Typography';
 import {
   particleCanvasHeight,
   particleCanvasWidth,
@@ -5,24 +6,60 @@ import {
 import { RING_PARTICLE_CONSTANTS } from '@/components/MainPage/EntropyCanvas/EntropySystem/VeryHighEntropySystem';
 import { useTheme } from '@/contexts/ThemeContext';
 import { generateEdgeParticles } from '@/lib/algorithms/particleDistribution';
+import { baseTokens } from '@/styles';
 import { Canvas, Circle, vec } from '@shopify/react-native-skia';
-import React, { useMemo, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import React, { useMemo, useRef, useState } from 'react';
+import { View } from 'react-native';
 import {
+  FlatList,
   Gesture,
   GestureDetector,
   GestureUpdateEvent,
   PanGestureHandlerEventPayload,
+  Pressable,
   TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import {
+  runOnJS,
   SharedValue,
   useDerivedValue,
   useFrameCallback,
   useSharedValue,
 } from 'react-native-reanimated';
 
+const ONBOARDING_CONTENT = [
+  {
+    content:
+      '엔트로피는 무질서도를 나타내요.\n무질서도가 높을수록 입자는 더 불규칙하게 움직입니다',
+  },
+  {
+    content:
+      '얼음과 물로 예시를 들어볼게요.\n얼음은 엔트로피가 낮은 상태, 즉 무질서도가 낮고 정돈된 상태에요',
+  },
+  {
+    content:
+      '그러다 얼음이 녹아 물이 되면 엔트로피가 높은 상태가 됩니다.\n자연적인 상태에서 엔트로피는 계속해서 높아져요.',
+  },
+  {
+    content:
+      '우리의 집중도 마찬가지예요.\n가만히 두면 정신적 엔트로피가 높아져 집중을 잃습니다.',
+  },
+  {
+    content:
+      '하지만 몰입은 엔트로피를 낮추고 집중을 붙잡아 줍니다. \nenflo와 함께 낮은 엔트로피를 유지해보세요',
+  },
+  {
+    content:
+      'enflo는 엔트로피를 낮추고 집중을 붙잡아 줍니다. \nenflo와 함께 낮은 엔트로피를 유지해보세요',
+  },
+];
+
 function HowToUseScreen() {
+  const router = useRouter();
+
+  const [touchable, setTouchable] = useState(false);
+
   const MIN_RADIUS = particleCanvasWidth * 0.005;
   const MAX_RADIUS = particleCanvasWidth * 0.00625;
 
@@ -31,6 +68,14 @@ function HowToUseScreen() {
   const touchX = useSharedValue(0);
   const touchY = useSharedValue(0);
   const isTouching = useSharedValue(false);
+
+  const enableTouchable = async () => {
+    if (!touchable) {
+      setTimeout(() => {
+        setTouchable(true);
+      }, 1000);
+    }
+  };
 
   const handleTouch = (
     e:
@@ -41,6 +86,9 @@ function HowToUseScreen() {
     touchX.value = e.x;
     touchY.value = e.y;
     isTouching.value = true;
+
+    // 첫 터치 시 touchable을 true로 설정
+    runOnJS(enableTouchable)();
   };
 
   const tap = Gesture.Tap()
@@ -68,6 +116,9 @@ function HowToUseScreen() {
 
   // particles
 
+  const listRef = useRef<FlatList>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const [low, setLow] = useState(false);
 
   const particles = useMemo(() => {
@@ -93,10 +144,40 @@ function HowToUseScreen() {
     const allParticles = [...ringParticles];
 
     return allParticles;
-  }, [low]);
+  }, []);
 
   const handleNext = () => {
-    setLow((prev) => !prev);
+    if (currentIndex === ONBOARDING_CONTENT.length - 1) {
+      router.push('/');
+      return;
+    }
+
+    if (currentIndex === 1) {
+      setTouchable(false);
+    }
+
+    const nextIndex = Math.min(currentIndex + 1, ONBOARDING_CONTENT.length - 1);
+    setCurrentIndex(nextIndex);
+    listRef.current?.scrollToIndex({ index: nextIndex, animated: true });
+
+    if (nextIndex >= 2 && nextIndex < ONBOARDING_CONTENT.length - 2) {
+      setLow(true);
+      return;
+    }
+
+    setLow(false);
+  };
+
+  const getButtonText = (index: number) => {
+    if (index === ONBOARDING_CONTENT.length - 1) {
+      return '시작하기';
+    }
+
+    if (!touchable) {
+      return '화면을 터치하거나 드래그해보세요';
+    }
+
+    return '다음';
   };
 
   return (
@@ -137,26 +218,65 @@ function HowToUseScreen() {
           })}
         </Canvas>
       </GestureDetector>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: 20,
-        }}
-      >
-        <Text>How to use</Text>
-        <Pressable
-          onPress={handleNext}
-          style={{
-            padding: 10,
-            backgroundColor: 'skyblue',
-            paddingHorizontal: 20,
-            borderRadius: 10,
-          }}
-        >
-          <Text>Next</Text>
-        </Pressable>
+      <View style={{ flex: 1 }}>
+        <FlatList
+          ref={listRef}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          scrollEnabled={false}
+          data={ONBOARDING_CONTENT}
+          keyExtractor={(item, index) => index.toString()}
+          getItemLayout={(data, index) => ({
+            length: particleCanvasWidth,
+            offset: particleCanvasWidth * index,
+            index,
+          })}
+          renderItem={({ item, index }) => (
+            <View
+              style={{
+                width: particleCanvasWidth,
+                flex: 1,
+                paddingHorizontal: 20,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingVertical: baseTokens.spacing[6],
+              }}
+            >
+              <Typography
+                variant="body1Regular"
+                style={{
+                  textAlign: 'center',
+                  color: theme.colors.text.primary,
+                }}
+              >
+                {item.content}
+              </Typography>
+
+              <Pressable
+                onPress={handleNext}
+                disabled={!touchable}
+                style={{
+                  backgroundColor: theme.colors.text.primary,
+                  paddingHorizontal: baseTokens.spacing[4],
+                  paddingVertical: baseTokens.spacing[2],
+                  borderRadius: baseTokens.borderRadius.sm,
+                  opacity: touchable ? 1 : 0.5,
+                }}
+              >
+                <Typography
+                  variant="body2Bold"
+                  style={{
+                    color: theme.colors.background,
+                    textAlign: 'center',
+                  }}
+                >
+                  {getButtonText(index)}
+                </Typography>
+              </Pressable>
+            </View>
+          )}
+        />
       </View>
     </>
   );
@@ -199,9 +319,9 @@ function DynamicParticle({
   // physics simulation loop
   useFrameCallback(() => {
     const RESTORE_FORCE = low ? 0.01 : 0.05;
-    const FRICTION = low ? 0.99 : 0.89;
+    const FRICTION = low ? 0.98 : 0.89;
     const SPEED_SCALE = low ? 0.05 : 0.2;
-    const PUSH_FORCE = low ? 100 : 20;
+    const PUSH_FORCE = low ? 120 : 20;
 
     if (low) {
       centerX = nextX;
