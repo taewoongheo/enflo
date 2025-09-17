@@ -21,7 +21,7 @@ type GraphData = {
   focusTimeYValues: number;
 };
 
-const yValues = [10, 8, 6, 4, 2, 0];
+const yValues = ['≥10h', '8h', '6h', '4h', '2h', '0h'];
 
 export default function FocusTimeSection({ theme }: { theme: Theme }) {
   const { t } = useTranslation('stats');

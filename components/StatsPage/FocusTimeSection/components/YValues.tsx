@@ -9,7 +9,7 @@ export default function YValues({
 }: {
   theme: Theme;
   textHeight: number;
-  yValues: number[];
+  yValues: string[];
 }) {
   return (
     <View
@@ -20,7 +20,7 @@ export default function YValues({
     >
       {yValues.map((value) => {
         return (
-          <View key={value}>
+          <View key={`y-value-${value}`}>
             <Typography
               variant="label"
               style={{
