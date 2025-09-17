@@ -160,7 +160,6 @@ export default function FocusTimeSection({ theme }: { theme: Theme }) {
         <YValues theme={theme} textHeight={textHeight} yValues={yValues} />
         <View style={{ flex: 1 }}>
           <GraphCanvas
-            theme={theme}
             datas={datas}
             selectedPeriod={selectedPeriod}
             todayYYYYMMDD={todayYYYYMMDD}

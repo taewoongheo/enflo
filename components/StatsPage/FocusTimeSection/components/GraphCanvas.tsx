@@ -1,4 +1,4 @@
-import { Theme } from '@/styles';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Canvas, Group, RoundedRect } from '@shopify/react-native-skia';
 import { scale } from 'react-native-size-matters';
 import { PERIOD } from '../../constants/period';
@@ -13,7 +13,6 @@ const WEEKLY_DAYS = 7;
 const MONTHLY_DAYS = 30;
 
 export default function GraphCanvas({
-  theme,
   datas,
   selectedPeriod,
   todayYYYYMMDD,
@@ -22,7 +21,6 @@ export default function GraphCanvas({
   setCanvasWidth,
   setCanvasHeight,
 }: {
-  theme: Theme;
   datas: { day: number; focusTimeYValues: number }[];
   selectedPeriod: 'weekly' | 'monthly';
   todayYYYYMMDD: number;
@@ -34,6 +32,8 @@ export default function GraphCanvas({
   const cellWidth =
     canvasWidth /
     (selectedPeriod === PERIOD.WEEKLY ? WEEKLY_DAYS : MONTHLY_DAYS);
+
+  const { theme } = useTheme();
 
   return (
     <Canvas

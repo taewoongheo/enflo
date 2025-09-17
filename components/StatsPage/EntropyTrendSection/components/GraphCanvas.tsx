@@ -3,10 +3,10 @@ import { Canvas, Circle, Group, Line, vec } from '@shopify/react-native-skia';
 import { scale } from 'react-native-size-matters';
 import { PERIOD } from '../../constants/period';
 
-const WEEKLY_CIRCLE_RADIUS = scale(2);
-const MONTHLY_CIRCLE_RADIUS = scale(1.5);
-const WEEKLY_STROKE_WIDTH = scale(1.2);
-const MONTHLY_STROKE_WIDTH = scale(1);
+const WEEKLY_CIRCLE_RADIUS = scale(0);
+const MONTHLY_CIRCLE_RADIUS = scale(0);
+const WEEKLY_STROKE_WIDTH = scale(1.7);
+const MONTHLY_STROKE_WIDTH = scale(1.5);
 
 const WEEKLY_DAYS = 7;
 const MONTHLY_DAYS = 30;

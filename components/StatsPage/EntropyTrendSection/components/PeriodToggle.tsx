@@ -42,7 +42,12 @@ export default function PeriodToggle({
       >
         <Typography
           variant="label"
-          style={{ color: theme.colors.text.primary }}
+          style={{
+            color:
+              selectedPeriod === PERIOD.WEEKLY
+                ? theme.colors.background
+                : theme.colors.text.secondary,
+          }}
         >
           {t('weeklyPeriod')}
         </Typography>
@@ -63,7 +68,12 @@ export default function PeriodToggle({
       >
         <Typography
           variant="label"
-          style={{ color: theme.colors.text.primary }}
+          style={{
+            color:
+              selectedPeriod === PERIOD.MONTHLY
+                ? theme.colors.background
+                : theme.colors.text.secondary,
+          }}
         >
           {t('monthlyPeriod')}
         </Typography>

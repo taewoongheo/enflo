@@ -68,7 +68,7 @@ export const lightSemanticColors: SemanticColors = {
   },
   stats: {
     toggle: {
-      selectedBackground: palette.light[400],
+      selectedBackground: palette.light[600],
       border: palette.light[500],
     },
   },
@@ -105,7 +105,7 @@ export const darkSemanticColors: SemanticColors = {
   },
   stats: {
     toggle: {
-      selectedBackground: palette.dark[600],
+      selectedBackground: palette.dark[200],
       border: palette.dark[700],
     },
   },
