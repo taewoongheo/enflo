@@ -181,7 +181,7 @@ function HowToUseScreen() {
   };
 
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <GestureDetector gesture={combinedGesture}>
         <Canvas
           style={{ width: particleCanvasWidth, height: particleCanvasHeight }}
@@ -278,7 +278,7 @@ function HowToUseScreen() {
           )}
         />
       </View>
-    </>
+    </View>
   );
 }
 
