@@ -54,7 +54,7 @@ export default function TabLayout() {
           title: 'Settings',
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name="settings"
+              name="settings-sharp"
               size={baseTokens.iconSize.md}
               color={theme.colors.text.primary}
               style={{ opacity: focused ? 1 : 0.6 }}

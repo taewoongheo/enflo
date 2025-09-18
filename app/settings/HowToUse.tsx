@@ -7,7 +7,15 @@ import { RING_PARTICLE_CONSTANTS } from '@/components/MainPage/EntropyCanvas/Ent
 import { useTheme } from '@/contexts/ThemeContext';
 import { generateEdgeParticles } from '@/lib/algorithms/particleDistribution';
 import { baseTokens } from '@/styles';
-import { Canvas, Circle, vec } from '@shopify/react-native-skia';
+import {
+  Canvas,
+  Circle,
+  Group,
+  LinearGradient,
+  Mask,
+  Rect,
+  vec,
+} from '@shopify/react-native-skia';
 import { useRouter } from 'expo-router';
 import React, { useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
@@ -62,6 +70,7 @@ function HowToUseScreen() {
 
   const MIN_RADIUS = particleCanvasWidth * 0.005;
   const MAX_RADIUS = particleCanvasWidth * 0.00625;
+  const FADE_START_RATIO = 0.75;
 
   const { theme } = useTheme();
 
@@ -186,36 +195,60 @@ function HowToUseScreen() {
         <Canvas
           style={{ width: particleCanvasWidth, height: particleCanvasHeight }}
         >
-          {particles.map((particle, index) => {
-            const radius =
-              Math.random() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
+          <Mask
+            mode="alpha"
+            mask={
+              <Group>
+                <Rect
+                  x={0}
+                  y={0}
+                  width={particleCanvasWidth}
+                  height={particleCanvasHeight}
+                >
+                  <LinearGradient
+                    start={vec(0, 0)}
+                    end={vec(0, particleCanvasHeight)}
+                    colors={[
+                      `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 1)`,
+                      `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 1)`,
+                      `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 0)`,
+                    ]}
+                    positions={[0, FADE_START_RATIO, 1]}
+                  />
+                </Rect>
+              </Group>
+            }
+          >
+            {particles.map((particle, index) => {
+              const radius =
+                Math.random() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
 
-            const colorValue = Math.floor(
-              Math.random() *
-                (theme.colors.particlesRGBValue.max -
-                  theme.colors.particlesRGBValue.min +
-                  1) +
-                theme.colors.particlesRGBValue.min,
-            );
+              const colorValue = theme.colors.particles.base;
 
-            const color = `rgb(${colorValue}, ${colorValue}, ${colorValue})`;
+              const maxAlpha = theme.colors.particles.maxAlpha;
+              const minAlpha = theme.colors.particles.minAlpha;
 
-            return (
-              <DynamicParticle
-                key={`particle-${index}-${particle.x}-${particle.y}`}
-                centerX={particle.x}
-                centerY={particle.y}
-                nextX={particle.nextX}
-                nextY={particle.nextY}
-                radius={radius}
-                color={color}
-                touchX={touchX}
-                touchY={touchY}
-                isTouching={isTouching}
-                low={low}
-              />
-            );
-          })}
+              const alpha = Math.random() * (maxAlpha - minAlpha) + minAlpha;
+
+              const color = `rgba(${colorValue}, ${colorValue}, ${colorValue}, ${alpha})`;
+
+              return (
+                <DynamicParticle
+                  key={`particle-${index}-${particle.x}-${particle.y}`}
+                  centerX={particle.x}
+                  centerY={particle.y}
+                  nextX={particle.nextX}
+                  nextY={particle.nextY}
+                  radius={radius}
+                  color={color}
+                  touchX={touchX}
+                  touchY={touchY}
+                  isTouching={isTouching}
+                  low={low}
+                />
+              );
+            })}
+          </Mask>
         </Canvas>
       </GestureDetector>
       <View style={{ flex: 1 }}>

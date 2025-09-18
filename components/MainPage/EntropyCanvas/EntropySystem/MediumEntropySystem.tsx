@@ -68,15 +68,14 @@ function MediumEntropySystem({
       {particles.map((particle, index) => {
         const radius = Math.random() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
 
-        const colorValue = Math.floor(
-          Math.random() *
-            (theme.colors.particlesRGBValue.max -
-              theme.colors.particlesRGBValue.min +
-              1) +
-            theme.colors.particlesRGBValue.min,
-        );
+        const colorValue = theme.colors.particles.base;
 
-        const color = `rgb(${colorValue}, ${colorValue}, ${colorValue})`;
+        const maxAlpha = theme.colors.particles.maxAlpha;
+        const minAlpha = theme.colors.particles.minAlpha;
+
+        const alpha = Math.random() * (maxAlpha - minAlpha) + minAlpha;
+
+        const color = `rgba(${colorValue}, ${colorValue}, ${colorValue}, ${alpha})`;
 
         return (
           <Particle
