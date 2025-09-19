@@ -2,8 +2,16 @@ import {
   particleCanvasHeight,
   particleCanvasWidth,
 } from '@/components/MainPage/constants/entropySystem/dimension';
-import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
+import {
+  ENTROPY_SYSTEM_CONSTANTS,
+  ENTROPY_SYSTEM_GLOBAL_CONSTANTS,
+} from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { useTheme } from '@/contexts/ThemeContext';
+import {
+  generateEdgeParticles,
+  poissonDiskSampling,
+} from '@/lib/algorithms/particleDistribution';
+import { Vector } from '@/lib/math/Vector';
 import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens, Theme } from '@/styles';
 import { Foundation } from '@expo/vector-icons';
@@ -15,7 +23,7 @@ import {
   Rect,
   vec,
 } from '@shopify/react-native-skia';
-import React, { useCallback, useReducer } from 'react';
+import React, { useCallback, useMemo, useReducer } from 'react';
 import { Pressable, View } from 'react-native';
 import {
   Gesture,
@@ -83,10 +91,18 @@ const EntropyCanvas = () => {
   const combinedGesture = Gesture.Race(tap, pan);
 
   return (
-    <View style={{ position: 'relative' }}>
+    <View
+      style={{
+        position: 'relative',
+        width: particleCanvasWidth,
+        height: particleCanvasHeight,
+      }}
+    >
       <GestureDetector gesture={combinedGesture}>
         <Canvas
-          style={{ width: particleCanvasWidth, height: particleCanvasHeight }}
+          style={{
+            flex: 1,
+          }}
         >
           <Mask
             mode="alpha"
@@ -112,13 +128,6 @@ const EntropyCanvas = () => {
               </Group>
             }
           >
-            {/* <Rect
-              x={particleCanvasWidth * 0.5 - 50}
-              y={0}
-              width={100}
-              height={particleCanvasHeight}
-              color="gray"
-            /> */}
             <EntropySystem
               touchX={touchX}
               touchY={touchY}
@@ -182,6 +191,159 @@ function EntropySystem({
 }) {
   const entropyScore = useEntropyStore((s) => s.entropyScore);
 
+  const veryLowParticles = useMemo(() => {
+    const { MIN_DISTANCE, MAX_THRESHOLD, MIN_THRESHOLD } =
+      ENTROPY_SYSTEM_CONSTANTS.VERY_LOW;
+
+    const sampledParticles = poissonDiskSampling({
+      width: particleCanvasWidth,
+      height: particleCanvasHeight,
+      minDistance: MIN_DISTANCE,
+      maxThreshold: MAX_THRESHOLD,
+      minThreshold: MIN_THRESHOLD,
+    });
+
+    return sampledParticles.filter((p): p is Vector => p !== undefined);
+  }, []);
+
+  const lowParticles = useMemo(() => {
+    const { MIN_DISTANCE, MAX_THRESHOLD, MIN_THRESHOLD } =
+      ENTROPY_SYSTEM_CONSTANTS.LOW;
+
+    const sampledParticles = poissonDiskSampling({
+      width: particleCanvasWidth,
+      height: particleCanvasHeight,
+      minDistance: MIN_DISTANCE,
+      maxThreshold: MAX_THRESHOLD,
+      minThreshold: MIN_THRESHOLD,
+    });
+
+    return sampledParticles.filter((p): p is Vector => p !== undefined);
+  }, []);
+
+  const mediumParticles = useMemo(() => {
+    const { MIN_DISTANCE, MAX_THRESHOLD, MIN_THRESHOLD } =
+      ENTROPY_SYSTEM_CONSTANTS.MEDIUM;
+
+    const sampledParticles = poissonDiskSampling({
+      width: particleCanvasWidth,
+      height: particleCanvasHeight,
+      minDistance: MIN_DISTANCE,
+      maxThreshold: MAX_THRESHOLD,
+      minThreshold: MIN_THRESHOLD,
+    });
+
+    const particles = sampledParticles.filter(
+      (p): p is Vector => p !== undefined,
+    );
+    const ringParticles: Vector[] = [];
+
+    return [...particles, ...ringParticles];
+  }, []);
+
+  const highParticles = useMemo(() => {
+    const { MIN_DISTANCE, MAX_THRESHOLD, MIN_THRESHOLD } =
+      ENTROPY_SYSTEM_CONSTANTS.HIGH;
+
+    const RING_PARTICLE_CONSTANTS = [
+      {
+        threshold: MAX_THRESHOLD,
+        stepAngle: MAX_THRESHOLD * 0.1,
+        randomOffset: MAX_THRESHOLD * 0.03,
+      },
+      {
+        threshold: MAX_THRESHOLD * 0.9,
+        stepAngle: MAX_THRESHOLD * 0.12,
+        randomOffset: MAX_THRESHOLD * 0.05,
+      },
+      {
+        threshold: MAX_THRESHOLD * 0.76,
+        stepAngle: MAX_THRESHOLD * 0.14,
+        randomOffset: MAX_THRESHOLD * 0.07,
+      },
+      {
+        threshold: MAX_THRESHOLD * 0.6,
+        stepAngle: MAX_THRESHOLD * 0.16,
+        randomOffset: MAX_THRESHOLD * 0.1,
+      },
+    ];
+
+    const sampledParticles = poissonDiskSampling({
+      width: particleCanvasWidth,
+      height: particleCanvasHeight,
+      minDistance: MIN_DISTANCE,
+      maxThreshold: MAX_THRESHOLD,
+      minThreshold: MIN_THRESHOLD,
+    });
+
+    const ringParticles = [];
+
+    for (const ringParticleConstant of RING_PARTICLE_CONSTANTS) {
+      const edgeParticles = generateEdgeParticles({
+        centerX: particleCanvasWidth / 2,
+        centerY: particleCanvasHeight / 2,
+        threshold: ringParticleConstant.threshold,
+        stepAngle: ringParticleConstant.stepAngle,
+        randomOffset: ringParticleConstant.randomOffset,
+      });
+
+      ringParticles.push(...edgeParticles.map((p) => new Vector(p.x, p.y)));
+    }
+
+    return [
+      ...sampledParticles.filter((p): p is Vector => p !== undefined),
+      ...ringParticles,
+    ];
+  }, []);
+
+  const veryHighParticles = useMemo(() => {
+    const { MAX_THRESHOLD } = ENTROPY_SYSTEM_CONSTANTS.VERY_HIGH;
+
+    const RING_PARTICLE_CONSTANTS = [
+      {
+        threshold: MAX_THRESHOLD,
+        stepAngle: MAX_THRESHOLD * 0.06,
+        randomOffset: 0,
+      },
+      {
+        threshold: MAX_THRESHOLD * 0.92,
+        stepAngle: MAX_THRESHOLD * 0.06,
+        randomOffset: 0,
+      },
+      {
+        threshold: MAX_THRESHOLD * 0.85,
+        stepAngle: MAX_THRESHOLD * 0.06,
+        randomOffset: 0,
+      },
+      {
+        threshold: MAX_THRESHOLD * 0.78,
+        stepAngle: MAX_THRESHOLD * 0.06,
+        randomOffset: 0,
+      },
+      {
+        threshold: MAX_THRESHOLD * 0.71,
+        stepAngle: MAX_THRESHOLD * 0.06,
+        randomOffset: 0,
+      },
+    ];
+
+    const ringParticles = [];
+
+    for (const ringParticleConstant of RING_PARTICLE_CONSTANTS) {
+      const edgeParticles = generateEdgeParticles({
+        centerX: particleCanvasWidth / 2,
+        centerY: particleCanvasHeight / 2,
+        threshold: ringParticleConstant.threshold,
+        stepAngle: ringParticleConstant.stepAngle,
+        randomOffset: ringParticleConstant.randomOffset,
+      });
+
+      ringParticles.push(...edgeParticles.map((p) => new Vector(p.x, p.y)));
+    }
+
+    return [...ringParticles];
+  }, []);
+
   if (
     entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.VERY_LOW_MAX
   ) {
@@ -191,6 +353,7 @@ function EntropySystem({
         touchY={touchY}
         isTouching={isTouching}
         theme={theme}
+        particles={veryLowParticles}
       />
     );
   }
@@ -202,6 +365,7 @@ function EntropySystem({
         touchY={touchY}
         isTouching={isTouching}
         theme={theme}
+        particles={lowParticles}
       />
     );
   }
@@ -215,6 +379,7 @@ function EntropySystem({
         touchY={touchY}
         isTouching={isTouching}
         theme={theme}
+        particles={mediumParticles}
       />
     );
   }
@@ -226,6 +391,7 @@ function EntropySystem({
         touchY={touchY}
         isTouching={isTouching}
         theme={theme}
+        particles={highParticles}
       />
     );
   }
@@ -236,6 +402,7 @@ function EntropySystem({
       touchY={touchY}
       isTouching={isTouching}
       theme={theme}
+      particles={veryHighParticles}
     />
   );
 }

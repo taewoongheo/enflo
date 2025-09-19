@@ -1,13 +1,8 @@
-import {
-  particleCanvasHeight,
-  particleCanvasWidth,
-} from '@/components/MainPage/constants/entropySystem/dimension';
 import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
-import { poissonDiskSampling } from '@/lib/algorithms/particleDistribution';
 import { Vector } from '@/lib/math/Vector';
 import { Theme } from '@/styles';
 import { Circle, vec } from '@shopify/react-native-skia';
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
   SharedValue,
   useDerivedValue,
@@ -24,9 +19,6 @@ const {
     SPEED_SCALE,
     PARTICLE_MIN_DISTANCE,
   },
-  MIN_DISTANCE,
-  MAX_THRESHOLD,
-  MIN_THRESHOLD,
   MIN_RADIUS,
   MAX_RADIUS,
 } = ENTROPY_SYSTEM_CONSTANTS.MEDIUM;
@@ -36,6 +28,7 @@ interface ParticleSystemProps {
   touchY: SharedValue<number>;
   isTouching: SharedValue<boolean>;
   theme: Theme;
+  particles: Vector[];
 }
 
 function MediumEntropySystem({
@@ -43,26 +36,8 @@ function MediumEntropySystem({
   touchY,
   isTouching,
   theme,
+  particles,
 }: ParticleSystemProps) {
-  const particles = useMemo(() => {
-    const sampledParticles = poissonDiskSampling({
-      width: particleCanvasWidth,
-      height: particleCanvasHeight,
-      minDistance: MIN_DISTANCE,
-      maxThreshold: MAX_THRESHOLD,
-      minThreshold: MIN_THRESHOLD,
-    });
-
-    const ringParticles: Vector[] = [];
-
-    const allParticles: Vector[] = [
-      ...sampledParticles.filter((p): p is Vector => p !== undefined),
-      ...ringParticles,
-    ];
-
-    return allParticles;
-  }, []);
-
   return (
     <>
       {particles.map((particle, index) => {

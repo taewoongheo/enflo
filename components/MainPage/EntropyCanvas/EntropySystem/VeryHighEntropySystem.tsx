@@ -1,12 +1,8 @@
-import {
-  particleCanvasHeight,
-  particleCanvasWidth,
-} from '@/components/MainPage/constants/entropySystem/dimension';
 import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
-import { generateEdgeParticles } from '@/lib/algorithms/particleDistribution';
+import { Vector } from '@/lib/math/Vector';
 import { Theme } from '@/styles';
 import { Circle, vec } from '@shopify/react-native-skia';
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
   SharedValue,
   useDerivedValue,
@@ -33,6 +29,7 @@ interface ParticleSystemProps {
   touchY: SharedValue<number>;
   isTouching: SharedValue<boolean>;
   theme: Theme;
+  particles: Vector[];
 }
 
 export const RING_PARTICLE_CONSTANTS = [
@@ -68,27 +65,8 @@ function VeryHighEntropySystem({
   touchY,
   isTouching,
   theme,
+  particles,
 }: ParticleSystemProps) {
-  const particles = useMemo(() => {
-    const ringParticles = [];
-
-    for (const ringParticleConstant of RING_PARTICLE_CONSTANTS) {
-      ringParticles.push(
-        ...generateEdgeParticles({
-          centerX: particleCanvasWidth / 2,
-          centerY: particleCanvasHeight / 2,
-          threshold: ringParticleConstant.threshold,
-          stepAngle: ringParticleConstant.stepAngle,
-          randomOffset: ringParticleConstant.randomOffset,
-        }),
-      );
-    }
-
-    const allParticles = [...ringParticles];
-
-    return allParticles;
-  }, []);
-
   return (
     <>
       {particles.map((particle, index) => {

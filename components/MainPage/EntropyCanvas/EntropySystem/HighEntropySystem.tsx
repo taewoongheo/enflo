@@ -1,16 +1,8 @@
-import {
-  particleCanvasHeight,
-  particleCanvasWidth,
-} from '@/components/MainPage/constants/entropySystem/dimension';
 import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
-import {
-  generateEdgeParticles,
-  poissonDiskSampling,
-} from '@/lib/algorithms/particleDistribution';
 import { Vector } from '@/lib/math/Vector';
 import { Theme } from '@/styles';
 import { Circle, vec } from '@shopify/react-native-skia';
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
   SharedValue,
   useDerivedValue,
@@ -27,41 +19,16 @@ const {
     SPEED_SCALE,
     PARTICLE_MIN_DISTANCE,
   },
-  MIN_DISTANCE,
-  MAX_THRESHOLD,
-  MIN_THRESHOLD,
   MIN_RADIUS,
   MAX_RADIUS,
 } = ENTROPY_SYSTEM_CONSTANTS.HIGH;
-
-const RING_PARTICLE_CONSTANTS = [
-  {
-    threshold: MAX_THRESHOLD,
-    stepAngle: MAX_THRESHOLD * 0.1,
-    randomOffset: MAX_THRESHOLD * 0.03,
-  },
-  {
-    threshold: MAX_THRESHOLD * 0.9,
-    stepAngle: MAX_THRESHOLD * 0.12,
-    randomOffset: MAX_THRESHOLD * 0.05,
-  },
-  {
-    threshold: MAX_THRESHOLD * 0.76,
-    stepAngle: MAX_THRESHOLD * 0.14,
-    randomOffset: MAX_THRESHOLD * 0.07,
-  },
-  {
-    threshold: MAX_THRESHOLD * 0.6,
-    stepAngle: MAX_THRESHOLD * 0.16,
-    randomOffset: MAX_THRESHOLD * 0.1,
-  },
-];
 
 interface ParticleSystemProps {
   touchX: SharedValue<number>;
   touchY: SharedValue<number>;
   isTouching: SharedValue<boolean>;
   theme: Theme;
+  particles: Vector[];
 }
 
 function HighEntropySystem({
@@ -69,38 +36,8 @@ function HighEntropySystem({
   touchY,
   isTouching,
   theme,
+  particles,
 }: ParticleSystemProps) {
-  const particles = useMemo(() => {
-    const sampledParticles = poissonDiskSampling({
-      width: particleCanvasWidth,
-      height: particleCanvasHeight,
-      minDistance: MIN_DISTANCE,
-      maxThreshold: MAX_THRESHOLD,
-      minThreshold: MIN_THRESHOLD,
-    });
-
-    const ringParticles = [];
-
-    for (const ringParticleConstant of RING_PARTICLE_CONSTANTS) {
-      ringParticles.push(
-        ...generateEdgeParticles({
-          centerX: particleCanvasWidth / 2,
-          centerY: particleCanvasHeight / 2,
-          threshold: ringParticleConstant.threshold,
-          stepAngle: ringParticleConstant.stepAngle,
-          randomOffset: ringParticleConstant.randomOffset,
-        }),
-      );
-    }
-
-    const allParticles = [
-      ...sampledParticles.filter((p): p is Vector => p !== undefined),
-      ...ringParticles,
-    ];
-
-    return allParticles;
-  }, []);
-
   return (
     <>
       {particles.map((particle, index) => {
