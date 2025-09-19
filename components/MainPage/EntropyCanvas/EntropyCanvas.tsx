@@ -19,6 +19,7 @@ import {
 import React, { useCallback, useMemo, useReducer } from 'react';
 import { Pressable, View } from 'react-native';
 import {
+  ComposedGesture,
   Gesture,
   GestureDetector,
   GestureUpdateEvent,
@@ -42,9 +43,7 @@ import {
   VeryLowParticle,
 } from './Particles';
 
-// TODO: race condition between pan gesture and scrollView
 const EntropyCanvas = () => {
-  const FADE_START_RATIO = 0.75;
   const BUTTON_HEIGHT = particleCanvasHeight * 0.08;
 
   const { theme } = useTheme();
@@ -101,46 +100,14 @@ const EntropyCanvas = () => {
         height: particleCanvasHeight,
       }}
     >
-      <GestureDetector gesture={combinedGesture}>
-        <Canvas
-          style={{
-            flex: 1,
-          }}
-        >
-          <Mask
-            mode="alpha"
-            mask={
-              <Group>
-                <Rect
-                  x={0}
-                  y={0}
-                  width={particleCanvasWidth}
-                  height={particleCanvasHeight}
-                >
-                  <LinearGradient
-                    start={vec(0, 0)}
-                    end={vec(0, particleCanvasHeight)}
-                    colors={[
-                      `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 1)`,
-                      `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 1)`,
-                      `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 0)`,
-                    ]}
-                    positions={[0, FADE_START_RATIO, 1]}
-                  />
-                </Rect>
-              </Group>
-            }
-          >
-            <EntropySystem
-              touchX={touchX}
-              touchY={touchY}
-              isTouching={isTouching}
-              key={refreshKey}
-              theme={theme}
-            />
-          </Mask>
-        </Canvas>
-      </GestureDetector>
+      <EntropySystem
+        combinedGesture={combinedGesture}
+        touchX={touchX}
+        touchY={touchY}
+        isTouching={isTouching}
+        theme={theme}
+        refreshKey={refreshKey}
+      />
       <View
         pointerEvents="box-none"
         style={{
@@ -182,16 +149,22 @@ const EntropyCanvas = () => {
 };
 
 function EntropySystem({
+  combinedGesture,
   touchX,
   touchY,
   isTouching,
   theme,
+  refreshKey,
 }: {
+  combinedGesture: ComposedGesture;
   touchX: SharedValue<number>;
   touchY: SharedValue<number>;
   isTouching: SharedValue<boolean>;
   theme: Theme;
+  refreshKey: number;
 }) {
+  const FADE_START_RATIO = 0.75;
+
   const entropyScore = useEntropyStore((s) => s.entropyScore);
 
   const veryLowParticles = useMemo(() => calculateVeryLowParticles(), []);
@@ -229,14 +202,48 @@ function EntropySystem({
   }
 
   return (
-    <EntropySystemWrapper
-      touchX={touchX}
-      touchY={touchY}
-      isTouching={isTouching}
-      theme={theme}
-      particles={particles}
-      ParticleComponent={ParticleComponent}
-    />
+    <GestureDetector gesture={combinedGesture}>
+      <Canvas
+        style={{
+          flex: 1,
+        }}
+      >
+        <Mask
+          mode="alpha"
+          mask={
+            <Group>
+              <Rect
+                x={0}
+                y={0}
+                width={particleCanvasWidth}
+                height={particleCanvasHeight}
+              >
+                <LinearGradient
+                  start={vec(0, 0)}
+                  end={vec(0, particleCanvasHeight)}
+                  colors={[
+                    `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 1)`,
+                    `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 1)`,
+                    `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 0)`,
+                  ]}
+                  positions={[0, FADE_START_RATIO, 1]}
+                />
+              </Rect>
+            </Group>
+          }
+        >
+          <EntropySystemWrapper
+            key={refreshKey}
+            touchX={touchX}
+            touchY={touchY}
+            isTouching={isTouching}
+            theme={theme}
+            particles={particles}
+            ParticleComponent={ParticleComponent}
+          />
+        </Mask>
+      </Canvas>
+    </GestureDetector>
   );
 }
 
