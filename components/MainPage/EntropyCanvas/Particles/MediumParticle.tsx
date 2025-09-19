@@ -1,122 +1,36 @@
 import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
-import { Vector } from '@/lib/math/Vector';
-import { Theme } from '@/styles';
 import { Circle, vec } from '@shopify/react-native-skia';
 import React from 'react';
 import {
-  SharedValue,
   useDerivedValue,
   useFrameCallback,
   useSharedValue,
 } from 'react-native-reanimated';
+import { ParticleProps } from '../EntropySystemWrapper';
 
 const {
   PARTICLE: {
     INFLUENCE_DISTANCE,
-    RESTORE_FORCE,
     FRICTION,
     PUSH_FORCE,
     SPEED_SCALE,
     PARTICLE_MIN_DISTANCE,
+    RESTORE_FORCE,
   },
   MIN_RADIUS,
   MAX_RADIUS,
-  MAX_THRESHOLD,
-} = ENTROPY_SYSTEM_CONSTANTS.VERY_HIGH;
+} = ENTROPY_SYSTEM_CONSTANTS.MEDIUM;
 
-interface ParticleSystemProps {
-  touchX: SharedValue<number>;
-  touchY: SharedValue<number>;
-  isTouching: SharedValue<boolean>;
-  theme: Theme;
-  particles: Vector[];
-}
-
-export const RING_PARTICLE_CONSTANTS = [
-  {
-    threshold: MAX_THRESHOLD,
-    stepAngle: MAX_THRESHOLD * 0.06,
-    randomOffset: 0,
-  },
-  {
-    threshold: MAX_THRESHOLD * 0.92,
-    stepAngle: MAX_THRESHOLD * 0.06,
-    randomOffset: 0,
-  },
-  {
-    threshold: MAX_THRESHOLD * 0.85,
-    stepAngle: MAX_THRESHOLD * 0.06,
-    randomOffset: 0,
-  },
-  {
-    threshold: MAX_THRESHOLD * 0.78,
-    stepAngle: MAX_THRESHOLD * 0.06,
-    randomOffset: 0,
-  },
-  {
-    threshold: MAX_THRESHOLD * 0.71,
-    stepAngle: MAX_THRESHOLD * 0.06,
-    randomOffset: 0,
-  },
-];
-
-function VeryHighEntropySystem({
-  touchX,
-  touchY,
-  isTouching,
-  theme,
-  particles,
-}: ParticleSystemProps) {
-  return (
-    <>
-      {particles.map((particle, index) => {
-        const radius = Math.random() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
-
-        const colorValue = theme.colors.particles.base;
-
-        const maxAlpha = theme.colors.particles.maxAlpha;
-        const minAlpha = theme.colors.particles.minAlpha;
-
-        const alpha = Math.random() * (maxAlpha - minAlpha) + minAlpha;
-
-        const color = `rgba(${colorValue}, ${colorValue}, ${colorValue}, ${alpha})`;
-
-        return (
-          <Particle
-            key={`particle-${index}-${particle.x}-${particle.y}`}
-            centerX={particle.x}
-            centerY={particle.y}
-            radius={radius}
-            color={color}
-            touchX={touchX}
-            touchY={touchY}
-            isTouching={isTouching}
-          />
-        );
-      })}
-    </>
-  );
-}
-
-interface ParticleProps {
-  centerX: number;
-  centerY: number;
-  radius: number;
-  color: string;
-  touchX: SharedValue<number>;
-  touchY: SharedValue<number>;
-  isTouching: SharedValue<boolean>;
-}
-
-function Particle({
+function MediumParticle({
   centerX,
   centerY,
-  radius,
   color,
   touchX,
   touchY,
   isTouching,
 }: ParticleProps): React.JSX.Element {
+  const radius = Math.random() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
+
   // position and velocity
   const px = useSharedValue(centerX);
   const py = useSharedValue(centerY);
@@ -172,4 +86,4 @@ function Particle({
   return <Circle c={position} r={radius} color={color} />;
 }
 
-export default VeryHighEntropySystem;
+export default MediumParticle;

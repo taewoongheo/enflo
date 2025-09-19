@@ -4,6 +4,7 @@ import {
 } from '@/components/MainPage/constants/entropySystem/dimension';
 import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { useTheme } from '@/contexts/ThemeContext';
+import { Vector } from '@/lib/math/Vector';
 import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens, Theme } from '@/styles';
 import { Foundation } from '@expo/vector-icons';
@@ -32,11 +33,14 @@ import {
   calculateVeryHighParticles,
   calculateVeryLowParticles,
 } from '../utils/getPaticlePositions';
-import HighEntropySystem from './EntropySystem/HighEntropySystem';
-import LowEntropySystem from './EntropySystem/LowEntropySystem';
-import MediumEntropySystem from './EntropySystem/MediumEntropySystem';
-import VeryHighEntropySystem from './EntropySystem/VeryHighEntropySystem';
-import VeryLowEntropySystem from './EntropySystem/VeryLowEntropySystem';
+import EntropySystemWrapper, { ParticleProps } from './EntropySystemWrapper';
+import {
+  HighParticle,
+  LowParticle,
+  MediumParticle,
+  VeryHighParticle,
+  VeryLowParticle,
+} from './Particles';
 
 // TODO: race condition between pan gesture and scrollView
 const EntropyCanvas = () => {
@@ -196,65 +200,42 @@ function EntropySystem({
   const highParticles = useMemo(() => calculateHighParticles(), []);
   const veryHighParticles = useMemo(() => calculateVeryHighParticles(), []);
 
+  let particles: Vector[] = [];
+  let ParticleComponent: React.ComponentType<ParticleProps> | null = null;
+
   if (
     entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.VERY_LOW_MAX
   ) {
-    return (
-      <VeryLowEntropySystem
-        touchX={touchX}
-        touchY={touchY}
-        isTouching={isTouching}
-        theme={theme}
-        particles={veryLowParticles}
-      />
-    );
-  }
-
-  if (entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.LOW_MAX) {
-    return (
-      <LowEntropySystem
-        touchX={touchX}
-        touchY={touchY}
-        isTouching={isTouching}
-        theme={theme}
-        particles={lowParticles}
-      />
-    );
-  }
-
-  if (
+    particles = veryLowParticles;
+    ParticleComponent = VeryLowParticle;
+  } else if (
+    entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.LOW_MAX
+  ) {
+    particles = lowParticles;
+    ParticleComponent = LowParticle;
+  } else if (
     entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.MEDIUM_MAX
   ) {
-    return (
-      <MediumEntropySystem
-        touchX={touchX}
-        touchY={touchY}
-        isTouching={isTouching}
-        theme={theme}
-        particles={mediumParticles}
-      />
-    );
-  }
-
-  if (entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.HIGH_MAX) {
-    return (
-      <HighEntropySystem
-        touchX={touchX}
-        touchY={touchY}
-        isTouching={isTouching}
-        theme={theme}
-        particles={highParticles}
-      />
-    );
+    particles = mediumParticles;
+    ParticleComponent = MediumParticle;
+  } else if (
+    entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.HIGH_MAX
+  ) {
+    particles = highParticles;
+    ParticleComponent = HighParticle;
+  } else {
+    particles = veryHighParticles;
+    ParticleComponent = VeryHighParticle;
   }
 
   return (
-    <VeryHighEntropySystem
+    <EntropySystemWrapper
       touchX={touchX}
       touchY={touchY}
       isTouching={isTouching}
       theme={theme}
-      particles={veryHighParticles}
+      particles={particles}
+      ParticleComponent={ParticleComponent}
     />
   );
 }

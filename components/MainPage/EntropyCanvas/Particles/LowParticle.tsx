@@ -1,19 +1,16 @@
 import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
-import { Vector } from '@/lib/math/Vector';
-import { Theme } from '@/styles';
 import { Circle, vec } from '@shopify/react-native-skia';
 import React from 'react';
 import {
-  SharedValue,
   useDerivedValue,
   useFrameCallback,
   useSharedValue,
 } from 'react-native-reanimated';
+import { ParticleProps } from '../EntropySystemWrapper';
 
 const {
   PARTICLE: {
     INFLUENCE_DISTANCE,
-    RESTORE_FORCE,
     FRICTION,
     PUSH_FORCE,
     SPEED_SCALE,
@@ -21,73 +18,18 @@ const {
   },
   MIN_RADIUS,
   MAX_RADIUS,
-} = ENTROPY_SYSTEM_CONSTANTS.HIGH;
+} = ENTROPY_SYSTEM_CONSTANTS.LOW;
 
-interface ParticleSystemProps {
-  touchX: SharedValue<number>;
-  touchY: SharedValue<number>;
-  isTouching: SharedValue<boolean>;
-  theme: Theme;
-  particles: Vector[];
-}
-
-function HighEntropySystem({
-  touchX,
-  touchY,
-  isTouching,
-  theme,
-  particles,
-}: ParticleSystemProps) {
-  return (
-    <>
-      {particles.map((particle, index) => {
-        const radius = Math.random() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
-
-        const colorValue = theme.colors.particles.base;
-
-        const maxAlpha = theme.colors.particles.maxAlpha;
-        const minAlpha = theme.colors.particles.minAlpha;
-
-        const alpha = Math.random() * (maxAlpha - minAlpha) + minAlpha;
-
-        const color = `rgba(${colorValue}, ${colorValue}, ${colorValue}, ${alpha})`;
-
-        return (
-          <Particle
-            key={`particle-${index}-${particle.x}-${particle.y}`}
-            centerX={particle.x}
-            centerY={particle.y}
-            radius={radius}
-            color={color}
-            touchX={touchX}
-            touchY={touchY}
-            isTouching={isTouching}
-          />
-        );
-      })}
-    </>
-  );
-}
-
-interface ParticleProps {
-  centerX: number;
-  centerY: number;
-  radius: number;
-  color: string;
-  touchX: SharedValue<number>;
-  touchY: SharedValue<number>;
-  isTouching: SharedValue<boolean>;
-}
-
-function Particle({
+function LowParticle({
   centerX,
   centerY,
-  radius,
   color,
   touchX,
   touchY,
   isTouching,
 }: ParticleProps): React.JSX.Element {
+  const radius = Math.random() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
+
   // position and velocity
   const px = useSharedValue(centerX);
   const py = useSharedValue(centerY);
@@ -96,14 +38,6 @@ function Particle({
 
   // physics simulation loop
   useFrameCallback(() => {
-    // restore force
-    const rtX = (centerX - px.value) * RESTORE_FORCE;
-    const rtY = (centerY - py.value) * RESTORE_FORCE;
-
-    // apply force to velocity (acceleration)
-    vx.value += rtX;
-    vy.value += rtY;
-
     // apply friction (velocity decrease)
     vx.value *= FRICTION;
     vy.value *= FRICTION;
@@ -143,4 +77,4 @@ function Particle({
   return <Circle c={position} r={radius} color={color} />;
 }
 
-export default HighEntropySystem;
+export default LowParticle;

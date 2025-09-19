@@ -3,7 +3,7 @@ import {
   particleCanvasHeight,
   particleCanvasWidth,
 } from '@/components/MainPage/constants/entropySystem/dimension';
-import { RING_PARTICLE_CONSTANTS } from '@/components/MainPage/EntropyCanvas/EntropySystem/VeryHighEntropySystem';
+import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { useTheme } from '@/contexts/ThemeContext';
 import { generateEdgeParticles } from '@/lib/algorithms/particleDistribution';
 import { baseTokens } from '@/styles';
@@ -60,6 +60,36 @@ const ONBOARDING_CONTENT = [
   {
     content:
       'enflo는 엔트로피를 낮추고 집중을 붙잡아 줍니다. \nenflo와 함께 낮은 엔트로피를 유지해보세요',
+  },
+];
+
+const { MAX_THRESHOLD } = ENTROPY_SYSTEM_CONSTANTS.VERY_HIGH;
+
+const RING_PARTICLE_CONSTANTS = [
+  {
+    threshold: MAX_THRESHOLD,
+    stepAngle: MAX_THRESHOLD * 0.06,
+    randomOffset: 0,
+  },
+  {
+    threshold: MAX_THRESHOLD * 0.92,
+    stepAngle: MAX_THRESHOLD * 0.06,
+    randomOffset: 0,
+  },
+  {
+    threshold: MAX_THRESHOLD * 0.85,
+    stepAngle: MAX_THRESHOLD * 0.06,
+    randomOffset: 0,
+  },
+  {
+    threshold: MAX_THRESHOLD * 0.78,
+    stepAngle: MAX_THRESHOLD * 0.06,
+    randomOffset: 0,
+  },
+  {
+    threshold: MAX_THRESHOLD * 0.71,
+    stepAngle: MAX_THRESHOLD * 0.06,
+    randomOffset: 0,
   },
 ];
 
