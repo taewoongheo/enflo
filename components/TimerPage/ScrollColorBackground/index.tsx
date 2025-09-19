@@ -15,17 +15,6 @@ function ScrollColorBackground({ theme }: { theme: Theme }) {
           backgroundColor: theme.colors.pages.timer.slider.background,
         }}
       />
-
-      <View
-        style={{
-          position: 'absolute',
-          top: windowHeight * 0.2,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: theme.colors.background,
-        }}
-      />
     </>
   );
 }

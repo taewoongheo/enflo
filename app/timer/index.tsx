@@ -1,7 +1,6 @@
 import { ContentLayout } from '@/components/common/ContentLayout';
 import ContentLayoutWithBackAndSetting from '@/components/common/ContentLayoutWithBackAndSetting';
 import {
-  ScrollColorBackground,
   TimerHeader,
   TimerPlayButton,
   TimerSuggestion,
@@ -27,7 +26,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
 
 export default function Timer() {
@@ -50,15 +49,7 @@ export default function Timer() {
     return null;
   }
 
-  return (
-    <SafeAreaView
-      edges={['top']}
-      style={[styles.safeArea, { backgroundColor: theme.colors.background }]}
-    >
-      <ScrollColorBackground theme={theme} />
-      <TimerContent theme={theme} session={session} t={t} />
-    </SafeAreaView>
-  );
+  return <TimerContent theme={theme} session={session} t={t} />;
 }
 
 function TimerContent({
@@ -137,6 +128,8 @@ function TimerContent({
     setIsRunning(!isRunning);
   };
 
+  const safeViewInsets = useSafeAreaInsets();
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -150,6 +143,7 @@ function TimerContent({
           {
             backgroundColor: theme.colors.pages.timer.slider.background,
             borderRadius: baseTokens.borderRadius.xl,
+            paddingTop: safeViewInsets.top,
           },
         ]}
       >
