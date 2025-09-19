@@ -7,21 +7,16 @@ import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 import { useSessionCache } from '@/store/sessionCache';
 import { Theme } from '@/styles/themes';
-import { formatMsToMMSS, formatTimestampToHHMM, getToday } from '@/utils/time';
+import { formatTimestampToHHMM, getToday } from '@/utils/time';
 import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TouchableOpacity, View } from 'react-native';
+
 import { generateSuggestion } from '../utils/generateSuggestion';
 import { toUserMessage } from '../utils/toUserMessage';
+import FocusRecords, { FocusRecordItem } from './FocusRecords';
 
-interface TimerHistoryItem {
-  durationStr: string;
-  dayOfWeek: string;
-  dateStr: string;
-  timestamp: number;
-  durationMs: number;
-}
+type TimerHistoryItem = FocusRecordItem;
 
 // 요일 이름 매핑
 const getDayOfWeekName = (timestamp: number, locale: string): string => {
@@ -131,8 +126,6 @@ function TimerTrends({
     setDisplayCount((prev) => prev + 10);
   };
 
-  const hasMoreSessions = displayCount < allTimerSessions.length;
-
   return (
     <>
       <Trends theme={theme} t={t} />
@@ -148,84 +141,12 @@ function TimerTrends({
       >
         집중 기록
       </Typography>
-      <View>
-        {timerHistory.map((item, index) => (
-          <View
-            key={`${item.timestamp}-${index}`}
-            style={{ marginVertical: 10 }}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Typography
-                variant="body1Regular"
-                style={{ color: theme.colors.pages.timer.slider.text.primary }}
-              >
-                {item.durationStr}
-              </Typography>
-              <View style={{ flexDirection: 'row', gap: 10 }}>
-                <Typography
-                  variant="body2Regular"
-                  style={{
-                    color: theme.colors.pages.timer.slider.text.secondary,
-                  }}
-                >
-                  {formatMsToMMSS(item.durationMs)}
-                </Typography>
-                <Typography
-                  variant="body2Regular"
-                  style={{
-                    color: theme.colors.pages.timer.slider.text.secondary,
-                  }}
-                >
-                  {item.dateStr}
-                </Typography>
-
-                <Typography
-                  variant="body2Regular"
-                  style={{
-                    color: theme.colors.pages.timer.slider.text.secondary,
-                  }}
-                >
-                  {item.dayOfWeek}
-                </Typography>
-              </View>
-            </View>
-            <View
-              style={{
-                height: 1,
-                backgroundColor: theme.colors.pages.timer.slider.text.primary,
-                opacity: 0.2,
-              }}
-            />
-          </View>
-        ))}
-        {hasMoreSessions && (
-          <TouchableOpacity
-            onPress={handleLoadMore}
-            style={{
-              marginTop: 16,
-              paddingVertical: 12,
-              paddingHorizontal: 24,
-              borderRadius: 8,
-              alignItems: 'center',
-            }}
-          >
-            <Typography
-              variant="body1Bold"
-              style={{
-                color: theme.colors.text.primary,
-              }}
-            >
-              더 보기 ({allTimerSessions.length - displayCount}개 남음)
-            </Typography>
-          </TouchableOpacity>
-        )}
-      </View>
+      <FocusRecords
+        items={timerHistory}
+        remainingCount={Math.max(allTimerSessions.length - displayCount, 0)}
+        onLoadMore={handleLoadMore}
+        theme={theme}
+      />
     </>
   );
 }
