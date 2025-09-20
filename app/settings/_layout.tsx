@@ -4,8 +4,7 @@ import React from 'react';
 export default function SettingsLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="feedback" />
-      <Stack.Screen name="howToUse" />
+      <Stack.Screen name="intro" />
       <Stack.Screen name="language" />
       <Stack.Screen name="license" />
       <Stack.Screen name="privacy" />

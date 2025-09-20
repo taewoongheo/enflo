@@ -56,7 +56,7 @@ export default function SettingsScreen() {
               <SettingsItem
                 theme={theme}
                 title={t('howToUseEnflo')}
-                onPress={() => handleSettingPress('howToUse')}
+                onPress={() => handleSettingPress('intro')}
               />
               <SettingsItem
                 theme={theme}

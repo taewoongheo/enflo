@@ -82,7 +82,7 @@ function OnboardingContent({ touchable, onNext }: OnboardingContentProps) {
             style={{
               width: particleCanvasWidth,
               flex: 1,
-              paddingHorizontal: 20,
+              paddingHorizontal: baseTokens.spacing[2],
               justifyContent: 'space-between',
               alignItems: 'center',
               paddingVertical: baseTokens.spacing[6],
@@ -103,10 +103,10 @@ function OnboardingContent({ touchable, onNext }: OnboardingContentProps) {
               disabled={!touchable}
               style={{
                 backgroundColor: theme.colors.text.primary,
-                paddingHorizontal: baseTokens.spacing[4],
-                paddingVertical: baseTokens.spacing[2],
+                paddingVertical: baseTokens.spacing[3],
                 borderRadius: baseTokens.borderRadius.sm,
                 opacity: touchable ? 1 : 0.5,
+                width: '90%',
               }}
             >
               <Typography
