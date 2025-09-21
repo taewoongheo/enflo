@@ -3,11 +3,13 @@ import Typography from '@/components/common/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens, ThemeName } from '@/styles';
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { Pressable } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 function ThemeChangeScreen() {
   const { theme, setTheme, themeName } = useTheme();
+  const { t } = useTranslation('settings');
 
   const modes = ['light', 'dark'];
 
@@ -27,7 +29,7 @@ function ThemeChangeScreen() {
             key={mode}
           >
             <Typography style={{ color: theme.colors.text.primary }}>
-              {mode === 'light' ? '라이트 모드' : '다크 모드'}
+              {mode === 'light' ? t('lightMode') : t('darkMode')}
             </Typography>
             <Ionicons
               name={mode === themeName ? 'radio-button-on' : 'radio-button-off'}

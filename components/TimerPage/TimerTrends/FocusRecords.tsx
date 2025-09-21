@@ -2,6 +2,7 @@ import Typography from '@/components/common/Typography';
 import { Theme } from '@/styles/themes';
 import { formatMsToMMSS } from '@/utils/time';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 
 export type FocusRecordItem = {
@@ -25,6 +26,8 @@ function FocusRecords({
   onLoadMore,
   theme,
 }: FocusRecordsProps) {
+  const { t } = useTranslation('timer');
+
   return (
     <View>
       {items.map((item, index) => (
@@ -65,7 +68,7 @@ function FocusRecords({
                   color: theme.colors.pages.timer.slider.text.secondary,
                 }}
               >
-                {formatMsToMMSS(item.durationMs)} 분
+                {formatMsToMMSS(item.durationMs)} {t('minutes')}
               </Typography>
             </View>
           </View>
@@ -95,7 +98,7 @@ function FocusRecords({
               color: theme.colors.text.primary,
             }}
           >
-            더 보기 ({remainingCount}개 남음)
+            {t('loadMoreButton', { count: remainingCount })}
           </Typography>
         </TouchableOpacity>
       )}

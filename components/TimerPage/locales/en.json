@@ -10,5 +10,7 @@
   "editSessionTitle": "Edit Session Name",
   "sessionNamePlaceholder": "Session Name",
   "editButton": "Edit",
-  "deleteSession": "Delete Session"
+  "deleteSession": "Delete Session",
+  "loadMoreButton": "Load More ({{count}} remaining)",
+  "focusRecords": "Focus Records"
 }

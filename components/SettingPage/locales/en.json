@@ -9,5 +9,22 @@
   "privacyPolicy": "Privacy Policy",
   "termsOfService": "Terms of Service",
   "licenseInfo": "License Information",
-  "appVersion": "App Version"
+  "appVersion": "App Version",
+  "lightMode": "Light Mode",
+  "darkMode": "Dark Mode",
+  "howWasTheApp": "How was the app?",
+  "selectSatisfiedPoints": "Select what you were satisfied with (multiple)",
+  "improvementSuggestions": "Please let us know if there are any areas for improvement",
+  "entropyVisualization": "Entropy Visualization",
+  "focusAnalysisStats": "Focus Analysis/Statistics",
+  "design": "Design",
+  "functionConvenience": "Function Convenience",
+  "motivation": "Motivation",
+  "others": "Others",
+  "submitButton": "Submit",
+  "hello": "Hello",
+  "welcomeMessage": "welcome to",
+  "startButton": "Get Started",
+  "nextButton": "Next",
+  "touchOrDragHint": "Touch or drag the screen"
 }

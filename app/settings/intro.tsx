@@ -3,12 +3,14 @@ import { viewportWidth } from '@/components/MainPage/constants/entropySystem/dim
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 function IntroScreen() {
   const { theme } = useTheme();
   const router = useRouter();
+  const { i18n, t } = useTranslation('settings');
 
   return (
     <SafeAreaView
@@ -46,31 +48,73 @@ function IntroScreen() {
               color: theme.colors.text.primary,
             }}
           >
-            안녕하세요 👋{'\n'}
-            <View style={{ flexDirection: 'row', gap: baseTokens.spacing[1] }}>
-              <View
-                style={{
-                  paddingInline: baseTokens.spacing[1],
-                  backgroundColor: theme.colors.pages.timer.slider.picker,
-                  borderRadius: baseTokens.borderRadius.xs,
-                }}
-              >
-                <Typography
-                  variant="title3Bold"
-                  style={{
-                    color: theme.colors.background,
-                  }}
+            {i18n.language === 'ko' ? (
+              <>
+                {t('hello')} 👋{'\n'}
+                <View
+                  style={{ flexDirection: 'row', gap: baseTokens.spacing[1] }}
                 >
-                  enflo
-                </Typography>
-              </View>
-              <Typography
-                variant="title3Regular"
-                style={{ color: theme.colors.text.primary }}
-              >
-                에 오신걸 환영합니다!
-              </Typography>
-            </View>
+                  <View
+                    style={{
+                      paddingInline: baseTokens.spacing[1],
+                      backgroundColor: theme.colors.pages.timer.slider.picker,
+                      borderRadius: baseTokens.borderRadius.xs,
+                    }}
+                  >
+                    <Typography
+                      variant="title3Bold"
+                      style={{
+                        color: theme.colors.background,
+                      }}
+                    >
+                      enflo
+                    </Typography>
+                  </View>
+                  <Typography
+                    variant="title3Regular"
+                    style={{ color: theme.colors.text.primary }}
+                  >
+                    {t('welcomeMessage')}
+                  </Typography>
+                </View>
+              </>
+            ) : (
+              <>
+                {t('hello')} 👋{'\n'}
+                <View
+                  style={{ flexDirection: 'row', gap: baseTokens.spacing[1] }}
+                >
+                  <Typography
+                    variant="title3Regular"
+                    style={{ color: theme.colors.text.primary }}
+                  >
+                    {t('welcomeMessage')}
+                  </Typography>
+                  <View
+                    style={{
+                      paddingInline: baseTokens.spacing[1],
+                      backgroundColor: theme.colors.pages.timer.slider.picker,
+                      borderRadius: baseTokens.borderRadius.xs,
+                    }}
+                  >
+                    <Typography
+                      variant="title3Bold"
+                      style={{
+                        color: theme.colors.background,
+                      }}
+                    >
+                      enflo
+                    </Typography>
+                  </View>
+                  <Typography
+                    variant="title3Regular"
+                    style={{ color: theme.colors.text.primary }}
+                  >
+                    !
+                  </Typography>
+                </View>
+              </>
+            )}
           </Typography>
         </View>
 
@@ -98,7 +142,7 @@ function IntroScreen() {
                 textAlign: 'center',
               }}
             >
-              시작하기
+              {t('startButton')}
             </Typography>
           </Pressable>
         </View>

@@ -8,6 +8,7 @@ import {
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
@@ -17,6 +18,7 @@ const contentGap = baseTokens.spacing[1];
 export default function StatisticsScreen() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation('stats');
 
   return (
     <View
@@ -33,7 +35,7 @@ export default function StatisticsScreen() {
               variant="title2Bold"
               style={{ color: theme.colors.text.primary }}
             >
-              통계
+              {t('statisticsTitle')}
             </Typography>
           </InfoLayout>
           <InfoLayout>

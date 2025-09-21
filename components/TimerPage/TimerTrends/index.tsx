@@ -139,7 +139,7 @@ function TimerTrends({
         variant="body1Bold"
         style={{ color: theme.colors.pages.timer.slider.text.secondary }}
       >
-        집중 기록
+        {t('focusRecords')}
       </Typography>
       <FocusRecords
         items={timerHistory}

@@ -29,32 +29,32 @@ function FeedbackBottomSheet({
   const [satisfiedItems, setSatisfiedItems] = useState([
     {
       id: 0,
-      name: '엔트로피 시각화',
+      nameKey: 'entropyVisualization',
       selected: false,
     },
     {
       id: 1,
-      name: '집중 분석/통계',
+      nameKey: 'focusAnalysisStats',
       selected: false,
     },
     {
       id: 2,
-      name: '디자인',
+      nameKey: 'design',
       selected: false,
     },
     {
       id: 3,
-      name: '기능 편리함',
+      nameKey: 'functionConvenience',
       selected: false,
     },
     {
       id: 4,
-      name: '동기 부여',
+      nameKey: 'motivation',
       selected: false,
     },
     {
       id: 5,
-      name: '기타',
+      nameKey: 'others',
       selected: false,
     },
   ]);
@@ -119,7 +119,7 @@ function FeedbackBottomSheet({
               variant="body1Bold"
               style={{ color: theme.colors.bottomSheet.text.primary }}
             >
-              {t('앱은 어떠셨나요?')}
+              {t('howWasTheApp')}
             </Typography>
             <View style={{ flexDirection: 'row', gap: baseTokens.spacing[3] }}>
               {Array.from({ length: 5 }).map((_, index) => (
@@ -138,12 +138,12 @@ function FeedbackBottomSheet({
               variant="body1Bold"
               style={{ color: theme.colors.bottomSheet.text.primary }}
             >
-              {t('만족스러웠던 점을 선택해주세요(중복)')}
+              {t('selectSatisfiedPoints')}
             </Typography>
             <View
               style={{
                 flexDirection: 'row',
-                gap: baseTokens.spacing[3],
+                gap: baseTokens.spacing[1],
                 flexWrap: 'wrap',
               }}
             >
@@ -159,7 +159,7 @@ function FeedbackBottomSheet({
                       }),
                     );
                   }}
-                  key={item.name}
+                  key={item.nameKey}
                   style={{
                     backgroundColor: item.selected
                       ? theme.colors.bottomSheet.buttonBackground
@@ -181,7 +181,7 @@ function FeedbackBottomSheet({
                         : theme.colors.bottomSheet.text.primary,
                     }}
                   >
-                    {item.name}
+                    {t(item.nameKey)}
                   </Typography>
                 </Pressable>
               ))}
@@ -193,7 +193,7 @@ function FeedbackBottomSheet({
               variant="body1Bold"
               style={{ color: theme.colors.bottomSheet.text.primary }}
             >
-              {t('개선되었으면 하는 부분이 있다면 알려주세요')}
+              {t('improvementSuggestions')}
             </Typography>
             <BottomSheetTextInput
               onChangeText={(text) => {
@@ -224,7 +224,7 @@ function FeedbackBottomSheet({
 
                   const checked = satisfiedItems
                     .filter((el) => el.selected)
-                    .map((el) => el.name)
+                    .map((el) => el.nameKey)
                     .join(' | ');
 
                   const rawBody = JSON.stringify({ feedback, checked, rating });

@@ -1,6 +1,5 @@
-import OnboardingContent, {
-  ONBOARDING_CONTENT,
-} from '@/components/SettingPage/HowToUse/OnboardingContent';
+import OnboardingContent from '@/components/SettingPage/HowToUse/OnboardingContent';
+import { ONBOARDING_CONTENT_KO } from '@/components/SettingPage/HowToUse/OnboardingKo';
 import ParticleCanvas from '@/components/SettingPage/HowToUse/ParticleCanvas';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRouter } from 'expo-router';
@@ -24,7 +23,7 @@ function HowToUseScreen() {
   };
 
   const handleNext = () => {
-    if (currentIndex === ONBOARDING_CONTENT.length - 1) {
+    if (currentIndex === ONBOARDING_CONTENT_KO.length - 1) {
       router.push('/');
       return;
     }
@@ -33,10 +32,13 @@ function HowToUseScreen() {
       setTouchable(false);
     }
 
-    const nextIndex = Math.min(currentIndex + 1, ONBOARDING_CONTENT.length - 1);
+    const nextIndex = Math.min(
+      currentIndex + 1,
+      ONBOARDING_CONTENT_KO.length - 1,
+    );
     setCurrentIndex(nextIndex);
 
-    if (nextIndex >= 2 && nextIndex < ONBOARDING_CONTENT.length - 4) {
+    if (nextIndex >= 2 && nextIndex < ONBOARDING_CONTENT_KO.length - 4) {
       setLow(true);
       return;
     }

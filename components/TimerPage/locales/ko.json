@@ -10,5 +10,7 @@
   "editSessionTitle": "세션 이름 수정",
   "sessionNamePlaceholder": "세션 이름",
   "editButton": "수정",
-  "deleteSession": "세션 삭제"
+  "deleteSession": "세션 삭제",
+  "loadMoreButton": "더 보기 ({{count}}개 남음)",
+  "focusRecords": "집중 기록"
 }
