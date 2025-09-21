@@ -56,7 +56,7 @@ function IntroScreen() {
                 }}
               >
                 <Typography
-                  variant="title3Regular"
+                  variant="title3Bold"
                   style={{
                     color: theme.colors.background,
                   }}
