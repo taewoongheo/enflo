@@ -5,6 +5,7 @@ type BottomSheetContextType = {
   addSessionBottomSheetRef: React.RefObject<BottomSheet | null>;
   editSessionBottomSheetRef: React.RefObject<BottomSheet | null>;
   feedbackBottomSheetRef: React.RefObject<BottomSheet | null>;
+  captionBottomSheetRef: React.RefObject<BottomSheet | null>;
 };
 
 const BottomSheetContext = createContext<BottomSheetContextType | undefined>(
@@ -19,12 +20,14 @@ export const BottomSheetProvider = ({
   const addSessionBottomSheetRef = useRef<BottomSheet | null>(null);
   const editSessionBottomSheetRef = useRef<BottomSheet | null>(null);
   const feedbackBottomSheetRef = useRef<BottomSheet | null>(null);
+  const captionBottomSheetRef = useRef<BottomSheet | null>(null);
 
   const refs = useMemo(
     () => ({
       addSessionBottomSheetRef,
       editSessionBottomSheetRef,
       feedbackBottomSheetRef,
+      captionBottomSheetRef,
     }),
     [],
   );

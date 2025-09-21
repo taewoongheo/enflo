@@ -1,6 +1,7 @@
 import Typography from '@/components/common/Typography';
 import AddSessionBottomSheet from '@/components/MainPage/AddSessionBottomSheet';
 import { FeedbackBottomSheet } from '@/components/SettingPage';
+import CaptionBottomSheet from '@/components/SettingPage/CaptionBottomSheet';
 import EditSessionBottomSheet from '@/components/TimerPage/EditSessionBottomSheet';
 import {
   BottomSheetProvider,
@@ -77,6 +78,7 @@ function BottomSheetWrapper() {
     addSessionBottomSheetRef,
     editSessionBottomSheetRef,
     feedbackBottomSheetRef,
+    captionBottomSheetRef,
   } = useBottomSheet();
 
   return (
@@ -96,6 +98,12 @@ function BottomSheetWrapper() {
       <FeedbackBottomSheet
         feedbackBottomSheetRef={
           feedbackBottomSheetRef as React.RefObject<BottomSheetMethods>
+        }
+        theme={theme}
+      />
+      <CaptionBottomSheet
+        captionBottomSheetRef={
+          captionBottomSheetRef as React.RefObject<BottomSheetMethods>
         }
         theme={theme}
       />

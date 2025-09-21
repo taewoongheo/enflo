@@ -44,10 +44,10 @@ function DynamicParticle({
 
   // physics simulation loop
   useFrameCallback(() => {
-    const RESTORE_FORCE = low ? 0.01 : 0.05;
-    const FRICTION = low ? 0.98 : 0.89;
-    const SPEED_SCALE = low ? 0.05 : 0.2;
-    const PUSH_FORCE = low ? 120 : 20;
+    const RESTORE_FORCE = low ? 0.005 : 0.05;
+    const FRICTION = low ? 0.99 : 0.89;
+    const SPEED_SCALE = low ? 0.2 : 0.2;
+    const PUSH_FORCE = low ? 150 : 20;
 
     if (low) {
       centerX = nextX;

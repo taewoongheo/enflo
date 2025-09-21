@@ -1,5 +1,6 @@
 import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import Typography from '@/components/common/Typography';
+import { useBottomSheet } from '@/contexts/BottomSheetContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { entropyService } from '@/services/EntropyService';
 import { useEntropyStore } from '@/store/entropyStore';
@@ -15,6 +16,7 @@ import { Pressable } from 'react-native-gesture-handler';
 const EntropyScore = () => {
   const { theme } = useTheme();
   const entropyScore = useEntropyStore((s) => s.entropyScore);
+  const { captionBottomSheetRef } = useBottomSheet();
 
   const entropyStateSnapshot = useRef<{
     entropyScore: number;
@@ -126,7 +128,7 @@ const EntropyScore = () => {
     <Pressable
       style={[styles.entropyScoreContainer]}
       onPress={() => {
-        console.log('entropy score pressed');
+        captionBottomSheetRef.current?.expand();
       }}
     >
       <Typography
