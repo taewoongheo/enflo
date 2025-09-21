@@ -26,5 +26,8 @@
   "welcomeMessage": "에 오신걸 환영합니다!",
   "startButton": "시작하기",
   "nextButton": "다음",
-  "touchOrDragHint": "화면을 터치하거나 드래그해보세요"
+  "touchOrDragHint": "화면을 터치하거나 드래그해보세요",
+  "entropy": "엔트로피",
+  "entropyDescription": "엔트로피는 현재 몰입 상태를 0~1 사이 값으로 보여줍니다. 0 에 가까울수록 몰입도가 높다는 뜻이에요.",
+  "wantToDiveDeeper": "enflo 로 더 깊게 몰입하고 싶다면?"
 }

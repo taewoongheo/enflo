@@ -8,6 +8,7 @@ import BottomSheet, {
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { useRouter } from 'expo-router';
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
@@ -23,6 +24,7 @@ function CaptionBottomSheet({
 }: CaptionBottomSheetProps) {
   const router = useRouter();
   const entropyScore = useEntropyStore((state) => state.entropyScore);
+  const { t } = useTranslation('settings');
 
   const renderBackdrop = useCallback(
     (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
@@ -72,7 +74,7 @@ function CaptionBottomSheet({
           flex: 1,
           backgroundColor: theme.colors.bottomSheet.background,
           borderRadius: baseTokens.borderRadius.lg,
-          paddingHorizontal: baseTokens.spacing[4],
+          paddingHorizontal: baseTokens.spacing[3],
           paddingVertical: baseTokens.spacing[3],
           paddingBottom: baseTokens.spacing[6],
         }}
@@ -82,7 +84,7 @@ function CaptionBottomSheet({
             style={{
               flexDirection: 'row',
               alignItems: 'baseline',
-              gap: baseTokens.spacing[2],
+              gap: baseTokens.spacing[1],
             }}
           >
             <Typography
@@ -101,7 +103,7 @@ function CaptionBottomSheet({
                 textAlign: 'left',
               }}
             >
-              엔트로피
+              {t('entropy')}
             </Typography>
           </View>
 
@@ -111,8 +113,7 @@ function CaptionBottomSheet({
               color: theme.colors.text.primary,
             }}
           >
-            엔트로피는 현재 몰입 상태를 0~1 사이 값으로 보여줍니다. 0 에
-            가까울수록 몰입도가 높다는 뜻이에요.
+            {t('entropyDescription')}
           </Typography>
           <Pressable
             onPress={() => {
@@ -127,7 +128,7 @@ function CaptionBottomSheet({
                 lineHeight: baseTokens.typography.body1Regular.fontSize * 1.5,
               }}
             >
-              enflo 로 더 깊게 몰입하고 싶다면?
+              {t('wantToDiveDeeper')}
             </Typography>
           </Pressable>
         </View>
