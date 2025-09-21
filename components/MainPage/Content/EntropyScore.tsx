@@ -8,7 +8,7 @@ import { baseTokens } from '@/styles';
 import { clamp } from '@/utils/math';
 import { normalizeScoreToEntropy } from '@/utils/score';
 import { AntDesign } from '@expo/vector-icons';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { Pressable } from 'react-native-gesture-handler';
@@ -17,6 +17,7 @@ const EntropyScore = () => {
   const { theme } = useTheme();
   const entropyScore = useEntropyStore((s) => s.entropyScore);
   const { captionBottomSheetRef } = useBottomSheet();
+  const router = useRouter();
 
   const entropyStateSnapshot = useRef<{
     entropyScore: number;
@@ -97,6 +98,8 @@ const EntropyScore = () => {
           entropyScore: ENTROPY_SYSTEM_GLOBAL_CONSTANTS.INITIAL_ENTROPY_SCORE,
           updatedAt: now,
         };
+
+        router.push('/settings/intro');
       } else {
         entropy = entropyRow;
       }
