@@ -1,3 +1,4 @@
+import { isValidSessionName } from '@/constants/input';
 import { sessionService } from '@/services/SessionService';
 import { baseTokens, Theme } from '@/styles';
 import BottomSheet, {
@@ -8,7 +9,7 @@ import BottomSheet, {
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Keyboard, Pressable } from 'react-native';
+import { Keyboard, Pressable, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
 
@@ -22,6 +23,14 @@ function AddSessionBottomSheet({
   const { t } = useTranslation('main');
   const [sessionName, setSessionName] = useState('');
 
+  const [isError, setIsError] = useState<{
+    isValid: boolean;
+    errorMessage?: string;
+  }>({
+    isValid: true,
+    errorMessage: '',
+  });
+
   const renderBackdrop = useCallback(
     (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
       <BottomSheetBackdrop
@@ -31,6 +40,7 @@ function AddSessionBottomSheet({
         enableTouchThrough={false}
         onPress={() => {
           Keyboard.dismiss();
+          setIsError({ isValid: true, errorMessage: '' });
           setSessionName('');
         }}
       />
@@ -62,6 +72,7 @@ function AddSessionBottomSheet({
         <Pressable
           onPress={() => {
             addSessionBottomSheetRef.current?.snapToIndex(0);
+            setIsError(isValidSessionName(sessionName, t));
             Keyboard.dismiss();
           }}
           style={{
@@ -79,26 +90,42 @@ function AddSessionBottomSheet({
           >
             {t('addNewSessionTitle')}
           </Typography>
-          <BottomSheetTextInput
-            onChangeText={(text) => {
-              setSessionName(text);
-            }}
-            value={sessionName}
-            placeholder={t('sessionNamePlaceholder')}
-            placeholderTextColor={theme.colors.bottomSheet.text.placeholder}
-            style={{
-              borderWidth: scale(1.3),
-              borderColor: theme.colors.bottomSheet.border,
-              paddingHorizontal: baseTokens.spacing[3],
-              borderRadius: baseTokens.borderRadius.sm,
-              color: theme.colors.bottomSheet.text.primary,
-              fontSize: baseTokens.typography.body2Regular.fontSize,
-              fontFamily: baseTokens.typography.body2Regular.fontFamily,
-              height: scale(50),
-            }}
-          />
+          <View style={{ gap: baseTokens.spacing[1] }}>
+            <BottomSheetTextInput
+              onChangeText={(text) => {
+                setSessionName(text);
+              }}
+              value={sessionName}
+              placeholder={t('sessionNamePlaceholder')}
+              placeholderTextColor={theme.colors.bottomSheet.text.placeholder}
+              style={{
+                borderWidth: scale(1.3),
+                borderColor: theme.colors.bottomSheet.border,
+                paddingHorizontal: baseTokens.spacing[3],
+                borderRadius: baseTokens.borderRadius.sm,
+                color: theme.colors.bottomSheet.text.primary,
+                fontSize: baseTokens.typography.body2Regular.fontSize,
+                fontFamily: baseTokens.typography.body2Regular.fontFamily,
+                height: scale(50),
+              }}
+            />
+            {!isError.isValid && (
+              <Typography
+                variant="label"
+                style={{ color: theme.colors.text.error }}
+              >
+                {isError.errorMessage}
+              </Typography>
+            )}
+          </View>
           <Pressable
             onPress={async (e) => {
+              const validation = isValidSessionName(sessionName, t);
+              if (!validation.isValid) {
+                setIsError(validation);
+                return;
+              }
+
               try {
                 await sessionService.addSession({
                   sessionName: sessionName,
@@ -112,6 +139,7 @@ function AddSessionBottomSheet({
 
               e.stopPropagation();
             }}
+            disabled={!isError.isValid}
             style={{
               backgroundColor: theme.colors.bottomSheet.buttonBackground,
               borderWidth: scale(1.3),
@@ -121,6 +149,7 @@ function AddSessionBottomSheet({
               alignItems: 'center',
               justifyContent: 'center',
               height: scale(50),
+              opacity: isError.isValid ? 1 : 0.5,
             }}
           >
             <Typography

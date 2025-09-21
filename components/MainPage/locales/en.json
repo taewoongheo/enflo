@@ -3,5 +3,7 @@
   "totalDuration": "Total duration",
   "addNewSessionTitle": "Add New Session",
   "sessionNamePlaceholder": "Session Name",
-  "addButton": "Add"
+  "addButton": "Add",
+  "sessionNameMinLengthError": "Session name must be at least {{minLength}} characters.",
+  "sessionNameMaxLengthError": "Session name must be {{maxLength}} characters or fewer."
 }

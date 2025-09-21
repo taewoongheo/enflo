@@ -3,5 +3,7 @@
   "totalDuration": "누적 시간",
   "addNewSessionTitle": "새로운 세션 추가",
   "sessionNamePlaceholder": "세션 이름",
-  "addButton": "추가"
+  "addButton": "추가",
+  "sessionNameMinLengthError": "세션 이름은 최소 {{minLength}}자 이상이어야 합니다.",
+  "sessionNameMaxLengthError": "세션 이름은 최대 {{maxLength}}자 이하이어야 합니다."
 }

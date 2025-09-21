@@ -12,5 +12,7 @@
   "editButton": "Edit",
   "deleteSession": "Delete Session",
   "loadMoreButton": "Load More ({{count}} remaining)",
-  "focusRecords": "Focus Records"
+  "focusRecords": "Focus Records",
+  "sessionNameMinLengthError": "Session name must be at least {{minLength}} characters.",
+  "sessionNameMaxLengthError": "Session name must be {{maxLength}} characters or fewer."
 }
