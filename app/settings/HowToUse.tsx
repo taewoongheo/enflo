@@ -36,7 +36,7 @@ function HowToUseScreen() {
     const nextIndex = Math.min(currentIndex + 1, ONBOARDING_CONTENT.length - 1);
     setCurrentIndex(nextIndex);
 
-    if (nextIndex >= 2 && nextIndex < ONBOARDING_CONTENT.length - 2) {
+    if (nextIndex >= 2 && nextIndex < ONBOARDING_CONTENT.length - 4) {
       setLow(true);
       return;
     }

@@ -2,7 +2,7 @@ import { baseTokens } from '@/styles';
 import React from 'react';
 import { StyleProp, Text, TextProps, TextStyle } from 'react-native';
 
-type VariantKeys = keyof typeof baseTokens.typography;
+export type VariantKeys = keyof typeof baseTokens.typography;
 
 interface TypographyProps extends TextProps {
   children: React.ReactNode;
