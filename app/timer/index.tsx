@@ -136,6 +136,9 @@ function TimerContent({
       style={styles.scrollView}
       onScroll={handleScroll}
       bounces={false}
+      contentContainerStyle={{
+        backgroundColor: theme.colors.background,
+      }}
     >
       <View
         style={[
