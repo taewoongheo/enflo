@@ -2,6 +2,7 @@ import Typography, { VariantKeys } from '@/components/common/Typography';
 import { particleCanvasWidth } from '@/components/MainPage/constants/entropySystem/dimension';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens, Theme } from '@/styles';
+import { hapticOnboardingNext } from '@/utils/haptics';
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
@@ -53,6 +54,9 @@ function OnboardingContent({ touchable, onNext }: OnboardingContentProps) {
     );
     setCurrentIndex(nextIndex);
     listRef.current?.scrollToIndex({ index: nextIndex, animated: true });
+
+    hapticOnboardingNext();
+
     onNext();
   };
 

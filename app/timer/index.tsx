@@ -20,6 +20,7 @@ import { timerService } from '@/services/TimerService';
 import { useEntropyStore } from '@/store/entropyStore';
 import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
+import { hapticTimerToggle } from '@/utils/haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { TFunction } from 'i18next';
 import React, { useEffect, useRef, useState } from 'react';
@@ -117,6 +118,8 @@ function TimerContent({
   };
 
   const handleStartPauseToggle = async () => {
+    hapticTimerToggle();
+
     if (!timerSession.current) {
       timerSession.current = await timerService.createTimerSession({
         sessionId: session.sessionId,

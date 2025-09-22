@@ -1,6 +1,8 @@
 import Typography from '@/components/common/Typography';
+import { HAPTIC_THROTTLE_TIME } from '@/constants/haptics';
 import { TIMER_MIN_MINUTES, TIMER_UNIT_MINUTES } from '@/constants/time/time';
 import { baseTokens, Theme } from '@/styles';
+import { hapticTimerHorizontalSnap } from '@/utils/haptics';
 import { useState } from 'react';
 import {
   NativeScrollEvent,
@@ -101,7 +103,7 @@ function TimerTunerSlider({
           scrollEnabled={!isRunning}
           // bounces={false}
           onMomentumScrollEnd={onMomentumScrollEnd}
-          scrollEventThrottle={16}
+          scrollEventThrottle={HAPTIC_THROTTLE_TIME}
           snapToAlignment="center"
           snapToOffsets={TIMER_RANGE.map(
             (_, index) => index * (ELEM_WIDTH + CELL_GAP),
@@ -118,6 +120,7 @@ function TimerTunerSlider({
             paddingHorizontal: scrollHalfWidth - ELEM_WIDTH / 2,
             alignItems: 'center',
           }}
+          onScroll={() => hapticTimerHorizontalSnap()}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
               <Typography

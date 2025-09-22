@@ -12,6 +12,7 @@ import { TFunction } from 'i18next';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { hapticAddRecordLoad } from '@/utils/haptics';
 import { generateSuggestion } from '../utils/generateSuggestion';
 import { toUserMessage } from '../utils/toUserMessage';
 import FocusRecords, { FocusRecordItem } from './FocusRecords';
@@ -123,6 +124,8 @@ function TimerTrends({
   }, [allTimerSessions, displayCount]);
 
   const handleLoadMore = () => {
+    hapticAddRecordLoad();
+
     setDisplayCount((prev) => prev + 10);
   };
 

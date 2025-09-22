@@ -2,6 +2,7 @@ import { isValidSessionName } from '@/constants/input';
 import { sessionService } from '@/services/SessionService';
 import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
+import { hapticSubmit } from '@/utils/haptics';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetTextInput,
@@ -146,6 +147,8 @@ function EditSessionBottomSheet({
                 return;
               }
 
+              hapticSubmit();
+
               try {
                 await sessionService.updateSessionName({
                   sessionId: sessionId,
@@ -183,10 +186,13 @@ function EditSessionBottomSheet({
           </Pressable>
           <Pressable
             onPress={async (e) => {
+              hapticSubmit();
+
               try {
                 await sessionService.deleteSession({
                   sessionId: sessionId,
                 });
+
                 setSessionName('');
                 editSessionBottomSheetRef.current?.close();
                 router.back();

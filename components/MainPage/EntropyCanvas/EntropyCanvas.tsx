@@ -3,10 +3,12 @@ import {
   particleCanvasWidth,
 } from '@/components/MainPage/constants/entropySystem/dimension';
 import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
+import { HAPTIC_THROTTLE_TIME } from '@/constants/haptics';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Vector } from '@/lib/math/Vector';
 import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens, Theme } from '@/styles';
+import { hapticEntropyDrag } from '@/utils/haptics';
 import { Foundation } from '@expo/vector-icons';
 import {
   Canvas,
@@ -32,7 +34,7 @@ import {
   PanGestureHandlerEventPayload,
   TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
-import { SharedValue, useSharedValue } from 'react-native-reanimated';
+import { runOnJS, SharedValue, useSharedValue } from 'react-native-reanimated';
 import {
   calculateHighParticles,
   calculateLowParticles,
@@ -70,6 +72,7 @@ const EntropyCanvas = () => {
       | GestureUpdateEvent<TapGestureHandlerEventPayload>,
   ) => {
     'worklet';
+
     touchX.value = e.x;
     touchY.value = e.y;
     isTouching.value = true;
@@ -77,6 +80,8 @@ const EntropyCanvas = () => {
 
   const tap = Gesture.Tap()
     .onBegin((e) => {
+      runOnJS(hapticEntropyDrag)();
+
       handleTouch(e);
     })
     .onEnd(() => {
@@ -84,11 +89,21 @@ const EntropyCanvas = () => {
       isTouching.value = false;
     });
 
+  const lastTimestamp = useSharedValue<number>(0);
+
   const pan = Gesture.Pan()
     .onBegin((e) => {
+      lastTimestamp.value = performance.now();
+
       handleTouch(e);
     })
     .onUpdate((e) => {
+      if (performance.now() - lastTimestamp.value > HAPTIC_THROTTLE_TIME) {
+        lastTimestamp.value = performance.now();
+
+        runOnJS(hapticEntropyDrag)();
+      }
+
       handleTouch(e);
     })
     .onEnd(() => {

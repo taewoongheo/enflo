@@ -1,6 +1,7 @@
 import { isValidSessionName } from '@/constants/input';
 import { sessionService } from '@/services/SessionService';
 import { baseTokens, Theme } from '@/styles';
+import { hapticSubmit } from '@/utils/haptics';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetTextInput,
@@ -125,6 +126,8 @@ function AddSessionBottomSheet({
                 setIsError(validation);
                 return;
               }
+
+              hapticSubmit();
 
               try {
                 await sessionService.addSession({

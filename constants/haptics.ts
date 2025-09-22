@@ -1,0 +1,1 @@
+export const HAPTIC_THROTTLE_TIME = 100;

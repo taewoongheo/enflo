@@ -2,6 +2,7 @@ import { useBottomSheet } from '@/contexts/BottomSheetContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens } from '@/styles';
+import { hapticAddSession } from '@/utils/haptics';
 import { AntDesign } from '@expo/vector-icons';
 import React, { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
@@ -21,6 +22,8 @@ const SessionList = () => {
   const { addSessionBottomSheetRef } = useBottomSheet();
 
   const handleAddSessionClick = () => {
+    hapticAddSession();
+
     addSessionBottomSheetRef.current?.expand();
   };
 

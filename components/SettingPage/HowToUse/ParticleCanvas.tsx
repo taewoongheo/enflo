@@ -3,7 +3,9 @@ import {
   particleCanvasWidth,
 } from '@/components/MainPage/constants/entropySystem/dimension';
 import { calculateHowToUseParticles } from '@/components/MainPage/utils/getHowToUseParticles';
+import { HAPTIC_THROTTLE_TIME } from '@/constants/haptics';
 import { useTheme } from '@/contexts/ThemeContext';
+import { hapticEntropyDrag } from '@/utils/haptics';
 import {
   Canvas,
   Group,
@@ -62,12 +64,15 @@ function ParticleCanvas({ low, onTouchableEnable }: ParticleCanvasProps) {
     touchY.value = e.y;
     isTouching.value = true;
 
-    // 첫 터치 시 touchable을 true로 설정
     runOnJS(onTouchableEnable)();
   };
 
+  const lastTimestamp = useSharedValue<number>(0);
+
   const tap = Gesture.Tap()
     .onBegin((e) => {
+      runOnJS(hapticEntropyDrag)();
+
       handleTouch(e);
     })
     .onEnd(() => {
@@ -77,9 +82,17 @@ function ParticleCanvas({ low, onTouchableEnable }: ParticleCanvasProps) {
 
   const pan = Gesture.Pan()
     .onBegin((e) => {
+      lastTimestamp.value = performance.now();
+
       handleTouch(e);
     })
     .onUpdate((e) => {
+      if (performance.now() - lastTimestamp.value > HAPTIC_THROTTLE_TIME) {
+        lastTimestamp.value = performance.now();
+
+        runOnJS(hapticEntropyDrag)();
+      }
+
       handleTouch(e);
     })
     .onEnd(() => {

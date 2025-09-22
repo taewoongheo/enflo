@@ -1,5 +1,6 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
+import { hapticTabSwitch } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
@@ -33,6 +34,9 @@ export default function TabLayout() {
             />
           ),
         }}
+        listeners={{
+          tabPress: () => hapticTabSwitch(),
+        }}
       />
       <Tabs.Screen
         name="index"
@@ -47,6 +51,9 @@ export default function TabLayout() {
             />
           ),
         }}
+        listeners={{
+          tabPress: () => hapticTabSwitch(),
+        }}
       />
       <Tabs.Screen
         name="settings"
@@ -60,6 +67,9 @@ export default function TabLayout() {
               style={{ opacity: focused ? 1 : 0.6 }}
             />
           ),
+        }}
+        listeners={{
+          tabPress: () => hapticTabSwitch(),
         }}
       />
     </Tabs>
