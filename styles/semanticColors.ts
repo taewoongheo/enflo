@@ -79,7 +79,7 @@ export const darkSemanticColors: SemanticColors = {
     surface: palette.dark[900],
     surfaceInverse: palette.dark[350],
     elevatedVariant: palette.dark[750],
-    overlay: palette.dark[900],
+    overlay: palette.dark[850],
   },
   text: {
     primary: palette.dark[50],

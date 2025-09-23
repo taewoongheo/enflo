@@ -31,5 +31,6 @@
   "entropyDescription": "엔트로피는 현재 몰입 상태를 0~1 사이 값으로 보여줍니다. 0 에 가까울수록 몰입도가 높다는 뜻이에요.",
   "wantToDiveDeeper": "enflo 로 더 깊게 몰입하고 싶다면?",
   "timerAlarm": "타이머 알람",
-  "notification": "알람"
+  "notification": "알람",
+  "sessionNamePlaceholder": "자유롭게 피드백을 남겨주세요"
 }

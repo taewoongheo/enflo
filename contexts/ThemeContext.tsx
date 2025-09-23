@@ -14,7 +14,7 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [themeName, setTheme] = useState<ThemeName>('light');
+  const [themeName, setTheme] = useState<ThemeName>('dark');
 
   const value: ThemeContextType = {
     themeName,

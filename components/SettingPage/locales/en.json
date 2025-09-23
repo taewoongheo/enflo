@@ -31,5 +31,6 @@
   "entropyDescription": "Entropy reflects your immersion on a scale from 0 to 1. The closer to 0, the deeper your immersion.",
   "wantToDiveDeeper": "Want to dive deeper with enflo?",
   "timerAlarm": "Timer Notification",
-  "notification": "Notification"
+  "notification": "Notification",
+  "sessionNamePlaceholder": "Share your feedback freely"
 }

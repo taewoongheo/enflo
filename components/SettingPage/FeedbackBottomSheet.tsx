@@ -128,7 +128,7 @@ function FeedbackBottomSheet({
                   <FontAwesome
                     name={index < rating ? 'star' : 'star-o'}
                     size={24}
-                    color={theme.colors.bottomSheet.text.primary}
+                    color={theme.colors.text.secondary}
                   />
                 </Pressable>
               ))}
@@ -169,7 +169,9 @@ function FeedbackBottomSheet({
                     paddingVertical: baseTokens.spacing[1],
                     borderRadius: baseTokens.borderRadius.sm,
                     borderWidth: scale(1.3),
-                    borderColor: theme.colors.bottomSheet.border,
+                    borderColor: item.selected
+                      ? theme.colors.pages.main.sessionCard.border
+                      : theme.colors.bottomSheet.border,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
@@ -179,7 +181,7 @@ function FeedbackBottomSheet({
                     style={{
                       color: item.selected
                         ? theme.colors.background
-                        : theme.colors.bottomSheet.text.primary,
+                        : theme.colors.text.secondary,
                     }}
                   >
                     {t(item.nameKey)}
