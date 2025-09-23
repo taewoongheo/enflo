@@ -4,6 +4,7 @@ import Typography from '@/components/common/Typography';
 import { useBottomSheet } from '@/contexts/BottomSheetContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { entropyService } from '@/services/EntropyService';
+import { notificationService } from '@/services/NotificationService';
 import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens } from '@/styles';
 import { clamp } from '@/utils/math';
@@ -98,19 +99,22 @@ const EntropyScore = () => {
         return;
       }
 
-      // 알람 권한 요청 체크, undetermined 일 시 요청
-      const permission = await Notifications.getPermissionsAsync();
-      if (permission.status === Notifications.PermissionStatus.UNDETERMINED) {
-        requestPermissionsAsync();
-      }
-
-      const { entropyScore, delta } = getNewEntropyScore(
-        entropy.entropyScore,
-        entropy.updatedAt,
-        now,
-      );
-
       try {
+        // 알람 권한 요청 체크, undetermined 일 시 요청
+        const permission = await Notifications.getPermissionsAsync();
+        if (permission.status === Notifications.PermissionStatus.UNDETERMINED) {
+          const res = await requestPermissionsAsync();
+          notificationService.upsertNotificationSetting(
+            res.status === Notifications.PermissionStatus.GRANTED,
+          );
+        }
+
+        const { entropyScore, delta } = getNewEntropyScore(
+          entropy.entropyScore,
+          entropy.updatedAt,
+          now,
+        );
+
         await entropyService.updateEntropy(entropyScore, now);
 
         entropyStateSnapshot.current = {

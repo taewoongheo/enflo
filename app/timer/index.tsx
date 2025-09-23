@@ -11,7 +11,7 @@ import { TIMER_FINISH_ALERT_MESSAGE } from '@/components/TimerPage/constant/aler
 import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent';
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
-import { TIMER_MIN_MINUTES } from '@/constants/time/time';
+import { MINUTE_MS, TIMER_MIN_MINUTES } from '@/constants/time/time';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
@@ -22,7 +22,6 @@ import { useEntropyStore } from '@/store/entropyStore';
 import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
 import { hapticTimerToggle } from '@/utils/haptics';
-import * as Notifications from 'expo-notifications';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { TFunction } from 'i18next';
 import React, { useEffect, useRef, useState } from 'react';
@@ -31,6 +30,7 @@ import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
+import { scheduleNotificationAsync } from '../_layout';
 
 export default function Timer() {
   const router = useRouter();
@@ -121,16 +121,10 @@ function TimerContent({
           ];
 
         const duration = snapShot.timerSession.targetDurationMs;
-        Notifications.scheduleNotificationAsync({
-          content: {
-            title: title(Math.floor(duration / 60000)),
-            body: message(Math.floor(duration / 60000)),
-          },
-          trigger: null,
+        scheduleNotificationAsync({
+          title: title(Math.floor(duration / MINUTE_MS)),
+          body: message(Math.floor(duration / MINUTE_MS)),
         });
-        console.log('notification sent');
-        console.log(title(Math.floor(duration / 60000)));
-        console.log(message(Math.floor(duration / 60000)));
       }
     } catch (error) {
       throw new Error('entropy score calculation failed', { cause: error });

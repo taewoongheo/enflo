@@ -14,6 +14,7 @@ import migrations from '@/drizzle/migrations';
 import { INSERT_MOCK_DATA } from '@/environment.config';
 import '@/i18n';
 import { entropyService } from '@/services/EntropyService';
+import { notificationService } from '@/services/NotificationService';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
@@ -41,13 +42,37 @@ export async function allowsNotificationsAsync() {
   return settings.granted;
 }
 
-export function requestPermissionsAsync() {
+export async function requestPermissionsAsync() {
   return Notifications.requestPermissionsAsync({
     ios: {
       allowAlert: true,
       allowBadge: true,
       allowSound: true,
     },
+  });
+}
+
+export async function scheduleNotificationAsync({
+  title,
+  body,
+}: {
+  title: string;
+  body: string;
+}) {
+  const notificationSettings = (
+    await notificationService.getNotificationSettings()
+  )[0];
+
+  if (!notificationSettings.enabled) {
+    return;
+  }
+
+  return Notifications.scheduleNotificationAsync({
+    content: {
+      title,
+      body,
+    },
+    trigger: null,
   });
 }
 

@@ -28,7 +28,10 @@ function ThemeChangeScreen() {
             }}
             key={mode}
           >
-            <Typography style={{ color: theme.colors.text.primary }}>
+            <Typography
+              variant="body1Regular"
+              style={{ color: theme.colors.text.primary }}
+            >
               {mode === 'light' ? t('lightMode') : t('darkMode')}
             </Typography>
             <Ionicons

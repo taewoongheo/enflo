@@ -31,6 +31,12 @@ CREATE TABLE `global_entropy_status` (
 	`updated_at` integer NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE `notification_settings` (
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`enabled` integer DEFAULT false NOT NULL,
+	`updated_at` integer DEFAULT (strftime('%s','now') * 1000) NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `pause_events` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`timer_session_id` text NOT NULL,

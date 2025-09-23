@@ -73,6 +73,11 @@ export default function SettingsScreen() {
               />
               <SettingsItem
                 theme={theme}
+                title={t('notification')}
+                onPress={() => handleSettingPress('notification')}
+              />
+              <SettingsItem
+                theme={theme}
                 title={t('feedbackInquiry')}
                 onPress={() => {
                   hapticSettings();

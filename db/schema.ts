@@ -1,6 +1,14 @@
 import { relations, sql } from 'drizzle-orm';
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
+export const notificationSettings = sqliteTable('notification_settings', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  enabled: integer('enabled', { mode: 'boolean' }).notNull().default(false),
+  updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+    .notNull()
+    .default(sql`(strftime('%s','now') * 1000)`),
+});
+
 export const sessions = sqliteTable('sessions', {
   sessionId: text('session_id').primaryKey().notNull(),
   sessionName: text('session_name').notNull(),

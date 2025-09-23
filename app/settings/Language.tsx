@@ -43,7 +43,10 @@ function LanguageScreen() {
             }}
             key={language}
           >
-            <Typography style={{ color: theme.colors.text.primary }}>
+            <Typography
+              variant="body1Regular"
+              style={{ color: theme.colors.text.primary }}
+            >
               {language === 'ko' ? '한국어' : 'English'}
             </Typography>
             <Ionicons
