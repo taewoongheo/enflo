@@ -1,3 +1,4 @@
+import { requestPermissionsAsync } from '@/app/_layout';
 import { ENTROPY_SYSTEM_GLOBAL_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import Typography from '@/components/common/Typography';
 import { useBottomSheet } from '@/contexts/BottomSheetContext';
@@ -8,6 +9,7 @@ import { baseTokens } from '@/styles';
 import { clamp } from '@/utils/math';
 import { normalizeScoreToEntropy } from '@/utils/score';
 import { AntDesign } from '@expo/vector-icons';
+import * as Notifications from 'expo-notifications';
 import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { StyleSheet } from 'react-native';
@@ -83,25 +85,23 @@ const EntropyScore = () => {
 
   useEffect(() => {
     const updateGlobalEntropyStatus = async () => {
-      const entropyRow = await entropyService.getEntropy();
-
-      let entropy;
+      const entropy = await entropyService.getEntropy();
 
       const now = Date.now();
-      if (!entropyRow) {
+      if (!entropy) {
         await entropyService.initializeEntropy(
           ENTROPY_SYSTEM_GLOBAL_CONSTANTS.INITIAL_ENTROPY_SCORE,
           now,
         );
 
-        entropy = {
-          entropyScore: ENTROPY_SYSTEM_GLOBAL_CONSTANTS.INITIAL_ENTROPY_SCORE,
-          updatedAt: now,
-        };
+        router.replace('/settings/intro');
+        return;
+      }
 
-        router.push('/settings/intro');
-      } else {
-        entropy = entropyRow;
+      // 알람 권한 요청 체크, undetermined 일 시 요청
+      const permission = await Notifications.getPermissionsAsync();
+      if (permission.status === Notifications.PermissionStatus.UNDETERMINED) {
+        requestPermissionsAsync();
       }
 
       const { entropyScore, delta } = getNewEntropyScore(

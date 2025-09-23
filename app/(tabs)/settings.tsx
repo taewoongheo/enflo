@@ -59,7 +59,7 @@ export default function SettingsScreen() {
               <SettingsItem
                 theme={theme}
                 title={t('howToUseEnflo')}
-                onPress={() => handleSettingPress('intro')}
+                onPress={() => router.replace('/settings/howToUse')}
               />
               <SettingsItem
                 theme={theme}

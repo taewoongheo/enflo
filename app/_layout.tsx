@@ -19,6 +19,7 @@ import { timerService } from '@/services/TimerService';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStudio';
+import * as Notifications from 'expo-notifications';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { Suspense, useEffect } from 'react';
@@ -26,9 +27,34 @@ import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
+
+export async function allowsNotificationsAsync() {
+  const settings = await Notifications.getPermissionsAsync();
+  return settings.granted;
+}
+
+export function requestPermissionsAsync() {
+  return Notifications.requestPermissionsAsync({
+    ios: {
+      allowAlert: true,
+      allowBadge: true,
+      allowSound: true,
+    },
+  });
+}
+
 const AppInit = ({ children }: { children: React.ReactNode }) => {
   const { success, error } = useMigrations(db, migrations);
   useDrizzleStudio(expoDb);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const initializeSessions = async () => {
@@ -51,8 +77,18 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
 
   if (error) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Typography variant="body1Bold" style={{ color: 'red' }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: theme.colors.background,
+        }}
+      >
+        <Typography
+          variant="body1Bold"
+          style={{ color: theme.colors.text.error }}
+        >
           Migration error: {error.message}
         </Typography>
       </View>
@@ -61,10 +97,15 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
 
   if (!success) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Typography variant="body1Bold" style={{ color: 'green' }}>
-          loading...
-        </Typography>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: theme.colors.background,
+        }}
+      >
+        <ActivityIndicator size="large" color={theme.colors.text.primary} />
       </View>
     );
   }
@@ -113,10 +154,10 @@ function BottomSheetWrapper() {
 
 export default function RootLayout() {
   return (
-    <AppInit>
-      <Suspense fallback={<ActivityIndicator size="large" />}>
-        <GestureHandlerRootView>
-          <ThemeProvider>
+    <Suspense fallback={<ActivityIndicator size="large" />}>
+      <GestureHandlerRootView>
+        <ThemeProvider>
+          <AppInit>
             <BottomSheetProvider>
               <SafeAreaProvider>
                 <Stack screenOptions={{ headerShown: false }}>
@@ -130,9 +171,9 @@ export default function RootLayout() {
 
               <BottomSheetWrapper />
             </BottomSheetProvider>
-          </ThemeProvider>
-        </GestureHandlerRootView>
-      </Suspense>
-    </AppInit>
+          </AppInit>
+        </ThemeProvider>
+      </GestureHandlerRootView>
+    </Suspense>
   );
 }

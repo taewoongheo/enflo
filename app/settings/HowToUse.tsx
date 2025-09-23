@@ -24,7 +24,7 @@ function HowToUseScreen() {
 
   const handleNext = () => {
     if (currentIndex === ONBOARDING_CONTENT_KO.length - 1) {
-      router.push('/');
+      router.replace('/');
       return;
     }
 

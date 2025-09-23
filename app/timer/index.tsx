@@ -7,6 +7,7 @@ import {
   TimerTrends,
   TimerTunerSlider,
 } from '@/components/TimerPage';
+import { TIMER_FINISH_ALERT_MESSAGE } from '@/components/TimerPage/constant/alert';
 import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent';
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
@@ -21,6 +22,7 @@ import { useEntropyStore } from '@/store/entropyStore';
 import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
 import { hapticTimerToggle } from '@/utils/haptics';
+import * as Notifications from 'expo-notifications';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { TFunction } from 'i18next';
 import React, { useEffect, useRef, useState } from 'react';
@@ -111,6 +113,24 @@ function TimerContent({
           sessionId: session.sessionId,
           timerSession: snapShot.timerSession,
         });
+
+        // notification
+        const { title, message } =
+          TIMER_FINISH_ALERT_MESSAGE[
+            Math.floor(Math.random() * TIMER_FINISH_ALERT_MESSAGE.length)
+          ];
+
+        const duration = snapShot.timerSession.targetDurationMs;
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: title(Math.floor(duration / 60000)),
+            body: message(Math.floor(duration / 60000)),
+          },
+          trigger: null,
+        });
+        console.log('notification sent');
+        console.log(title(Math.floor(duration / 60000)));
+        console.log(message(Math.floor(duration / 60000)));
       }
     } catch (error) {
       throw new Error('entropy score calculation failed', { cause: error });
