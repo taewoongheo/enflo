@@ -48,19 +48,28 @@ function LanguageScreen() {
           >
             <Typography
               variant="body1Regular"
-              style={{ color: theme.colors.text.primary }}
+              style={{
+                color:
+                  language === selectedLanguage
+                    ? theme.colors.text.primary
+                    : theme.colors.text.secondary,
+              }}
             >
               {language === 'ko' ? '한국어' : 'English'}
             </Typography>
-            <Ionicons
-              name={
-                language === selectedLanguage
-                  ? 'radio-button-on'
-                  : 'radio-button-off'
-              }
-              size={baseTokens.iconSize.md}
-              color={theme.colors.text.primary}
-            />
+            {language === selectedLanguage ? (
+              <Ionicons
+                name={'radio-button-on'}
+                size={baseTokens.iconSize.md}
+                color={theme.colors.pages.timer.slider.picker}
+              />
+            ) : (
+              <Ionicons
+                name={'radio-button-off'}
+                size={baseTokens.iconSize.md}
+                color={theme.colors.text.secondary}
+              />
+            )}
           </Pressable>
         ))}
       </ContentLayoutWithBack>

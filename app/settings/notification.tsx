@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { requestPermissionsAsync } from '../_layout';
 
 function NotificationScreen() {
-  const { theme, themeName } = useTheme();
+  const { theme } = useTheme();
   const { t } = useTranslation('settings');
 
   const [notificationToggle, setNotificationToggle] = useState(false);
@@ -74,13 +74,10 @@ function NotificationScreen() {
           <Switch
             value={notificationToggle}
             onValueChange={handleNotificationToggle}
-            ios_backgroundColor={theme.colors.pages.main.sessionCard.border}
+            ios_backgroundColor={theme.colors.pages.timer.slider.cell.secondary}
             trackColor={{
-              true:
-                themeName === 'light'
-                  ? theme.colors.pages.timer.slider.background
-                  : theme.colors.pages.main.sessionCard.border,
-              false: theme.colors.pages.main.sessionCard.border,
+              true: theme.colors.pages.main.sessionCard.border,
+              false: theme.colors.pages.timer.slider.cell.secondary,
             }}
             thumbColor={
               notificationToggle

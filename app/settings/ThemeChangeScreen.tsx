@@ -35,14 +35,23 @@ function ThemeChangeScreen() {
           >
             <Typography
               variant="body1Regular"
-              style={{ color: theme.colors.text.primary }}
+              style={{
+                color:
+                  mode === themeName
+                    ? theme.colors.text.primary
+                    : theme.colors.text.secondary,
+              }}
             >
               {mode === 'light' ? t('lightMode') : t('darkMode')}
             </Typography>
             <Ionicons
               name={mode === themeName ? 'radio-button-on' : 'radio-button-off'}
               size={baseTokens.iconSize.md}
-              color={theme.colors.text.primary}
+              color={
+                mode === themeName
+                  ? theme.colors.pages.timer.slider.picker
+                  : theme.colors.text.secondary
+              }
             />
           </Pressable>
         ))}
