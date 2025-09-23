@@ -3,6 +3,7 @@ import Typography from '@/components/common/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
 import { notificationService } from '@/services/NotificationService';
 import { baseTokens } from '@/styles';
+import { hapticSettings } from '@/utils/haptics';
 import * as Notifications from 'expo-notifications';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,6 +30,8 @@ function NotificationScreen() {
   }, []);
 
   const handleNotificationToggle = async () => {
+    hapticSettings();
+
     try {
       if (notificationToggle) {
         // cancel notification

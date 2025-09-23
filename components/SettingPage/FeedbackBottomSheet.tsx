@@ -1,5 +1,6 @@
 import { baseTokens, Theme } from '@/styles';
 import { signRequest } from '@/utils/auth';
+import { hapticSettings } from '@/utils/haptics';
 import { FontAwesome } from '@expo/vector-icons';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -218,6 +219,8 @@ function FeedbackBottomSheet({
             />
             <Pressable
               onPress={async (e) => {
+                hapticSettings();
+
                 try {
                   feedbackBottomSheetRef.current?.close();
                   Keyboard.dismiss();

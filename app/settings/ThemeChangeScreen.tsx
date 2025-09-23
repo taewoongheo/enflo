@@ -2,6 +2,7 @@ import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
 import Typography from '@/components/common/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens, ThemeName } from '@/styles';
+import { hapticSettings } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { Pressable } from 'react-native-gesture-handler';
@@ -18,7 +19,11 @@ function ThemeChangeScreen() {
       <ContentLayoutWithBack color={theme.colors.text.primary}>
         {modes.map((mode) => (
           <Pressable
-            onPress={() => setTheme(mode as ThemeName)}
+            onPress={() => {
+              hapticSettings();
+
+              setTheme(mode as ThemeName);
+            }}
             style={{
               flexDirection: 'row',
               alignItems: 'center',

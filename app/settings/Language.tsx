@@ -2,6 +2,7 @@ import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
 import Typography from '@/components/common/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
+import { hapticSettings } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +25,8 @@ function LanguageScreen() {
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
   const handleSwitchLanguage = (language: string) => {
+    hapticSettings();
+
     setSelectedLanguage(language);
     i18n.changeLanguage(language);
   };

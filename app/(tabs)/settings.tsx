@@ -9,7 +9,6 @@ import {
 import { useBottomSheet } from '@/contexts/BottomSheetContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { baseTokens } from '@/styles';
-import { hapticSettings } from '@/utils/haptics';
 import Constants from 'expo-constants';
 import { RelativePathString, useRouter } from 'expo-router';
 import React from 'react';
@@ -27,8 +26,6 @@ export default function SettingsScreen() {
   const { feedbackBottomSheetRef } = useBottomSheet();
 
   const handleSettingPress = (setting: string) => {
-    hapticSettings();
-
     router.push(`/settings/${setting}` as RelativePathString);
   };
 
@@ -80,7 +77,6 @@ export default function SettingsScreen() {
                 theme={theme}
                 title={t('feedbackInquiry')}
                 onPress={() => {
-                  hapticSettings();
                   feedbackBottomSheetRef.current?.expand();
                 }}
               />
