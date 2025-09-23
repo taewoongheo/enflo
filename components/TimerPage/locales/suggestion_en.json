@@ -1,9 +1,9 @@
 {
-  "noDataMessage": "We’re still learning your focus patterns in this time range. Keep recording your sessions, and we’ll provide personalized analysis soon.",
+  "noDataMessage": "We’re still learning your immersion patterns in this time range. Keep recording your sessions, and we’ll provide personalized insights soon.",
   "levels": {
     "danger": "At Risk",
     "unstable": "Unstable",
-    "stable": "Stable",
+    "stable": "Steady",
     "good": "Strong"
   },
   "trends": {
@@ -14,7 +14,7 @@
   "interruptions": {
     "pauses": "pausing the timer",
     "unlocks": "leaving the app during the timer",
-    "scrolls": "doing other activities during the timer"
+    "scrolls": "scrolling or switching tasks during the timer"
   },
   "timeRanges": {
     "00-06": "early morning",
@@ -24,28 +24,28 @@
   },
   "statusMessages": {
     "danger": [
-      "focus stability is at high risk.",
-      "concentration levels are very low.",
-      "maintaining focus is difficult right now.",
-      "your concentration is dropping sharply."
+      "immersion stability is at high risk.",
+      "immersion levels are very low.",
+      "maintaining immersion is difficult right now.",
+      "your immersion is dropping sharply."
     ],
     "unstable": [
-      "focus is inconsistent.",
-      "concentration is fluctuating.",
-      "focus stability is uneven.",
-      "your concentration shows irregular patterns."
+      "immersion is inconsistent.",
+      "immersion is fluctuating.",
+      "immersion stability is uneven.",
+      "your immersion shows irregular patterns."
     ],
     "stable": [
-      "focus remains steady.",
-      "concentration is consistently maintained.",
-      "focus stability is good.",
-      "you’re sustaining a solid level of concentration."
+      "immersion remains steady.",
+      "immersion is consistently maintained.",
+      "immersion stability is good.",
+      "you’re sustaining a solid level of immersion."
     ],
     "good": [
-      "focus is excellent.",
-      "concentration levels are very strong.",
-      "you’re highly focused.",
-      "your focus condition is near peak."
+      "immersion is excellent.",
+      "immersion levels are very strong.",
+      "you’re deeply immersed.",
+      "your immersion condition is near peak."
     ]
   },
   "headerVariations": [
@@ -58,38 +58,38 @@
   ],
   "actionMessages": {
     "excellent": [
-      "maintain your current focus level.",
+      "maintain your current immersion level.",
       "keep this strong pattern going.",
       "reinforce this optimal state.",
-      "sustain this stability.",
-      "aim to keep performance at this level.",
+      "sustain this steadiness.",
+      "aim to keep immersion at this level.",
       "keep the momentum steady.",
-      "continue performing at a high standard.",
-      "maintain this optimal focus control."
+      "continue immersing at a high level.",
+      "maintain this optimal immersion control."
     ],
     "risingStable": [
-      "You're steadily improving. As you get more comfortable, try extending your focus time little by little.",
+      "You're steadily improving. As you get more comfortable, try extending your immersion time little by little.",
       "Great upward trend. Make it a goal to gradually increase your session length.",
-      "You're making good progress. It might be a good time to start lengthening your sessions step by step.",
-      "You're heading in the right direction. Try increasing your focus duration gradually."
+      "You're making good progress. It might be a good time to start lengthening your immersion sessions step by step.",
+      "You're heading in the right direction. Try increasing your immersion duration gradually."
     ],
     "stableHigh": [
       "keep your stability consistently high.",
-      "continue maintaining a strong level of concentration.",
-      "sustain this steady, reliable focus.",
-      "keep up the sustained stability."
+      "continue maintaining a strong level of immersion.",
+      "sustain this steady, reliable immersion.",
+      "keep up the steady immersion pattern."
     ],
     "minorImprovement": [
       "reduce {{issue}} slightly to refine your results.",
       "a small adjustment to {{issue}} will bring you closer to optimal.",
       "reducing {{issue}} a bit will improve overall quality.",
-      "addressing {{issue}} will further strengthen your results."
+      "addressing {{issue}} will further strengthen your immersion."
     ],
     "risingMedium": [
-      "You're showing improvement! Try extending your focus sessions step by step.",
+      "You're showing improvement! Try extending your immersion sessions step by step.",
       "Good progress. Gradually increase your session length as you build momentum.",
-      "You're on the right track. Focus on extending your concentration time little by little.",
-      "Positive trend. Work on lengthening your focus periods progressively."
+      "You're on the right track. Focus on extending your immersion time little by little.",
+      "Positive trend. Work on lengthening your immersion periods progressively."
     ],
     "risingWithTip": [
       "reduce '{{issue}}' to accelerate progress (avg {{count}} times).",
@@ -98,44 +98,44 @@
       "pay closer attention to '{{issue}}' (avg {{count}} times)."
     ],
     "risingMultiTip": [
-      "reduce '{{issue}}' (avg {{count}} times)",
+      "reduce '{{issue}}' (avg {{count}} times).",
       "work on minimizing '{{issue}}' (avg {{count}} times).",
-      "focus on reducing '{{issue}}' (avg {{count}} times) for better control."
+      "focus on reducing '{{issue}}' (avg {{count}} times) for better immersion control."
     ],
     "noIssue": [
-      "extend your focus sessions gradually.",
+      "extend your immersion sessions gradually.",
       "challenge yourself with longer durations.",
-      "aim to lengthen focus time now.",
-      "target extended concentration periods."
+      "aim to lengthen immersion time now.",
+      "target extended immersion periods."
     ],
     "singleIssue": [
       "primary disruption: '{{issue}}' (avg {{count}} times)—work on reducing this.",
-      "'{{issue}}' is impacting your sessions (avg {{count}} times)—address this factor.",
-      "concentration loss is mostly linked to '{{issue}}' (avg {{count}} times).",
+      "'{{issue}}' is affecting your immersion (avg {{count}} times)—address this factor.",
+      "immersion loss is mostly linked to '{{issue}}' (avg {{count}} times).",
       "main distraction detected: '{{issue}}' (avg {{count}} times)—prioritize improvement here."
     ],
     "multiIssue": [
       "address '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) to improve stability.",
       "reduce disruptions from '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}).",
-      "lower both '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) for better focus."
+      "lower both '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) for steadier immersion."
     ],
     "lowScoreNoIssue": [
       "increase session length step by step.",
       "extend duration progressively to build stamina.",
       "add a few more minutes to each session.",
-      "gradually lengthen your focus periods."
+      "gradually lengthen your immersion periods."
     ],
     "lowScoreWithIssue": [
       "start by reducing '{{issue}}' (avg {{count}} times).",
       "prioritize fixing '{{issue}}' (avg {{count}} times).",
       "your main challenge is '{{issue}}' (avg {{count}} times)—tackle this first.",
-      "lower the impact of '{{issue}}' (avg {{count}} times) to improve results."
+      "lower the impact of '{{issue}}' (avg {{count}} times) to improve immersion results."
     ]
   },
   "conjunctions": {
     "but": [
       " To improve, ",
-      " To strengthen your focus, ",
+      " To strengthen your immersion, ",
       " To make progress, ",
       " To stabilize, "
     ],

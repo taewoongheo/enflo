@@ -1,6 +1,6 @@
 {
   "timer": "타이머",
-  "suggestions": "최근 세션에서 수요일 오후 3시는 집중 실패율 70%입니다. 짧은 세션부터 시작해보세요.",
+  "suggestions": "최근 세션에서 수요일 오후 3시는 몰입 실패율 70%입니다. 짧은 세션부터 시작해보세요.",
   "minutes": "분",
   "trends": "분석",
   "totalFocusTime": "몰입 누적 시간",
@@ -12,7 +12,7 @@
   "editButton": "수정",
   "deleteSession": "세션 삭제",
   "loadMoreButton": "더 보기 ({{count}}개 남음)",
-  "focusRecords": "집중 기록",
+  "focusRecords": "몰입 기록",
   "sessionNameMinLengthError": "세션 이름은 최소 {{minLength}}자 이상이어야 합니다.",
   "sessionNameMaxLengthError": "세션 이름은 최대 {{maxLength}}자 이하이어야 합니다.",
   "timerFinishTitle1": "{{min}}분 몰입 완료",

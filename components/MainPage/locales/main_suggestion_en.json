@@ -1,101 +1,101 @@
 {
   "entropyStateMessages": {
     "veryHigh": [
-      "You are currently in a very low entropy state.",
-      "You are in a very stable low entropy state.",
-      "You are in a very low entropy range.",
-      "A very low entropy state is being maintained steadily.",
-      "You are showing a very stable entropy state.",
-      "Low entropy is continuing in a stable flow.",
-      "You are consistently maintaining a low entropy range.",
-      "You are currently maintaining a very low entropy state."
+      "Your immersion is very deep and stable.",
+      "You are in a strong and steady immersion state.",
+      "Your immersion level is at its best right now.",
+      "You are maintaining a deeply immersed state.",
+      "Your immersion feels very secure and balanced.",
+      "Immersion is flowing smoothly and steadily.",
+      "You are consistently sustaining deep immersion.",
+      "Your immersion remains strong and stable."
     ],
     "high": [
-      "You are currently in a low entropy state.",
-      "Low entropy is continuing with a stable flow.",
-      "You are in a relatively low entropy state.",
-      "A low entropy state is being maintained stably.",
-      "Low entropy is continuing.",
-      "You are within a low entropy range.",
-      "You are currently in a fairly stable low entropy state."
+      "You are in a steady immersion state.",
+      "Immersion is continuing without interruption.",
+      "Your immersion is relatively strong right now.",
+      "You are keeping a stable immersion rhythm.",
+      "Immersion is holding steady.",
+      "You are in a healthy immersion range.",
+      "Your immersion feels fairly strong and balanced."
     ],
     "medium": [
-      "You are currently in a medium-level entropy state.",
-      "You are in a somewhat unstable medium-level entropy state.",
-      "You are in a slightly shaky medium entropy state.",
-      "You are in a somewhat unstable medium entropy state.",
-      "You are currently in a somewhat unstable medium entropy state.",
-      "You are in a partially unstable medium entropy state."
+      "Your immersion is at a moderate level.",
+      "Immersion feels a bit unstable at the moment.",
+      "Your immersion is slightly shaky right now.",
+      "You are in a somewhat unsteady immersion state.",
+      "Immersion is present but not yet stable.",
+      "Your immersion rhythm is partially unsettled."
     ],
     "low": [
-      "You are currently in a high and unstable entropy state.",
-      "You are in a relatively unstable entropy state.",
-      "You are showing a fairly high entropy state.",
-      "You are in a slightly high entropy state.",
-      "You are in a high-level entropy state.",
-      "You are in an unstable high entropy state."
+      "Your immersion is unstable and slipping.",
+      "You are in a fragile immersion state.",
+      "Your immersion is weakening right now.",
+      "Immersion feels shallow and unstable.",
+      "You are in a low and shaky immersion level.",
+      "Immersion is difficult to maintain at this moment."
     ],
     "veryLow": [
-      "You are currently in a very high entropy state.",
-      "You are in a very high entropy state.",
-      "You are in an unstable entropy state.",
-      "You are currently showing a very unstable entropy state."
+      "Your immersion is very unstable right now.",
+      "You are in a highly fragile immersion state.",
+      "Immersion is easily breaking at this point.",
+      "Your immersion level is very low and unsettled."
     ]
   },
   "suggestionMessages": {
     "veryHigh": [
-      "Keep your immersion as it is.",
-      "Continue carrying on your immersion state.",
-      "Keep continuing your current immersion flow.",
-      "Continue maintaining your immersion.",
-      "Carry your immersion flow for longer.",
-      "Don’t lose your current immersion—keep going.",
-      "Maintain your immersion stably.",
-      "It’s good to maintain your current immersion state.",
-      "Continue sustaining your immersion.",
-      "Make sure your immersion does not break."
+      "Keep your immersion steady.",
+      "Continue in your current immersion state.",
+      "Stay in your immersion flow.",
+      "Maintain your deep immersion.",
+      "Hold on to this immersed state for longer.",
+      "Don’t lose your immersion—keep going.",
+      "Stay balanced and keep your immersion strong.",
+      "It’s good to remain in this immersion state.",
+      "Continue sustaining your immersion rhythm.",
+      "Make sure your immersion stays unbroken."
     ],
     "high": [
-      "Turn on the timer and start right away.",
-      "Start your immersion immediately.",
-      "In this state, you can immerse yourself right away.",
-      "After a short preparation, start your immersion.",
-      "Do a little preparation and then start immediately.",
-      "If you start now, immersion will continue easily.",
-      "Quickly tidy up your surroundings and start.",
-      "Prepare briefly and then start.",
-      "Do a small tidy-up and start your immersion.",
-      "Organize your space and start right away."
+      "Turn on the timer and begin now.",
+      "Start your immersion right away.",
+      "You can dive into immersion immediately.",
+      "Take a short moment, then begin your immersion.",
+      "Do a little preparation and start soon.",
+      "If you start now, immersion will come naturally.",
+      "Quickly set your space and begin.",
+      "Prepare briefly, then immerse yourself.",
+      "Organize your space and start your immersion.",
+      "Get ready and begin without delay."
     ],
     "medium": [
-      "Do a small tidy-up and then start.",
-      "Reduce distracting factors.",
-      "Cut down on noise and then begin.",
+      "Do a small tidy-up before you start.",
+      "Reduce what distracts you.",
+      "Cut down on noise, then begin immersion.",
       "Just start lightly.",
-      "Start without pressure.",
-      "Take short breaks from time to time.",
-      "Use small breaks to adjust your rhythm.",
-      "Take short pauses as you get started."
+      "Begin without pressure.",
+      "Take short breaks when needed.",
+      "Use small pauses to adjust your rhythm.",
+      "Start gently and ease into immersion."
     ],
     "low": [
-      "Reset your environment before starting.",
-      "Reorganize your surroundings and then start.",
-      "Rearrange your environment and then immerse yourself.",
-      "Block distracting factors.",
-      "Reduce unnecessary elements.",
-      "Cut down noise and then start immersing.",
-      "Start with simple tasks step by step.",
-      "Don’t rush and start slowly."
+      "Reset your environment before you begin.",
+      "Reorganize your surroundings, then start immersion.",
+      "Prepare your space to help immersion.",
+      "Block out distractions.",
+      "Remove unnecessary elements around you.",
+      "Lower noise, then focus on immersing.",
+      "Start with small, simple tasks step by step.",
+      "Don’t rush—enter immersion slowly."
     ],
     "veryLow": [
-      "Don’t rush and start slowly.",
-      "Take a moment to steady your breathing before starting.",
-      "Calm your breathing and then begin.",
-      "Prepare by organizing your surroundings.",
-      "Tidy up your space and then get ready.",
-      "Start lightly.",
-      "Prepare slowly to enter immersion.",
-      "Start slowly and ease into immersion."
+      "Take it slow and don’t rush.",
+      "Steady your breathing before you begin.",
+      "Calm your mind and then start immersion.",
+      "Prepare by gently organizing your surroundings.",
+      "Tidy up your space and get ready.",
+      "Start lightly without pressure.",
+      "Take your time to ease into immersion.",
+      "Begin slowly and let immersion come naturally."
     ]
   }
 }

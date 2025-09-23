@@ -201,13 +201,13 @@ export const ONBOARDING_CONTENT_EN = [
           variant="body1Regular"
           style={{ color: theme.colors.text.primary }}
         >
-          Left alone, mental entropy increases and we lose concentration.
+          Left alone, mental entropy rises and immersion slips away.
         </Typography>
       </View>
     ),
   },
   {
-    // This is when flow gathers our scattered focus and keeps entropy low.
+    // This is when immersion gathers our scattered focus and keeps entropy low.
     content: (theme: Theme) => (
       <View style={{ flexDirection: 'column', gap: baseTokens.spacing[1] }}>
         <View
@@ -224,13 +224,13 @@ export const ONBOARDING_CONTENT_EN = [
             This is when
           </Typography>
           <HighlightedText variant="body1Bold" theme={theme}>
-            flow
+            immersion
           </HighlightedText>
           <Typography
             variant="body1Regular"
             style={{ color: theme.colors.text.primary }}
           >
-            gathers our scattered focus
+            gathers our scattered attention together
           </Typography>
         </View>
         <Typography
@@ -243,7 +243,7 @@ export const ONBOARDING_CONTENT_EN = [
     ),
   },
   {
-    // enflo visualizes this process so you can stay in flow.
+    // enflo visualizes this process so you can stay in immersion.
     content: (theme: Theme) => (
       <View style={{ flexDirection: 'column', gap: baseTokens.spacing[1] }}>
         <View
@@ -280,18 +280,18 @@ export const ONBOARDING_CONTENT_EN = [
             so you can
           </Typography>
           <HighlightedText variant="body1Bold" theme={theme}>
-            stay in flow.
+            stay immersion.
           </HighlightedText>
         </View>
       </View>
     ),
   },
   {
-    // **Low entropy, high flow** - this is the **enflo** experience.
+    // **Low entropy, high immersion** - this is the **enflo** experience.
     content: (theme: Theme) => (
       <View style={{ flexDirection: 'column', gap: baseTokens.spacing[1] }}>
         <HighlightedText variant="body1Bold" theme={theme}>
-          Low entropy, high flow
+          Low entropy, high immersion
         </HighlightedText>
         <View
           style={{
@@ -320,7 +320,7 @@ export const ONBOARDING_CONTENT_EN = [
     ),
   },
   {
-    // Now start your flow with enflo.
+    // Now start your immersion with enflo.
     content: (theme: Theme) => (
       <View style={{ flexDirection: 'column', gap: baseTokens.spacing[1] }}>
         <View
@@ -334,10 +334,10 @@ export const ONBOARDING_CONTENT_EN = [
             variant="body1Regular"
             style={{ color: theme.colors.text.primary }}
           >
-            Now start
+            Now begin
           </Typography>
           <HighlightedText variant="body1Bold" theme={theme}>
-            your flow
+            your immersion
           </HighlightedText>
           <Typography
             variant="body1Regular"
