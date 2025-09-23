@@ -97,7 +97,9 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
-    initializeSessions();
+    if (success) {
+      initializeSessions();
+    }
   }, []);
 
   if (error) {

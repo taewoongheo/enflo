@@ -74,7 +74,7 @@ function CaptionBottomSheet({
           flex: 1,
           backgroundColor: theme.colors.bottomSheet.background,
           borderRadius: baseTokens.borderRadius.lg,
-          paddingHorizontal: baseTokens.spacing[3],
+          paddingHorizontal: baseTokens.spacing[5],
           paddingVertical: baseTokens.spacing[3],
           paddingBottom: baseTokens.spacing[6],
         }}
