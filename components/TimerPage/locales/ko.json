@@ -14,5 +14,17 @@
   "loadMoreButton": "더 보기 ({{count}}개 남음)",
   "focusRecords": "집중 기록",
   "sessionNameMinLengthError": "세션 이름은 최소 {{minLength}}자 이상이어야 합니다.",
-  "sessionNameMaxLengthError": "세션 이름은 최대 {{maxLength}}자 이하이어야 합니다."
+  "sessionNameMaxLengthError": "세션 이름은 최대 {{maxLength}}자 이하이어야 합니다.",
+  "timerFinishTitle1": "{{min}}분 몰입 완료",
+  "timerFinishMessage1": "엔트로피가 점점 낮아지고 있어요",
+  "timerFinishTitle2": "{{min}}분 타이머 종료",
+  "timerFinishMessage2": "{{min}}분 동안 엔트로피를 안정적으로 낮췄어요",
+  "timerFinishTitle3": "{{min}}분 몰입 성공",
+  "timerFinishMessage3": "{{min}}분 동안 엔트로피가 낮게 유지됐어요",
+  "timerFinishTitle4": "{{min}}분 타이머 종료",
+  "timerFinishMessage4": "이제 잠시 휴식을 취해보세요",
+  "timerFinishTitle5": "{{min}}분 타이머 종료",
+  "timerFinishMessage5": "엔트로피가 점점 낮아지고 있어요",
+  "timerFinishTitle6": "{{min}}분 몰입 성공",
+  "timerFinishMessage6": "이제 잠시 휴식을 취해보세요"
 }

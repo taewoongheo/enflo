@@ -5,12 +5,14 @@ import { notificationService } from '@/services/NotificationService';
 import { baseTokens } from '@/styles';
 import * as Notifications from 'expo-notifications';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { requestPermissionsAsync } from '../_layout';
 
 function NotificationScreen() {
   const { theme, themeName } = useTheme();
+  const { t } = useTranslation('settings');
 
   const [notificationToggle, setNotificationToggle] = useState(false);
 
@@ -64,7 +66,7 @@ function NotificationScreen() {
             variant="body1Regular"
             style={{ color: theme.colors.text.primary }}
           >
-            타이머 알람
+            {t('timerAlarm')}
           </Typography>
           <Switch
             value={notificationToggle}

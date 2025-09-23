@@ -14,5 +14,17 @@
   "loadMoreButton": "Load More ({{count}} remaining)",
   "focusRecords": "Focus Records",
   "sessionNameMinLengthError": "Session name must be at least {{minLength}} characters.",
-  "sessionNameMaxLengthError": "Session name must be {{maxLength}} characters or fewer."
+  "sessionNameMaxLengthError": "Session name must be {{maxLength}} characters or fewer.",
+  "timerFinishTitle1": "{{min}}min Focus Complete",
+  "timerFinishMessage1": "Entropy is gradually decreasing.",
+  "timerFinishTitle2": "{{min}}min Timer Finished",
+  "timerFinishMessage2": "You kept entropy stable for {{min}} minutes.",
+  "timerFinishTitle3": "{{min}}min Focus Success",
+  "timerFinishMessage3": "Entropy stayed low for {{min}} minutes.",
+  "timerFinishTitle4": "{{min}}min Timer Finished",
+  "timerFinishMessage4": "Take a short break now.",
+  "timerFinishTitle5": "{{min}}min Timer Finished",
+  "timerFinishMessage5": "Entropy is gradually decreasing.",
+  "timerFinishTitle6": "{{min}}min Focus Success",
+  "timerFinishMessage6": "Take a short break now."
 }

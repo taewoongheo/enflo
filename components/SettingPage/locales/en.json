@@ -29,5 +29,7 @@
   "touchOrDragHint": "Touch or drag the screen",
   "entropy": "Entropy",
   "entropyDescription": "Entropy shows your current flow state as a value between 0 and 1. The closer to 0, the higher your flow state.",
-  "wantToDiveDeeper": "Looking to dive deeper with enflo?"
+  "wantToDiveDeeper": "Looking to dive deeper with enflo?",
+  "timerAlarm": "Timer Notification",
+  "notification": "Notification"
 }

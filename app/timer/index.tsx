@@ -7,7 +7,7 @@ import {
   TimerTrends,
   TimerTunerSlider,
 } from '@/components/TimerPage';
-import { TIMER_FINISH_ALERT_MESSAGE } from '@/components/TimerPage/constant/alert';
+import { getTimerFinishAlertMessages } from '@/components/TimerPage/constant/alert';
 import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent';
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
@@ -115,10 +115,9 @@ function TimerContent({
         });
 
         // notification
+        const alertMessages = getTimerFinishAlertMessages(t);
         const { title, message } =
-          TIMER_FINISH_ALERT_MESSAGE[
-            Math.floor(Math.random() * TIMER_FINISH_ALERT_MESSAGE.length)
-          ];
+          alertMessages[Math.floor(Math.random() * alertMessages.length)];
 
         const duration = snapShot.timerSession.targetDurationMs;
         scheduleNotificationAsync({
