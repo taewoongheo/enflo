@@ -1,7 +1,8 @@
 import Typography from '@/components/common/Typography';
+import i18n from '@/i18n';
 import { Theme } from '@/styles/themes';
 import { log } from '@/utils/log';
-import { formatMsToMMSS } from '@/utils/time';
+import { formatMsToMinutes } from '@/utils/time';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
@@ -56,30 +57,7 @@ function FocusRecords({
                   {item.durationStr}
                 </Typography>
                 <View style={{ flexDirection: 'row', gap: 10 }}>
-                  <Typography
-                    variant="body2Regular"
-                    style={{
-                      color: theme.colors.pages.timer.slider.text.secondary,
-                    }}
-                  >
-                    {item.dateStr}
-                  </Typography>
-                  <Typography
-                    variant="body2Regular"
-                    style={{
-                      color: theme.colors.pages.timer.slider.text.secondary,
-                    }}
-                  >
-                    {item.dayOfWeek}
-                  </Typography>
-                  <Typography
-                    variant="body2Regular"
-                    style={{
-                      color: theme.colors.pages.timer.slider.text.secondary,
-                    }}
-                  >
-                    {formatMsToMMSS(item.netFocusMs)} {t('minutes')}
-                  </Typography>
+                  <FocusRecordItemComponent item={item} theme={theme} />
                 </View>
               </View>
               <View
@@ -122,6 +100,74 @@ function FocusRecords({
         </TouchableOpacity>
       )}
     </View>
+  );
+}
+
+function FocusRecordItemComponent({
+  item,
+  theme,
+}: {
+  item: FocusRecordItem;
+  theme: Theme;
+}) {
+  return (
+    <>
+      {i18n.language === 'ko' ? (
+        <>
+          <Typography
+            variant="body2Regular"
+            style={{
+              color: theme.colors.pages.timer.slider.text.secondary,
+            }}
+          >
+            {item.dateStr}
+          </Typography>
+          <Typography
+            variant="body2Regular"
+            style={{
+              color: theme.colors.pages.timer.slider.text.secondary,
+            }}
+          >
+            {item.dayOfWeek}
+          </Typography>
+          <Typography
+            variant="body2Regular"
+            style={{
+              color: theme.colors.pages.timer.slider.text.secondary,
+            }}
+          >
+            {formatMsToMinutes(item.netFocusMs)} 분
+          </Typography>
+        </>
+      ) : (
+        <>
+          <Typography
+            variant="body2Regular"
+            style={{
+              color: theme.colors.pages.timer.slider.text.secondary,
+            }}
+          >
+            {item.dayOfWeek}
+          </Typography>
+          <Typography
+            variant="body2Regular"
+            style={{
+              color: theme.colors.pages.timer.slider.text.secondary,
+            }}
+          >
+            {item.dateStr}
+          </Typography>
+          <Typography
+            variant="body2Regular"
+            style={{
+              color: theme.colors.pages.timer.slider.text.secondary,
+            }}
+          >
+            {formatMsToMinutes(item.netFocusMs)} min
+          </Typography>
+        </>
+      )}
+    </>
   );
 }
 
