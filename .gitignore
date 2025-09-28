@@ -41,3 +41,9 @@ yarn-error.*
 .vscode/
 .cursor/
 rules/
+.env.local
+
+/android
+/ios
+.env.local
+.env.prd

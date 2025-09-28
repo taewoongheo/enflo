@@ -2,7 +2,7 @@ import { baseTokens, Theme } from '@/styles';
 import { Canvas, Rect } from '@shopify/react-native-skia';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
+import { LayoutChangeEvent, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
 
@@ -36,7 +36,9 @@ export default function StreakSection({ theme }: { theme: Theme }) {
       </Typography>
 
       <Canvas
-        onLayout={(e) => setCanvasWidth(e.nativeEvent.layout.width)}
+        onLayout={(e: LayoutChangeEvent) =>
+          setCanvasWidth(e.nativeEvent.layout.width)
+        }
         style={{
           width: '100%',
           height: cellSize * 3 + CELL_GAP * 2,

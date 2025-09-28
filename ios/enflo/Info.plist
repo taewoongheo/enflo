@@ -40,6 +40,8 @@
     </array>
     <key>CFBundleVersion</key>
     <string>1</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
     <key>LSMinimumSystemVersion</key>
     <string>12.0</string>
     <key>LSRequiresIPhoneOS</key>
@@ -54,18 +56,6 @@
     <key>NSUserActivityTypes</key>
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-    </array>
-    <key>UIAppFonts</key>
-    <array>
-      <string>Pretendard-Black.otf</string>
-      <string>Pretendard-Bold.otf</string>
-      <string>Pretendard-ExtraBold.otf</string>
-      <string>Pretendard-ExtraLight.otf</string>
-      <string>Pretendard-Light.otf</string>
-      <string>Pretendard-Medium.otf</string>
-      <string>Pretendard-Regular.otf</string>
-      <string>Pretendard-SemiBold.otf</string>
-      <string>Pretendard-Thin.otf</string>
     </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>

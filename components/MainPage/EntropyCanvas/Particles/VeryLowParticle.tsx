@@ -1,6 +1,5 @@
 import { ENTROPY_SYSTEM_CONSTANTS } from '@/components/MainPage/constants/entropySystem/entropySystem';
 import { Circle, vec } from '@shopify/react-native-skia';
-import React from 'react';
 import {
   useDerivedValue,
   useFrameCallback,
@@ -27,7 +26,7 @@ function VeryLowParticle({
   touchX,
   touchY,
   isTouching,
-}: ParticleProps): React.JSX.Element {
+}: ParticleProps) {
   const radius = Math.random() * (MAX_RADIUS - MIN_RADIUS) + MIN_RADIUS;
   // position and velocity
   const px = useSharedValue(centerX);

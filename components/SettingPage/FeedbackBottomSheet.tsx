@@ -1,6 +1,7 @@
 import { baseTokens, Theme } from '@/styles';
 import { signRequest } from '@/utils/auth';
 import { hapticSettings } from '@/utils/haptics';
+import { EMAIL_API_URL } from '@env';
 import { FontAwesome } from '@expo/vector-icons';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -235,7 +236,7 @@ function FeedbackBottomSheet({
                   const rawBody = JSON.stringify({ feedback, checked, rating });
                   const timestamp = Math.floor(Date.now() / 1000).toString();
 
-                  await fetch(`${process.env.EXPO_PUBLIC_API_URL}/feedback`, {
+                  await fetch(`${EMAIL_API_URL}/feedback`, {
                     method: 'POST',
                     body: rawBody,
                     headers: {

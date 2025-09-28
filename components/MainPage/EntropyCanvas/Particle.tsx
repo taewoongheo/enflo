@@ -1,5 +1,4 @@
 import { Circle, vec } from '@shopify/react-native-skia';
-import React from 'react';
 import {
   SharedValue,
   useDerivedValue,
@@ -42,7 +41,7 @@ function Particle({
   touchX,
   touchY,
   isTouching,
-}: ParticleProps): React.JSX.Element {
+}: ParticleProps) {
   // position and velocity
   const px = useSharedValue(centerX);
   const py = useSharedValue(centerY);

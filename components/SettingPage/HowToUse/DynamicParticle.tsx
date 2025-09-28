@@ -1,6 +1,5 @@
 import { particleCanvasWidth } from '@/components/MainPage/constants/entropySystem/dimension';
 import { Circle, vec } from '@shopify/react-native-skia';
-import React from 'react';
 import {
   SharedValue,
   useDerivedValue,
@@ -32,7 +31,7 @@ function DynamicParticle({
   touchY,
   isTouching,
   low,
-}: DynamicParticleProps): React.JSX.Element {
+}: DynamicParticleProps) {
   const INFLUENCE_DISTANCE = particleCanvasWidth * 0.25;
   const PARTICLE_MIN_DISTANCE = particleCanvasWidth * 0.025;
 

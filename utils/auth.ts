@@ -1,3 +1,4 @@
+import { EMAIL_API_SECRET_KEY } from '@env';
 import * as CryptoJS from 'crypto-js';
 
 export function signRequest(
@@ -6,7 +7,7 @@ export function signRequest(
   timestamp: string,
   rawBody: string,
 ) {
-  const secretKey = process.env.EXPO_PUBLIC_SECRET_KEY;
+  const secretKey = EMAIL_API_SECRET_KEY;
   if (!secretKey) {
     throw new Error('Secret key is not set');
   }

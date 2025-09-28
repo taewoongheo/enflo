@@ -11,7 +11,10 @@
     "platforms": ["ios", "android"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.enflo.app"
+      "bundleIdentifier": "com.enflo.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -113,6 +116,14 @@
               }
             ]
           }
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "enflo",
+          "organization": "taewoong-heo"
         }
       ]
     ],

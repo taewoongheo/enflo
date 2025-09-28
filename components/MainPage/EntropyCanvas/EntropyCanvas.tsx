@@ -8,7 +8,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { Vector } from '@/lib/math/Vector';
 import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens, Theme } from '@/styles';
-import { hapticEntropyDrag } from '@/utils/haptics';
+import { hapticEntropyDrag, hapticTabSwitch } from '@/utils/haptics';
 import { Foundation } from '@expo/vector-icons';
 import {
   Canvas,
@@ -59,6 +59,8 @@ const EntropyCanvas = () => {
   const [refreshKey, setRefreshKey] = useReducer((s) => s + 1, 0);
 
   const handleRefresh = useCallback(() => {
+    hapticTabSwitch();
+
     setRefreshKey();
   }, []);
 

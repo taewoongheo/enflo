@@ -18,8 +18,9 @@ import { notificationService } from '@/services/NotificationService';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
+import * as Sentry from '@sentry/react-native';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
-import { useDrizzleStudio } from 'expo-drizzle-studio-plugin/build/useDrizzleStudio';
+import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as Notifications from 'expo-notifications';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -27,6 +28,28 @@ import React, { Suspense, useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+Sentry.init({
+  dsn: 'https://3467223d593c22a65255d1baa175c02e@o4510090058792960.ingest.us.sentry.io/4510090733748224',
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+
+  // Enable Logs
+  enableLogs: true,
+
+  // Configure Session Replay
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1,
+  integrations: [
+    Sentry.mobileReplayIntegration(),
+    Sentry.feedbackIntegration(),
+  ],
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: __DEV__,
+});
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -78,7 +101,6 @@ export async function scheduleNotificationAsync({
 
 const AppInit = ({ children }: { children: React.ReactNode }) => {
   const { success, error } = useMigrations(db, migrations);
-  useDrizzleStudio(expoDb);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -137,11 +159,17 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      {__DEV__ && <DrizzleStudio />}
+    </>
+  );
 };
 
 function BottomSheetWrapper() {
   const { theme } = useTheme();
+
   const {
     addSessionBottomSheetRef,
     editSessionBottomSheetRef,
@@ -179,13 +207,13 @@ function BottomSheetWrapper() {
   );
 }
 
-export default function RootLayout() {
+export default Sentry.wrap(function RootLayout() {
   return (
     <Suspense fallback={<ActivityIndicator size="large" />}>
       <GestureHandlerRootView>
         <ThemeProvider>
-          <AppInit>
-            <BottomSheetProvider>
+          <BottomSheetProvider>
+            <AppInit>
               <SafeAreaProvider>
                 <Stack screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="(tabs)" />
@@ -197,10 +225,16 @@ export default function RootLayout() {
               </SafeAreaProvider>
 
               <BottomSheetWrapper />
-            </BottomSheetProvider>
-          </AppInit>
+            </AppInit>
+          </BottomSheetProvider>
         </ThemeProvider>
       </GestureHandlerRootView>
     </Suspense>
   );
-}
+});
+
+const DrizzleStudio = () => {
+  useDrizzleStudio(expoDb);
+
+  return null;
+};
