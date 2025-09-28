@@ -1,6 +1,5 @@
 import { Theme } from '@/styles';
 import { Canvas, Circle, Group, Line, vec } from '@shopify/react-native-skia';
-import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import { PERIOD } from '../../constants/period';
 
@@ -32,97 +31,93 @@ export default function GraphCanvas({
   setCanvasHeight: (height: number) => void;
 }) {
   return (
-    <View
-      style={{ flex: 1 }}
+    <Canvas
       onLayout={(e) => {
         setCanvasWidth(e.nativeEvent.layout.width);
         setCanvasHeight(e.nativeEvent.layout.height);
       }}
+      style={{
+        flex: 1,
+      }}
     >
-      <Canvas
-        style={{
-          flex: 1,
-        }}
-      >
-        <Group transform={[{ scaleY: -1 }, { translateY: -canvasHeight }]}>
-          {datas.map((day, index) => {
-            if (day.day > todayYYYYMMDD) {
-              return null;
-            }
+      <Group transform={[{ scaleY: -1 }, { translateY: -canvasHeight }]}>
+        {datas.map((day, index) => {
+          if (day.day > todayYYYYMMDD) {
+            return null;
+          }
 
-            const hasNext =
-              !!datas[index + 1] && datas[index].day < todayYYYYMMDD;
+          const hasNext =
+            !!datas[index + 1] && datas[index].day < todayYYYYMMDD;
 
-            return (
-              <Group key={day.day}>
-                <Circle
-                  cx={
+          return (
+            <Group key={day.day}>
+              <Circle
+                cx={
+                  index *
+                    (canvasWidth /
+                      (selectedPeriod === PERIOD.WEEKLY
+                        ? WEEKLY_DAYS
+                        : MONTHLY_DAYS)) +
+                  canvasWidth /
+                    (selectedPeriod === PERIOD.WEEKLY
+                      ? WEEKLY_DAYS
+                      : MONTHLY_DAYS) /
+                    2
+                }
+                cy={
+                  (canvasHeight - canvasHeight / 10) * day.entropyScore +
+                  canvasHeight / 10 / 2
+                }
+                r={
+                  selectedPeriod === PERIOD.WEEKLY
+                    ? WEEKLY_CIRCLE_RADIUS
+                    : MONTHLY_CIRCLE_RADIUS
+                }
+                color={theme.colors.pages.timer.slider.text.primary}
+              />
+              {hasNext && (
+                <Line
+                  p1={vec(
                     index *
                       (canvasWidth /
                         (selectedPeriod === PERIOD.WEEKLY
                           ? WEEKLY_DAYS
                           : MONTHLY_DAYS)) +
-                    canvasWidth /
-                      (selectedPeriod === PERIOD.WEEKLY
-                        ? WEEKLY_DAYS
-                        : MONTHLY_DAYS) /
-                      2
-                  }
-                  cy={
+                      canvasWidth /
+                        (selectedPeriod === PERIOD.WEEKLY
+                          ? WEEKLY_DAYS
+                          : MONTHLY_DAYS) /
+                        2,
                     (canvasHeight - canvasHeight / 10) * day.entropyScore +
-                    canvasHeight / 10 / 2
-                  }
-                  r={
-                    selectedPeriod === PERIOD.WEEKLY
-                      ? WEEKLY_CIRCLE_RADIUS
-                      : MONTHLY_CIRCLE_RADIUS
-                  }
+                      canvasHeight / 10 / 2,
+                  )}
+                  p2={vec(
+                    (index + 1) *
+                      (canvasWidth /
+                        (selectedPeriod === PERIOD.WEEKLY
+                          ? WEEKLY_DAYS
+                          : MONTHLY_DAYS)) +
+                      canvasWidth /
+                        (selectedPeriod === PERIOD.WEEKLY
+                          ? WEEKLY_DAYS
+                          : MONTHLY_DAYS) /
+                        2,
+                    (canvasHeight - canvasHeight / 10) *
+                      datas[index + 1].entropyScore +
+                      canvasHeight / 10 / 2,
+                  )}
                   color={theme.colors.pages.timer.slider.text.primary}
+                  strokeWidth={
+                    selectedPeriod === PERIOD.WEEKLY
+                      ? WEEKLY_STROKE_WIDTH
+                      : MONTHLY_STROKE_WIDTH
+                  }
                 />
-                {hasNext && (
-                  <Line
-                    p1={vec(
-                      index *
-                        (canvasWidth /
-                          (selectedPeriod === PERIOD.WEEKLY
-                            ? WEEKLY_DAYS
-                            : MONTHLY_DAYS)) +
-                        canvasWidth /
-                          (selectedPeriod === PERIOD.WEEKLY
-                            ? WEEKLY_DAYS
-                            : MONTHLY_DAYS) /
-                          2,
-                      (canvasHeight - canvasHeight / 10) * day.entropyScore +
-                        canvasHeight / 10 / 2,
-                    )}
-                    p2={vec(
-                      (index + 1) *
-                        (canvasWidth /
-                          (selectedPeriod === PERIOD.WEEKLY
-                            ? WEEKLY_DAYS
-                            : MONTHLY_DAYS)) +
-                        canvasWidth /
-                          (selectedPeriod === PERIOD.WEEKLY
-                            ? WEEKLY_DAYS
-                            : MONTHLY_DAYS) /
-                          2,
-                      (canvasHeight - canvasHeight / 10) *
-                        datas[index + 1].entropyScore +
-                        canvasHeight / 10 / 2,
-                    )}
-                    color={theme.colors.pages.timer.slider.text.primary}
-                    strokeWidth={
-                      selectedPeriod === PERIOD.WEEKLY
-                        ? WEEKLY_STROKE_WIDTH
-                        : MONTHLY_STROKE_WIDTH
-                    }
-                  />
-                )}
-              </Group>
-            );
-          })}
-        </Group>
-      </Canvas>
-    </View>
+              )}
+            </Group>
+          );
+        })}
+      </Group>
+    </Canvas>
   );
 }

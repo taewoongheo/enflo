@@ -113,37 +113,28 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
         </View>
       ) : (
         <>
-          {datas[selectedSessionIdx] ? (
-            <View
-              style={{
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start',
-              }}
-            >
-              <Typography
-                variant="body2Regular"
-                style={{ color: theme.colors.text.primary }}
-              >
-                {datas[selectedSessionIdx].sessionName}
-              </Typography>
-              <Typography
-                variant="title2Bold"
-                style={{
-                  color: theme.colors.text.primary,
-                }}
-              >
-                {formatMsToTime(datas[selectedSessionIdx].focusTime)}
-              </Typography>
-            </View>
-          ) : (
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+            }}
+          >
             <Typography
               variant="body1Bold"
               style={{ color: theme.colors.text.primary }}
             >
               {t('focusTimeBySessionTitle')}
             </Typography>
-          )}
+            <Typography
+              variant="body1Bold"
+              style={{
+                color: theme.colors.text.primary,
+              }}
+            >
+              {formatMsToTime(datas[selectedSessionIdx].focusTime)}
+            </Typography>
+          </View>
 
           {datas.length > 0 ? (
             <View

@@ -1,17 +1,11 @@
 {
-  "statisticsTitle": "Immersion Stats",
-  "immersionStreakTitle": "Immersion Streak",
-  "immersionTimeBySessionTitle": "Immersion Time by Session",
-  "immersionTimeBySessionNoData": "No immersion time data available for sessions.",
-  "cumulativeImmersionTimeTitle": "Total Immersion Time",
+  "statisticsTitle": "Stats",
+  "focusStreakTitle": "Flow Streak",
+  "focusTimeBySessionTitle": "Flow Time by Session",
+  "focusTimeBySessionNoData": "No flow time data available for sessions.",
+  "cumulativeFocusTimeTitle": "Total Flow Time",
   "entropyTrendTitle": "Entropy Trend",
   "weeklyPeriod": "Week",
   "monthlyPeriod": "Month",
-  "others": "Others",
-  "editSessionTitle": "Edit Session Name",
-  "sessionNamePlaceholder": "Session Name",
-  "editButton": "Edit",
-  "deleteSession": "Delete Session",
-  "addNewSessionTitle": "Add New Session",
-  "addButton": "Add"
+  "others": "Others"
 }

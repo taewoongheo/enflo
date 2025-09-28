@@ -112,9 +112,9 @@ function FocusRecords({
           }}
         >
           <Typography
-            variant="body1Bold"
+            variant="body2Bold"
             style={{
-              color: theme.colors.text.primary,
+              color: theme.colors.text.secondary,
             }}
           >
             {t('loadMoreButton', { count: remainingCount })}

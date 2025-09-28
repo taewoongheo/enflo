@@ -1,101 +1,101 @@
 {
   "entropyStateMessages": {
     "veryHigh": [
-      "Your immersion is very deep and stable.",
-      "You are in a strong and steady immersion state.",
-      "Your immersion level is at its best right now.",
-      "You are maintaining a deeply immersed state.",
-      "Your immersion feels very secure and balanced.",
-      "Immersion is flowing smoothly and steadily.",
-      "You are consistently sustaining deep immersion.",
-      "Your immersion remains strong and stable."
+      "Your flow is very deep and stable.",
+      "You are in a strong and steady flow state.",
+      "Your flow level is at its best right now.",
+      "You are maintaining a deeply focused flow.",
+      "Your flow feels very secure and balanced.",
+      "Flow is moving smoothly and steadily.",
+      "You are consistently sustaining deep flow.",
+      "Your flow remains strong and stable."
     ],
     "high": [
-      "You are in a steady immersion state.",
-      "Immersion is continuing without interruption.",
-      "Your immersion is relatively strong right now.",
-      "You are keeping a stable immersion rhythm.",
-      "Immersion is holding steady.",
-      "You are in a healthy immersion range.",
-      "Your immersion feels fairly strong and balanced."
+      "You are in a steady flow state.",
+      "Flow is continuing without interruption.",
+      "Your flow is relatively strong right now.",
+      "You are keeping a stable flow rhythm.",
+      "Flow is holding steady.",
+      "You are in a healthy flow range.",
+      "Your flow feels fairly strong and balanced."
     ],
     "medium": [
-      "Your immersion is at a moderate level.",
-      "Immersion feels a bit unstable at the moment.",
-      "Your immersion is slightly shaky right now.",
-      "You are in a somewhat unsteady immersion state.",
-      "Immersion is present but not yet stable.",
-      "Your immersion rhythm is partially unsettled."
+      "Your flow is at a moderate level.",
+      "Flow feels a bit unstable at the moment.",
+      "Your flow is slightly shaky right now.",
+      "You are in a somewhat unsteady flow state.",
+      "Flow is present but not yet stable.",
+      "Your flow rhythm is partially unsettled."
     ],
     "low": [
-      "Your immersion is unstable and slipping.",
-      "You are in a fragile immersion state.",
-      "Your immersion is weakening right now.",
-      "Immersion feels shallow and unstable.",
-      "You are in a low and shaky immersion level.",
-      "Immersion is difficult to maintain at this moment."
+      "Your flow is unstable and slipping.",
+      "You are in a fragile flow state.",
+      "Your flow is weakening right now.",
+      "Flow feels shallow and unstable.",
+      "You are in a low and shaky flow level.",
+      "Flow is difficult to maintain at this moment."
     ],
     "veryLow": [
-      "Your immersion is very unstable right now.",
-      "You are in a highly fragile immersion state.",
-      "Immersion is easily breaking at this point.",
-      "Your immersion level is very low and unsettled."
+      "Your flow is very unstable right now.",
+      "You are in a highly fragile flow state.",
+      "Flow is easily breaking at this point.",
+      "Your flow level is very low and unsettled."
     ]
   },
   "suggestionMessages": {
     "veryHigh": [
-      "Keep your immersion steady.",
-      "Continue in your current immersion state.",
-      "Stay in your immersion flow.",
-      "Maintain your deep immersion.",
-      "Hold on to this immersed state for longer.",
-      "Don’t lose your immersion—keep going.",
-      "Stay balanced and keep your immersion strong.",
-      "It’s good to remain in this immersion state.",
-      "Continue sustaining your immersion rhythm.",
-      "Make sure your immersion stays unbroken."
+      "Keep your flow steady.",
+      "Continue in your current flow state.",
+      "Stay in your flow.",
+      "Maintain your deep flow.",
+      "Hold on to this flow state for longer.",
+      "Don’t lose your flow—keep going.",
+      "Stay balanced and keep your flow strong.",
+      "It’s good to remain in this flow state.",
+      "Continue sustaining your flow rhythm.",
+      "Make sure your flow stays unbroken."
     ],
     "high": [
       "Turn on the timer and begin now.",
-      "Start your immersion right away.",
-      "You can dive into immersion immediately.",
-      "Take a short moment, then begin your immersion.",
+      "Start your flow right away.",
+      "You can enter flow immediately.",
+      "Take a short moment, then begin your flow.",
       "Do a little preparation and start soon.",
-      "If you start now, immersion will come naturally.",
+      "If you start now, flow will come naturally.",
       "Quickly set your space and begin.",
-      "Prepare briefly, then immerse yourself.",
-      "Organize your space and start your immersion.",
+      "Prepare briefly, then get into flow.",
+      "Organize your space and start your flow.",
       "Get ready and begin without delay."
     ],
     "medium": [
       "Do a small tidy-up before you start.",
       "Reduce what distracts you.",
-      "Cut down on noise, then begin immersion.",
+      "Cut down on noise, then begin your flow.",
       "Just start lightly.",
       "Begin without pressure.",
       "Take short breaks when needed.",
       "Use small pauses to adjust your rhythm.",
-      "Start gently and ease into immersion."
+      "Start gently and ease into flow."
     ],
     "low": [
       "Reset your environment before you begin.",
-      "Reorganize your surroundings, then start immersion.",
-      "Prepare your space to help immersion.",
+      "Reorganize your surroundings, then start your flow.",
+      "Prepare your space to help your flow.",
       "Block out distractions.",
       "Remove unnecessary elements around you.",
-      "Lower noise, then focus on immersing.",
+      "Lower noise, then focus on entering flow.",
       "Start with small, simple tasks step by step.",
-      "Don’t rush—enter immersion slowly."
+      "Don’t rush—enter flow slowly."
     ],
     "veryLow": [
       "Take it slow and don’t rush.",
       "Steady your breathing before you begin.",
-      "Calm your mind and then start immersion.",
+      "Calm your mind and then start your flow.",
       "Prepare by gently organizing your surroundings.",
       "Tidy up your space and get ready.",
       "Start lightly without pressure.",
-      "Take your time to ease into immersion.",
-      "Begin slowly and let immersion come naturally."
+      "Take your time to ease into flow.",
+      "Begin slowly and let flow come naturally."
     ]
   }
 }

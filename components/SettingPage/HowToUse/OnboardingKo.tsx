@@ -225,7 +225,29 @@ export const ONBOARDING_CONTENT_KO = [
     ),
   },
   {
-    // 이때 **몰입**은 흩어지는 집중력을 붙잡아, 엔트로피를 낮게 유지해줍니다.
+    // 이유 제시: 그래서 몰입이 필요합니다.
+    content: (theme: Theme) => (
+      <View style={{ flexDirection: 'row', gap: baseTokens.spacing[1] }}>
+        <Typography
+          variant="body1Regular"
+          style={{ color: theme.colors.text.primary }}
+        >
+          그래서
+        </Typography>
+        <HighlightedText variant="body1Bold" theme={theme}>
+          몰입
+        </HighlightedText>
+        <Typography
+          variant="body1Regular"
+          style={{ color: theme.colors.text.primary }}
+        >
+          이 필요합니다.
+        </Typography>
+      </View>
+    ),
+  },
+  {
+    // 정의 + 효과: 몰입은 집중을 모으고 엔트로피를 낮게 유지합니다.
     content: (theme: Theme) => (
       <View style={{ flexDirection: 'column', gap: baseTokens.spacing[1] }}>
         <View
@@ -235,12 +257,6 @@ export const ONBOARDING_CONTENT_KO = [
             gap: baseTokens.spacing[1],
           }}
         >
-          <Typography
-            variant="body1Regular"
-            style={{ color: theme.colors.text.primary }}
-          >
-            이때
-          </Typography>
           <HighlightedText variant="body1Bold" theme={theme}>
             몰입
           </HighlightedText>
@@ -248,15 +264,35 @@ export const ONBOARDING_CONTENT_KO = [
             variant="body1Regular"
             style={{ color: theme.colors.text.primary }}
           >
-            은 흩어지는 집중력을 붙잡아,
+            은 흩어진
+          </Typography>
+          <HighlightedText variant="body1Bold" theme={theme}>
+            집중력
+          </HighlightedText>
+          <Typography
+            variant="body1Regular"
+            style={{ color: theme.colors.text.primary }}
+          >
+            을 다시 모아주며,
           </Typography>
         </View>
-        <Typography
-          variant="body1Regular"
-          style={{ color: theme.colors.text.primary }}
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            gap: baseTokens.spacing[1],
+          }}
         >
-          엔트로피를 낮게 유지해줍니다.
-        </Typography>
+          <HighlightedText variant="body1Bold" theme={theme}>
+            엔트로피
+          </HighlightedText>
+          <Typography
+            variant="body1Regular"
+            style={{ color: theme.colors.text.primary }}
+          >
+            를 낮춰줘요.
+          </Typography>
+        </View>
       </View>
     ),
   },

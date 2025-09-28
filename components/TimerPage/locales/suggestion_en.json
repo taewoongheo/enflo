@@ -1,5 +1,5 @@
 {
-  "noDataMessage": "We’re still learning your immersion patterns in this time range. Keep recording your sessions, and we’ll provide personalized insights soon.",
+  "noDataMessage": "We’re still learning your flow patterns in this time range. Keep recording your sessions, and we’ll provide personalized insights soon.",
   "levels": {
     "danger": "At Risk",
     "unstable": "Unstable",
@@ -24,28 +24,28 @@
   },
   "statusMessages": {
     "danger": [
-      "immersion stability is at high risk.",
-      "immersion levels are very low.",
-      "maintaining immersion is difficult right now.",
-      "your immersion is dropping sharply."
+      "flow stability is at high risk.",
+      "flow levels are very low.",
+      "maintaining flow is difficult right now.",
+      "your flow is dropping sharply."
     ],
     "unstable": [
-      "immersion is inconsistent.",
-      "immersion is fluctuating.",
-      "immersion stability is uneven.",
-      "your immersion shows irregular patterns."
+      "flow is inconsistent.",
+      "flow is fluctuating.",
+      "flow stability is uneven.",
+      "your flow shows irregular patterns."
     ],
     "stable": [
-      "immersion remains steady.",
-      "immersion is consistently maintained.",
-      "immersion stability is good.",
-      "you’re sustaining a solid level of immersion."
+      "flow remains steady.",
+      "flow is consistently maintained.",
+      "flow stability is good.",
+      "you’re sustaining a solid level of flow."
     ],
     "good": [
-      "immersion is excellent.",
-      "immersion levels are very strong.",
-      "you’re deeply immersed.",
-      "your immersion condition is near peak."
+      "flow is excellent.",
+      "flow levels are very strong.",
+      "you’re deeply in flow.",
+      "your flow condition is near peak."
     ]
   },
   "headerVariations": [
@@ -58,38 +58,38 @@
   ],
   "actionMessages": {
     "excellent": [
-      "maintain your current immersion level.",
+      "maintain your current flow level.",
       "keep this strong pattern going.",
       "reinforce this optimal state.",
       "sustain this steadiness.",
-      "aim to keep immersion at this level.",
+      "aim to keep flow at this level.",
       "keep the momentum steady.",
-      "continue immersing at a high level.",
-      "maintain this optimal immersion control."
+      "continue staying in flow at a high level.",
+      "maintain this optimal flow control."
     ],
     "risingStable": [
-      "You're steadily improving. As you get more comfortable, try extending your immersion time little by little.",
+      "You're steadily improving. As you get more comfortable, try extending your flow time little by little.",
       "Great upward trend. Make it a goal to gradually increase your session length.",
-      "You're making good progress. It might be a good time to start lengthening your immersion sessions step by step.",
-      "You're heading in the right direction. Try increasing your immersion duration gradually."
+      "You're making good progress. It might be a good time to start lengthening your flow sessions step by step.",
+      "You're heading in the right direction. Try increasing your flow duration gradually."
     ],
     "stableHigh": [
       "keep your stability consistently high.",
-      "continue maintaining a strong level of immersion.",
-      "sustain this steady, reliable immersion.",
-      "keep up the steady immersion pattern."
+      "continue maintaining a strong level of flow.",
+      "sustain this steady, reliable flow.",
+      "keep up the steady flow pattern."
     ],
     "minorImprovement": [
       "reduce {{issue}} slightly to refine your results.",
       "a small adjustment to {{issue}} will bring you closer to optimal.",
       "reducing {{issue}} a bit will improve overall quality.",
-      "addressing {{issue}} will further strengthen your immersion."
+      "addressing {{issue}} will further strengthen your flow."
     ],
     "risingMedium": [
-      "You're showing improvement! Try extending your immersion sessions step by step.",
+      "You're showing improvement! Try extending your flow sessions step by step.",
       "Good progress. Gradually increase your session length as you build momentum.",
-      "You're on the right track. Focus on extending your immersion time little by little.",
-      "Positive trend. Work on lengthening your immersion periods progressively."
+      "You're on the right track. Focus on extending your flow time little by little.",
+      "Positive trend. Work on lengthening your flow periods progressively."
     ],
     "risingWithTip": [
       "reduce '{{issue}}' to accelerate progress (avg {{count}} times).",
@@ -100,42 +100,42 @@
     "risingMultiTip": [
       "reduce '{{issue}}' (avg {{count}} times).",
       "work on minimizing '{{issue}}' (avg {{count}} times).",
-      "focus on reducing '{{issue}}' (avg {{count}} times) for better immersion control."
+      "focus on reducing '{{issue}}' (avg {{count}} times) for better flow control."
     ],
     "noIssue": [
-      "extend your immersion sessions gradually.",
+      "extend your flow sessions gradually.",
       "challenge yourself with longer durations.",
-      "aim to lengthen immersion time now.",
-      "target extended immersion periods."
+      "aim to lengthen flow time now.",
+      "target extended flow periods."
     ],
     "singleIssue": [
       "primary disruption: '{{issue}}' (avg {{count}} times)—work on reducing this.",
-      "'{{issue}}' is affecting your immersion (avg {{count}} times)—address this factor.",
-      "immersion loss is mostly linked to '{{issue}}' (avg {{count}} times).",
+      "'{{issue}}' is affecting your flow (avg {{count}} times)—address this factor.",
+      "flow loss is mostly linked to '{{issue}}' (avg {{count}} times).",
       "main distraction detected: '{{issue}}' (avg {{count}} times)—prioritize improvement here."
     ],
     "multiIssue": [
       "address '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) to improve stability.",
       "reduce disruptions from '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}).",
-      "lower both '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) for steadier immersion."
+      "lower both '{{issue1}}' (avg {{count1}}) and '{{issue2}}' (avg {{count2}}) for steadier flow."
     ],
     "lowScoreNoIssue": [
       "increase session length step by step.",
       "extend duration progressively to build stamina.",
       "add a few more minutes to each session.",
-      "gradually lengthen your immersion periods."
+      "gradually lengthen your flow periods."
     ],
     "lowScoreWithIssue": [
       "start by reducing '{{issue}}' (avg {{count}} times).",
       "prioritize fixing '{{issue}}' (avg {{count}} times).",
       "your main challenge is '{{issue}}' (avg {{count}} times)—tackle this first.",
-      "lower the impact of '{{issue}}' (avg {{count}} times) to improve immersion results."
+      "lower the impact of '{{issue}}' (avg {{count}} times) to improve flow results."
     ]
   },
   "conjunctions": {
     "but": [
       " To improve, ",
-      " To strengthen your immersion, ",
+      " To strengthen your flow, ",
       " To make progress, ",
       " To stabilize, "
     ],
