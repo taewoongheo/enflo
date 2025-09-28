@@ -1,5 +1,6 @@
 import Session, { TimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
+import { log } from '@/utils/log';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
@@ -35,6 +36,7 @@ export const useSessionCache = create(
         sessions.forEach((session) => {
           draft.sessionCache[session.sessionId] = session;
         });
+        log(`${sessions.length} 개 세션을 캐시에 저장`);
       }),
 
     createSession: (session) => {

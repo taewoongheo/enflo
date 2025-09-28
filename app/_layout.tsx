@@ -17,6 +17,7 @@ import { entropyService } from '@/services/EntropyService';
 import { notificationService } from '@/services/NotificationService';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
+import { log } from '@/utils/log';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import * as Sentry from '@sentry/react-native';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
@@ -103,6 +104,8 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
   const { success, error } = useMigrations(db, migrations);
   const { theme } = useTheme();
 
+  log('appinit');
+
   useEffect(() => {
     const initializeSessions = async () => {
       try {
@@ -113,6 +116,7 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
           await createAllMockSessions();
         }
 
+        log(`하이드레이션 시작`);
         await sessionService.hydrateSessions();
       } catch (error) {
         throw error;
@@ -122,7 +126,7 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
     if (success) {
       initializeSessions();
     }
-  }, []);
+  }, [success]);
 
   if (error) {
     return (

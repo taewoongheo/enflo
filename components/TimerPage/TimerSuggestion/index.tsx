@@ -86,7 +86,7 @@ function TimerSuggestion({
       >
         <Text
           style={{
-            fontSize: scale(70),
+            fontSize: scale(73),
             color: theme.colors.pages.timer.slider.text.primary,
             fontFamily: 'Pretendard-Semibold',
           }}

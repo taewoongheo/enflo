@@ -7,6 +7,7 @@ import { entropyService } from '@/services/EntropyService';
 import { notificationService } from '@/services/NotificationService';
 import { useEntropyStore } from '@/store/entropyStore';
 import { baseTokens } from '@/styles';
+import { log } from '@/utils/log';
 import { clamp } from '@/utils/math';
 import { normalizeScoreToEntropy } from '@/utils/score';
 import { AntDesign } from '@expo/vector-icons';
@@ -95,9 +96,13 @@ const EntropyScore = () => {
           now,
         );
 
+        log(`entropy 초기화`);
+
         router.replace('/settings/intro');
         return;
       }
+
+      log(`현재 entropy: ${entropy.entropyScore}`);
 
       try {
         // 알람 권한 요청 체크, undetermined 일 시 요청

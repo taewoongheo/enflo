@@ -47,3 +47,4 @@ rules/
 /ios
 .env.local
 .env.prd
+/ios/.xcode.env

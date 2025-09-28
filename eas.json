@@ -1,7 +1,8 @@
 {
   "cli": {
     "version": ">= 16.19.3",
-    "appVersionSource": "remote"
+    "appVersionSource": "remote",
+    "promptToConfigurePushNotifications": false
   },
   "build": {
     "development": {
@@ -12,20 +13,16 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true,
-      "env": {
-        "EXPO_PUBLIC_API_URL": "${EXPO_PUBLIC_API_URL}",
-        "EXPO_PUBLIC_SECRET_KEY": "${EXPO_PUBLIC_SECRET_KEY}"
-      }
+      "autoIncrement": true
     }
   },
   "submit": {
     "production": {
       "ios": {
-        "ascApiKeyPath": "${ascApiKeyPath}",
-        "ascApiKeyId": "${ascApiKeyId}",
-        "ascApiKeyIssuerId": "${ascApiKeyIssuerId}",
-        "ascAppId": "${ascAppId}"
+        "ascApiKeyPath": "/Users/taewoongheo/Desktop/AuthKey_PAR4P6M9NT.p8",
+        "ascApiKeyId": "PAR4P6M9NT",
+        "ascApiKeyIssuerId": "2b47f479-0aee-4d83-9ebe-5e9a6043888d",
+        "ascAppId": "6752986327"
       }
     }
   }
