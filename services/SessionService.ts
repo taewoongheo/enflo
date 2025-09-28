@@ -9,6 +9,7 @@ import {
 } from '@/db/schema';
 import Session, { getTimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
+import { useEntropyStore } from '@/store/entropyStore';
 import { useSessionCache } from '@/store/sessionCache';
 import { log } from '@/utils/log';
 import {
@@ -178,7 +179,8 @@ class SessionService {
         }
 
         await this.db.insert(entropyLog).values({
-          entropyScore: timerSession.entropyScore,
+          entropyScore: useEntropyStore.getState().entropyScore,
+          timerEntropyScore: timerSession.entropyScore,
           timerSessionId: timerSession.timerSessionId,
           dayKey: timestampToDayKey(timerSession.endTs!),
           weekKey: timestampToWeekKey(timerSession.endTs!),

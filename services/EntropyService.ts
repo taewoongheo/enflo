@@ -2,6 +2,12 @@ import { PERIOD } from '@/components/StatsPage/constants/period';
 import { db } from '@/db/db';
 import { entropyLog, globalEntropyStatus } from '@/db/schema';
 import { useEntropyStore } from '@/store/entropyStore';
+import {
+  timestampToDayKey,
+  timestampToMonthKey,
+  timestampToWeekKey,
+  timestampToYearKey,
+} from '@/utils/time';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 
@@ -43,6 +49,18 @@ class EntropyService {
             updatedAt: now,
           },
         });
+
+      await this.db.insert(entropyLog).values({
+        entropyScore: score,
+        timerEntropyScore: 0,
+        timerSessionId: 'init',
+        dayKey: timestampToDayKey(now),
+        weekKey: timestampToWeekKey(now),
+        monthKey: timestampToMonthKey(now),
+        yearKey: timestampToYearKey(now),
+      });
+
+      useEntropyStore.getState().updateEntropyScore(score);
     } catch (error) {
       throw new Error('Failed to insert entropy score', { cause: error });
     }

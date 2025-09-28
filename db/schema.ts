@@ -120,6 +120,8 @@ export const entropyLog = sqliteTable(
   {
     id: integer('id').primaryKey({ autoIncrement: true }),
 
+    timerEntropyScore: integer('timer_entropy_score').notNull(),
+
     entropyScore: integer('entropy_score').notNull(),
 
     createdAt: integer('created_at', { mode: 'timestamp_ms' })

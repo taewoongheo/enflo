@@ -1,6 +1,8 @@
 import { entropyService } from '@/services/EntropyService';
+import { useEntropyStore } from '@/store/entropyStore';
 import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
+import { log } from '@/utils/log';
 import { normalizeScoreToEntropy } from '@/utils/score';
 import {
   timestampToDayKey,
@@ -48,10 +50,13 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
   const [canvasHeight, setCanvasHeight] = useState(0);
   const [textHeight, setTextHeight] = useState(10);
 
+  const entropyScore = useEntropyStore((s) => s.entropyScore);
+
   const todayYYYYMMDD = timestampToDayKey(new Date().getTime());
 
   useEffect(() => {
     const fetchEntropyLogs = async () => {
+      log(`fetchEntropyLogs: ${entropyScore}`);
       setIsLoading(true);
       try {
         const key =
@@ -78,6 +83,8 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
 
         const parsedDatas: GraphData[] = [];
 
+        log(`logs: ${JSON.stringify(logs)}`);
+
         // get max entropy score for each day
         period.days.map((day) => {
           const matchedLogs = logs.filter((log) => log.dayKey === Number(day));
@@ -92,6 +99,8 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
           });
         });
 
+        log(`parsedDatas: ${JSON.stringify(parsedDatas)}`);
+
         setDatas(parsedDatas);
       } catch {
         const emptyData = period.days.map((day) => ({
@@ -105,7 +114,7 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
     };
 
     fetchEntropyLogs();
-  }, [sessions, selectedPeriod, baseDateMs]);
+  }, [sessions, selectedPeriod, baseDateMs, entropyScore]);
 
   return (
     <View

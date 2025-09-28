@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "78224c20-6b65-45e2-abd5-dbe9e4c8a03e",
+  "id": "4e656378-cf50-4596-93f1-64aa85f5ccc8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "app_settings": {
@@ -120,6 +120,13 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": true
+        },
+        "timer_entropy_score": {
+          "name": "timer_entropy_score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         },
         "entropy_score": {
           "name": "entropy_score",

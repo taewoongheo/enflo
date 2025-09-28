@@ -17,6 +17,7 @@ CREATE TABLE `app_state_events` (
 CREATE INDEX `idx_app_state_events_timer_session_id` ON `app_state_events` (`timer_session_id`);--> statement-breakpoint
 CREATE TABLE `entropy_log` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`timer_entropy_score` integer NOT NULL,
 	`entropy_score` integer NOT NULL,
 	`created_at` integer DEFAULT (strftime('%s', 'now') * 1000) NOT NULL,
 	`timer_session_id` text,
