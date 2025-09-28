@@ -195,7 +195,7 @@ function EditSessionBottomSheet({
 
                 setSessionName('');
                 editSessionBottomSheetRef.current?.close();
-                router.back();
+                router.replace('/');
 
                 Keyboard.dismiss();
               } catch (error) {
