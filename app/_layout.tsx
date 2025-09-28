@@ -12,7 +12,8 @@ import { createAllMockSessions } from '@/data/sessionMockData';
 import { db, expoDb } from '@/db/db';
 import migrations from '@/drizzle/migrations';
 import { INSERT_MOCK_DATA } from '@/environment.config';
-import '@/i18n';
+import i18n from '@/i18n';
+import { appSettingsService } from '@/services/AppSettingsService';
 import { entropyService } from '@/services/EntropyService';
 import { notificationService } from '@/services/NotificationService';
 import { sessionService } from '@/services/SessionService';
@@ -25,7 +26,7 @@ import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as Notifications from 'expo-notifications';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -102,7 +103,8 @@ export async function scheduleNotificationAsync({
 
 const AppInit = ({ children }: { children: React.ReactNode }) => {
   const { success, error } = useMigrations(db, migrations);
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const [isAppSettingLoading, setIsAppSettingLoading] = useState(true);
 
   log('appinit');
 
@@ -118,6 +120,12 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
 
         log(`하이드레이션 시작`);
         await sessionService.hydrateSessions();
+        const { lang, theme } =
+          await appSettingsService.initializeAppSettings();
+        log(`최종 앱 설정: ${JSON.stringify({ lang, theme })}`);
+        setTheme(theme as 'light' | 'dark');
+        i18n.changeLanguage(lang);
+        setIsAppSettingLoading(false);
       } catch (error) {
         throw error;
       }
@@ -148,7 +156,7 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  if (!success) {
+  if (!success || isAppSettingLoading) {
     return (
       <View
         style={{

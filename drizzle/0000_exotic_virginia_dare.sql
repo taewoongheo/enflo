@@ -1,3 +1,10 @@
+CREATE TABLE `app_settings` (
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`theme` text NOT NULL,
+	`language` text NOT NULL,
+	`updated_at` integer DEFAULT (strftime('%s', 'now') * 1000) NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `app_state_events` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`timer_session_id` text NOT NULL,

@@ -3,5 +3,5 @@ export const log = (message: string) => {
   //     Sentry.captureMessage(message);
   //     return;
   //   }
-  //   console.log(message);
+  console.log(message);
 };

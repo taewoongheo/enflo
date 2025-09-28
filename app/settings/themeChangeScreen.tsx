@@ -1,6 +1,7 @@
 import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
 import Typography from '@/components/common/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
+import { appSettingsService } from '@/services/AppSettingsService';
 import { baseTokens, ThemeName } from '@/styles';
 import { hapticSettings } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,16 +15,24 @@ function ThemeChangeScreen() {
 
   const modes = ['light', 'dark'];
 
+  const handleChangeTheme = async (theme: ThemeName) => {
+    hapticSettings();
+
+    try {
+      await appSettingsService.setAppTheme(theme);
+      setTheme(theme);
+    } catch (error) {
+      setTheme(themeName);
+      throw error;
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ContentLayoutWithBack color={theme.colors.text.primary}>
         {modes.map((mode) => (
           <Pressable
-            onPress={() => {
-              hapticSettings();
-
-              setTheme(mode as ThemeName);
-            }}
+            onPress={() => handleChangeTheme(mode as ThemeName)}
             style={{
               flexDirection: 'row',
               alignItems: 'center',

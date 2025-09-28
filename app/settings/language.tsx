@@ -1,6 +1,7 @@
 import ContentLayoutWithBack from '@/components/common/ContentLayoutWithBack';
 import Typography from '@/components/common/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
+import { appSettingsService } from '@/services/AppSettingsService';
 import { baseTokens } from '@/styles';
 import { hapticSettings } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
@@ -24,11 +25,18 @@ function LanguageScreen() {
 
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
-  const handleSwitchLanguage = (language: string) => {
+  const handleSwitchLanguage = async (language: string) => {
     hapticSettings();
 
-    setSelectedLanguage(language);
-    i18n.changeLanguage(language);
+    try {
+      await appSettingsService.setAppLanguage(language as 'en' | 'ko');
+      i18n.changeLanguage(language);
+      setSelectedLanguage(language);
+    } catch (error) {
+      setSelectedLanguage(selectedLanguage);
+      i18n.changeLanguage(selectedLanguage);
+      throw error;
+    }
   };
 
   return (

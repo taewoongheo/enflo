@@ -7,6 +7,8 @@ interface ThemeContextType {
   theme: Theme;
 }
 
+export const INITIAL_THEME_NAME = 'dark';
+
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 interface ThemeProviderProps {
@@ -14,7 +16,7 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [themeName, setTheme] = useState<ThemeName>('dark');
+  const [themeName, setTheme] = useState<ThemeName>(INITIAL_THEME_NAME);
 
   const value: ThemeContextType = {
     themeName,
