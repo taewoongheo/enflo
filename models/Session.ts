@@ -44,6 +44,7 @@ class Session {
       .reduce((sum, timerSession) => {
         return sum + timerSession.netFocusMs;
       }, 0);
+
     return totalNetFocusMs;
   }
 }

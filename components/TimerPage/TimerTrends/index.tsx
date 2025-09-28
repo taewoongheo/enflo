@@ -110,7 +110,7 @@ function TimerTrends({
         dayOfWeek,
         dateStr,
         timestamp: timerSession.startTs,
-        durationMs: timerSession.targetDurationMs,
+        netFocusMs: timerSession.netFocusMs,
       });
     }
 

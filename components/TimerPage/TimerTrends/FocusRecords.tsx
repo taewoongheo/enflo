@@ -1,5 +1,6 @@
 import Typography from '@/components/common/Typography';
 import { Theme } from '@/styles/themes';
+import { log } from '@/utils/log';
 import { formatMsToMMSS } from '@/utils/time';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +11,7 @@ export type FocusRecordItem = {
   dayOfWeek: string;
   dateStr: string;
   timestamp: number;
-  durationMs: number;
+  netFocusMs: number;
 };
 
 type FocusRecordsProps = {
@@ -31,60 +32,66 @@ function FocusRecords({
   return (
     <View>
       {items.length > 0 ? (
-        items.map((item, index) => (
-          <View
-            key={`${item.timestamp}-${index}`}
-            style={{ marginVertical: 10 }}
-          >
+        items.map((item, index) => {
+          log(`로그 netFocusMs: ${item.netFocusMs}`);
+
+          return (
             <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
+              key={`${item.timestamp}-${index}`}
+              style={{ marginVertical: 10 }}
             >
-              <Typography
-                variant="body1Regular"
-                style={{ color: theme.colors.pages.timer.slider.text.primary }}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
               >
-                {item.durationStr}
-              </Typography>
-              <View style={{ flexDirection: 'row', gap: 10 }}>
                 <Typography
-                  variant="body2Regular"
+                  variant="body1Regular"
                   style={{
-                    color: theme.colors.pages.timer.slider.text.secondary,
+                    color: theme.colors.pages.timer.slider.text.primary,
                   }}
                 >
-                  {item.dateStr}
+                  {item.durationStr}
                 </Typography>
-                <Typography
-                  variant="body2Regular"
-                  style={{
-                    color: theme.colors.pages.timer.slider.text.secondary,
-                  }}
-                >
-                  {item.dayOfWeek}
-                </Typography>
-                <Typography
-                  variant="body2Regular"
-                  style={{
-                    color: theme.colors.pages.timer.slider.text.secondary,
-                  }}
-                >
-                  {formatMsToMMSS(item.durationMs)} {t('minutes')}
-                </Typography>
+                <View style={{ flexDirection: 'row', gap: 10 }}>
+                  <Typography
+                    variant="body2Regular"
+                    style={{
+                      color: theme.colors.pages.timer.slider.text.secondary,
+                    }}
+                  >
+                    {item.dateStr}
+                  </Typography>
+                  <Typography
+                    variant="body2Regular"
+                    style={{
+                      color: theme.colors.pages.timer.slider.text.secondary,
+                    }}
+                  >
+                    {item.dayOfWeek}
+                  </Typography>
+                  <Typography
+                    variant="body2Regular"
+                    style={{
+                      color: theme.colors.pages.timer.slider.text.secondary,
+                    }}
+                  >
+                    {formatMsToMMSS(item.netFocusMs)} {t('minutes')}
+                  </Typography>
+                </View>
               </View>
+              <View
+                style={{
+                  height: 1,
+                  backgroundColor: theme.colors.pages.timer.slider.text.primary,
+                  opacity: 0.2,
+                }}
+              />
             </View>
-            <View
-              style={{
-                height: 1,
-                backgroundColor: theme.colors.pages.timer.slider.text.primary,
-                opacity: 0.2,
-              }}
-            />
-          </View>
-        ))
+          );
+        })
       ) : (
         <Typography
           variant="body1Regular"
