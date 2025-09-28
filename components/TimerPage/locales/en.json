@@ -26,5 +26,6 @@
   "timerFinishTitle5": "{{min}}min Timer Finished",
   "timerFinishMessage5": "Your immersion deepened gradually.",
   "timerFinishTitle6": "{{min}}min Immersion Success",
-  "timerFinishMessage6": "Take a short break now."
+  "timerFinishMessage6": "Take a short break now.",
+  "noRecordData": "No records yet"
 }

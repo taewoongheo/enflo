@@ -30,57 +30,69 @@ function FocusRecords({
 
   return (
     <View>
-      {items.map((item, index) => (
-        <View key={`${item.timestamp}-${index}`} style={{ marginVertical: 10 }}>
+      {items.length > 0 ? (
+        items.map((item, index) => (
           <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
+            key={`${item.timestamp}-${index}`}
+            style={{ marginVertical: 10 }}
           >
-            <Typography
-              variant="body1Regular"
-              style={{ color: theme.colors.pages.timer.slider.text.primary }}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
             >
-              {item.durationStr}
-            </Typography>
-            <View style={{ flexDirection: 'row', gap: 10 }}>
               <Typography
-                variant="body2Regular"
-                style={{
-                  color: theme.colors.pages.timer.slider.text.secondary,
-                }}
+                variant="body1Regular"
+                style={{ color: theme.colors.pages.timer.slider.text.primary }}
               >
-                {item.dateStr}
+                {item.durationStr}
               </Typography>
-              <Typography
-                variant="body2Regular"
-                style={{
-                  color: theme.colors.pages.timer.slider.text.secondary,
-                }}
-              >
-                {item.dayOfWeek}
-              </Typography>
-              <Typography
-                variant="body2Regular"
-                style={{
-                  color: theme.colors.pages.timer.slider.text.secondary,
-                }}
-              >
-                {formatMsToMMSS(item.durationMs)} {t('minutes')}
-              </Typography>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <Typography
+                  variant="body2Regular"
+                  style={{
+                    color: theme.colors.pages.timer.slider.text.secondary,
+                  }}
+                >
+                  {item.dateStr}
+                </Typography>
+                <Typography
+                  variant="body2Regular"
+                  style={{
+                    color: theme.colors.pages.timer.slider.text.secondary,
+                  }}
+                >
+                  {item.dayOfWeek}
+                </Typography>
+                <Typography
+                  variant="body2Regular"
+                  style={{
+                    color: theme.colors.pages.timer.slider.text.secondary,
+                  }}
+                >
+                  {formatMsToMMSS(item.durationMs)} {t('minutes')}
+                </Typography>
+              </View>
             </View>
+            <View
+              style={{
+                height: 1,
+                backgroundColor: theme.colors.pages.timer.slider.text.primary,
+                opacity: 0.2,
+              }}
+            />
           </View>
-          <View
-            style={{
-              height: 1,
-              backgroundColor: theme.colors.pages.timer.slider.text.primary,
-              opacity: 0.2,
-            }}
-          />
-        </View>
-      ))}
+        ))
+      ) : (
+        <Typography
+          variant="body1Regular"
+          style={{ color: theme.colors.pages.timer.slider.text.primary }}
+        >
+          {t('noRecordData')}
+        </Typography>
+      )}
       {remainingCount > 0 && (
         <TouchableOpacity
           onPress={onLoadMore}
