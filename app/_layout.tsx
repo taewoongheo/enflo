@@ -3,6 +3,7 @@ import AddSessionBottomSheet from '@/components/MainPage/AddSessionBottomSheet';
 import { FeedbackBottomSheet } from '@/components/SettingPage';
 import CaptionBottomSheet from '@/components/SettingPage/CaptionBottomSheet';
 import EditSessionBottomSheet from '@/components/TimerPage/EditSessionBottomSheet';
+import FlowPatternBottomSheet from '@/components/TimerPage/TimerTrends/FlowPatternBottomSheet';
 import {
   BottomSheetProvider,
   useBottomSheet,
@@ -199,6 +200,7 @@ function BottomSheetWrapper() {
     editSessionBottomSheetRef,
     feedbackBottomSheetRef,
     captionBottomSheetRef,
+    flowPatternBottomSheetRef,
   } = useBottomSheet();
 
   return (
@@ -224,6 +226,12 @@ function BottomSheetWrapper() {
       <CaptionBottomSheet
         captionBottomSheetRef={
           captionBottomSheetRef as React.RefObject<BottomSheetMethods>
+        }
+        theme={theme}
+      />
+      <FlowPatternBottomSheet
+        flowPatternBottomSheetRef={
+          flowPatternBottomSheetRef as React.RefObject<BottomSheetMethods>
         }
         theme={theme}
       />

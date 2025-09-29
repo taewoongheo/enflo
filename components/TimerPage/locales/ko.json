@@ -27,5 +27,8 @@
   "timerFinishMessage5": "엔트로피가 점점 낮아지고 있어요",
   "timerFinishTitle6": "{{min}}분 몰입 성공",
   "timerFinishMessage6": "이제 잠시 휴식을 취해보세요",
-  "noRecordData": "아직 기록이 없어요"
+  "noRecordData": "아직 기록이 없어요",
+  "flowPatternAnalysis": "앱 사용 중 기록된 집중도와 방해 요인을 모아 몰입 패턴을 분석해요.",
+  "flowPatternAnalysis2": "시간대, 타이머 기록, 방해 이벤트(일시 중단, 앱 이탈 등)를 종합적으로 분석합니다.",
+  "flowPatternAnalysisFeedback": "의견이 있다면 피드백을 남겨주세요."
 }

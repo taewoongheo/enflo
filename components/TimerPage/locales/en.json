@@ -27,5 +27,8 @@
   "timerFinishMessage5": "Your flow deepened gradually.",
   "timerFinishTitle6": "{{min}}min Flow Success",
   "timerFinishMessage6": "Take a short break now.",
-  "noRecordData": "No records yet"
+  "noRecordData": "No records yet",
+  "flowPatternAnalysis": "We analyze your flow patterns by collecting focus levels and distraction factors recorded during app use.",
+  "flowPatternAnalysis2": "We comprehensively analyze time of day, timer records, and distraction events (such as pauses or app exits).",
+  "flowPatternAnalysisFeedback": "If you have any feedback, please let us know."
 }
