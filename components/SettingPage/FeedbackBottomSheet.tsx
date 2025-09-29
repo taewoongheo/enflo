@@ -1,7 +1,6 @@
 import { baseTokens, Theme } from '@/styles';
 import { signRequest } from '@/utils/auth';
 import { hapticSettings } from '@/utils/haptics';
-import { EMAIL_API_URL } from '@env';
 import { FontAwesome } from '@expo/vector-icons';
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -9,11 +8,14 @@ import BottomSheet, {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
+import Constants from 'expo-constants';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
+
+const EMAIL_API_URL = Constants.expoConfig?.extra?.EMAIL_API_URL;
 
 function FeedbackBottomSheet({
   feedbackBottomSheetRef,

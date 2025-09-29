@@ -1,5 +1,7 @@
-import { EMAIL_API_SECRET_KEY } from '@env';
 import * as CryptoJS from 'crypto-js';
+import Constants from 'expo-constants';
+
+const EMAIL_API_SECRET_KEY = Constants.expoConfig?.extra?.EMAIL_API_SECRET_KEY;
 
 export function signRequest(
   method: string,

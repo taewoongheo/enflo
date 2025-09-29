@@ -1,5 +1,6 @@
 import { useTheme } from '@/contexts/ThemeContext';
 import { Canvas, Group, RoundedRect } from '@shopify/react-native-skia';
+import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import { PERIOD } from '../../constants/period';
 
@@ -36,50 +37,54 @@ export default function GraphCanvas({
   const { theme } = useTheme();
 
   return (
-    <Canvas
+    <View
+      style={{ flex: 1 }}
       onLayout={(e) => {
         setCanvasWidth(e.nativeEvent.layout.width);
         setCanvasHeight(e.nativeEvent.layout.height);
       }}
-      style={{
-        flex: 1,
-      }}
     >
-      <Group transform={[{ scaleY: -1 }, { translateY: -canvasHeight }]}>
-        {datas.map((day, index) => {
-          if (day.day > todayYYYYMMDD) {
-            return null;
-          }
+      <Canvas
+        style={{
+          flex: 1,
+        }}
+      >
+        <Group transform={[{ scaleY: -1 }, { translateY: -canvasHeight }]}>
+          {datas.map((day, index) => {
+            if (day.day > todayYYYYMMDD) {
+              return null;
+            }
 
-          return (
-            <Group key={day.day}>
-              <RoundedRect
-                x={
-                  index * cellWidth +
-                  (cellWidth -
-                    (selectedPeriod === PERIOD.MONTHLY
+            return (
+              <Group key={day.day}>
+                <RoundedRect
+                  x={
+                    index * cellWidth +
+                    (cellWidth -
+                      (selectedPeriod === PERIOD.MONTHLY
+                        ? MONTHLY_RECT_WIDTH
+                        : WEEKLY_RECT_WIDTH)) /
+                      2
+                  }
+                  y={0}
+                  width={
+                    selectedPeriod === PERIOD.MONTHLY
                       ? MONTHLY_RECT_WIDTH
-                      : WEEKLY_RECT_WIDTH)) /
-                    2
-                }
-                y={0}
-                width={
-                  selectedPeriod === PERIOD.MONTHLY
-                    ? MONTHLY_RECT_WIDTH
-                    : WEEKLY_RECT_WIDTH
-                }
-                height={canvasHeight * day.focusTimeYValues}
-                color={theme.colors.pages.timer.slider.text.primary}
-                r={
-                  selectedPeriod === PERIOD.MONTHLY
-                    ? MONTHLY_RECT_RADIUS
-                    : WEEKLY_RECT_RADIUS
-                }
-              />
-            </Group>
-          );
-        })}
-      </Group>
-    </Canvas>
+                      : WEEKLY_RECT_WIDTH
+                  }
+                  height={canvasHeight * day.focusTimeYValues}
+                  color={theme.colors.pages.timer.slider.text.primary}
+                  r={
+                    selectedPeriod === PERIOD.MONTHLY
+                      ? MONTHLY_RECT_RADIUS
+                      : WEEKLY_RECT_RADIUS
+                  }
+                />
+              </Group>
+            );
+          })}
+        </Group>
+      </Canvas>
+    </View>
   );
 }

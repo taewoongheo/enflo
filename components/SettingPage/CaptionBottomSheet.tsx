@@ -115,6 +115,14 @@ function CaptionBottomSheet({
           >
             {t('entropyDescription')}
           </Typography>
+          <Typography
+            variant="body1Bold"
+            style={{
+              color: theme.colors.text.primary,
+            }}
+          >
+            {t('entropyOverTime')}
+          </Typography>
           <Pressable
             onPress={() => {
               captionBottomSheetRef.current?.close();

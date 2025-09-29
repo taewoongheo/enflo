@@ -132,7 +132,7 @@ export default function FocusTimeBySessionSection({ theme }: { theme: Theme }) {
                 color: theme.colors.text.primary,
               }}
             >
-              {formatMsToTime(datas[selectedSessionIdx].focusTime)}
+              {formatMsToTime(datas[selectedSessionIdx]?.focusTime ?? 0)}
             </Typography>
           </View>
 
