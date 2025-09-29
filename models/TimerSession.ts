@@ -5,6 +5,7 @@ import {
   PauseEvent,
   ScrollInteractionEvent,
 } from '@/types/InterruptEvent';
+import { clamp } from '@/utils/math';
 import uuid from 'react-native-uuid';
 
 class TimerSession {
@@ -65,9 +66,10 @@ class TimerSession {
 
     const totalDisturbance = this.totalDisturbanceMs;
 
-    return Math.max(
-      0,
+    return clamp(
       Math.floor(this.endTs - this.startTs) - Math.floor(totalDisturbance),
+      0,
+      this.targetDurationMs,
     );
   }
 
