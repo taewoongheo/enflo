@@ -13,11 +13,13 @@ import { scale } from 'react-native-size-matters';
 
 interface FlowPatternBottomSheetProps {
   flowPatternBottomSheetRef: React.RefObject<BottomSheetMethods>;
+  feedbackBottomSheetRef: React.RefObject<BottomSheetMethods>;
   theme: Theme;
 }
 
 function FlowPatternBottomSheet({
   flowPatternBottomSheetRef,
+  feedbackBottomSheetRef,
   theme,
 }: FlowPatternBottomSheetProps) {
   const router = useRouter();
@@ -104,7 +106,8 @@ function FlowPatternBottomSheet({
           <Pressable
             onPress={() => {
               flowPatternBottomSheetRef.current?.close();
-              router.push('/settings/howToUse');
+              feedbackBottomSheetRef.current?.expand();
+              router.replace('/settings');
             }}
           >
             <Typography

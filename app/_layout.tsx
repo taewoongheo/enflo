@@ -233,6 +233,9 @@ function BottomSheetWrapper() {
         flowPatternBottomSheetRef={
           flowPatternBottomSheetRef as React.RefObject<BottomSheetMethods>
         }
+        feedbackBottomSheetRef={
+          feedbackBottomSheetRef as React.RefObject<BottomSheetMethods>
+        }
         theme={theme}
       />
     </>
