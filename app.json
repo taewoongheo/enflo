@@ -4,7 +4,7 @@
     "slug": "enflo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icon.png",
     "scheme": "enflo",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -12,8 +12,12 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.enflo.app",
+      "entitlements": {
+        "com.apple.developer.usernotifications.time-sensitive": true
+      },
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": ["fetch", "remote-notification"]
       }
     },
     "android": {

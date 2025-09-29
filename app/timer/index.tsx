@@ -7,11 +7,10 @@ import {
   TimerTrends,
   TimerTunerSlider,
 } from '@/components/TimerPage';
-import { getTimerFinishAlertMessages } from '@/components/TimerPage/constant/alert';
 import useBackgroundEvent from '@/components/TimerPage/hooks/useBackgroundEvent';
 import usePauseEvent from '@/components/TimerPage/hooks/usePauseEvent';
 import useScrollEvent from '@/components/TimerPage/hooks/useScrollEvent';
-import { MINUTE_MS, TIMER_MIN_MINUTES } from '@/constants/time/time';
+import { TIMER_MIN_MINUTES } from '@/constants/time/time';
 import { useTheme } from '@/contexts/ThemeContext';
 import Session from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
@@ -30,7 +29,6 @@ import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scale } from 'react-native-size-matters';
-import { scheduleNotificationAsync } from '../_layout';
 
 export default function Timer() {
   const router = useRouter();
@@ -112,17 +110,6 @@ function TimerContent({
         await sessionService.addTimerSession({
           sessionId: session.sessionId,
           timerSession: snapShot.timerSession,
-        });
-
-        // notification
-        const alertMessages = getTimerFinishAlertMessages(t);
-        const { title, message } =
-          alertMessages[Math.floor(Math.random() * alertMessages.length)];
-
-        const duration = snapShot.timerSession.targetDurationMs;
-        scheduleNotificationAsync({
-          title: title(Math.floor(duration / MINUTE_MS)),
-          body: message(Math.floor(duration / MINUTE_MS)),
         });
       }
     } catch (error) {

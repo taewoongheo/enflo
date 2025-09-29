@@ -80,9 +80,11 @@ export async function requestPermissionsAsync() {
 export async function scheduleNotificationAsync({
   title,
   body,
+  triggerSeconds,
 }: {
   title: string;
   body: string;
+  triggerSeconds: number;
 }) {
   const notificationSettings = (
     await notificationService.getNotificationSettings()
@@ -96,9 +98,19 @@ export async function scheduleNotificationAsync({
     content: {
       title,
       body,
+      sound: 'default',
+      interruptionLevel: 'timeSensitive',
     },
-    trigger: null,
+    trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+      seconds: triggerSeconds,
+      repeats: false,
+    },
   });
+}
+
+export async function cancelSpecificNotification(identifier: string) {
+  await Notifications.cancelScheduledNotificationAsync(identifier);
 }
 
 const AppInit = ({ children }: { children: React.ReactNode }) => {
