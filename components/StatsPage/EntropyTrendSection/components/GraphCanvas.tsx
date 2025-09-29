@@ -4,8 +4,8 @@ import { View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import { PERIOD } from '../../constants/period';
 
-const WEEKLY_CIRCLE_RADIUS = scale(0);
-const MONTHLY_CIRCLE_RADIUS = scale(0);
+const WEEKLY_CIRCLE_RADIUS = scale(2.5);
+const MONTHLY_CIRCLE_RADIUS = scale(2);
 const WEEKLY_STROKE_WIDTH = scale(1.7);
 const MONTHLY_STROKE_WIDTH = scale(1.5);
 
@@ -53,9 +53,10 @@ export default function GraphCanvas({
             const hasNext =
               !!datas[index + 1] && datas[index].day < todayYYYYMMDD;
 
-            return (
-              <Group key={day.day}>
+            if (index === 0 && !hasNext) {
+              return (
                 <Circle
+                  key={day.day}
                   cx={
                     index *
                       (canvasWidth /
@@ -79,45 +80,52 @@ export default function GraphCanvas({
                   }
                   color={theme.colors.pages.timer.slider.text.primary}
                 />
-                {hasNext && (
-                  <Line
-                    p1={vec(
-                      index *
-                        (canvasWidth /
-                          (selectedPeriod === PERIOD.WEEKLY
-                            ? WEEKLY_DAYS
-                            : MONTHLY_DAYS)) +
-                        canvasWidth /
-                          (selectedPeriod === PERIOD.WEEKLY
-                            ? WEEKLY_DAYS
-                            : MONTHLY_DAYS) /
-                          2,
-                      (canvasHeight - canvasHeight / 10) * day.entropyScore +
-                        canvasHeight / 10 / 2,
-                    )}
-                    p2={vec(
-                      (index + 1) *
-                        (canvasWidth /
-                          (selectedPeriod === PERIOD.WEEKLY
-                            ? WEEKLY_DAYS
-                            : MONTHLY_DAYS)) +
-                        canvasWidth /
-                          (selectedPeriod === PERIOD.WEEKLY
-                            ? WEEKLY_DAYS
-                            : MONTHLY_DAYS) /
-                          2,
-                      (canvasHeight - canvasHeight / 10) *
-                        datas[index + 1].entropyScore +
-                        canvasHeight / 10 / 2,
-                    )}
-                    color={theme.colors.pages.timer.slider.text.primary}
-                    strokeWidth={
-                      selectedPeriod === PERIOD.WEEKLY
-                        ? WEEKLY_STROKE_WIDTH
-                        : MONTHLY_STROKE_WIDTH
-                    }
-                  />
-                )}
+              );
+            }
+
+            if (!hasNext) {
+              return;
+            }
+
+            return (
+              <Group key={day.day}>
+                <Line
+                  p1={vec(
+                    index *
+                      (canvasWidth /
+                        (selectedPeriod === PERIOD.WEEKLY
+                          ? WEEKLY_DAYS
+                          : MONTHLY_DAYS)) +
+                      canvasWidth /
+                        (selectedPeriod === PERIOD.WEEKLY
+                          ? WEEKLY_DAYS
+                          : MONTHLY_DAYS) /
+                        2,
+                    (canvasHeight - canvasHeight / 10) * day.entropyScore +
+                      canvasHeight / 10 / 2,
+                  )}
+                  p2={vec(
+                    (index + 1) *
+                      (canvasWidth /
+                        (selectedPeriod === PERIOD.WEEKLY
+                          ? WEEKLY_DAYS
+                          : MONTHLY_DAYS)) +
+                      canvasWidth /
+                        (selectedPeriod === PERIOD.WEEKLY
+                          ? WEEKLY_DAYS
+                          : MONTHLY_DAYS) /
+                        2,
+                    (canvasHeight - canvasHeight / 10) *
+                      datas[index + 1].entropyScore +
+                      canvasHeight / 10 / 2,
+                  )}
+                  color={theme.colors.pages.timer.slider.text.primary}
+                  strokeWidth={
+                    selectedPeriod === PERIOD.WEEKLY
+                      ? WEEKLY_STROKE_WIDTH
+                      : MONTHLY_STROKE_WIDTH
+                  }
+                />
               </Group>
             );
           })}
