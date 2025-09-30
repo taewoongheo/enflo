@@ -23,7 +23,7 @@ export default function SettingsScreen() {
   const { t } = useTranslation('settings');
   const router = useRouter();
 
-  const { feedbackBottomSheetRef } = useBottomSheet();
+  const { feedbackBottomSheetRef, proInfoBottomSheetRef } = useBottomSheet();
 
   const handleSettingPress = (setting: string) => {
     router.push(`/settings/${setting}` as RelativePathString);
@@ -78,6 +78,13 @@ export default function SettingsScreen() {
                 title={t('feedbackInquiry')}
                 onPress={() => {
                   feedbackBottomSheetRef.current?.expand();
+                }}
+              />
+              <SettingsItem
+                theme={theme}
+                title={t('proPromotion')}
+                onPress={() => {
+                  proInfoBottomSheetRef.current?.expand();
                 }}
               />
             </SettingsLayout>
