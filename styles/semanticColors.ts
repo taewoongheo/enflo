@@ -13,6 +13,7 @@ interface SemanticColors {
     success: string;
     error: string;
     errorInverse: string;
+    placeholderInverse: string;
   };
   border: {
     primary: string;
@@ -51,6 +52,7 @@ export const lightSemanticColors: SemanticColors = {
     success: palette.green[700],
     error: palette.red[700],
     errorInverse: palette.red[200],
+    placeholderInverse: palette.light[400],
   },
   border: {
     primary: palette.light[400],
@@ -89,6 +91,7 @@ export const darkSemanticColors: SemanticColors = {
     success: palette.green[400],
     error: palette.red[400],
     errorInverse: palette.red[700],
+    placeholderInverse: palette.dark[600],
   },
   border: {
     primary: palette.dark[600],

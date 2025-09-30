@@ -13,6 +13,7 @@ export interface Theme {
     };
     proPromotion: {
       background: string;
+      placeholderText: string;
       errorText: string;
     };
     background: string;
@@ -49,6 +50,7 @@ const lightTheme = {
     },
     proPromotion: {
       background: lightSemanticColors.background.surfaceInverse,
+      placeholderText: lightSemanticColors.text.placeholderInverse,
       errorText: lightSemanticColors.text.errorInverse,
     },
     background: lightSemanticColors.background.surface,
@@ -121,6 +123,7 @@ const darkTheme = {
     },
     proPromotion: {
       background: darkSemanticColors.background.surfaceInverse,
+      placeholderText: darkSemanticColors.text.placeholderInverse,
       errorText: darkSemanticColors.text.errorInverse,
     },
     background: darkSemanticColors.background.surface,

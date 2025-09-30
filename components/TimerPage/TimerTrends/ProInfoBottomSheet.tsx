@@ -87,14 +87,14 @@ function ProInfoBottomSheet({
 
   return (
     <BottomSheet
-      bottomInset={baseTokens.spacing[7]}
+      bottomInset={baseTokens.spacing[6]}
       detached={true}
       ref={proInfoBottomSheetRef}
       index={-1}
       enablePanDownToClose={true}
       backdropComponent={renderBackdrop}
       style={{
-        marginHorizontal: baseTokens.spacing[4],
+        marginHorizontal: baseTokens.spacing[2],
       }}
       backgroundStyle={{
         backgroundColor: theme.colors.bottomSheet.background,
@@ -236,7 +236,7 @@ function ProInfoBottomSheet({
           }}
         >
           <Typography
-            variant="body1Regular"
+            variant="body1Bold"
             style={{
               color: theme.colors.background,
             }}
@@ -250,7 +250,7 @@ function ProInfoBottomSheet({
               }}
               value={email}
               placeholder={t('emailPlaceholder')}
-              placeholderTextColor={theme.colors.background}
+              placeholderTextColor={theme.colors.proPromotion.placeholderText}
               multiline={false}
               textAlignVertical="center"
               style={{
@@ -321,7 +321,7 @@ function ProInfoBottomSheet({
             style={{
               backgroundColor: theme.colors.background,
               borderWidth: scale(1.3),
-              borderColor: theme.colors.text.secondary,
+              borderColor: theme.colors.proPromotion.placeholderText,
               paddingHorizontal: baseTokens.spacing[3],
               borderRadius: baseTokens.borderRadius.sm,
               alignItems: 'center',

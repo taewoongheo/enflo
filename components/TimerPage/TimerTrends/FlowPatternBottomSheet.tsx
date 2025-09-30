@@ -43,14 +43,14 @@ function FlowPatternBottomSheet({
 
   return (
     <BottomSheet
-      bottomInset={baseTokens.spacing[7]}
+      bottomInset={baseTokens.spacing[6]}
       detached={true}
       ref={flowPatternBottomSheetRef}
       index={-1}
       enablePanDownToClose={true}
       backdropComponent={renderBackdrop}
       style={{
-        marginHorizontal: baseTokens.spacing[4],
+        marginHorizontal: baseTokens.spacing[2],
       }}
       backgroundStyle={{
         backgroundColor: theme.colors.bottomSheet.background,
@@ -111,7 +111,7 @@ function FlowPatternBottomSheet({
             }}
           >
             <Typography
-              variant="body1Regular"
+              variant="body1Bold"
               style={{
                 color: theme.colors.pages.timer.slider.picker,
                 lineHeight: baseTokens.typography.body1Regular.fontSize * 1.5,
