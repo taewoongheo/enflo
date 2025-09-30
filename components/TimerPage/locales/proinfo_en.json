@@ -1,0 +1,27 @@
+{
+  "title": "Coming Soon to",
+  "proLabel": "Pro",
+  "subtitle": "",
+  "emailNotificationText": "Be the first to know when Pro launches",
+  "emailPlaceholder": "Enter your email",
+  "submitButton": "Notify Me",
+  "features": {
+    "analysis": {
+      "title": "Advanced Pattern Analysis",
+      "description": "AI-powered insights to reveal your flow patterns and distraction triggers in greater detail."
+    },
+    "themes": {
+      "title": "More Themes",
+      "description": "Personalize your Entropy experience with a variety of visual styles."
+    },
+    "insights": {
+      "title": "Expanded Stats & Insights",
+      "description": "Track and explore your focus records from multiple angles to uncover long-term patterns."
+    }
+  },
+  "validation": {
+    "emailRequired": "Please enter your email",
+    "emailTooLong": "Email is too long",
+    "emailInvalid": "Please enter a valid email format"
+  }
+}

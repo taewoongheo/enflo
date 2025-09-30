@@ -238,6 +238,8 @@ function FeedbackBottomSheet({
                   const rawBody = JSON.stringify({ feedback, checked, rating });
                   const timestamp = Math.floor(Date.now() / 1000).toString();
 
+                  console.log(rawBody);
+
                   await fetch(`${EMAIL_API_URL}/feedback`, {
                     method: 'POST',
                     body: rawBody,

@@ -7,6 +7,7 @@ type BottomSheetContextType = {
   feedbackBottomSheetRef: React.RefObject<BottomSheet | null>;
   captionBottomSheetRef: React.RefObject<BottomSheet | null>;
   flowPatternBottomSheetRef: React.RefObject<BottomSheet | null>;
+  proInfoBottomSheetRef: React.RefObject<BottomSheet | null>;
 };
 
 const BottomSheetContext = createContext<BottomSheetContextType | undefined>(
@@ -23,6 +24,7 @@ export const BottomSheetProvider = ({
   const feedbackBottomSheetRef = useRef<BottomSheet | null>(null);
   const captionBottomSheetRef = useRef<BottomSheet | null>(null);
   const flowPatternBottomSheetRef = useRef<BottomSheet | null>(null);
+  const proInfoBottomSheetRef = useRef<BottomSheet | null>(null);
 
   const refs = useMemo(
     () => ({
@@ -31,6 +33,7 @@ export const BottomSheetProvider = ({
       feedbackBottomSheetRef,
       captionBottomSheetRef,
       flowPatternBottomSheetRef,
+      proInfoBottomSheetRef,
     }),
     [],
   );

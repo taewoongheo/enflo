@@ -16,34 +16,65 @@ export default function UserMessage({
   t: TFunction;
   userMessage: string;
 }) {
-  const { flowPatternBottomSheetRef } = useBottomSheet();
+  const { flowPatternBottomSheetRef, proInfoBottomSheetRef } = useBottomSheet();
 
   return (
     <InfoLayout>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: baseTokens.spacing[1],
+        }}
+      >
+        <Pressable
+          style={{ flex: 1 }}
+          onPress={() => flowPatternBottomSheetRef.current?.expand()}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: baseTokens.spacing[1],
+              alignSelf: 'flex-start',
+            }}
+          >
+            <Typography
+              variant="body1Bold"
+              style={{ color: theme.colors.pages.timer.slider.text.secondary }}
+            >
+              {t('focusSuggestion')}
+            </Typography>
+            <AntDesign
+              name="questioncircle"
+              size={baseTokens.iconSize.xs}
+              color={theme.colors.text.secondary}
+            />
+          </View>
+        </Pressable>
+        <Pressable
+          onPress={() => {
+            proInfoBottomSheetRef.current?.expand();
+          }}
+          style={{
+            backgroundColor: theme.colors.pages.stats.toggle.selectedBackground,
+            paddingHorizontal: baseTokens.spacing[2],
+            paddingVertical: baseTokens.spacing[0],
+            borderRadius: baseTokens.borderRadius.sm,
+          }}
+        >
+          <Typography
+            variant="label"
+            style={{ color: theme.colors.background }}
+          >
+            Pro
+          </Typography>
+        </Pressable>
+      </View>
       <Pressable
         style={{ flex: 1 }}
         onPress={() => flowPatternBottomSheetRef.current?.expand()}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: baseTokens.spacing[1],
-          }}
-        >
-          <Typography
-            variant="body1Bold"
-            style={{ color: theme.colors.pages.timer.slider.text.secondary }}
-          >
-            {t('focusSuggestion')}
-          </Typography>
-          <AntDesign
-            name="questioncircle"
-            size={baseTokens.iconSize.xs}
-            color={theme.colors.text.secondary}
-            // style={styles.iconSpacing}
-          />
-        </View>
         <Typography
           variant="body1Regular"
           style={{ color: theme.colors.pages.timer.slider.text.primary }}

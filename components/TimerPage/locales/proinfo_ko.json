@@ -1,0 +1,27 @@
+{
+  "title": "곧 만나볼",
+  "proLabel": "Pro",
+  "subtitle": "기능들",
+  "emailNotificationText": "Pro가 열리면 가장 먼저 알려드릴게요",
+  "emailPlaceholder": "이메일을 입력해주세요",
+  "submitButton": "출시 알림 받기",
+  "features": {
+    "analysis": {
+      "title": "정밀한 몰입 패턴 분석",
+      "description": "AI를 기반으로 몰입 패턴과 방해 요인을 더 세밀하게 파악해 드려요."
+    },
+    "themes": {
+      "title": "다양한 테마 제공",
+      "description": "여러 테마 중 자신에게 맞는 스타일로 엔트로피를 꾸며보세요."
+    },
+    "insights": {
+      "title": "확장된 통계와 인사이트",
+      "description": "몰입 기록을 다양한 측면에서 파악할 수 있어요."
+    }
+  },
+  "validation": {
+    "emailRequired": "이메일을 입력해주세요",
+    "emailTooLong": "너무 긴 이메일은 입력할 수 없어요",
+    "emailInvalid": "올바른 이메일 형식을 입력해주세요"
+  }
+}

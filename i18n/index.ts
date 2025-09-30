@@ -12,6 +12,8 @@ import stats_en from '../components/StatsPage/locales/en.json';
 import stats_ko from '../components/StatsPage/locales/ko.json';
 import timer_en from '../components/TimerPage/locales/en.json';
 import timer_ko from '../components/TimerPage/locales/ko.json';
+import proinfo_en from '../components/TimerPage/locales/proinfo_en.json';
+import proinfo_ko from '../components/TimerPage/locales/proinfo_ko.json';
 import suggestion_en from '../components/TimerPage/locales/suggestion_en.json';
 import suggestion_ko from '../components/TimerPage/locales/suggestion_ko.json';
 
@@ -19,7 +21,15 @@ i18n.use(initReactI18next).init({
   lng: getLocales()[0].languageCode as 'en' | 'ko',
   // lng: 'en',
   fallbackLng: 'en',
-  ns: ['main', 'timer', 'suggestion', 'mainSuggestion', 'stats', 'settings'],
+  ns: [
+    'main',
+    'timer',
+    'suggestion',
+    'mainSuggestion',
+    'stats',
+    'settings',
+    'proinfo',
+  ],
   defaultNS: 'main',
   resources: {
     en: {
@@ -29,6 +39,7 @@ i18n.use(initReactI18next).init({
       mainSuggestion: main_suggestion_en,
       stats: stats_en,
       settings: settings_en,
+      proinfo: proinfo_en,
     },
     ko: {
       main: main_ko,
@@ -37,6 +48,7 @@ i18n.use(initReactI18next).init({
       mainSuggestion: main_suggestion_ko,
       stats: stats_ko,
       settings: settings_ko,
+      proinfo: proinfo_ko,
     },
   },
   interpolation: {

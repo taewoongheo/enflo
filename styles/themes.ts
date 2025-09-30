@@ -11,6 +11,10 @@ export interface Theme {
       maxAlpha: number;
       minAlpha: number;
     };
+    proPromotion: {
+      background: string;
+      errorText: string;
+    };
     background: string;
     bottomSheet: {
       background: string;
@@ -42,6 +46,10 @@ const lightTheme = {
       base: 0,
       maxAlpha: 1,
       minAlpha: 0.5,
+    },
+    proPromotion: {
+      background: lightSemanticColors.background.surfaceInverse,
+      errorText: lightSemanticColors.text.errorInverse,
     },
     background: lightSemanticColors.background.surface,
     text: {
@@ -110,6 +118,10 @@ const darkTheme = {
       base: 255,
       maxAlpha: 1,
       minAlpha: 0.6,
+    },
+    proPromotion: {
+      background: darkSemanticColors.background.surfaceInverse,
+      errorText: darkSemanticColors.text.errorInverse,
     },
     background: darkSemanticColors.background.surface,
     text: {

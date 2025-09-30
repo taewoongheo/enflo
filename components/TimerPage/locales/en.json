@@ -30,5 +30,5 @@
   "noRecordData": "No records yet",
   "flowPatternAnalysis": "We analyze your flow patterns by collecting focus levels and distraction factors recorded during app use.",
   "flowPatternAnalysis2": "We comprehensively analyze time of day, timer records, and distraction events (such as pauses or app exits).",
-  "flowPatternAnalysisFeedback": "If you have any feedback, please let us know."
+  "flowPatternAnalysisFeedback": "Does the analysis not fit your situation?"
 }
