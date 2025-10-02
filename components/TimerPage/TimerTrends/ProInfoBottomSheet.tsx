@@ -1,6 +1,6 @@
 import Typography from '@/components/common/Typography';
+import EmailSentService from '@/services/EmailSentService';
 import { baseTokens, Theme } from '@/styles';
-import { signRequest } from '@/utils/auth';
 import { hapticSettings } from '@/utils/haptics';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, {
@@ -9,14 +9,11 @@ import BottomSheet, {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
-import Constants from 'expo-constants';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Keyboard, Pressable, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import ProTitleHighlight from './ProTitleHighlight';
-
-const EMAIL_API_URL = Constants.expoConfig?.extra?.EMAIL_API_URL;
 
 const isValidEmail = (
   email: string,
@@ -295,20 +292,11 @@ function ProInfoBottomSheet({
                 });
                 const timestamp = Math.floor(Date.now() / 1000).toString();
 
-                await fetch(`${EMAIL_API_URL}/feedback`, {
-                  method: 'POST',
-                  body: rawBody,
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'x-timestamp': timestamp,
-                    'x-signature': signRequest(
-                      'POST',
-                      '/feedback',
-                      timestamp,
-                      rawBody,
-                    ),
-                  },
-                });
+                await EmailSentService.sendEmail(
+                  'promotion',
+                  timestamp,
+                  rawBody,
+                );
 
                 setEmail('');
                 setIsError({ isValid: true, errorMessage: '' });
