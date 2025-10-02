@@ -15,6 +15,11 @@ CREATE TABLE `app_state_events` (
 );
 --> statement-breakpoint
 CREATE INDEX `idx_app_state_events_timer_session_id` ON `app_state_events` (`timer_session_id`);--> statement-breakpoint
+CREATE TABLE `email_last_sent` (
+	`email_type` text PRIMARY KEY NOT NULL,
+	`sent_at` integer
+);
+--> statement-breakpoint
 CREATE TABLE `entropy_log` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`timer_entropy_score` integer NOT NULL,

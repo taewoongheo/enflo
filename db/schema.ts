@@ -1,6 +1,11 @@
 import { relations, sql } from 'drizzle-orm';
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
+export const emailLastSent = sqliteTable('email_last_sent', {
+  emailType: text('email_type').notNull().primaryKey(), // feedback, promotion
+  sentAt: integer('sent_at', { mode: 'timestamp_ms' }),
+});
+
 export const appSettings = sqliteTable('app_settings', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   theme: text('theme').notNull(),
