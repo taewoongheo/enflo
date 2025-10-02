@@ -53,20 +53,18 @@ import {
 
 const EntropyCanvas = () => {
   const BUTTON_HEIGHT = particleCanvasHeight * 0.08;
-
   const { theme } = useTheme();
-
   const [refreshKey, setRefreshKey] = useReducer((s) => s + 1, 0);
 
   const handleRefresh = useCallback(() => {
     hapticTabSwitch();
-
     setRefreshKey();
   }, []);
 
   const touchX = useSharedValue(0);
   const touchY = useSharedValue(0);
   const isTouching = useSharedValue(false);
+  // const isPanning = useSharedValue(false);
 
   const handleTouch = (
     e:
@@ -74,7 +72,6 @@ const EntropyCanvas = () => {
       | GestureUpdateEvent<TapGestureHandlerEventPayload>,
   ) => {
     'worklet';
-
     touchX.value = e.x;
     touchY.value = e.y;
     isTouching.value = true;
@@ -83,7 +80,6 @@ const EntropyCanvas = () => {
   const tap = Gesture.Tap()
     .onBegin((e) => {
       runOnJS(hapticEntropyDrag)();
-
       handleTouch(e);
     })
     .onEnd(() => {
@@ -95,39 +91,33 @@ const EntropyCanvas = () => {
 
   const pan = Gesture.Pan()
     .onBegin((e) => {
+      // isPanning.value = true;
       lastTimestamp.value = performance.now();
-
       handleTouch(e);
     })
     .onUpdate((e) => {
       if (performance.now() - lastTimestamp.value > HAPTIC_THROTTLE_TIME) {
         lastTimestamp.value = performance.now();
-
         runOnJS(hapticEntropyDrag)();
       }
-
       handleTouch(e);
     })
     .onEnd(() => {
       'worklet';
+      // isPanning.value = false;
       isTouching.value = false;
     });
 
   const combinedGesture = Gesture.Race(tap, pan);
 
   return (
-    <View
-      style={{
-        position: 'relative',
-        width: particleCanvasWidth,
-        height: particleCanvasHeight,
-      }}
-    >
+    <View style={{ width: particleCanvasWidth, height: particleCanvasHeight }}>
       <EntropySystem
         combinedGesture={combinedGesture}
         touchX={touchX}
         touchY={touchY}
         isTouching={isTouching}
+        // isPanning={isPanning}
         theme={theme}
         refreshKey={refreshKey}
       />
@@ -150,14 +140,10 @@ const EntropyCanvas = () => {
             borderWidth: 1,
             borderColor: theme.colors.pages.main.sessionCard.border,
             borderRadius: baseTokens.borderRadius.lg,
-
             paddingVertical: baseTokens.spacing[2],
             aspectRatio: 1.7,
-
             justifyContent: 'center',
             alignItems: 'center',
-
-            zIndex: 1000,
           }}
         >
           <Foundation
@@ -176,6 +162,7 @@ function EntropySystem({
   touchX,
   touchY,
   isTouching,
+  // isPanning,
   theme,
   refreshKey,
 }: {
@@ -183,11 +170,10 @@ function EntropySystem({
   touchX: SharedValue<number>;
   touchY: SharedValue<number>;
   isTouching: SharedValue<boolean>;
+  // isPanning: SharedValue<boolean>;
   theme: Theme;
   refreshKey: number;
 }) {
-  const FADE_START_RATIO = 0.75;
-
   const entropyScore = useEntropyStore((s) => s.entropyScore);
 
   const veryLowParticles = useMemo(() => calculateVeryLowParticles(), []);
@@ -197,19 +183,16 @@ function EntropySystem({
   const veryHighParticles = useMemo(() => calculateVeryHighParticles(), []);
 
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const loading = async () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
       setIsLoading(false);
     };
-
     loading();
   }, []);
 
   let particles: Vector[] = [];
   let ParticleComponent: React.ComponentType<ParticleProps> | null = null;
-
   if (
     entropyScore <= ENTROPY_SYSTEM_GLOBAL_CONSTANTS.ENTROPY_SCORE.VERY_LOW_MAX
   ) {
@@ -235,38 +218,25 @@ function EntropySystem({
     ParticleComponent = VeryHighParticle;
   }
 
+  // // Skia Values
+  // const circleX = useSharedValue(0);
+  // const circleY = useSharedValue(0);
+  // const circleOpacity = useSharedValue(0);
+
+  // useFrameCallback(() => {
+  //   circleX.value = touchX.value;
+  //   circleY.value = touchY.value;
+  //   circleOpacity.value = isTouching.value || isPanning.value ? 1 : 0;
+  // });
+
   return (
-    <View
-      style={{
-        position: 'relative',
-      }}
-    >
+    <View>
       {isLoading && (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: theme.colors.background,
-
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-
-            zIndex: 1000,
-          }}
-        >
-          <ActivityIndicator size="large" color={theme.colors.text.primary} />
-        </View>
+        <ActivityIndicator size="large" color={theme.colors.text.primary} />
       )}
       <GestureDetector gesture={combinedGesture}>
         <Canvas
-          style={{
-            width: particleCanvasWidth,
-            height: particleCanvasHeight,
-          }}
+          style={{ width: particleCanvasWidth, height: particleCanvasHeight }}
         >
           <Mask
             mode="alpha"
@@ -282,16 +252,24 @@ function EntropySystem({
                     start={vec(0, 0)}
                     end={vec(0, particleCanvasHeight)}
                     colors={[
-                      `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 1)`,
-                      `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 1)`,
-                      `rgba(${theme.colors.particles.background}, ${theme.colors.particles.background}, ${theme.colors.particles.background}, 0)`,
+                      `rgba(${theme.colors.particles.background},${theme.colors.particles.background},${theme.colors.particles.background},1)`,
+                      `rgba(${theme.colors.particles.background},${theme.colors.particles.background},${theme.colors.particles.background},1)`,
+                      `rgba(${theme.colors.particles.background},${theme.colors.particles.background},${theme.colors.particles.background},0)`,
                     ]}
-                    positions={[0, FADE_START_RATIO, 1]}
+                    positions={[0, 0.75, 1]}
                   />
                 </Rect>
               </Group>
             }
           >
+            {/* <Group opacity={circleOpacity}>
+              <Circle
+                cx={circleX}
+                cy={circleY}
+                r={20}
+                color="rgba(255, 255, 255, 0.8)"
+              />
+            </Group> */}
             <EntropySystemWrapper
               key={refreshKey}
               touchX={touchX}
