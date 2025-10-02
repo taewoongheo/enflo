@@ -34,5 +34,12 @@
   "timerAlarm": "타이머 알람",
   "notification": "알람",
   "sessionNamePlaceholder": "자유롭게 피드백을 남겨주세요",
-  "proPromotion": "더 다양한 기능 만나보기"
+  "proPromotion": "더 다양한 기능 만나보기",
+  "validation": {
+    "feedbackRequired": "피드백을 입력해주세요",
+    "feedbackTooLong": "피드백은 3000자를 초과할 수 없습니다",
+    "ratingRequired": "앱 만족도를 평가해주세요",
+    "satisfiedItemsRequired": "만족스러웠던 점을 하나 이상 선택해주세요",
+    "emailSendLimitExceeded": "이미 이메일을 전송하셨습니다. 잠시 후 다시 시도해 주세요"
+  }
 }

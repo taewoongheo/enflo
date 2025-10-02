@@ -1,6 +1,5 @@
 import { db } from '@/db/db';
 import { emailLastSent } from '@/db/schema';
-import { signRequest } from '@/utils/auth';
 import { eq, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import Constants from 'expo-constants';
@@ -14,33 +13,38 @@ class EmailSentService {
     this.db = db;
   }
 
+  async checkEmailSentLimit(type: 'feedback' | 'promotion'): Promise<boolean> {
+    const row = await this.db
+      .select()
+      .from(emailLastSent)
+      .where(eq(emailLastSent.emailType, type));
+
+    const lastSent = row[0]?.sentAt?.getTime();
+
+    const now = new Date().getTime();
+    if (lastSent && now - lastSent < 1000 * 60 * 60 * 24) {
+      return true;
+    }
+
+    return false;
+  }
+
   async sendEmail(
     type: 'feedback' | 'promotion',
     timestamp: string,
     rawBody: string,
   ) {
     try {
-      const row = await this.db
-        .select()
-        .from(emailLastSent)
-        .where(eq(emailLastSent.emailType, type));
-
-      const lastSent = row[0]?.sentAt?.getTime();
-
-      const now = new Date().getTime();
-      if (lastSent && now - lastSent < 1000 * 60 * 60 * 24) {
-        return;
-      }
-
-      await fetch(`${EMAIL_API_URL}/feedback`, {
-        method: 'POST',
-        body: rawBody,
-        headers: {
-          'Content-Type': 'application/json',
-          'x-timestamp': timestamp,
-          'x-signature': signRequest('POST', '/feedback', timestamp, rawBody),
-        },
-      });
+      //   await fetch(`${EMAIL_API_URL}/feedback`, {
+      //     method: 'POST',
+      //     body: rawBody,
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'x-timestamp': timestamp,
+      //       'x-signature': signRequest('POST', '/feedback', timestamp, rawBody),
+      //     },
+      //   });
+      console.log('fetch');
 
       await this.db
         .insert(emailLastSent)

@@ -15,10 +15,10 @@ import { Keyboard, Pressable, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import ProTitleHighlight from './ProTitleHighlight';
 
-const isValidEmail = (
+const isValidEmail = async (
   email: string,
   t: (key: string) => string,
-): { isValid: boolean; errorMessage?: string } => {
+): Promise<{ isValid: boolean; errorMessage?: string }> => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (email.length === 0) {
@@ -39,6 +39,15 @@ const isValidEmail = (
     return {
       isValid: false,
       errorMessage: t('validation.emailInvalid'),
+    };
+  }
+
+  const isLimitExceeded =
+    await EmailSentService.checkEmailSentLimit('promotion');
+  if (!isLimitExceeded) {
+    return {
+      isValid: false,
+      errorMessage: t('validation.emailSendLimitExceeded'),
     };
   }
 
@@ -273,7 +282,7 @@ function ProInfoBottomSheet({
           </View>
           <Pressable
             onPress={async (e) => {
-              const validation = isValidEmail(email, t);
+              const validation = await isValidEmail(email, t);
               if (!validation.isValid) {
                 setIsError(validation);
                 return;
@@ -282,9 +291,6 @@ function ProInfoBottomSheet({
               hapticSettings();
 
               try {
-                proInfoBottomSheetRef.current?.close();
-                Keyboard.dismiss();
-
                 const rawBody = JSON.stringify({
                   feedback: 'pro 출시 알림',
                   checked: email,
@@ -297,6 +303,9 @@ function ProInfoBottomSheet({
                   timestamp,
                   rawBody,
                 );
+
+                proInfoBottomSheetRef.current?.close();
+                Keyboard.dismiss();
 
                 setEmail('');
                 setIsError({ isValid: true, errorMessage: '' });

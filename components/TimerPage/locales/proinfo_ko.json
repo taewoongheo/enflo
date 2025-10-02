@@ -22,6 +22,7 @@
   "validation": {
     "emailRequired": "이메일을 입력해주세요",
     "emailTooLong": "너무 긴 이메일은 입력할 수 없어요",
-    "emailInvalid": "올바른 이메일 형식을 입력해주세요"
+    "emailInvalid": "올바른 이메일 형식을 입력해주세요",
+    "emailSendLimitExceeded": "이미 이메일을 전송하셨습니다. 잠시 후 다시 시도해 주세요."
   }
 }

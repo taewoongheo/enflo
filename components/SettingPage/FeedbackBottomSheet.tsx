@@ -14,6 +14,50 @@ import { Keyboard, Pressable, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
 
+const isValidFeedback = async (
+  rating: number,
+  satisfiedItems: { id: number; nameKey: string; selected: boolean }[],
+  feedback: string,
+  t: (key: string) => string,
+): Promise<{ isValid: boolean; errorMessage?: string }> => {
+  if (rating === 0) {
+    return {
+      isValid: false,
+      errorMessage: t('validation.ratingRequired'),
+    };
+  }
+
+  if (satisfiedItems.filter((el) => el.selected).length === 0) {
+    return {
+      isValid: false,
+      errorMessage: t('validation.satisfiedItemsRequired'),
+    };
+  }
+
+  if (feedback.trim().length === 0) {
+    return {
+      isValid: false,
+      errorMessage: t('validation.feedbackRequired'),
+    };
+  }
+
+  if (feedback.length > 3000) {
+    return {
+      isValid: false,
+      errorMessage: t('validation.feedbackTooLong'),
+    };
+  }
+
+  // if (await EmailSentService.checkEmailSentLimit('feedback')) {
+  //   return {
+  //     isValid: false,
+  //     errorMessage: t('validation.emailSendLimitExceeded'),
+  //   };
+  // }
+
+  return { isValid: true };
+};
+
 function FeedbackBottomSheet({
   feedbackBottomSheetRef,
   theme,
@@ -24,7 +68,13 @@ function FeedbackBottomSheet({
   const { t } = useTranslation('settings');
 
   const [feedback, setFeedback] = useState('');
-
+  const [isError, setIsError] = useState<{
+    isValid: boolean;
+    errorMessage?: string;
+  }>({
+    isValid: true,
+    errorMessage: '',
+  });
   const [rating, setRating] = useState(0);
 
   const [satisfiedItems, setSatisfiedItems] = useState([
@@ -70,6 +120,7 @@ function FeedbackBottomSheet({
         onPress={() => {
           Keyboard.dismiss();
           setFeedback('');
+          setIsError({ isValid: true, errorMessage: '' });
           setSatisfiedItems(
             satisfiedItems.map((el) => ({ ...el, selected: false })),
           );
@@ -124,7 +175,13 @@ function FeedbackBottomSheet({
             </Typography>
             <View style={{ flexDirection: 'row', gap: baseTokens.spacing[3] }}>
               {Array.from({ length: 5 }).map((_, index) => (
-                <Pressable onPress={() => setRating(index + 1)} key={index}>
+                <Pressable
+                  onPress={() => {
+                    setIsError({ isValid: true, errorMessage: '' });
+                    setRating(index + 1);
+                  }}
+                  key={index}
+                >
                   <FontAwesome
                     name={index < rating ? 'star' : 'star-o'}
                     size={24}
@@ -151,6 +208,7 @@ function FeedbackBottomSheet({
               {satisfiedItems.map((item) => (
                 <Pressable
                   onPress={() => {
+                    setIsError({ isValid: true, errorMessage: '' });
                     setSatisfiedItems(
                       satisfiedItems.map((el) => {
                         if (el.id === item.id) {
@@ -198,35 +256,54 @@ function FeedbackBottomSheet({
             >
               {t('improvementSuggestions')}
             </Typography>
-            <BottomSheetTextInput
-              onChangeText={(text) => {
-                setFeedback(text);
-              }}
-              value={feedback}
-              placeholder={t('sessionNamePlaceholder')}
-              placeholderTextColor={theme.colors.bottomSheet.text.placeholder}
-              multiline={true}
-              textAlignVertical="top"
-              style={{
-                borderWidth: scale(1.3),
-                borderColor: theme.colors.bottomSheet.border,
-                paddingHorizontal: baseTokens.spacing[3],
-                paddingVertical: baseTokens.spacing[3],
-                borderRadius: baseTokens.borderRadius.sm,
-                color: theme.colors.bottomSheet.text.primary,
-                fontSize: baseTokens.typography.body2Regular.fontSize,
-                fontFamily: baseTokens.typography.body2Regular.fontFamily,
-                height: scale(150),
-              }}
-            />
+            <View style={{ gap: baseTokens.spacing[1] }}>
+              <BottomSheetTextInput
+                onChangeText={(text) => {
+                  setIsError({ isValid: true, errorMessage: '' });
+                  setFeedback(text);
+                }}
+                value={feedback}
+                placeholder={t('sessionNamePlaceholder')}
+                placeholderTextColor={theme.colors.bottomSheet.text.placeholder}
+                multiline={true}
+                textAlignVertical="top"
+                style={{
+                  borderWidth: scale(1.3),
+                  borderColor: theme.colors.bottomSheet.border,
+                  paddingHorizontal: baseTokens.spacing[3],
+                  paddingVertical: baseTokens.spacing[3],
+                  borderRadius: baseTokens.borderRadius.sm,
+                  color: theme.colors.bottomSheet.text.primary,
+                  fontSize: baseTokens.typography.body2Regular.fontSize,
+                  fontFamily: baseTokens.typography.body2Regular.fontFamily,
+                  height: scale(150),
+                }}
+              />
+              {!isError.isValid && (
+                <Typography
+                  variant="label"
+                  style={{ color: theme.colors.text.error }}
+                >
+                  {isError.errorMessage}
+                </Typography>
+              )}
+            </View>
             <Pressable
               onPress={async (e) => {
+                const validation = await isValidFeedback(
+                  rating,
+                  satisfiedItems,
+                  feedback,
+                  t,
+                );
+                if (!validation.isValid) {
+                  setIsError(validation);
+                  return;
+                }
+
                 hapticSettings();
 
                 try {
-                  feedbackBottomSheetRef.current?.close();
-                  Keyboard.dismiss();
-
                   const checked = satisfiedItems
                     .filter((el) => el.selected)
                     .map((el) => el.nameKey)
@@ -241,13 +318,17 @@ function FeedbackBottomSheet({
                     rawBody,
                   );
 
+                  feedbackBottomSheetRef.current?.close();
+                  Keyboard.dismiss();
+
                   setFeedback('');
+                  setIsError({ isValid: true, errorMessage: '' });
                   setSatisfiedItems(
                     satisfiedItems.map((el) => ({ ...el, selected: false })),
                   );
                   setRating(0);
-                } catch (error) {
-                  console.error(error);
+                } catch {
+                  // Handle error silently
                 }
 
                 e.stopPropagation();
@@ -262,6 +343,7 @@ function FeedbackBottomSheet({
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: scale(50),
+                opacity: !isError.isValid ? 0.3 : 1,
               }}
             >
               <Typography

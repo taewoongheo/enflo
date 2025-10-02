@@ -22,6 +22,7 @@
   "validation": {
     "emailRequired": "Please enter your email",
     "emailTooLong": "Email is too long",
-    "emailInvalid": "Please enter a valid email format"
+    "emailInvalid": "Please enter a valid email format",
+    "emailSendLimitExceeded": "You have already sent an email. Please try again later."
   }
 }

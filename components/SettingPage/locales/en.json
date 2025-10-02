@@ -34,5 +34,12 @@
   "timerAlarm": "Timer Notification",
   "notification": "Notification",
   "sessionNamePlaceholder": "Share your feedback freely",
-  "proPromotion": "Discover More Features"
+  "proPromotion": "Discover More Features",
+  "validation": {
+    "feedbackRequired": "Please enter your feedback",
+    "feedbackTooLong": "Feedback cannot exceed 3000 characters",
+    "ratingRequired": "Please rate the app",
+    "satisfiedItemsRequired": "Please select at least one satisfied point",
+    "emailSendLimitExceeded": "You have already sent an email. Please try again later"
+  }
 }
