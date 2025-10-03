@@ -38,7 +38,7 @@ function HowToUseScreen() {
     );
     setCurrentIndex(nextIndex);
 
-    if (nextIndex >= 2 && nextIndex < ONBOARDING_CONTENT_KO.length - 5) {
+    if (nextIndex >= 2 && nextIndex < ONBOARDING_CONTENT_KO.length - 4) {
       setLow(true);
       return;
     }
