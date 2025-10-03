@@ -27,6 +27,7 @@ import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { useDrizzleStudio } from 'expo-drizzle-studio-plugin';
 import * as Notifications from 'expo-notifications';
 import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { Suspense, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
@@ -41,7 +42,7 @@ Sentry.init({
   sendDefaultPii: true,
 
   // Enable Logs
-  enableLogs: true,
+  // debug: true,
 
   // Configure Session Replay
   replaysSessionSampleRate: 0.1,
@@ -115,6 +116,8 @@ export async function cancelSpecificNotification(identifier: string) {
   await Notifications.cancelScheduledNotificationAsync(identifier);
 }
 
+SplashScreen.preventAutoHideAsync();
+
 const AppInit = ({ children }: { children: React.ReactNode }) => {
   const { success, error } = useMigrations(db, migrations);
   const { theme, setTheme } = useTheme();
@@ -140,6 +143,8 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
         setTheme(theme as 'light' | 'dark');
         i18n.changeLanguage(lang);
         setIsAppSettingLoading(false);
+
+        SplashScreen.hideAsync();
       } catch (error) {
         throw error;
       }
