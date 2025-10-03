@@ -3,11 +3,11 @@ import { ONBOARDING_CONTENT_KO } from '@/components/SettingPage/HowToUse/Onboard
 import ParticleCanvas from '@/components/SettingPage/HowToUse/ParticleCanvas';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 function HowToUseScreen() {
-  const { theme } = useTheme();
+  const { theme, themeName } = useTheme();
   const router = useRouter();
 
   const [touchable, setTouchable] = useState(false);
@@ -46,9 +46,14 @@ function HowToUseScreen() {
     setLow(false);
   };
 
+  const ParticleCanvasMemo = useMemo(
+    () => <ParticleCanvas low={low} onTouchableEnable={enableTouchable} />,
+    [low, themeName],
+  );
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <ParticleCanvas low={low} onTouchableEnable={enableTouchable} />
+      {ParticleCanvasMemo}
       <OnboardingContent touchable={touchable} onNext={handleNext} />
     </View>
   );
