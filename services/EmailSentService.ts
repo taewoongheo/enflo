@@ -1,5 +1,6 @@
 import { db } from '@/db/db';
 import { emailLastSent } from '@/db/schema';
+import { signRequest } from '@/utils/auth';
 import { eq, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import Constants from 'expo-constants';
@@ -35,16 +36,15 @@ class EmailSentService {
     rawBody: string,
   ) {
     try {
-      //   await fetch(`${EMAIL_API_URL}/feedback`, {
-      //     method: 'POST',
-      //     body: rawBody,
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       'x-timestamp': timestamp,
-      //       'x-signature': signRequest('POST', '/feedback', timestamp, rawBody),
-      //     },
-      //   });
-      console.log('fetch');
+      await fetch(`${EMAIL_API_URL}/feedback`, {
+        method: 'POST',
+        body: rawBody,
+        headers: {
+          'Content-Type': 'application/json',
+          'x-timestamp': timestamp,
+          'x-signature': signRequest('POST', '/feedback', timestamp, rawBody),
+        },
+      });
 
       await this.db
         .insert(emailLastSent)

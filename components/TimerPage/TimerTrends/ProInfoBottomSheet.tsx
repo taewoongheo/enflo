@@ -11,14 +11,14 @@ import BottomSheet, {
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Keyboard, Pressable, View } from 'react-native';
+import { ActivityIndicator, Keyboard, Pressable, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import ProTitleHighlight from './ProTitleHighlight';
 
-const isValidEmail = async (
+const isValidEmail = (
   email: string,
   t: (key: string) => string,
-): Promise<{ isValid: boolean; errorMessage?: string }> => {
+): { isValid: boolean; errorMessage?: string } => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (email.length === 0) {
@@ -39,15 +39,6 @@ const isValidEmail = async (
     return {
       isValid: false,
       errorMessage: t('validation.emailInvalid'),
-    };
-  }
-
-  const isLimitExceeded =
-    await EmailSentService.checkEmailSentLimit('promotion');
-  if (!isLimitExceeded) {
-    return {
-      isValid: false,
-      errorMessage: t('validation.emailSendLimitExceeded'),
     };
   }
 
@@ -72,6 +63,9 @@ function ProInfoBottomSheet({
     isValid: true,
     errorMessage: '',
   });
+  const [initialError, setInitialError] = useState<boolean>(false);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const renderBackdrop = useCallback(
     (props: React.ComponentProps<typeof BottomSheetBackdrop>) => (
@@ -83,7 +77,9 @@ function ProInfoBottomSheet({
         onPress={() => {
           Keyboard.dismiss();
           setIsError({ isValid: true, errorMessage: '' });
+          setInitialError(false);
           setEmail('');
+          setIsLoading(true);
           proInfoBottomSheetRef.current?.close();
         }}
       />
@@ -115,6 +111,21 @@ function ProInfoBottomSheet({
         height: scale(0),
       }}
       keyboardBehavior="interactive"
+      onChange={async (index) => {
+        const check = await EmailSentService.checkEmailSentLimit('promotion');
+
+        if (index === 0) {
+          if (check) {
+            setIsError({
+              isValid: false,
+              errorMessage: t('validation.emailSendLimitExceeded'),
+            });
+            setInitialError(true);
+          }
+
+          setIsLoading(false);
+        }
+      }}
     >
       <BottomSheetView
         style={{
@@ -233,7 +244,7 @@ function ProInfoBottomSheet({
         </Pressable>
         <View
           style={{
-            gap: baseTokens.spacing[4],
+            gap: baseTokens.spacing[2],
             backgroundColor: theme.colors.proPromotion.background,
             paddingHorizontal: baseTokens.spacing[4],
             paddingVertical: baseTokens.spacing[5],
@@ -253,6 +264,11 @@ function ProInfoBottomSheet({
             <BottomSheetTextInput
               onChangeText={(text) => {
                 setEmail(text);
+                if (initialError) {
+                  return;
+                }
+
+                setIsError({ isValid: true, errorMessage: '' });
               }}
               value={email}
               placeholder={t('emailPlaceholder')}
@@ -282,7 +298,11 @@ function ProInfoBottomSheet({
           </View>
           <Pressable
             onPress={async (e) => {
-              const validation = await isValidEmail(email, t);
+              if (initialError) {
+                return;
+              }
+
+              const validation = isValidEmail(email, t);
               if (!validation.isValid) {
                 setIsError(validation);
                 return;
@@ -309,6 +329,7 @@ function ProInfoBottomSheet({
 
                 setEmail('');
                 setIsError({ isValid: true, errorMessage: '' });
+                setIsLoading(true);
               } catch {
                 // Handle error silently
               }
@@ -324,14 +345,22 @@ function ProInfoBottomSheet({
               alignItems: 'center',
               justifyContent: 'center',
               height: scale(50),
+              opacity: !isError.isValid ? 0.3 : 1,
             }}
           >
-            <Typography
-              variant="body1Bold"
-              style={{ color: theme.colors.text.primary }}
-            >
-              {t('submitButton')}
-            </Typography>
+            {isLoading ? (
+              <ActivityIndicator
+                size="small"
+                color={theme.colors.text.primary}
+              />
+            ) : (
+              <Typography
+                variant="body1Bold"
+                style={{ color: theme.colors.text.primary }}
+              >
+                {t('submitButton')}
+              </Typography>
+            )}
           </Pressable>
         </View>
       </BottomSheetView>

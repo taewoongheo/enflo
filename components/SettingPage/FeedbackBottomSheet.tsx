@@ -10,7 +10,7 @@ import BottomSheet, {
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Keyboard, Pressable, View } from 'react-native';
+import { ActivityIndicator, Keyboard, Pressable, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
 import Typography from '../common/Typography';
 
@@ -48,13 +48,6 @@ const isValidFeedback = async (
     };
   }
 
-  // if (await EmailSentService.checkEmailSentLimit('feedback')) {
-  //   return {
-  //     isValid: false,
-  //     errorMessage: t('validation.emailSendLimitExceeded'),
-  //   };
-  // }
-
   return { isValid: true };
 };
 
@@ -76,6 +69,10 @@ function FeedbackBottomSheet({
     errorMessage: '',
   });
   const [rating, setRating] = useState(0);
+
+  const [initialError, setInitialError] = useState<boolean>(false);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [satisfiedItems, setSatisfiedItems] = useState([
     {
@@ -121,10 +118,12 @@ function FeedbackBottomSheet({
           Keyboard.dismiss();
           setFeedback('');
           setIsError({ isValid: true, errorMessage: '' });
+          setInitialError(false);
           setSatisfiedItems(
             satisfiedItems.map((el) => ({ ...el, selected: false })),
           );
           setRating(0);
+          setIsLoading(true);
         }}
       />
     ),
@@ -146,6 +145,21 @@ function FeedbackBottomSheet({
         backgroundColor: theme.colors.bottomSheet.text.placeholder,
       }}
       keyboardBehavior="interactive"
+      onChange={async (index) => {
+        const check = await EmailSentService.checkEmailSentLimit('feedback');
+
+        if (index === 0) {
+          if (check) {
+            setIsError({
+              isValid: false,
+              errorMessage: t('validation.emailSendLimitExceeded'),
+            });
+            setInitialError(true);
+          }
+
+          setIsLoading(false);
+        }
+      }}
     >
       <BottomSheetView
         style={{
@@ -177,6 +191,10 @@ function FeedbackBottomSheet({
               {Array.from({ length: 5 }).map((_, index) => (
                 <Pressable
                   onPress={() => {
+                    if (initialError) {
+                      return;
+                    }
+
                     setIsError({ isValid: true, errorMessage: '' });
                     setRating(index + 1);
                   }}
@@ -208,6 +226,10 @@ function FeedbackBottomSheet({
               {satisfiedItems.map((item) => (
                 <Pressable
                   onPress={() => {
+                    if (initialError) {
+                      return;
+                    }
+
                     setIsError({ isValid: true, errorMessage: '' });
                     setSatisfiedItems(
                       satisfiedItems.map((el) => {
@@ -259,8 +281,12 @@ function FeedbackBottomSheet({
             <View style={{ gap: baseTokens.spacing[1] }}>
               <BottomSheetTextInput
                 onChangeText={(text) => {
-                  setIsError({ isValid: true, errorMessage: '' });
                   setFeedback(text);
+                  if (initialError) {
+                    return;
+                  }
+
+                  setIsError({ isValid: true, errorMessage: '' });
                 }}
                 value={feedback}
                 placeholder={t('sessionNamePlaceholder')}
@@ -290,6 +316,10 @@ function FeedbackBottomSheet({
             </View>
             <Pressable
               onPress={async (e) => {
+                if (initialError) {
+                  return;
+                }
+
                 const validation = await isValidFeedback(
                   rating,
                   satisfiedItems,
@@ -327,6 +357,7 @@ function FeedbackBottomSheet({
                     satisfiedItems.map((el) => ({ ...el, selected: false })),
                   );
                   setRating(0);
+                  setIsLoading(true);
                 } catch {
                   // Handle error silently
                 }
@@ -346,12 +377,19 @@ function FeedbackBottomSheet({
                 opacity: !isError.isValid ? 0.3 : 1,
               }}
             >
-              <Typography
-                variant="body1Bold"
-                style={{ color: theme.colors.background }}
-              >
-                {t('submitButton')}
-              </Typography>
+              {isLoading ? (
+                <ActivityIndicator
+                  size="small"
+                  color={theme.colors.background}
+                />
+              ) : (
+                <Typography
+                  variant="body1Bold"
+                  style={{ color: theme.colors.background }}
+                >
+                  {t('submitButton')}
+                </Typography>
+              )}
             </Pressable>
           </ItemLayout>
         </Pressable>
