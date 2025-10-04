@@ -51,7 +51,7 @@ export const lightSemanticColors: SemanticColors = {
     secondary: palette.light[550],
     success: palette.green[700],
     error: palette.red[700],
-    errorInverse: palette.red[200],
+    errorInverse: palette.red[400],
     placeholderInverse: palette.light[400],
   },
   border: {
