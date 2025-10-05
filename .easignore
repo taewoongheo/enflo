@@ -1,3 +1,3 @@
-!.env
 /android
 /ios
+set_asc_env.sh

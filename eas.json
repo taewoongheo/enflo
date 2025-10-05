@@ -17,13 +17,6 @@
     }
   },
   "submit": {
-    "production": {
-      "ios": {
-        "ascApiKeyPath": "/Users/taewoongheo/Desktop/AuthKey_PAR4P6M9NT.p8",
-        "ascApiKeyId": "PAR4P6M9NT",
-        "ascApiKeyIssuerId": "2b47f479-0aee-4d83-9ebe-5e9a6043888d",
-        "ascAppId": "6752986327"
-      }
-    }
+    "production": {}
   }
 }

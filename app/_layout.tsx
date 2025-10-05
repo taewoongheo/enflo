@@ -20,7 +20,6 @@ import { entropyService } from '@/services/EntropyService';
 import { notificationService } from '@/services/NotificationService';
 import { sessionService } from '@/services/SessionService';
 import { timerService } from '@/services/TimerService';
-import { log } from '@/utils/log';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import * as Sentry from '@sentry/react-native';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
@@ -123,8 +122,6 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
   const { theme, setTheme } = useTheme();
   const [isAppSettingLoading, setIsAppSettingLoading] = useState(true);
 
-  log('appinit');
-
   useEffect(() => {
     const initializeSessions = async () => {
       try {
@@ -135,11 +132,9 @@ const AppInit = ({ children }: { children: React.ReactNode }) => {
           await createAllMockSessions();
         }
 
-        log(`하이드레이션 시작`);
         await sessionService.hydrateSessions();
         const { lang, theme } =
           await appSettingsService.initializeAppSettings();
-        log(`최종 앱 설정: ${JSON.stringify({ lang, theme })}`);
         setTheme(theme as 'light' | 'dark');
         i18n.changeLanguage(lang);
         setIsAppSettingLoading(false);

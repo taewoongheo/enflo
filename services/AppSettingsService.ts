@@ -1,7 +1,6 @@
 import { INITIAL_THEME_NAME } from '@/contexts/ThemeContext';
 import { db } from '@/db/db';
 import { appSettings } from '@/db/schema';
-import { log } from '@/utils/log';
 import { eq, sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/expo-sqlite';
 import { getLocales } from 'expo-localization';
@@ -18,21 +17,12 @@ class AppSettingsService {
       .from(appSettings)
       .where(eq(appSettings.id, 1));
 
-    log(`앱 설정: ${JSON.stringify(row)}`);
-
     if (row) {
       return {
         lang: row.language as 'en' | 'ko',
         theme: row.theme as 'light' | 'dark',
       };
     }
-
-    log(
-      `앱 기본 설정 생성: ${JSON.stringify({
-        lang: getLocales()?.[0]?.languageCode === 'ko' ? 'ko' : 'en',
-        theme: INITIAL_THEME_NAME,
-      })}`,
-    );
 
     const initLang = getLocales()?.[0]?.languageCode === 'ko' ? 'ko' : 'en';
     const initTheme = INITIAL_THEME_NAME;

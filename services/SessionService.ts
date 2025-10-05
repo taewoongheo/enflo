@@ -11,7 +11,6 @@ import Session, { getTimeRange } from '@/models/Session';
 import TimerSession from '@/models/TimerSession';
 import { useEntropyStore } from '@/store/entropyStore';
 import { useSessionCache } from '@/store/sessionCache';
-import { log } from '@/utils/log';
 import {
   timestampToDayKey,
   timestampToMonthKey,
@@ -30,7 +29,6 @@ class SessionService {
 
   async hydrateSessions(): Promise<void> {
     const rows = await this.db.select().from(sessions);
-    log(`하이드레이션 시작: ${rows.length} 개 세션`);
 
     const allSessions = await Promise.all(
       rows.map(async (sessionRow) => {
@@ -43,8 +41,6 @@ class SessionService {
           sessionId: sessionRow.sessionId,
           sessionName: sessionRow.sessionName,
         });
-        log(`현재 세션 이름: ${sessionRow.sessionName}`);
-        log(`현재 세션 타이머 개수: ${timerSessionRows.length} 개`);
 
         for (const timerRow of timerSessionRows) {
           const timerSession = new TimerSession({
@@ -103,7 +99,6 @@ class SessionService {
     );
 
     useSessionCache.getState().setSessions(allSessions);
-    log(`하이드레이션 완료: ${allSessions.length} 개 세션`);
   }
 
   async clear() {

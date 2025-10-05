@@ -8,6 +8,46 @@ import {
   ScrollInteractionEvent,
 } from '@/types/InterruptEvent';
 
+// Helper function to generate more realistic entropy scores based on interruptions
+const calculateRealisticEntropyScore = (
+  targetDurationMs: number,
+  actualDurationMs: number,
+  pauseEvents: PauseEvent[],
+  scrollEvents: ScrollInteractionEvent[],
+  screenUnlockEvents: AppStateEvent[],
+): number => {
+  // Base score starts high (good focus)
+  let entropyScore = 85 + Math.random() * 15; // 85-100 base
+
+  // Reduce score based on completion rate
+  const completionRate = actualDurationMs / targetDurationMs;
+  if (completionRate < 0.8) {
+    entropyScore -= (0.8 - completionRate) * 50; // Penalty for low completion
+  }
+
+  // Reduce score based on interruptions
+  const totalPauseDuration = pauseEvents.reduce(
+    (sum, pause) => sum + pause.durationMs,
+    0,
+  );
+  const pausePenalty = Math.min((totalPauseDuration / (1000 * 60)) * 3, 20); // Max 20 points penalty
+  entropyScore -= pausePenalty;
+
+  // Scroll interruptions penalty
+  const scrollPenalty = Math.min(scrollEvents.length * 2, 15); // Max 15 points penalty
+  entropyScore -= scrollPenalty;
+
+  // Screen unlock penalty
+  const unlockPenalty = Math.min(screenUnlockEvents.length * 5, 25); // Max 25 points penalty
+  entropyScore -= unlockPenalty;
+
+  // Add some randomness for variety
+  entropyScore += (Math.random() - 0.5) * 20; // ±10 random variation
+
+  // Ensure score is within bounds
+  return Math.max(1, Math.min(100, Math.round(entropyScore)));
+};
+
 const createMockTimerSession = async (
   sessionId: string,
   targetDurationMs: number,
@@ -30,7 +70,15 @@ const createMockTimerSession = async (
     scrollInteractionCount: scrollEvents,
     pauseEvents,
   });
-  timerSession.entropyScore = Math.random() * 100 + 1;
+
+  // Use realistic entropy calculation instead of random
+  timerSession.entropyScore = calculateRealisticEntropyScore(
+    targetDurationMs,
+    endTs - startTs,
+    pauseEvents,
+    scrollEvents,
+    screenUnlockEvents,
+  );
 
   return timerSession;
 };
@@ -42,54 +90,97 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
   });
 
   const sessionId = session.sessionId;
-  const now = Date.now();
   const oneDay = 24 * 60 * 60 * 1000; // 1 day in ms
   const timerSessions = [];
 
-  // Generate timer sessions for the past 60 days to today
-  for (let dayOffset = -5; dayOffset <= 0; dayOffset++) {
-    const dayStart = now + dayOffset * oneDay;
+  // 2025년 9월 1일부터 30일까지
+  const september2025Start = new Date('2025-09-01T00:00:00.000Z').getTime();
 
-    // Skip some days randomly to create realistic gaps
-    // Special period: 8/20~8/30 (approximately -15 to -5 days from today)
-    const isSpecialPeriod = dayOffset >= -15 && dayOffset <= -5;
+  // Generate timer sessions for September 2025 (30 days)
+  for (let day = 1; day <= 30; day++) {
+    const dayStart = september2025Start + (day - 1) * oneDay;
+    const dayOfWeek = new Date(dayStart).getDay(); // 0 = Sunday, 6 = Saturday
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
-    if (isSpecialPeriod) {
-      // Almost never skip during special period
-      if (Math.random() < 0.05) continue;
-    } else {
-      if (Math.random() < 0.25) continue;
-    }
+    // Create different patterns based on day of week and periods
+    const isEarlyMonth = day <= 10; // 9/1-9/10: 프로젝트 시작, 높은 동기
+    const isMidMonth = day > 10 && day <= 20; // 9/11-9/20: 중간 슬럼프
+    const isLateMonth = day > 20; // 9/21-9/30: 마감 압박, 집중도 증가
 
-    // 1-4 sessions per day randomly, more during special period
-    const sessionsPerDay = isSpecialPeriod
-      ? Math.floor(Math.random() * 5) + 2 // 2-6 sessions during special period
-      : Math.floor(Math.random() * 4) + 1; // 1-4 sessions normally
+    // Skip probability based on period and day type
+    let skipProbability = 0.1; // Base skip rate
+    if (isWeekend) skipProbability += 0.3; // Weekends more likely to skip
+    if (isMidMonth) skipProbability += 0.2; // Mid-month slump
+    if (isEarlyMonth) skipProbability -= 0.05; // High motivation early
+    if (isLateMonth) skipProbability -= 0.1; // Deadline pressure
+
+    if (Math.random() < skipProbability) continue;
+
+    // Sessions per day based on period and day type
+    let baseSessionsPerDay = 2;
+    if (isEarlyMonth) baseSessionsPerDay = 3; // High motivation
+    if (isMidMonth) baseSessionsPerDay = 1; // Slump period
+    if (isLateMonth) baseSessionsPerDay = 4; // Crunch time
+    if (isWeekend) baseSessionsPerDay = Math.max(1, baseSessionsPerDay - 1); // Fewer on weekends
+
+    const sessionsPerDay = Math.floor(Math.random() * 3) + baseSessionsPerDay; // Add randomness
 
     for (let sessionIndex = 0; sessionIndex < sessionsPerDay; sessionIndex++) {
-      const hourOffset = Math.floor(Math.random() * 16) + 6; // 6AM to 10PM
+      // More realistic time distribution based on period and session index
+      let preferredHours = [9, 10, 11, 14, 15, 16, 19, 20, 21]; // Common work hours
+      if (isWeekend) preferredHours = [10, 11, 14, 15, 16, 17, 20, 21]; // Later start on weekends
+      if (isLateMonth)
+        preferredHours = [8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]; // Extended hours during crunch
+
+      const hourOffset =
+        preferredHours[Math.floor(Math.random() * preferredHours.length)];
       const minuteOffset = Math.floor(Math.random() * 60);
       const startTime =
         dayStart + hourOffset * 60 * 60 * 1000 + minuteOffset * 60 * 1000;
 
-      // Random target duration between 25-120 minutes (increased minimum)
-      const targetDuration = (Math.floor(Math.random() * 96) + 25) * 60 * 1000;
+      // Variable target duration based on period and time of day
+      let baseDuration = 45; // Base 45 minutes
+      if (isEarlyMonth) baseDuration = 60; // Longer sessions when motivated
+      if (isMidMonth) baseDuration = 30; // Shorter during slump
+      if (isLateMonth) baseDuration = 90; // Much longer during crunch
+      if (hourOffset >= 20) baseDuration *= 0.8; // Shorter evening sessions
 
-      // Actual duration is 80-100% of target (increased minimum)
-      const completionRate = 0.8 + Math.random() * 0.2;
+      const durationVariation = Math.floor(Math.random() * 40) - 20; // ±20 minutes
+      const targetDuration =
+        Math.max(15, baseDuration + durationVariation) * 60 * 1000;
+
+      // Completion rate varies by period and session characteristics
+      let baseCompletionRate = 0.85;
+      if (isEarlyMonth) baseCompletionRate = 0.9; // High completion when motivated
+      if (isMidMonth) baseCompletionRate = 0.7; // Lower during slump
+      if (isLateMonth) baseCompletionRate = 0.95; // Very high during crunch
+      if (sessionIndex > 3) baseCompletionRate -= 0.1; // Fatigue in later sessions
+
+      const completionRate = Math.max(
+        0.5,
+        Math.min(1.0, baseCompletionRate + (Math.random() - 0.5) * 0.3),
+      );
       const actualDuration = Math.floor(targetDuration * completionRate);
 
-      // Generate random interruptions
+      // Generate interruptions based on period and session quality
       const pauseEvents = [];
       const scrollEvents = [];
       const screenUnlockEvents = [];
 
-      // 0-2 pause events (reduced)
-      const pauseCount = Math.floor(Math.random() * 3);
+      // Pause events vary by period
+      let maxPauses = 2;
+      if (isEarlyMonth) maxPauses = 1; // Fewer pauses when focused
+      if (isMidMonth) maxPauses = 4; // More pauses during slump
+      if (isLateMonth) maxPauses = 1; // Fewer pauses during crunch
+
+      const pauseCount = Math.floor(Math.random() * (maxPauses + 1));
       for (let i = 0; i < pauseCount; i++) {
         const pauseStart =
           startTime + Math.floor(Math.random() * actualDuration);
-        const pauseDuration = (Math.floor(Math.random() * 3) + 1) * 60 * 1000; // 1-3 minutes (reduced)
+        let pauseDuration = (Math.floor(Math.random() * 5) + 1) * 60 * 1000; // 1-5 minutes
+        if (isMidMonth) pauseDuration *= 1.5; // Longer pauses during slump
+        if (isLateMonth) pauseDuration *= 0.7; // Shorter pauses during crunch
+
         pauseEvents.push({
           startTs: pauseStart,
           endTs: pauseStart + pauseDuration,
@@ -97,16 +188,26 @@ export const createEnfloProjectSessions = async (): Promise<Session> => {
         });
       }
 
-      // 0-5 scroll events
-      const scrollCount = Math.floor(Math.random() * 6);
+      // Scroll events vary by focus level
+      let maxScrolls = 3;
+      if (isEarlyMonth) maxScrolls = 2; // Less scrolling when focused
+      if (isMidMonth) maxScrolls = 8; // More scrolling during slump
+      if (isLateMonth) maxScrolls = 1; // Minimal scrolling during crunch
+
+      const scrollCount = Math.floor(Math.random() * (maxScrolls + 1));
       for (let i = 0; i < scrollCount; i++) {
         scrollEvents.push({
           timestamp: startTime + Math.floor(Math.random() * actualDuration),
         });
       }
 
-      // 0-2 screen unlock events
-      const unlockCount = Math.floor(Math.random() * 3);
+      // Screen unlock events vary by distraction level
+      let maxUnlocks = 2;
+      if (isEarlyMonth) maxUnlocks = 1; // Less distraction when motivated
+      if (isMidMonth) maxUnlocks = 5; // More distraction during slump
+      if (isLateMonth) maxUnlocks = 0; // Minimal distraction during crunch
+
+      const unlockCount = Math.floor(Math.random() * (maxUnlocks + 1));
       for (let i = 0; i < unlockCount; i++) {
         screenUnlockEvents.push({
           timestamp: startTime + Math.floor(Math.random() * actualDuration),

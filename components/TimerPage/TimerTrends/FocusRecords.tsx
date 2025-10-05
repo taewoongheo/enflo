@@ -1,7 +1,6 @@
 import Typography from '@/components/common/Typography';
 import i18n from '@/i18n';
 import { Theme } from '@/styles/themes';
-import { log } from '@/utils/log';
 import { formatMsToMinutes } from '@/utils/time';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -34,8 +33,6 @@ function FocusRecords({
     <View>
       {items.length > 0 ? (
         items.map((item, index) => {
-          log(`로그 netFocusMs: ${item.netFocusMs}`);
-
           return (
             <View
               key={`${item.timestamp}-${index}`}

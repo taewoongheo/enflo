@@ -2,7 +2,6 @@ import { entropyService } from '@/services/EntropyService';
 import { useEntropyStore } from '@/store/entropyStore';
 import { useSessionCache } from '@/store/sessionCache';
 import { baseTokens, Theme } from '@/styles';
-import { log } from '@/utils/log';
 import { normalizeScoreToEntropy } from '@/utils/score';
 import {
   timestampToDayKey,
@@ -56,7 +55,6 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
 
   useEffect(() => {
     const fetchEntropyLogs = async () => {
-      log(`fetchEntropyLogs: ${entropyScore}`);
       setIsLoading(true);
       try {
         const key =
@@ -83,8 +81,6 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
 
         const parsedDatas: GraphData[] = [];
 
-        log(`logs: ${JSON.stringify(logs)}`);
-
         // get max entropy score for each day
         period.days.map((day) => {
           const matchedLogs = logs.filter((log) => log.dayKey === Number(day));
@@ -98,8 +94,6 @@ export default function EntropyTrendSection({ theme }: { theme: Theme }) {
             entropyScore: Number(normalizeScoreToEntropy(maxScore)),
           });
         });
-
-        log(`parsedDatas: ${JSON.stringify(parsedDatas)}`);
 
         setDatas(parsedDatas);
       } catch {
