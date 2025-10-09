@@ -3,9 +3,6 @@ require('dotenv').config();
 module.exports = ({ config }) => {
   return {
     ...config,
-    router: {
-      root: './app',
-    },
 
     extra: {
       ...config.extra,
