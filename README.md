@@ -14,9 +14,15 @@ enflo transforms that invisible process into an interactive particle visualizati
 > 🤖 Android release is in progress and will be available soon.
 
 <p align="center">
+   <video src="https://github.com/user-attachments/assets/66813cbf-4507-4c25-a022-87c352581ed9"
+         width="250"
+         autoplay
+         loop
+         muted
+         playsinline>
+   </video>
   <img src="assets/readme/1.png" width="250">
   <img src="assets/readme/2.png" width="250">
-  <img src="assets/readme/3.png" width="250">
 </p>
 <p align="center">
   <img src="assets/readme/4.png" width="250">
