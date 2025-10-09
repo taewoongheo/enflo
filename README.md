@@ -10,6 +10,9 @@ enflo transforms that invisible process into an interactive particle visualizati
 
 ## App Preview
 
+> 🍎 Available on iOS: [App Store Link](https://apps.apple.com/app/enflo-visual-flow-timer/id6753640753)  
+> 🤖 Android release is in progress and will be available soon.
+
 <p align="center">
   <img src="assets/readme/1.png" width="250">
   <img src="assets/readme/2.png" width="250">
@@ -20,9 +23,6 @@ enflo transforms that invisible process into an interactive particle visualizati
   <img src="assets/readme/5.png" width="250">
   <img src="assets/readme/6.png" width="250">
 </p>
-
-> 🍎 Available on iOS: [App Store Link](https://apps.apple.com/app/enflo-visual-flow-timer/id6753640753)  
-> 🤖 Android release is in progress and will be available soon.
 
 ## Why enflo?
 
