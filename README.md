@@ -8,21 +8,23 @@ Mental entropy (i.e. scattered focus) naturally increases—unless we deliberate
 But without feedback, it’s hard to know when that shift happens.  
 enflo transforms that invisible process into an interactive particle visualization, guiding you from chaos to clarity.
 
+<video src="https://github.com/user-attachments/assets/66813cbf-4507-4c25-a022-87c352581ed9"
+      width="250"
+      autoplay
+      loop
+      muted
+      playsinline>
+</video>
+
 ## App Preview
 
 > 🍎 Available on iOS: [App Store Link](https://apps.apple.com/app/enflo-visual-flow-timer/id6753640753)  
 > 🤖 Android release is in progress and will be available soon.
 
 <p align="center">
-   <video src="https://github.com/user-attachments/assets/66813cbf-4507-4c25-a022-87c352581ed9"
-         width="250"
-         autoplay
-         loop
-         muted
-         playsinline>
-   </video>
   <img src="assets/readme/1.png" width="250">
   <img src="assets/readme/2.png" width="250">
+  <img src="assets/readme/3.png" width="250">
 </p>
 <p align="center">
   <img src="assets/readme/4.png" width="250">
