@@ -11,14 +11,14 @@ enflo transforms that invisible process into an interactive particle visualizati
 ## App Preview
 
 <p align="center">
-  <img src="assets/readme/1.png" width="230">
-  <img src="assets/readme/2.png" width="230">
-  <img src="assets/readme/3.png" width="230">
+  <img src="assets/readme/1.png" width="250">
+  <img src="assets/readme/2.png" width="250">
+  <img src="assets/readme/3.png" width="250">
 </p>
 <p align="center">
-  <img src="assets/readme/4.png" width="230">
-  <img src="assets/readme/5.png" width="230">
-  <img src="assets/readme/6.png" width="230">
+  <img src="assets/readme/4.png" width="250">
+  <img src="assets/readme/5.png" width="250">
+  <img src="assets/readme/6.png" width="250">
 </p>
 
 > 🍎 Available on iOS: [App Store Link](https://apps.apple.com/app/enflo-visual-flow-timer/id6753640753)  
