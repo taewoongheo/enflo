@@ -311,6 +311,9 @@ function ProInfoBottomSheet({
               hapticSettings();
 
               try {
+                proInfoBottomSheetRef.current?.close();
+                Keyboard.dismiss();
+
                 const rawBody = JSON.stringify({
                   feedback: 'pro 출시 알림',
                   checked: email,
@@ -323,9 +326,6 @@ function ProInfoBottomSheet({
                   timestamp,
                   rawBody,
                 );
-
-                proInfoBottomSheetRef.current?.close();
-                Keyboard.dismiss();
 
                 setEmail('');
                 setIsError({ isValid: true, errorMessage: '' });

@@ -334,6 +334,9 @@ function FeedbackBottomSheet({
                 hapticSettings();
 
                 try {
+                  feedbackBottomSheetRef.current?.close();
+                  Keyboard.dismiss();
+
                   const checked = satisfiedItems
                     .filter((el) => el.selected)
                     .map((el) => el.nameKey)
@@ -347,9 +350,6 @@ function FeedbackBottomSheet({
                     timestamp,
                     rawBody,
                   );
-
-                  feedbackBottomSheetRef.current?.close();
-                  Keyboard.dismiss();
 
                   setFeedback('');
                   setIsError({ isValid: true, errorMessage: '' });
