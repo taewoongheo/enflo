@@ -70,3 +70,9 @@ Its system consists of:
 4. **Performance Analytics**
    - Track total and average focus times.
    - Visualize entropy trends and distraction patterns across sessions.
+
+## License
+
+All rights reserved © 2025 Taewoong Heo  
+Source code is shared for reference purposes only.  
+Commercial or derivative use is not permitted.
